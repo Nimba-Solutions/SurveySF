@@ -135,4 +135,12 @@
         </columns>
         <masterLabel>Element Versions</masterLabel>
     </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Index__c</field>
+            <table>Element__c.Versions__r.Pages__r</table>
+        </columns>
+        <masterLabel>Page Elements</masterLabel>
+    </sections>
 </ReportType>

@@ -120,6 +120,16 @@
             <field>LastModifiedBy</field>
             <table>Survey__c.Versions__r.Pages__r</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Index__c</field>
+            <table>Survey__c.Versions__r.Pages__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Body__c</field>
+            <table>Survey__c.Versions__r.Pages__r</table>
+        </columns>
         <masterLabel>Pages</masterLabel>
     </sections>
 </ReportType>

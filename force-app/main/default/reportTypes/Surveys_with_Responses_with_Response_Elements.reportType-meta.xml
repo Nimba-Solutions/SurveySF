@@ -130,4 +130,12 @@
         </columns>
         <masterLabel>Survey Versions</masterLabel>
     </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Element_Version__c</field>
+            <table>SurveyVersion__c.Responses__r.Elements__r</table>
+        </columns>
+        <masterLabel>Response Elements</masterLabel>
+    </sections>
 </ReportType>

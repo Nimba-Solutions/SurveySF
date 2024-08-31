@@ -1,166 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ReportType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <baseObject>Survey__c</baseObject>
+    <baseObject>Element__c</baseObject>
     <category>other</category>
     <deployed>true</deployed>
-    <description>Surveys with Survey Versions with Responses with Response Elements</description>
+    <description>Elements with Element Versions with Response Elements</description>
     <join>
         <join>
-            <join>
-                <outerJoin>false</outerJoin>
-                <relationship>Elements__r</relationship>
-            </join>
             <outerJoin>false</outerJoin>
-            <relationship>Responses__r</relationship>
+            <relationship>Elements__r</relationship>
         </join>
         <outerJoin>false</outerJoin>
         <relationship>Versions__r</relationship>
     </join>
-    <label>Surveys with Survey Versions with Responses with Response Elements</label>
+    <label>Elements with Element Versions with Response Elements</label>
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Id</field>
-            <table>Survey__c</table>
+            <table>Element__c</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Owner</field>
-            <table>Survey__c</table>
+            <table>Element__c</table>
         </columns>
         <columns>
             <checkedByDefault>true</checkedByDefault>
             <field>Name</field>
-            <table>Survey__c</table>
+            <table>Element__c</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>CreatedDate</field>
-            <table>Survey__c</table>
+            <table>Element__c</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>CreatedBy</field>
-            <table>Survey__c</table>
+            <table>Element__c</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>LastModifiedDate</field>
-            <table>Survey__c</table>
+            <table>Element__c</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>LastModifiedBy</field>
-            <table>Survey__c</table>
+            <table>Element__c</table>
+        </columns>
+        <masterLabel>Elements</masterLabel>
+    </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Id</field>
+            <table>Element__c.Versions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Name</field>
+            <table>Element__c.Versions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedDate</field>
+            <table>Element__c.Versions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy</field>
+            <table>Element__c.Versions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedDate</field>
+            <table>Element__c.Versions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedBy</field>
+            <table>Element__c.Versions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Body__c</field>
+            <table>Element__c.Versions__r</table>
+        </columns>
+        <masterLabel>Versions</masterLabel>
+    </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Id</field>
+            <table>Element__c.Versions__r.Elements__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Name</field>
+            <table>Element__c.Versions__r.Elements__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedDate</field>
+            <table>Element__c.Versions__r.Elements__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy</field>
+            <table>Element__c.Versions__r.Elements__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedDate</field>
+            <table>Element__c.Versions__r.Elements__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedBy</field>
+            <table>Element__c.Versions__r.Elements__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>LastActivityDate</field>
-            <table>Survey__c</table>
-        </columns>
-        <masterLabel>Surveys</masterLabel>
-    </sections>
-    <sections>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Id</field>
-            <table>Survey__c.Versions__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>true</checkedByDefault>
-            <field>Name</field>
-            <table>Survey__c.Versions__r</table>
+            <table>Element__c.Versions__r.Elements__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>CreatedDate</field>
-            <table>Survey__c.Versions__r</table>
+            <field>Response__c</field>
+            <table>Element__c.Versions__r.Elements__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>CreatedBy</field>
-            <table>Survey__c.Versions__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedDate</field>
-            <table>Survey__c.Versions__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedBy</field>
-            <table>Survey__c.Versions__r</table>
-        </columns>
-        <masterLabel>Survey Versions</masterLabel>
-    </sections>
-    <sections>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Id</field>
-            <table>Survey__c.Versions__r.Responses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>true</checkedByDefault>
-            <field>Name</field>
-            <table>Survey__c.Versions__r.Responses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>CreatedDate</field>
-            <table>Survey__c.Versions__r.Responses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>CreatedBy</field>
-            <table>Survey__c.Versions__r.Responses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedDate</field>
-            <table>Survey__c.Versions__r.Responses__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedBy</field>
-            <table>Survey__c.Versions__r.Responses__r</table>
-        </columns>
-        <masterLabel>Responses</masterLabel>
-    </sections>
-    <sections>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Id</field>
-            <table>Survey__c.Versions__r.Responses__r.Elements__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>true</checkedByDefault>
-            <field>Name</field>
-            <table>Survey__c.Versions__r.Responses__r.Elements__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>CreatedDate</field>
-            <table>Survey__c.Versions__r.Responses__r.Elements__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>CreatedBy</field>
-            <table>Survey__c.Versions__r.Responses__r.Elements__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedDate</field>
-            <table>Survey__c.Versions__r.Responses__r.Elements__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedBy</field>
-            <table>Survey__c.Versions__r.Responses__r.Elements__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>LastActivityDate</field>
-            <table>Survey__c.Versions__r.Responses__r.Elements__r</table>
+            <field>Body__c</field>
+            <table>Element__c.Versions__r.Elements__r</table>
         </columns>
         <masterLabel>Elements</masterLabel>
     </sections>
@@ -168,7 +141,7 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Element_Version__c</field>
-            <table>Survey__c.Versions__r.Responses__r.Elements__r</table>
+            <table>Element__c.Versions__r.Elements__r</table>
         </columns>
         <masterLabel>Response Elements</masterLabel>
     </sections>

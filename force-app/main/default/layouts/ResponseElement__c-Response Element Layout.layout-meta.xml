@@ -16,7 +16,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Element_Version__c</field>
+                <field>ElementVersion__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>

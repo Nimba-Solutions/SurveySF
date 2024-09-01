@@ -1,4 +1,9 @@
 public class ElementRepository {
+    public Id createElement(Element__c element) {
+        insert element;
+        return element.Id;
+    }
+    
     public Element__c getElementById(Id elementId) {
         return [SELECT Id, Name, CreatedBy.Name, LastModifiedBy.Name, Owner.Name
                 FROM Element__c
@@ -9,10 +14,6 @@ public class ElementRepository {
     public List<Element__c> getAllElements() {
         return [SELECT Id, Name, CreatedBy.Name, LastModifiedBy.Name, Owner.Name
                 FROM Element__c];
-    }
-    
-    public void createElement(Element__c element) {
-        insert element;
     }
     
     public void updateElement(Element__c element) {

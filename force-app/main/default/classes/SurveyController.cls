@@ -5,6 +5,18 @@ public with sharing class SurveyController {
         return surveyService.getAllSurveysWithLatestVersions();
     }
     
+    @AuraEnabled
+    public static void createSurveyFromJSON(String surveyName, String jsonString) {
+        SurveyService surveyService = new SurveyService();
+        surveyService.createSurveyFromJSON(surveyName, jsonString);
+    }
+    
+    @AuraEnabled
+    public static String createJSONFromSurvey(String recordId) {
+        SurveyService surveyService = new SurveyService();
+        return surveyService.createJSONFromSurvey(recordId);
+    }
+    
     @AuraEnabled(cacheable=true)
     public static SurveyDTO getSurveyWithLatestVersion(Id surveyId) {
         SurveyService surveyService = new SurveyService();

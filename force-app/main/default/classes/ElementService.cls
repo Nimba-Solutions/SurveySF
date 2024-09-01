@@ -22,22 +22,22 @@ public class ElementService {
         return elementDTOs;
     }
     
-    public void createElementWithVersion(String elementBody) {
+    public Id createElementWithVersion(String elementBody) {
         Element__c newElement = new Element__c();
-        elementRepo.createElement(newElement);
+        Id elementId = elementRepo.createElement(newElement);
         
         ElementVersion__c newVersion = new ElementVersion__c(
-            Element__c = newElement.Id,
+            Element__c = elementId,
             Body__c = elementBody
         );
-        elementVersionRepo.createElementVersion(newVersion);
+        return elementVersionRepo.createElementVersion(newVersion);
     }
     
-    public void updateElementVersion(Id elementId, String newElementBody) {
+    public Id updateElementVersion(Id elementId, String newElementBody) {
         ElementVersion__c newVersion = new ElementVersion__c(
             Element__c = elementId,
             Body__c = newElementBody
         );
-        elementVersionRepo.createElementVersion(newVersion);
+        return elementVersionRepo.createElementVersion(newVersion);
     }
 }

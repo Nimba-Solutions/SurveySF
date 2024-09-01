@@ -58,6 +58,11 @@
             <field>LastActivityDate</field>
             <table>Survey__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Title__c</field>
+            <table>Survey__c</table>
+        </columns>
         <masterLabel>Surveys</masterLabel>
     </sections>
     <sections>
@@ -167,7 +172,7 @@
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Element_Version__c</field>
+            <field>ElementVersion__c</field>
             <table>Survey__c.Versions__r.Responses__r.Elements__r</table>
         </columns>
         <masterLabel>Response Elements</masterLabel>

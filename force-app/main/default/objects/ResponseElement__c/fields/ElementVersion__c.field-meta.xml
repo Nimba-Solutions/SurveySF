@@ -3,8 +3,8 @@
     <fullName>ElementVersion__c</fullName>
     <label>Element Version</label>
     <referenceTo>ElementVersion__c</referenceTo>
-    <relationshipLabel>Elements</relationshipLabel>
-    <relationshipName>Elements</relationshipName>
+    <relationshipLabel>Responses</relationshipLabel>
+    <relationshipName>Responses</relationshipName>
     <relationshipOrder>1</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>
     <trackHistory>false</trackHistory>

@@ -54,6 +54,11 @@
             <field>LastActivityDate</field>
             <table>Survey__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Title__c</field>
+            <table>Survey__c</table>
+        </columns>
         <masterLabel>Surveys</masterLabel>
     </sections>
     <sections>

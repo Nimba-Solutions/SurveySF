@@ -58,28 +58,11 @@ public class SurveyRepository extends Repository {
     }
 
     public SurveyDTO.BaseSurveyDTO findSurveyById(Id surveyId, String fieldSetName) {
-        if (fieldSetName == null) {
-            fieldSetName = 'Default';  // Default to 'Default' if no field set name is provided
-        }
-
         try {
-            List<String> fieldsToSelect = getFieldsFromFieldSet('Survey__c', fieldSetName);
-            String query = 'SELECT ' + String.join(fieldsToSelect, ', ') + ' FROM Survey__c WHERE Id = :surveyId LIMIT 1';
-            Survey__c survey = Database.query(query);
-
-            return new SurveyDTO.BaseSurveyDTO(survey);
+            SurveyDTO.BaseSurveyDTO surveyDto = new SurveyDTO.BaseSurveyDTO(surveyId, fieldSetName);
+            return surveyDto;
         } catch (Exception ex) {
             throw new CustomException('Failed to find survey by ID: ' + ex.getMessage());
         }
     }
-
-    private List<String> getFieldsFromFieldSet(String objectName, String fieldSetName) {
-        List<String> fieldNames = new List<String>();
-        Schema.FieldSet fieldSet = Schema.getGlobalDescribe().get(objectName).getDescribe().fieldSets.getMap().get(fieldSetName);
-        for (Schema.FieldSetMember f : fieldSet.getFields()) {
-            fieldNames.add(f.getFieldPath());
-        }
-        return fieldNames;
-    }
-
 }

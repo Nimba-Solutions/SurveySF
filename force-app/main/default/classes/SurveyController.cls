@@ -4,7 +4,7 @@ public with sharing class SurveyController {
 
     // Overloaded method to get a survey by ID with optional field set name
     public static SurveyDTO.BaseSurveyDTO getSurveyById(Id surveyId) {
-        return getSurveyById(surveyId, 'Default');  // Default field set name
+        return getSurveyById(surveyId, null); 
     }
 
     public static SurveyDTO.BaseSurveyDTO getSurveyById(Id surveyId, String fieldSetName) {

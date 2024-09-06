@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FieldSet xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Default</fullName>
+    <fullName>Public</fullName>
     <availableFields>
         <field>IsDeleted</field>
         <isFieldManaged>false</isFieldManaged>
@@ -11,22 +11,13 @@
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </availableFields>
-    <availableFields>
-        <field>LastReferencedDate</field>
-        <isFieldManaged>false</isFieldManaged>
-        <isRequired>false</isRequired>
-    </availableFields>
-    <availableFields>
-        <field>LastViewedDate</field>
-        <isFieldManaged>false</isFieldManaged>
-        <isRequired>false</isRequired>
-    </availableFields>
+
     <availableFields>
         <field>SystemModstamp</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </availableFields>
-    <description>This field set allows administrators to manage which fields are visible and returned in internal responses for surveys. This enables you to tailor the data exposed to internal systems and users based on changing requirements.</description>
+    <description>This field set allows administrators to manage which fields are visible and returned in public responses for surveys. This enables you to tailor the data exposed to external systems without modifying code.</description>
     <displayedFields>
         <field>CreatedById</field>
         <isFieldManaged>false</isFieldManaged>
@@ -47,11 +38,7 @@
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>
-    <displayedFields>
-        <field>OwnerId</field>
-        <isFieldManaged>false</isFieldManaged>
-        <isRequired>false</isRequired>
-    </displayedFields>
+
     <displayedFields>
         <field>Id</field>
         <isFieldManaged>false</isFieldManaged>
@@ -62,5 +49,5 @@
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>
-    <label>Default</label>
+    <label>Public</label>
 </FieldSet>

@@ -15,9 +15,12 @@ public class SurveyPageRepository extends Repository {
             }
             return surveypageResults;
         } catch (Exception ex) {
-            throw new CustomException('Failed to create surveypages: ' + ex.getMessage());
+            String fullErrorMessage = 'Failed to create surveypages. Original error: ' + ex.getMessage() + '\n' + ex.getStackTraceString();
+            System.debug(LoggingLevel.ERROR, fullErrorMessage);
+            throw new CustomException(fullErrorMessage);
         }
     }
+
 
     public List<SurveyPageDTO.BaseSurveyPageDTO> updateSurveyPages(List<SurveyPageDTO.UpdateSurveyPageDTO> surveypageDtos, Boolean rollbackOnError) {
         try {
@@ -59,10 +62,30 @@ public class SurveyPageRepository extends Repository {
 
     public SurveyPageDTO.BaseSurveyPageDTO findSurveyPageById(Id surveypageId, String fieldSetName) {
         try {
-            SurveyPageDTO.BaseSurveyPageDTO surveypageDto = new SurveyPageDTO.BaseSurveyPageDTO(surveypageId, fieldSetName);
-            return surveypageDto;
+            List<String> fieldsToSelect = (fieldSetName == null) ? getAllFields('SurveyPage__c') : getFieldsFromFieldSet('SurveyPage__c', fieldSetName);
+            String query = 'SELECT ' + String.join(fieldsToSelect, ', ') + ' FROM SurveyPage__c WHERE Id = :surveypageId LIMIT 1';
+            SurveyPage__c surveypage = Database.query(query);
+            return new SurveyPageDTO.BaseSurveyPageDTO(surveypage);
         } catch (Exception ex) {
             throw new CustomException('Failed to find surveypage by ID: ' + ex.getMessage());
         }
+    }
+
+    private List<String> getAllFields(String objectName) {
+        List<String> fieldNames = new List<String>();
+        Map<String, Schema.SObjectField> fieldMap = Schema.getGlobalDescribe().get(objectName).getDescribe().fields.getMap();
+        for (String fieldName : fieldMap.keySet()) {
+            fieldNames.add(fieldName);
+        }
+        return fieldNames;
+    }
+
+    private List<String> getFieldsFromFieldSet(String objectName, String fieldSetName) {
+        List<String> fieldNames = new List<String>();
+        Schema.FieldSet fieldSet = Schema.getGlobalDescribe().get(objectName).getDescribe().fieldSets.getMap().get(fieldSetName);
+        for (Schema.FieldSetMember f : fieldSet.getFields()) {
+            fieldNames.add(f.getFieldPath());
+        }
+        return fieldNames;
     }
 }

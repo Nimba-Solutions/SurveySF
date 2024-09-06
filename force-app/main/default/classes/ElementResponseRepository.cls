@@ -59,10 +59,30 @@ public class ElementResponseRepository extends Repository {
 
     public ElementResponseDTO.BaseElementResponseDTO findElementResponseById(Id elementresponseId, String fieldSetName) {
         try {
-            ElementResponseDTO.BaseElementResponseDTO elementresponseDto = new ElementResponseDTO.BaseElementResponseDTO(elementresponseId, fieldSetName);
-            return elementresponseDto;
+            List<String> fieldsToSelect = (fieldSetName == null) ? getAllFields('ElementResponse__c') : getFieldsFromFieldSet('ElementResponse__c', fieldSetName);
+            String query = 'SELECT ' + String.join(fieldsToSelect, ', ') + ' FROM ElementResponse__c WHERE Id = :elementresponseId LIMIT 1';
+            ElementResponse__c elementresponse = Database.query(query);
+            return new ElementResponseDTO.BaseElementResponseDTO(elementresponse);
         } catch (Exception ex) {
             throw new CustomException('Failed to find elementresponse by ID: ' + ex.getMessage());
         }
+    }
+
+    private List<String> getAllFields(String objectName) {
+        List<String> fieldNames = new List<String>();
+        Map<String, Schema.SObjectField> fieldMap = Schema.getGlobalDescribe().get(objectName).getDescribe().fields.getMap();
+        for (String fieldName : fieldMap.keySet()) {
+            fieldNames.add(fieldName);
+        }
+        return fieldNames;
+    }
+
+    private List<String> getFieldsFromFieldSet(String objectName, String fieldSetName) {
+        List<String> fieldNames = new List<String>();
+        Schema.FieldSet fieldSet = Schema.getGlobalDescribe().get(objectName).getDescribe().fieldSets.getMap().get(fieldSetName);
+        for (Schema.FieldSetMember f : fieldSet.getFields()) {
+            fieldNames.add(f.getFieldPath());
+        }
+        return fieldNames;
     }
 }

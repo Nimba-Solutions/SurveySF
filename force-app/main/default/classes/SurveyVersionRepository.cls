@@ -59,10 +59,30 @@ public class SurveyVersionRepository extends Repository {
 
     public SurveyVersionDTO.BaseSurveyVersionDTO findSurveyVersionById(Id surveyversionId, String fieldSetName) {
         try {
-            SurveyVersionDTO.BaseSurveyVersionDTO surveyversionDto = new SurveyVersionDTO.BaseSurveyVersionDTO(surveyversionId, fieldSetName);
-            return surveyversionDto;
+            List<String> fieldsToSelect = (fieldSetName == null) ? getAllFields('SurveyVersion__c') : getFieldsFromFieldSet('SurveyVersion__c', fieldSetName);
+            String query = 'SELECT ' + String.join(fieldsToSelect, ', ') + ' FROM SurveyVersion__c WHERE Id = :surveyversionId LIMIT 1';
+            SurveyVersion__c surveyversion = Database.query(query);
+            return new SurveyVersionDTO.BaseSurveyVersionDTO(surveyversion);
         } catch (Exception ex) {
             throw new CustomException('Failed to find surveyversion by ID: ' + ex.getMessage());
         }
+    }
+
+    private List<String> getAllFields(String objectName) {
+        List<String> fieldNames = new List<String>();
+        Map<String, Schema.SObjectField> fieldMap = Schema.getGlobalDescribe().get(objectName).getDescribe().fields.getMap();
+        for (String fieldName : fieldMap.keySet()) {
+            fieldNames.add(fieldName);
+        }
+        return fieldNames;
+    }
+
+    private List<String> getFieldsFromFieldSet(String objectName, String fieldSetName) {
+        List<String> fieldNames = new List<String>();
+        Schema.FieldSet fieldSet = Schema.getGlobalDescribe().get(objectName).getDescribe().fieldSets.getMap().get(fieldSetName);
+        for (Schema.FieldSetMember f : fieldSet.getFields()) {
+            fieldNames.add(f.getFieldPath());
+        }
+        return fieldNames;
     }
 }

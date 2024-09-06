@@ -145,4 +145,12 @@
         </columns>
         <masterLabel>Survey Versions</masterLabel>
     </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Index__c</field>
+            <table>Survey__c.SurveyVersions__r.SurveyPages__r</table>
+        </columns>
+        <masterLabel>Survey Pages</masterLabel>
+    </sections>
 </ReportType>

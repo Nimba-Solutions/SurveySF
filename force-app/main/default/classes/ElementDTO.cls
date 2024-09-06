@@ -17,18 +17,6 @@ public class ElementDTO {
             }
         }
 
-        // Constructor with fieldSetName
-        public BaseElementDTO(Id elementId, String fieldSetName) {
-            this.fields = new Map<String, Object>();
-            List<String> fieldsToSelect = (fieldSetName == null) ? getAllFields('Element__c') : getFieldsFromFieldSet('Element__c', fieldSetName);
-            String query = 'SELECT ' + String.join(fieldsToSelect, ', ') + ' FROM Element__c WHERE Id = :elementId LIMIT 1';
-            Element__c element = Database.query(query);
-            Map<String, Object> elementFields = element.getPopulatedFieldsAsMap();
-            for (String fieldName : elementFields.keySet()) {
-                this.fields.put(fieldName, elementFields.get(fieldName));
-            }
-        }
-
         // Converts DTO to Element__c
         public virtual Element__c toElement() {
             Element__c element = new Element__c();
@@ -41,7 +29,7 @@ public class ElementDTO {
 
     public class CreateElementDTO extends BaseElementDTO {
         public CreateElementDTO() {
-            super(null, null);  // This will fetch all fields since no field set is specified
+            super();
         }
     }
 
@@ -49,7 +37,7 @@ public class ElementDTO {
         @AuraEnabled public Id id { get; set; }
 
         public UpdateElementDTO() {
-            super(null, null);  // This will fetch all fields since no field set is specified
+            super();
         }
 
         // Include the Element ID when updating
@@ -58,25 +46,5 @@ public class ElementDTO {
             element.Id = this.id;
             return element;
         }
-    }
-
-    // Helper method to get all fields for an object
-    private static List<String> getAllFields(String objectName) {
-        List<String> fieldNames = new List<String>();
-        Map<String, Schema.SObjectField> fieldMap = Schema.getGlobalDescribe().get(objectName).getDescribe().fields.getMap();
-        for (String fieldName : fieldMap.keySet()) {
-            fieldNames.add(fieldName);
-        }
-        return fieldNames;
-    }
-
-    // Helper method to get fields from the Field Set
-    private static List<String> getFieldsFromFieldSet(String objectName, String fieldSetName) {
-        List<String> fieldNames = new List<String>();
-        Schema.FieldSet fieldSet = Schema.getGlobalDescribe().get(objectName).getDescribe().fieldSets.getMap().get(fieldSetName);
-        for (Schema.FieldSetMember f : fieldSet.getFields()) {
-            fieldNames.add(f.getFieldPath());
-        }
-        return fieldNames;
     }
 }

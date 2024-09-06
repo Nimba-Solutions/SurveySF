@@ -29,15 +29,18 @@ public with sharing class SurveyPageController {
     }
 
     // Create multiple surveypages using DTOs
-    public static List<SurveyPageDTO.BaseSurveyPageDTO> createSurveyPages(List<SurveyPageDTO.CreateSurveyPageDTO> surveypageDTOs) {
+    public static List<SurveyPageDTO.BaseSurveyPageDTO> createSurveyPages(List<SurveyPageDTO.CreateSurveyPageDTO> surveyPageDTOs) {
         try {
-            return surveypageService.createSurveyPages(surveypageDTOs, true);
+            return surveyPageService.createSurveyPages(surveyPageDTOs, true);
         } catch (CustomException ex) {
+            System.debug(LoggingLevel.ERROR, 'Error in SurveyPageController: ' + ex.getMessage());
             throw new CustomException(ex.getMessage());
         } catch (Exception ex) {
+            System.debug(LoggingLevel.ERROR, 'Unexpected error in SurveyPageController: ' + ex.getMessage());
             throw new CustomException('An unexpected error occurred: ' + ex.getMessage());
         }
     }
+
 
     // Update surveypages using DTOs
     public static List<SurveyPageDTO.BaseSurveyPageDTO> updateSurveyPages(List<SurveyPageDTO.UpdateSurveyPageDTO> surveypageDTOs) {

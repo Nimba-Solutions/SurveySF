@@ -1,5 +1,4 @@
 public with sharing class SurveyController {
-
     private static SurveyService surveyService = new SurveyService();
 
     // Overloaded method to get a survey by ID with optional field set name

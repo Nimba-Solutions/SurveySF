@@ -33,12 +33,13 @@ public class SurveyPageService extends Service {
     // Create multiple surveypages using DTO with optional rollback handling
     public List<SurveyPageDTO.BaseSurveyPageDTO> createSurveyPages(List<SurveyPageDTO.CreateSurveyPageDTO> surveypageDTOs, Boolean rollbackOnError) {
         try {
-            return surveypageRepository.createSurveyPages(surveypageDTOs, rollbackOnError);  // Repository returns DTOs
+            return surveyPageRepository.createSurveyPages(surveypageDTOs, rollbackOnError);
         } catch (Exception ex) {
-            logError('Error creating surveypages: ' + ex.getMessage(), ex);
-            throw new CustomException('Failed to create surveypages');
+            System.debug(LoggingLevel.ERROR, 'Error in SurveyPageService: ' + ex.getMessage());
+            throw new CustomException(ex.getMessage());
         }
     }
+
 
     // Update surveypage using DTO with optional rollback handling
     public SurveyPageDTO.BaseSurveyPageDTO updateSurveyPage(SurveyPageDTO.UpdateSurveyPageDTO updateSurveyPageDTO, Boolean rollbackOnError) {

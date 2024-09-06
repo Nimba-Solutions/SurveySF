@@ -59,10 +59,30 @@ public class %%%Object%%%Repository extends Repository {
 
     public %%%Object%%%DTO.Base%%%Object%%%DTO find%%%Object%%%ById(Id %%%object%%%Id, String fieldSetName) {
         try {
-            %%%Object%%%DTO.Base%%%Object%%%DTO %%%object%%%Dto = new %%%Object%%%DTO.Base%%%Object%%%DTO(%%%object%%%Id, fieldSetName);
-            return %%%object%%%Dto;
+            List<String> fieldsToSelect = (fieldSetName == null) ? getAllFields('%%%Object%%%__c') : getFieldsFromFieldSet('%%%Object%%%__c', fieldSetName);
+            String query = 'SELECT ' + String.join(fieldsToSelect, ', ') + ' FROM %%%Object%%%__c WHERE Id = :%%%object%%%Id LIMIT 1';
+            %%%Object%%%__c %%%object%%% = Database.query(query);
+            return new %%%Object%%%DTO.Base%%%Object%%%DTO(%%%object%%%);
         } catch (Exception ex) {
             throw new CustomException('Failed to find %%%object%%% by ID: ' + ex.getMessage());
         }
+    }
+
+    private List<String> getAllFields(String objectName) {
+        List<String> fieldNames = new List<String>();
+        Map<String, Schema.SObjectField> fieldMap = Schema.getGlobalDescribe().get(objectName).getDescribe().fields.getMap();
+        for (String fieldName : fieldMap.keySet()) {
+            fieldNames.add(fieldName);
+        }
+        return fieldNames;
+    }
+
+    private List<String> getFieldsFromFieldSet(String objectName, String fieldSetName) {
+        List<String> fieldNames = new List<String>();
+        Schema.FieldSet fieldSet = Schema.getGlobalDescribe().get(objectName).getDescribe().fieldSets.getMap().get(fieldSetName);
+        for (Schema.FieldSetMember f : fieldSet.getFields()) {
+            fieldNames.add(f.getFieldPath());
+        }
+        return fieldNames;
     }
 }

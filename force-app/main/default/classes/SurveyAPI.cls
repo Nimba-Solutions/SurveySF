@@ -6,7 +6,7 @@ global with sharing class SurveyAPI {
         try {
             RestRequest req = RestContext.request;
             Id surveyId = (Id) req.requestURI.substring(req.requestURI.lastIndexOf('/') + 1);
-            String fieldSetName = 'PUBLIC';
+            String fieldSetName = 'Public';
             SurveyDTO.BaseSurveyDTO survey = SurveyController.getSurveyById(surveyId, fieldSetName);
             return JSON.serialize(survey);
         } catch (CustomException ex) {

@@ -36,10 +36,10 @@ duplicate_class() {
     # Generate the lower case variable name for survey
     local object_var_name=$(generate_lower_case_name "$object_name")
 
-    # Replace occurrences of Survey__c, Survey, and survey with the new object name and variable name
+    # Replace all occurrences of Survey__c, Survey, and survey with the new object name and variable name
     sed -e "s/Survey__c/$object_name/g" \
-        -e "s/Survey\b/${object_name%__c}/g" \
-        -e "s/survey\b/$object_var_name/g" \
+        -e "s/\bSurvey\b/${object_name%__c}/g" \
+        -e "s/\bsurvey\b/$object_var_name/g" \
         "$source_class.cls" > "$new_class"
 
     # Special handling for API class: update the @RestResource urlMapping

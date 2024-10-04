@@ -54,18 +54,35 @@ public class SurveyJsService {
         return result;
     }
 
-    public static void createSurveyFromJson(String jsonString) {
+    public static void createSurveyFromJson(String jsonString,SurveyVersion__c surveyVersion, Boolean isUpdate) {
         SurveyParseResult parseResult = parseSurveyJson(jsonString);
 
-        // Create Survey
-        SurveyDTO.CreateSurveyDTO surveyDTO = new SurveyDTO.CreateSurveyDTO();
-        surveyDTO.fields = parseResult.surveyFields;
-        SurveyDTO.BaseSurveyDTO createdSurvey = SurveyController.createSurvey(surveyDTO);
+        SurveyDTO.BaseSurveyDTO survey;
 
         // Create SurveyVersion
         SurveyVersionDTO.CreateSurveyVersionDTO surveyVersionDTO = new SurveyVersionDTO.CreateSurveyVersionDTO();
-        surveyVersionDTO.fields.put('Survey__c', createdSurvey.fields.get('Id'));
+
+        if(surveyVersion != null){
+            system.debug('surveyVersion-'+surveyVersion);
+            // Update Survey
+            SurveyDTO.UpdateSurveyDTO surveyDTO = new SurveyDTO.UpdateSurveyDTO();
+            surveyDTO.fields = parseResult.surveyFields;
+            surveyDTO.Id = surveyVersion.Survey__c;
+            survey = SurveyController.updateSurveys(new List<SurveyDTO.UpdateSurveyDTO>{surveyDTO})[0];
+            surveyVersionDTO.fields.put('Version__c', (surveyVersion.Version__c + 1));
+        }else{
+
+            // Create Survey
+            SurveyDTO.CreateSurveyDTO surveyDTO = new SurveyDTO.CreateSurveyDTO();
+            surveyDTO.fields = parseResult.surveyFields;
+            survey = SurveyController.createSurvey(surveyDTO);
+        }
+
         // Add any other necessary fields for SurveyVersion
+        surveyVersionDTO.fields.put('Survey__c', survey.fields.get('Id'));
+        surveyVersionDTO.fields.put('Body__c', survey.fields.get('Body__c'));
+        surveyVersionDTO.fields.put('Name', survey.fields.get('Name'));
+    
         SurveyVersionDTO.BaseSurveyVersionDTO createdSurveyVersion = SurveyVersionController.createSurveyVersion(surveyVersionDTO);
 
         // Create Pages

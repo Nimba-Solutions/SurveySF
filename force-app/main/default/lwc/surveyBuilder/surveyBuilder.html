@@ -1,0 +1,66 @@
+<template>
+    <div><!-- class="slds-builder-header_container"-->
+        <header class="slds-builder-header">
+            <div class="slds-builder-header__item">
+                <div class="slds-builder-header__item-label slds-media slds-media_center">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-utility-builder slds-current-color">
+                            <!-- <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#builder"></use>
+                            </svg> -->
+                            <lightning-icon icon-name="standard:survey" alternative-text="Survey" size="small"
+                            title={surveyJson.title}></lightning-icon>
+                        </span>
+                    </div>
+                    <div class="slds-media__body">{surveyJson.title}</div>
+                </div>
+            </div>
+            <nav class="slds-builder-header__item slds-builder-header__nav">
+                <ul class="slds-builder-header__nav-list">
+                    <li
+                        class="slds-builder-header__nav-item slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                        <button class="slds-button slds-builder-header__item-action slds-media slds-media_center"
+                            aria-haspopup="true" aria-expanded="false" title="Click to open menu">
+                            <span class="slds-media__figure">
+                                <span class="slds-icon_container slds-icon-utility-page slds-current-color">
+                                    <!-- <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#page"></use>
+                                    </svg> -->
+                                    <lightning-icon icon-name="utility:page" alternative-text="Survey" size="xx-small"
+                                    title={surveyJson.title}></lightning-icon>
+                                </span>
+                            </span>
+                            <span class="slds-media__body">
+                                <span class="slds-truncate" title="Version">
+                                    <template if:true={surveyVersionRec}>Version - {surveyVersionRec.Version__c}</template>
+                                </span>
+                                <span
+                                    class="slds-icon_container slds-icon-utility-chevrondown slds-current-color slds-m-left_small">
+                                    <lightning-icon icon-name="utility:chevrondown" alternative-text="Down" size="x-small"
+                                    title='Down'></lightning-icon>
+                                    <!-- <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown">
+                                        </use>
+                                    </svg> -->
+                                </span>
+                            </span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <div class="slds-builder-toolbar" role="toolbar">
+            <div if:true={loaded} class="slds-builder-toolbar__actions" aria-label="Document actions">
+                <lightning-button disabled={disableSave} variant="brand" label={saveLabel} title={saveLabel} onclick={handleSave} class="slds-m-left_x-small"></lightning-button>
+                <lightning-button if:true={surveyVersionRec} disabled={disableSave} variant="brand" label="Save As New Version" title="Save As New Version" onclick={handleSave} class="slds-m-left_x-small" data-version="new"></lightning-button>
+                <lightning-button variant="brand" label="Done" title="Done" onclick={enableSave} class="slds-m-left_x-small slds-float_right"></lightning-button>
+                <!-- <button class="slds-button slds-button_neutral">Save As</button>
+                <button class="slds-button slds-button_brand">Save</button> -->
+            </div>
+        </div>
+    </div>
+    <div>
+        <lightning-spinner  if:false={loaded} alternative-text="Loading"></lightning-spinner>
+        <div class="surveyContainer" lwc:dom="manual"></div>
+    </div>
+</template>

@@ -40,13 +40,13 @@ public with sharing class SurveyController {
 
     // Update surveys using DTOs
     public static List<SurveyDTO.BaseSurveyDTO> updateSurveys(List<SurveyDTO.UpdateSurveyDTO> surveyDTOs) {
-        try {
+        // try {
             return surveyService.updateSurveys(surveyDTOs, true);
-        } catch (CustomException ex) {
-            throw new CustomException(ex.getMessage());
-        } catch (Exception ex) {
-            throw new CustomException('An unexpected error occurred: ' + ex.getMessage());
-        }
+        // } catch (CustomException ex) {
+        //     throw new CustomException(ex.getMessage());
+        // } catch (Exception ex) {
+        //     throw new CustomException('An unexpected error occurred: ' + ex.getMessage());
+        // }
     }
 
     // Delete surveys by DTOs

@@ -1,0 +1,17 @@
+<!-- <template>
+    <lightning-card title="SurveyJS Creator">
+        <div class="survey-container" lwc:dom="manual"></div>
+    </lightning-card>
+</template> -->
+<template>
+    <!-- <lightning-card title="My Survey"> -->
+        <div class="exampleHolder">
+            <template if:false={loaded}>
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </template>
+        </div>
+        <div class="slds-m-around_medium">
+            <div class="surveyContainer" lwc:dom="manual"></div>
+        </div>
+    <!-- </lightning-card> -->
+</template>

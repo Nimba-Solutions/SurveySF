@@ -1,4 +1,11 @@
 public with sharing class SurveyService {
+    
+    // TODO: Implement this method
+    public static String createJsonFromRecords(Survey__c survey, List<SurveyVersion__c> versions, List<Page__c> pages, List<Element__c> elements) {
+        Map<String, Object> surveyJson = new Map<String, Object>();
+        return JSON.serialize(surveyJson);
+    }
+
     public static void createRecordsFromJson(String jsonInput) {
         try {
             // Deserialize the JSON input into a Map

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Survey__c</fullName>
-    <label>Survey</label>
-    <referenceTo>Survey__c</referenceTo>
-    <relationshipLabel>Survey Versions</relationshipLabel>
-    <relationshipName>SurveyVersions</relationshipName>
+    <fullName>Page__c</fullName>
+    <label>Page</label>
+    <referenceTo>Page__c</referenceTo>
+    <relationshipLabel>Elements</relationshipLabel>
+    <relationshipName>Elements</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>
     <type>MasterDetail</type>

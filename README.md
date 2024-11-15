@@ -17,15 +17,16 @@
 3. Implement changes in `./surveyjs/survey-creator/**` or `./surveyjs/survey-library/**`
 4. Run `./surveyjs/build.bat` to create production builds
    - Generates minified JS/CSS files
-   - Migrates minified JS/CSS files to `./force-app/main/default/staticresources`
+5. Run `./surveyjs/copy-static.bat` to collect production builds
+   - Renames and Migrates minified JS/CSS files to `./force-app/main/default/staticresources`
 
 ### Salesforce Deployment
-5. Run `cci flow run dev_org --org dev`
+6. Run `cci flow run dev_org --org dev`
   - Validates the latest minified JS/CSS files
   - Deploys sfdx project to a scratch org
 
 ### Version Control
-6. Commit changes to a `feature/**` branch in the SurveySF Repository
+7. Commit changes to a `feature/**` branch in the SurveySF Repository
 
 ⚠️ **Important Notes**:
 - Verify your `origin` remote is `https://github.com/Nimba-Solutions/SurveySF.git`

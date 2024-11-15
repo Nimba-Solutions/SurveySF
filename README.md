@@ -14,13 +14,15 @@
    - Access dev server at `localhost:8083` (may take a few minutes to initialize)
 
 ### Making Changes
-3. Implement changes in `./surveyjs/survey-creator/**`
+3. Implement changes in `./surveyjs/survey-creator/**` or `./surveyjs/survey-library/**`
 4. Run `./surveyjs/build.bat` to create production builds
    - Generates minified JS/CSS files
-   - Required before Salesforce deployment
+   - Migrates minified JS/CSS files to `./force-app/main/default/staticresources`
 
 ### Salesforce Deployment
-5. Run `cci flow run dev_org --org dev` to deploy to scratch org
+5. Run `cci flow run dev_org --org dev`
+  - Validates the latest minified JS/CSS files
+  - Deploys sfdx project to a scratch org
 
 ### Version Control
 6. Commit changes to a `feature/**` branch in the SurveySF Repository

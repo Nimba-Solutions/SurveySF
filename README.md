@@ -4,7 +4,33 @@
 
 - [ ] Follow the [`Initial Setup` instructions](.github/workflows/README.md#initial-setup) to configure the built-in CICD for this project.
 
-## Development
+## Contributing to the Survey-Creator Javascript Library
+
+## Contributing to the Survey-Creator Javascript Library
+
+### Setup & Development
+1. Run `./surveyjs/install-deps.bat` to install all necessary dependencies
+2. Run `./surveyjs/start-dev.bat` to start development servers
+   - Access dev server at `localhost:8083` (may take a few minutes to initialize)
+
+### Making Changes
+3. Implement changes in `./surveyjs/survey-creator/**`
+4. Run `./surveyjs/build.bat` to create production builds
+   - Generates minified JS/CSS files
+   - Required before Salesforce deployment
+
+### Salesforce Deployment
+5. Run `cci flow run dev_org --org dev` to deploy to scratch org
+
+### Version Control
+6. Commit changes to a `feature/**` branch in the SurveySF Repository
+
+⚠️ **Important Notes**:
+- Verify your `origin` remote is `https://github.com/Nimba-Solutions/SurveySF.git`
+- Changes to `./surveyjs/survey-creator` and `./surveyjs/survey-library` submodules will not be tracked
+
+
+## Contributing to the SurveySF Package
 
 ### [Recommended] Contribute to this project in your browser. 
 

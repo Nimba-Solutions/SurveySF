@@ -9,5 +9,5 @@ start cmd /k "npm run watch:dev"
 start cmd /k "npm run start"
 
 echo -----------------------------------------
-echo Dev server starting at http://localhost:8080
+echo Dev server starting at http://localhost:8083
 echo -----------------------------------------

@@ -7,6 +7,9 @@
 *.pyc
 __pycache__
 
+# SurveyJS
+surveyjs/**/.git/
+
 # Robot Framework results
 robot/SurveySF/results/
 
@@ -51,3 +54,4 @@ $RECYCLE.BIN/
 .idea
 .project
 .settings
+

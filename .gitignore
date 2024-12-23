@@ -8,7 +8,7 @@
 __pycache__
 
 # SurveyJS
-surveyjs/**/.git/
+**/.checkout_git/
 
 # Robot Framework results
 robot/SurveySF/results/

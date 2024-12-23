@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es2015",
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "declaration": true,
+    "declarationDir": "build/typings/",
+    "paths": {
+      "survey-creator-core/themes": [
+        "./src/themes/index.ts"
+      ],
+    },
+  },
+  "include": [
+    "./src/entries/index.ts"
+  ]
+}

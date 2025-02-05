@@ -1,7 +1,7 @@
 public class SurveyVersionModel {
     public Id id { get; set; }
     public Id surveyId { get; set; }
-    public String versionNumber { get; set; }
+    public Decimal versionNumber { get; set; }
     public String status { get; set; }
     public String body { get; set; }
     public Datetime activatedDate { get; set; }

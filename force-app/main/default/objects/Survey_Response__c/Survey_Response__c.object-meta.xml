@@ -152,15 +152,16 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <externalSharingModel>Private</externalSharingModel>
-    <label>Survey</label>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <label>Survey Response</label>
     <nameField>
-        <label>Survey Name</label>
+        <displayFormat>SR - {000000}</displayFormat>
+        <label>Survey Response Name</label>
         <trackHistory>false</trackHistory>
-        <type>Text</type>
+        <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Surveys</pluralLabel>
+    <pluralLabel>Survey Responses</pluralLabel>
     <searchLayouts></searchLayouts>
-    <sharingModel>ReadWrite</sharingModel>
+    <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

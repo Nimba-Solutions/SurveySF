@@ -1,0 +1,12 @@
+<template>
+    <div>
+        <lightning-spinner if:false={loaded} alternative-text="Loading"></lightning-spinner>
+        <div if:true={notFound} class="slds-illustration slds-illustration_large" aria-hidden="true">
+            <img src="/img/chatter/OpenRoad.svg" class="slds-illustration__svg" alt=""/>
+            <div class="slds-text-color_weak">
+                <h3 class="slds-text-heading_medium">Survey Not Found!</h3>
+            </div>
+        </div>
+        <div if:false={notFound} class="surveyContainer" lwc:dom="manual"></div>
+    </div>
+</template>

@@ -6,25 +6,48 @@ public with sharing class SurveyService {
         return JSON.serialize(surveyJson);
     }
 
-    public static void createRecordsFromJson(String jsonInput) {
+    public static Id createRecordsFromJson(String jsonInput,SurveyVersion__c surveyVersion, Boolean isUpdate) {
         try {
+
             // Deserialize the JSON input into a Map
             Map<String, Object> surveyData = (Map<String, Object>) JSON.deserializeUntyped(jsonInput);
+            Survey__c survey;
+            Decimal versionNumber = 0;
             
-            // Create Survey record
-            Survey__c survey = new Survey__c(
-                Name = 'Survey from JSON'
-            );
-            insert survey;
-            
+            if(surveyVersion != null){
+                // Create Survey record
+                survey = new Survey__c(
+                    Id = surveyVersion.Survey__c,
+                    Name = (String)surveyData.get('title')
+                );
+                update survey;
+       
+                versionNumber = isUpdate ? surveyVersion.VersionNumber__c : (surveyVersion.VersionNumber__c + 1);
+            }else{
+                versionNumber = 1;
+                // Create Survey record
+                survey = new Survey__c(
+                    Name = (String)surveyData.get('title')
+                );
+                insert survey;
+            }
+
+            SurveyVersion__c version;
+
             // Create SurveyVersion record
-            SurveyVersion__c version = new SurveyVersion__c(
+            version = new SurveyVersion__c(
                 Survey__c = survey.Id,
-                VersionNumber__c = '1.0',
-                Status__c = 'Draft',
+                VersionNumber__c = versionNumber,
                 Body__c = jsonInput
             );
-            insert version;
+
+            if(isUpdate){
+                version.Id = surveyVersion.Id;
+
+                update version;
+            }else{
+                insert version;
+            }
             
             // Create Page records
             List<Page__c> pages = new List<Page__c>();
@@ -66,9 +89,12 @@ public with sharing class SurveyService {
             System.debug('Survey created successfully. Survey Id: ' + survey.Id);
             System.debug('Number of pages created: ' + pages.size());
             System.debug('Number of elements created: ' + elements.size());
+
+            return version.Id;
         } catch (Exception e) {
             System.debug('Error creating records from JSON: ' + e.getMessage());
             System.debug('Stack trace: ' + e.getStackTraceString());
+            throw new AuraHandledException(e.getMessage());
         }
     }
 }

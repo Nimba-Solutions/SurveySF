@@ -1,6 +1,0 @@
-node_modules
-dist
-**/*.js
-**/*.d.ts
-packages/survey-creator-angular
-packages/survey-creator-vue

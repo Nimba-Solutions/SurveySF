@@ -5,10 +5,6 @@ echo "-----------------------------------------"
 echo "INSTALLING survey-library DEPENDENCIES..."
 echo "-----------------------------------------"
 npm i
-echo "BUILDING survey-library SOURCES..."
-npm run build_core
-npm run build_react
-npm run build_react_ui
 
 cd ../survey-creator
 echo "-----------------------------------------"
@@ -21,17 +17,16 @@ echo "-----------------------------------------"
 echo "INSTALLING survey-creator-core DEPENDENCIES..."
 echo "-----------------------------------------"
 npm i
-echo "-----------------------------------------"
-echo "BUILDING survey-creator-core SOURCES..."
-echo "-----------------------------------------"
-npm run build
 
-cd ../survey-creator-react
+cd ../survey-creator-js
 echo "-----------------------------------------"
-echo "INSTALLING survey-creator-react DEPENDENCIES..."
+echo "INSTALLING survey-creator-js DEPENDENCIES..."
 echo "-----------------------------------------"
 npm i
+
 echo "-----------------------------------------"
-echo "STARTING React DEV SERVER..."
+echo "All dependencies installed"
 echo "-----------------------------------------"
-npm run start 
+
+# Wait for user input
+read -p "Press Enter to continue..." 

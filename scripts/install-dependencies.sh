@@ -1,6 +1,9 @@
 #!/bin/bash
 
-cd ../surveyjs/survey-library
+# Get script directory and set paths
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+cd "$SCRIPT_DIR/../surveyjs/survey-library"
 echo "-----------------------------------------"
 echo "INSTALLING survey-library DEPENDENCIES..."
 echo "-----------------------------------------"

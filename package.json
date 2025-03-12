@@ -1,0 +1,28 @@
+{
+    "name": "surveysf",
+    "version": "1.0.0",
+    "description": "SurveySF - Survey.js integration for Salesforce",
+    "scripts": {
+        "install:deps": "bash ./scripts/install-dependencies.sh",
+        "start:dev": "bash ./scripts/start-dev-server.sh",
+        "copy:static": "bash ./scripts/copy-to-static.sh",
+        "setup": "npm run install:deps && npm run copy:static",
+        "dev": "npm run install:deps && npm run start:dev"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Nimba-Solutions/SurveySF.git"
+    },
+    "keywords": [
+        "survey",
+        "salesforce",
+        "surveyjs"
+    ],
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "survey-creator-core": "file:surveyjs/survey-creator/packages/survey-creator-core",
+        "survey-creator-js": "file:surveyjs/survey-creator/packages/survey-creator-js",
+        "survey-core": "file:surveyjs/survey-library/build/survey-core"
+    }
+}

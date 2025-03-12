@@ -1,6 +1,9 @@
 #!/bin/bash
 
-cd ../surveyjs/survey-creator/packages/survey-creator-js
+# Get script directory and set paths
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+cd "$SCRIPT_DIR/../surveyjs/survey-creator/packages/survey-creator-js"
 echo "-----------------------------------------"
 echo "Starting development server..."
 echo "-----------------------------------------"

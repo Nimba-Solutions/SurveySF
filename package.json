@@ -3,10 +3,20 @@
     "version": "1.0.0",
     "description": "Survey creator application",
     "scripts": {
-        "install:deps": "bash scripts/install-dependencies.sh",
-        "start:dev": "bash scripts/start-dev-server.sh",
-        "copy:static": "bash scripts/copy-to-static.sh",
-        "dev": "npm run setup && npm run start:dev"
+        "install": "npm run install:library && npm run install:creator",
+        "install:library": "bash scripts/install-library.sh",
+        "install:creator": "bash scripts/install-creator.sh",
+        "build": "npm run build:library && npm run build:creator",
+        "build:library": "bash scripts/build-library.sh",
+        "build:creator": "bash scripts/build-creator.sh",
+        "dev:creator": "bash scripts/start-creator-dev.sh",
+        "dev:library": "bash scripts/start-library-dev.sh",
+        "static": "npm run static:library && npm run static:creator",
+        "static:library": "bash scripts/copy-library-static.sh",
+        "static:creator": "bash scripts/copy-creator-static.sh",
+        "build:static": "npm run build && npm run static",
+        "build:static:library": "npm run build:library && npm run static:library",
+        "build:static:creator": "npm run build:creator && npm run static:creator"
     },
     "repository": {
         "type": "git",

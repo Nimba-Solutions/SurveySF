@@ -1,13 +1,12 @@
 {
     "name": "surveysf",
     "version": "1.0.0",
-    "description": "SurveySF - Survey.js integration for Salesforce",
+    "description": "Survey creator application",
     "scripts": {
-        "install:deps": "bash ./scripts/install-dependencies.sh",
-        "start:dev": "bash ./scripts/start-dev-server.sh",
-        "copy:static": "bash ./scripts/copy-to-static.sh",
-        "setup": "npm run install:deps && npm run copy:static",
-        "dev": "npm run install:deps && npm run start:dev"
+        "install:deps": "bash scripts/install-dependencies.sh",
+        "start:dev": "bash scripts/start-dev-server.sh",
+        "copy:static": "bash scripts/copy-to-static.sh",
+        "dev": "npm run setup && npm run start:dev"
     },
     "repository": {
         "type": "git",
@@ -21,8 +20,9 @@
     "author": "",
     "license": "MIT",
     "dependencies": {
-        "survey-creator-core": "file:surveyjs/survey-creator/packages/survey-creator-core",
-        "survey-creator-js": "file:surveyjs/survey-creator/packages/survey-creator-js",
-        "survey-core": "file:surveyjs/survey-library/build/survey-core"
+        "survey-core": "file:surveyjs/survey-library/packages/survey-core/build",
+        "survey-js-ui": "file:surveyjs/survey-library/packages/survey-js-ui/build",
+        "survey-creator-core": "file:surveyjs/survey-creator/packages/survey-creator-core/build",
+        "survey-creator-js": "file:surveyjs/survey-creator/packages/survey-creator-js/build"
     }
 }

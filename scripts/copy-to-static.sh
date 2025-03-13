@@ -10,6 +10,9 @@ echo "Starting file copy to staticresources..."
 echo "Target directory: $STATIC_RESOURCES"
 echo "-----------------------------------------"
 
+# Create the directory if it doesn't exist
+mkdir -p "$STATIC_RESOURCES"
+
 # Function to copy file and echo status
 copy_file() {
     local src="$1"

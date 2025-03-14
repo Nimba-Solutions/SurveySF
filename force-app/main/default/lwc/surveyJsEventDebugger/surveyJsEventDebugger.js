@@ -293,25 +293,25 @@ export default class SurveyJsEventDebugger extends LightningElement {
             // Format the JSON with proper indentation for better readability
             const formattedSender = JSON.stringify(senderInfo, null, 2);
             const formattedOptions = JSON.stringify(optionsInfo, null, 2);
-            
-            // Create log entry
-            const logEntry = {
-                id: Date.now() + Math.random().toString(36).substr(2, 5),
-                timestamp: new Date().toISOString(),
-                event: eventPath,
-                category: eventInfo.category,
+        
+        // Create log entry
+        const logEntry = {
+            id: Date.now() + Math.random().toString(36).substr(2, 5),
+            timestamp: new Date().toISOString(),
+            event: eventPath,
+            category: eventInfo.category,
                 sender: formattedSender,
                 options: formattedOptions,
                 isDragDrop: eventInfo.isDragDrop,
                 // Store raw data for potential future use
                 rawSender: senderInfo,
                 rawOptions: optionsInfo
-            };
-            
-            // Add to logs (keep most recent at top)
-            this.eventLogs = [logEntry, ...this.eventLogs].slice(0, this.maxLogs);
-            
-            // Also log to console for debugging
+        };
+        
+        // Add to logs (keep most recent at top)
+        this.eventLogs = [logEntry, ...this.eventLogs].slice(0, this.maxLogs);
+        
+        // Also log to console for debugging
             console.log(`SurveyJS Event: ${eventPath}`, {
                 sender: senderInfo,
                 options: optionsInfo

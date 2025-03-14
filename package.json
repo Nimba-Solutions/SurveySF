@@ -11,12 +11,12 @@
         "build:creator": "bash scripts/build-creator.sh",
         "dev:creator": "bash scripts/start-creator-dev.sh",
         "dev:library": "bash scripts/start-library-dev.sh",
-        "static": "npm run static:library && npm run static:creator",
-        "static:library": "bash scripts/copy-library-static.sh",
-        "static:creator": "bash scripts/copy-creator-static.sh",
-        "build:static": "npm run build && npm run static",
-        "build:static:library": "npm run build:library && npm run static:library",
-        "build:static:creator": "npm run build:creator && npm run static:creator"
+        "collect": "npm run collect:library && npm run collect:creator",
+        "collect:library": "bash scripts/copy-library-collect.sh",
+        "collect:creator": "bash scripts/copy-creator-collect.sh",
+        "build:collect": "npm run build && npm run collect",
+        "build:collect:library": "npm run build:library && npm run collect:library",
+        "build:collect:creator": "npm run build:creator && npm run collect:creator"
     },
     "repository": {
         "type": "git",

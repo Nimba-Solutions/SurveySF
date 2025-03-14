@@ -2,10 +2,10 @@ import { LightningElement } from 'lwc';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import SURVEY_CORE from '@salesforce/resourceUrl/surveycore'; //JS
 import SURVEY_JS_UI from '@salesforce/resourceUrl/surveyjsui'; //JS
-import DEFAULTV2 from '@salesforce/resourceUrl/defaultV2'; //CSS
-import SURBEY_CREATOR_CORE_CSS from '@salesforce/resourceUrl/surveycreatorcorecss'; //CSS
-import SURBEY_CREATOR_CORE_JS from '@salesforce/resourceUrl/surveycreatorcorejs'; //CSS
-import SURBEY_CREATOR_JS from '@salesforce/resourceUrl/surveycreatormin'; //CSS
+import SURVEY_CORE_CSS from '@salesforce/resourceUrl/surveycoremin'; //CSS (renamed from DEFAULTV2)
+import SURVEY_CREATOR_CORE_CSS from '@salesforce/resourceUrl/surveycreatorcorecss'; //CSS
+import SURVEY_CREATOR_CORE_JS from '@salesforce/resourceUrl/surveycreatorcorejs'; //JS
+import SURVEY_CREATOR_JS from '@salesforce/resourceUrl/surveycreatormin'; //JS
 	
 
 
@@ -30,40 +30,40 @@ export default class SurveyCreatorLWC extends LightningElement {
         // .catch(error => {
         //     console.error('Error loading resources:', error);
         // });
-        loadStyle(this, DEFAULTV2)
+        loadStyle(this, SURVEY_CORE_CSS)
             .then(() => {
                 console.log('SurveyJS CSS loaded.');
                 loadScript(this, SURVEY_CORE)
                 .then(() => {
                     loadScript(this, SURVEY_JS_UI)
                     .then(() => {
-                        loadStyle(this, SURBEY_CREATOR_CORE_CSS)
+                        loadStyle(this, SURVEY_CREATOR_CORE_CSS)
                         .then(() => {
-                            loadScript(this, SURBEY_CREATOR_CORE_JS)
+                            loadScript(this, SURVEY_CREATOR_CORE_JS)
                             .then(() => {
-                                loadScript(this, SURBEY_CREATOR_JS)
+                                loadScript(this, SURVEY_CREATOR_JS)
                                 .then(() => {
                                     this.initializeSurvey();
                                 })
                                 .catch(error => {
-                                    console.error('Error loading SURBEY_CREATOR_JS resources:', error);
+                                    console.error('Error loading SURVEY_CREATOR_JS resources:', error);
                                 });
                             })
                             .catch(error => {
-                                console.error('Error loading SURBEY_CREATOR_CORE_JS resources:', error);
+                                console.error('Error loading SURVEY_CREATOR_CORE_JS resources:', error);
                             });
                         })
                         .catch(error => {
-                            console.error('Error loading SURBEY_CREATOR_CORE_CSS resources:', error);
+                            console.error('Error loading SURVEY_CREATOR_CORE_CSS resources:', error);
                         });
                         console.log('SurveyJS JS UI loaded.');
                     })
                     .catch(error => {
-                        console.error('Error loading SURBEY JS UI resources:', error);
+                        console.error('Error loading SURVEY JS UI resources:', error);
                     });
                 })
                 .catch(error => {
-                    console.error('Error loading SURBEY CORE resources:', error);
+                    console.error('Error loading SURVEY CORE resources:', error);
                 })
                 .finally(result => {
                     console.log('loadScript result:', result);

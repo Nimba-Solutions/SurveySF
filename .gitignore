@@ -7,6 +7,9 @@
 *.pyc
 __pycache__
 
+# SurveyJS
+**/.checkout_git/
+
 # Robot Framework results
 robot/SurveySF/results/
 
@@ -51,3 +54,14 @@ $RECYCLE.BIN/
 .idea
 .project
 .settings
+
+# Survey.js specific ignores
+surveyjs/*/.git
+surveyjs/*/.git_output
+surveyjs/*/build
+surveyjs/*/node_modules
+surveyjs/*/dist
+surveyjs/*/*.tgz
+surveyjs/*/*.vsix
+surveyjs/*/package-lock.json
+

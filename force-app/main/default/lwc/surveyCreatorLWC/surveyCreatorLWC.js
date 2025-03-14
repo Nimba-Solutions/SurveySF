@@ -6,12 +6,15 @@ import SURVEY_CORE_CSS from '@salesforce/resourceUrl/surveycoremin'; //CSS (rena
 import SURVEY_CREATOR_CORE_CSS from '@salesforce/resourceUrl/surveycreatorcorecss'; //CSS
 import SURVEY_CREATOR_CORE_JS from '@salesforce/resourceUrl/surveycreatorcorejs'; //JS
 import SURVEY_CREATOR_JS from '@salesforce/resourceUrl/surveycreatormin'; //JS
+import { initSurveyEventMonitor } from './surveyEventMonitor';
+import { initDomEventMonitor } from './domEventMonitor';
 	
 
 
 export default class SurveyCreatorLWC extends LightningElement {
     surveyInitialized = false;
     loaded = false;
+    creatorInstance = null;
 
     renderedCallback() {
         if (this.surveyInitialized) {
@@ -89,6 +92,8 @@ export default class SurveyCreatorLWC extends LightningElement {
             // setLicenseKey("VkFMSURfUFJFRklYOzA9MjAyNS0xMi0zMQ==");
 
             const creator = new SurveyCreator.SurveyCreator(creatorOptions);
+            this.creatorInstance = creator;
+            
             creator.text = window.localStorage.getItem("survey-json") || JSON.stringify(defaultJson);
             creator.saveSurveyFunc = (saveNo, callback) => { 
                 window.localStorage.setItem("survey-json", creator.text);
@@ -96,6 +101,25 @@ export default class SurveyCreatorLWC extends LightningElement {
             };
             
             creator.render(this.template.querySelector('.surveyContainer'));
+            
+            // Initialize the event monitors
+            setTimeout(() => {
+                try {
+                    console.log('Initializing event monitors...');
+                    
+                    // Monitor SurveyJS events
+                    initSurveyEventMonitor(this.creatorInstance);
+                    
+                    // Monitor DOM events in the survey container
+                    const container = this.template.querySelector('.surveyContainer');
+                    initDomEventMonitor(container);
+                    
+                    console.log('Event monitors initialized');
+                } catch (error) {
+                    console.error('Error initializing event monitors:', error);
+                }
+            }, 1000); // Wait 1 second to ensure everything is loaded
+            
             this.loaded = true;
         } else {
             console.error('SurveyJS library not loaded.');

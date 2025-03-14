@@ -18,18 +18,6 @@ export default class SurveyCreatorLWC extends LightningElement {
             return;
         }
         this.surveyInitialized = true;
-        // Promise.all([
-        //     loadStyle(this, DEFAULTV2),
-        //     loadScript(this, SURVEY_CORE),
-        //     loadScript(this, SURVEY_JS_UI)
-        // ]).then(() => {
-        //     console.log('everything loaded');
-            
-        //     this.initializeSurvey();
-        // })
-        // .catch(error => {
-        //     console.error('Error loading resources:', error);
-        // });
         loadStyle(this, SURVEY_CORE_CSS)
             .then(() => {
                 console.log('SurveyJS CSS loaded.');
@@ -77,19 +65,6 @@ export default class SurveyCreatorLWC extends LightningElement {
     initializeSurvey() {
         console.log('Initializing Survey...');
         
-        // if (window.Survey) {
-        //     const surveyJson = {
-        //         elements: [
-        //             { name: 'FirstName', title: 'Enter your first name:', type: 'text' },
-        //             { name: 'LastName', title: 'Enter your last name:', type: 'text' }
-        //         ]
-        //     };
-
-        //     const survey = new window.Survey.Model(surveyJson);
-        //     survey.render(this.template.querySelector('.surveyContainer'));
-        // } else {
-        //     console.error('SurveyJS library not loaded.');
-        // }
         if (window.Survey) {
             const creatorOptions = {
                 showLogicTab: true,
@@ -119,8 +94,6 @@ export default class SurveyCreatorLWC extends LightningElement {
                 window.localStorage.setItem("survey-json", creator.text);
                 callback(saveNo, true);
             };
-            
-            
             
             creator.render(this.template.querySelector('.surveyContainer'));
             this.loaded = true;

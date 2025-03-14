@@ -1,0 +1,39 @@
+.event-debugger {
+    border: 1px solid #dddbda;
+    border-radius: 0.25rem;
+    background-color: #ffffff;
+}
+
+.event-categories {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.event-logs {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.category-header {
+    cursor: pointer;
+}
+
+.category-header:hover {
+    background-color: #f3f2f2;
+    border-radius: 0.25rem;
+}
+
+.log-entry {
+    border-left: 3px solid #0070d2;
+}
+
+.log-entry[data-drag-drop="true"] {
+    border-left-color: #ffb75d;
+}
+
+lightning-formatted-text {
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: monospace;
+    font-size: 0.75rem;
+} 

@@ -28,13 +28,13 @@ copy_file() {
     fi
 }
 
-echo "Copying defaultV2.css..."
-copy_file "$ROOT/surveyjs/survey-library/packages/survey-core/build/defaultV2.css" "$STATIC_RESOURCES/defaultV2.css"
+echo "Copying survey-core.min.css..."
+copy_file "$ROOT/surveyjs/survey-library/packages/survey-core/build/survey-core.min.css" "$STATIC_RESOURCES/surveycoremin.css"
 
-echo "Copying surveycore.js..."
+echo "Copying survey.core.min.js..."
 copy_file "$ROOT/surveyjs/survey-library/packages/survey-core/build/survey.core.min.js" "$STATIC_RESOURCES/surveycore.js"
 
-echo "Copying surveyjsui.js..."
+echo "Copying survey-js-ui.min.js..."
 copy_file "$ROOT/surveyjs/survey-library/packages/survey-js-ui/build/survey-js-ui.min.js" "$STATIC_RESOURCES/surveyjsui.js"
 
 echo "-----------------------------------------"

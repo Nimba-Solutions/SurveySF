@@ -28,14 +28,14 @@ copy_file() {
     fi
 }
 
-echo "Copying surveycreatorcorecss.css..."
-copy_file "$ROOT/surveyjs/survey-creator/packages/survey-creator-core/build/survey-creator-core.css" "$STATIC_RESOURCES/surveycreatorcorecss.css"
+echo "Copying survey-creator-core.min.css..."
+copy_file "$ROOT/surveyjs/survey-creator/packages/survey-creator-core/build/survey-creator-core.min.css" "$STATIC_RESOURCES/surveycreatorcorecss.css"
 
-echo "Copying surveycreatorcorejs.js..."
-copy_file "$ROOT/surveyjs/survey-creator/packages/survey-creator-core/build/survey-creator-core.js" "$STATIC_RESOURCES/surveycreatorcorejs.js"
+echo "Copying survey-creator-core.min.js..."
+copy_file "$ROOT/surveyjs/survey-creator/packages/survey-creator-core/build/survey-creator-core.min.js" "$STATIC_RESOURCES/surveycreatorcorejs.js"
 
-echo "Copying surveycreatormin.js..."
-copy_file "$ROOT/surveyjs/survey-creator/packages/survey-creator-core/build/survey-creator-core.min.js" "$STATIC_RESOURCES/surveycreatormin.js"
+echo "Copying survey-creator-js.min.js..."
+copy_file "$ROOT/surveyjs/survey-creator/packages/survey-creator-js/build/survey-creator-js.min.js" "$STATIC_RESOURCES/surveycreatormin.js"
 
 echo "-----------------------------------------"
 echo "Creator copy operations completed"

@@ -98,6 +98,17 @@ export default class SurveyCreatorLWC extends LightningElement {
             
             creator.render(this.template.querySelector('.surveyContainer'));
             
+            // Make the creator instance available globally for debugging
+            window.surveyCreator = creator;
+            
+            // Update the event debugger with the creator instance
+            setTimeout(() => {
+                const debuggerElement = this.template.querySelector('c-survey-js-event-debugger');
+                if (debuggerElement) {
+                    debuggerElement.creator = this.creatorInstance;
+                }
+            }, 500);
+            
             console.log('SurveyJS Creator initialized');
             this.loaded = true;
         } else {

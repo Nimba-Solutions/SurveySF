@@ -23,7 +23,14 @@
         <div class="slds-card__body slds-card__body_inner" if:true={isExpanded}>
             <!-- Not initialized message -->
             <div if:false={isInitialized} class="slds-text-color_weak slds-p-around_medium">
-                Waiting for SurveyJS Creator to initialize...
+                <div class="slds-grid slds-grid_vertical-align-center">
+                    <div class="slds-spinner_container slds-is-relative slds-m-right_small">
+                        <lightning-spinner alternative-text="Initializing" size="small"></lightning-spinner>
+                    </div>
+                    <div>
+                        Waiting for SurveyJS Creator to initialize... (Attempt {initAttempts}/{maxInitAttempts})
+                    </div>
+                </div>
             </div>
 
             <!-- Event Categories -->
@@ -101,11 +108,11 @@
                                     <div class="slds-grid slds-grid_vertical-align-start slds-p-top_xx-small">
                                         <div class="slds-col slds-size_1-of-2 slds-p-right_xx-small">
                                             <div class="slds-text-title">Sender</div>
-                                            <lightning-formatted-text value={log.sender}></lightning-formatted-text>
+                                            <pre class="json-content">{log.sender}</pre>
                                         </div>
                                         <div class="slds-col slds-size_1-of-2 slds-p-left_xx-small">
                                             <div class="slds-text-title">Options</div>
-                                            <lightning-formatted-text value={log.options}></lightning-formatted-text>
+                                            <pre class="json-content">{log.options}</pre>
                                         </div>
                                     </div>
                                 </div>

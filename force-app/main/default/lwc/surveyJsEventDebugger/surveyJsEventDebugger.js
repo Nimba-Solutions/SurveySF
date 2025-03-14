@@ -15,6 +15,10 @@ export default class SurveyJsEventDebugger extends LightningElement {
     // Event monitoring state
     monitoredEvents = new Map();
     
+    // Track initialization attempts
+    initAttempts = 0;
+    maxInitAttempts = 10;
+    
     connectedCallback() {
         // We'll initialize when the creator instance is provided
         this.checkForCreator();
@@ -22,25 +26,71 @@ export default class SurveyJsEventDebugger extends LightningElement {
     
     @api
     refresh() {
-        this.checkForCreator();
+        this.checkForCreator(true);
     }
     
-    checkForCreator() {
-        if (this.creatorInstance && !this.isInitialized) {
-            // Wait a bit to ensure creator is fully initialized
-            setTimeout(() => {
-                this.initializeEventDebugger();
-            }, 1000);
+    @api
+    set creator(value) {
+        this.creatorInstance = value;
+        if (value) {
+            this.checkForCreator(true);
         }
     }
     
-    initializeEventDebugger() {
-        if (!this.creatorInstance) {
-            console.warn('SurveyJS Event Debugger: Creator instance not provided');
+    get creator() {
+        return this.creatorInstance;
+    }
+    
+    checkForCreator(force = false) {
+        console.log('SurveyJS Event Debugger: Checking for creator instance', this.creatorInstance);
+        
+        if ((this.creatorInstance && !this.isInitialized) || force) {
+            // Wait a bit to ensure creator is fully initialized
+            setTimeout(() => {
+                this.attemptInitialization();
+            }, 500);
+        }
+    }
+    
+    attemptInitialization() {
+        this.initAttempts++;
+        console.log(`SurveyJS Event Debugger: Initialization attempt ${this.initAttempts}`);
+        
+        if (this.isInitialized && !this.initAttempts > this.maxInitAttempts) {
+            console.log('SurveyJS Event Debugger: Already initialized or max attempts reached');
             return;
         }
         
-        console.log('SurveyJS Event Debugger: Initializing');
+        if (!this.creatorInstance) {
+            console.warn('SurveyJS Event Debugger: Creator instance not provided');
+            
+            // Try again in a moment if we haven't exceeded max attempts
+            if (this.initAttempts < this.maxInitAttempts) {
+                setTimeout(() => {
+                    this.attemptInitialization();
+                }, 1000);
+            }
+            return;
+        }
+        
+        // Check if the creator is fully initialized
+        if (!this.creatorInstance.survey) {
+            console.warn('SurveyJS Event Debugger: Creator survey not available yet');
+            
+            // Try again in a moment if we haven't exceeded max attempts
+            if (this.initAttempts < this.maxInitAttempts) {
+                setTimeout(() => {
+                    this.attemptInitialization();
+                }, 1000);
+            }
+            return;
+        }
+        
+        this.initializeEventDebugger();
+    }
+    
+    initializeEventDebugger() {
+        console.log('SurveyJS Event Debugger: Initializing with creator', this.creatorInstance);
         
         // Discover available events
         this.discoverEvents(this.creatorInstance, 'creator');
@@ -154,10 +204,6 @@ export default class SurveyJsEventDebugger extends LightningElement {
         }
     }
     
-    getCategoryIconName(category) {
-        return category.isExpanded ? "utility:chevrondown" : "utility:chevronright";
-    }
-    
     handleEventToggle(event) {
         const eventPath = event.currentTarget.dataset.event;
         const isChecked = event.target.checked;
@@ -230,37 +276,115 @@ export default class SurveyJsEventDebugger extends LightningElement {
         const eventInfo = this.monitoredEvents.get(eventPath);
         if (!eventInfo) return;
         
-        // Extract basic info
-        const senderInfo = this.extractObjectInfo(sender);
-        const optionsInfo = this.extractObjectInfo(options);
-        
-        // Create log entry
-        const logEntry = {
-            id: Date.now() + Math.random().toString(36).substr(2, 5),
-            timestamp: new Date().toISOString(),
-            event: eventPath,
-            category: eventInfo.category,
-            sender: JSON.stringify(senderInfo, null, 2),
-            options: JSON.stringify(optionsInfo, null, 2),
-            isDragDrop: eventInfo.isDragDrop
-        };
-        
-        // Add to logs (keep most recent at top)
-        this.eventLogs = [logEntry, ...this.eventLogs].slice(0, this.maxLogs);
-        
-        // Also log to console for debugging
-        console.log(`SurveyJS Event: ${eventPath}`, logEntry);
+        try {
+            // Special handling for ghost position events
+            let senderInfo, optionsInfo;
+            
+            if (eventPath === 'dragDrop.onGhostPositionChanged') {
+                // For ghost position events, try to extract more specific information
+                senderInfo = this.extractGhostPositionInfo(sender);
+                optionsInfo = this.extractGhostPositionInfo(options);
+            } else {
+                // Standard extraction for other events
+                senderInfo = this.extractObjectInfo(sender);
+                optionsInfo = this.extractObjectInfo(options);
+            }
+            
+            // Format the JSON with proper indentation for better readability
+            const formattedSender = JSON.stringify(senderInfo, null, 2);
+            const formattedOptions = JSON.stringify(optionsInfo, null, 2);
+            
+            // Create log entry
+            const logEntry = {
+                id: Date.now() + Math.random().toString(36).substr(2, 5),
+                timestamp: new Date().toISOString(),
+                event: eventPath,
+                category: eventInfo.category,
+                sender: formattedSender,
+                options: formattedOptions,
+                isDragDrop: eventInfo.isDragDrop,
+                // Store raw data for potential future use
+                rawSender: senderInfo,
+                rawOptions: optionsInfo
+            };
+            
+            // Add to logs (keep most recent at top)
+            this.eventLogs = [logEntry, ...this.eventLogs].slice(0, this.maxLogs);
+            
+            // Also log to console for debugging
+            console.log(`SurveyJS Event: ${eventPath}`, {
+                sender: senderInfo,
+                options: optionsInfo
+            });
+        } catch (error) {
+            console.error('Error logging event:', error);
+            
+            // Create a simplified log entry for errors
+            const logEntry = {
+                id: Date.now() + Math.random().toString(36).substr(2, 5),
+                timestamp: new Date().toISOString(),
+                event: eventPath,
+                category: eventInfo.category,
+                sender: JSON.stringify({ error: 'Error extracting sender info' }),
+                options: JSON.stringify({ error: 'Error extracting options info' }),
+                isDragDrop: eventInfo.isDragDrop,
+                error: error.message
+            };
+            
+            this.eventLogs = [logEntry, ...this.eventLogs].slice(0, this.maxLogs);
+        }
     }
     
     extractObjectInfo(obj) {
         if (!obj) return null;
         if (typeof obj !== 'object') return obj;
         
-        const info = {};
-        
         try {
+            // First attempt: Try to stringify the entire object to get around proxy limitations
+            try {
+                // Use a replacer function to handle circular references
+                const seen = new WeakSet();
+                const fullObj = JSON.parse(JSON.stringify(obj, (key, value) => {
+                    if (typeof value === 'object' && value !== null) {
+                        if (seen.has(value)) {
+                            return '[Circular Reference]';
+                        }
+                        seen.add(value);
+                    }
+                    return value;
+                }));
+                
+                // If we successfully got the full object, return it
+                if (fullObj && Object.keys(fullObj).length > 0) {
+                    return fullObj;
+                }
+            } catch (e) {
+                console.log('Full object extraction failed, falling back to property extraction', e);
+            }
+            
+            // Second attempt: Extract specific properties
+            const info = {};
+            
             // Try to get common properties
-            ['id', 'name', 'type', 'title', 'text', 'value'].forEach(prop => {
+            ['id', 'name', 'type', 'title', 'text', 'value', 'question', 'page', 'panel'].forEach(prop => {
+                try {
+                    if (obj[prop] !== undefined) {
+                        // For nested objects, try to stringify them
+                        if (typeof obj[prop] === 'object' && obj[prop] !== null) {
+                            try {
+                                info[prop] = JSON.parse(JSON.stringify(obj[prop]));
+                            } catch (e) {
+                                info[prop] = `[Object: ${obj[prop].constructor ? obj[prop].constructor.name : 'Unknown'}]`;
+                            }
+                        } else {
+                            info[prop] = obj[prop];
+                        }
+                    }
+                } catch (e) {}
+            });
+            
+            // Try to get position-related properties (especially for ghost position objects)
+            ['x', 'y', 'left', 'top', 'right', 'bottom', 'width', 'height', 'position', 'pageX', 'pageY', 'clientX', 'clientY', 'offsetX', 'offsetY'].forEach(prop => {
                 try {
                     if (obj[prop] !== undefined) {
                         info[prop] = obj[prop];
@@ -268,14 +392,260 @@ export default class SurveyJsEventDebugger extends LightningElement {
                 } catch (e) {}
             });
             
+            // Try to get drag-drop specific properties
+            ['draggedElement', 'target', 'source', 'dropTarget', 'dragTarget', 'isBottom', 'isEdge', 'isInside', 'destination', 'fromElement', 'toElement', 'draggedElementType'].forEach(prop => {
+                try {
+                    if (obj[prop] !== undefined) {
+                        if (typeof obj[prop] === 'object' && obj[prop] !== null) {
+                            try {
+                                // For nested objects, try to extract name and type
+                                const nestedInfo = {};
+                                ['name', 'type', 'id', 'title'].forEach(nestedProp => {
+                                    try {
+                                        if (obj[prop][nestedProp] !== undefined) {
+                                            nestedInfo[nestedProp] = obj[prop][nestedProp];
+                                        }
+                                    } catch (e) {}
+                                });
+                                
+                                if (Object.keys(nestedInfo).length > 0) {
+                                    info[prop] = nestedInfo;
+                                } else {
+                                    info[prop] = JSON.parse(JSON.stringify(obj[prop]));
+                                }
+                            } catch (e) {
+                                info[prop] = `[Object: ${obj[prop].constructor ? obj[prop].constructor.name : 'Unknown'}]`;
+                            }
+                        } else {
+                            info[prop] = obj[prop];
+                        }
+                    }
+                } catch (e) {}
+            });
+            
+            // Try to get all enumerable properties
+            try {
+                Object.keys(obj).forEach(key => {
+                    if (!info[key]) {
+                        try {
+                            const value = obj[key];
+                            if (typeof value !== 'function' && typeof value !== 'object') {
+                                info[key] = value;
+                            } else if (typeof value === 'object' && value !== null) {
+                                info[key] = `[Object: ${value.constructor ? value.constructor.name : 'Unknown'}]`;
+                            }
+                        } catch (e) {}
+                    }
+                });
+            } catch (e) {}
+            
             // Try to get constructor name
             try {
                 if (obj.constructor && obj.constructor.name) {
-                    info.type = obj.constructor.name;
+                    info.objectType = obj.constructor.name;
                 }
             } catch (e) {}
+            
+            return info;
         } catch (error) {
-            return `[Error extracting info]`;
+            console.error('Error extracting object info:', error);
+            return `[Error extracting info: ${error.message}]`;
+        }
+    }
+    
+    extractGhostPositionInfo(obj) {
+        if (!obj) return null;
+        
+        const info = {
+            objectType: obj.constructor ? obj.constructor.name : 'Unknown'
+        };
+        
+        // Try to extract all properties directly
+        try {
+            // First try to get all properties using Object.getOwnPropertyNames
+            const props = Object.getOwnPropertyNames(obj);
+            props.forEach(prop => {
+                try {
+                    if (typeof obj[prop] !== 'function') {
+                        info[prop] = obj[prop];
+                    }
+                } catch (e) {}
+            });
+        } catch (e) {
+            console.log('Failed to get properties using Object.getOwnPropertyNames', e);
+        }
+        
+        // Try to extract common position properties
+        [
+            'x', 'y', 'left', 'top', 'right', 'bottom', 'width', 'height',
+            'pageX', 'pageY', 'clientX', 'clientY', 'screenX', 'screenY',
+            'offsetX', 'offsetY', 'movementX', 'movementY',
+            'element', 'target', 'currentTarget', 'relatedTarget',
+            'fromElement', 'toElement', 'path', 'pointerType',
+            'altKey', 'ctrlKey', 'shiftKey', 'metaKey',
+            'button', 'buttons', 'detail', 'deltaX', 'deltaY',
+            'draggedElement', 'dropTarget', 'isBottom', 'isEdge'
+        ].forEach(prop => {
+            try {
+                if (obj[prop] !== undefined) {
+                    if (typeof obj[prop] === 'object' && obj[prop] !== null) {
+                        try {
+                            // For element objects, try to get id, className, tagName
+                            if (prop === 'element' || prop === 'target' || prop === 'currentTarget' || prop === 'relatedTarget') {
+                                const elemInfo = {};
+                                ['id', 'className', 'tagName', 'nodeName'].forEach(elemProp => {
+                                    try {
+                                        if (obj[prop][elemProp] !== undefined) {
+                                            elemInfo[elemProp] = obj[prop][elemProp];
+                                        }
+                                    } catch (e) {}
+                                });
+                                
+                                // Try to get position info
+                                try {
+                                    if (obj[prop].getBoundingClientRect) {
+                                        const rect = obj[prop].getBoundingClientRect();
+                                        elemInfo.rect = {
+                                            top: rect.top,
+                                            left: rect.left,
+                                            bottom: rect.bottom,
+                                            right: rect.right,
+                                            width: rect.width,
+                                            height: rect.height
+                                        };
+                                    }
+                                } catch (e) {}
+                                
+                                if (Object.keys(elemInfo).length > 0) {
+                                    info[prop] = elemInfo;
+                                } else {
+                                    info[prop] = `[Element]`;
+                                }
+                            } else {
+                                // For other objects, try to stringify
+                                info[prop] = JSON.parse(JSON.stringify(obj[prop]));
+                            }
+                        } catch (e) {
+                            info[prop] = `[Object: ${obj[prop].constructor ? obj[prop].constructor.name : 'Unknown'}]`;
+                        }
+                    } else {
+                        info[prop] = obj[prop];
+                    }
+                }
+            } catch (e) {}
+        });
+        
+        // Try to get ghost position directly from dragDropSurveyElements
+        try {
+            if (this.creatorInstance && this.creatorInstance.dragDropSurveyElements) {
+                const dragDrop = this.creatorInstance.dragDropSurveyElements;
+                
+                // Try to extract ghost element info
+                try {
+                    if (dragDrop.ghostElement) {
+                        info.ghostElement = {
+                            exists: true
+                        };
+                        
+                        // Try to get style properties
+                        try {
+                            const style = dragDrop.ghostElement.style;
+                            if (style) {
+                                info.ghostElement.style = {
+                                    left: style.left,
+                                    top: style.top,
+                                    width: style.width,
+                                    height: style.height,
+                                    position: style.position,
+                                    display: style.display,
+                                    visibility: style.visibility
+                                };
+                            }
+                        } catch (e) {}
+                        
+                        // Try to get bounding rect
+                        try {
+                            const rect = dragDrop.ghostElement.getBoundingClientRect();
+                            info.ghostElement.rect = {
+                                top: rect.top,
+                                left: rect.left,
+                                bottom: rect.bottom,
+                                right: rect.right,
+                                width: rect.width,
+                                height: rect.height
+                            };
+                        } catch (e) {}
+                    }
+                } catch (e) {}
+                
+                // Try to extract draggedElement info
+                try {
+                    if (dragDrop.draggedElement) {
+                        info.draggedElementInfo = {};
+                        
+                        ['name', 'type', 'title', 'id'].forEach(prop => {
+                            try {
+                                if (dragDrop.draggedElement[prop] !== undefined) {
+                                    info.draggedElementInfo[prop] = dragDrop.draggedElement[prop];
+                                }
+                            } catch (e) {}
+                        });
+                    }
+                } catch (e) {}
+                
+                // Try to extract dropTarget info
+                try {
+                    if (dragDrop.dropTarget) {
+                        info.dropTargetInfo = {};
+                        
+                        ['name', 'type', 'title', 'id'].forEach(prop => {
+                            try {
+                                if (dragDrop.dropTarget[prop] !== undefined) {
+                                    info.dropTargetInfo[prop] = dragDrop.dropTarget[prop];
+                                }
+                            } catch (e) {}
+                        });
+                    }
+                } catch (e) {}
+                
+                // Try to extract isBottom and isEdge
+                try {
+                    info.isBottom = dragDrop.isBottom;
+                    info.isEdge = dragDrop.isEdge;
+                } catch (e) {}
+            }
+        } catch (e) {
+            console.log('Failed to get ghost position from dragDropSurveyElements', e);
+        }
+        
+        // Try to get current mouse position from window
+        try {
+            // Store the current mouse position in a static variable
+            if (!this.constructor._lastMousePosition) {
+                this.constructor._lastMousePosition = { x: 0, y: 0 };
+                
+                // Add a global mouse move listener to track mouse position
+                if (typeof window !== 'undefined') {
+                    window.addEventListener('mousemove', (e) => {
+                        this.constructor._lastMousePosition = {
+                            x: e.clientX,
+                            y: e.clientY,
+                            pageX: e.pageX,
+                            pageY: e.pageY,
+                            screenX: e.screenX,
+                            screenY: e.screenY,
+                            timestamp: Date.now()
+                        };
+                    });
+                }
+            }
+            
+            // Include the last known mouse position
+            if (this.constructor._lastMousePosition) {
+                info.mousePosition = this.constructor._lastMousePosition;
+            }
+        } catch (e) {
+            console.log('Failed to get mouse position from window', e);
         }
         
         return info;
@@ -297,3 +667,4 @@ export default class SurveyJsEventDebugger extends LightningElement {
         return this.isExpanded ? 'Collapse' : 'Expand';
     }
 } 
+

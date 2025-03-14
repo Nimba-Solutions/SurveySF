@@ -1,4 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class SurveyJsEventDebugger extends LightningElement {
     @api creatorInstance;
@@ -18,6 +19,18 @@ export default class SurveyJsEventDebugger extends LightningElement {
     // Track initialization attempts
     initAttempts = 0;
     maxInitAttempts = 10;
+    
+    // Helper method to escape HTML special characters
+    escapeForHtml(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;')
+            .replace(/`/g, '\\`');
+    }
     
     connectedCallback() {
         // We'll initialize when the creator instance is provided
@@ -294,28 +307,28 @@ export default class SurveyJsEventDebugger extends LightningElement {
             const formattedSender = JSON.stringify(senderInfo, null, 2);
             const formattedOptions = JSON.stringify(optionsInfo, null, 2);
         
-        // Create log entry
-        const logEntry = {
-            id: Date.now() + Math.random().toString(36).substr(2, 5),
-            timestamp: new Date().toISOString(),
-            event: eventPath,
-            category: eventInfo.category,
+            // Create log entry
+            const logEntry = {
+                id: Date.now() + Math.random().toString(36).substr(2, 5),
+                timestamp: new Date().toISOString(),
+                event: eventPath,
+                category: eventInfo.category,
                 sender: formattedSender,
                 options: formattedOptions,
                 isDragDrop: eventInfo.isDragDrop,
                 // Store raw data for potential future use
                 rawSender: senderInfo,
                 rawOptions: optionsInfo
-        };
-        
-        // Add to logs (keep most recent at top)
-        this.eventLogs = [logEntry, ...this.eventLogs].slice(0, this.maxLogs);
-        
-        // Also log to console for debugging
-            console.log(`SurveyJS Event: ${eventPath}`, {
+            };
+            
+            // Add to logs (keep most recent at top)
+            this.eventLogs = [logEntry, ...this.eventLogs].slice(0, this.maxLogs);
+            
+            // Also log to console for debugging - make sure to stringify
+            console.log(`SurveyJS Event: ${eventPath}`, JSON.stringify({
                 sender: senderInfo,
                 options: optionsInfo
-            });
+            }, null, 2));
         } catch (error) {
             console.error('Error logging event:', error);
             
@@ -332,6 +345,57 @@ export default class SurveyJsEventDebugger extends LightningElement {
             };
             
             this.eventLogs = [logEntry, ...this.eventLogs].slice(0, this.maxLogs);
+        }
+        
+        // Send to pop-out window if it exists
+        if (this.popOutWindow && !this.popOutWindow.closed) {
+            const logEntry = this.eventLogs[0]; // Get the most recent log (we add at the beginning)
+            
+            // Define SLDS URL
+            const sldsUrl = 'https://cdnjs.cloudflare.com/ajax/libs/design-system/2.19.0/styles/salesforce-lightning-design-system.min.css';
+            
+            // Create HTML for the log entry
+            const logHtml = `
+                <div class="slds-grid slds-grid_vertical-align-center">
+                    <div class="slds-text-heading_small slds-truncate slds-grow">${logEntry.event}</div>
+                    <div class="slds-text-body_small slds-text-color_weak">${logEntry.timestamp}</div>
+                </div>
+                <div class="slds-grid slds-grid_vertical-align-start slds-p-top_xx-small">
+                    <div class="slds-col slds-size_1-of-2 slds-p-right_xx-small">
+                        <div class="slds-grid slds-grid_vertical-align-center">
+                            <div class="slds-text-title slds-grow">Sender</div>
+                            <span class="slds-icon_container slds-icon-utility-copy_to_clipboard copy-btn" 
+                                  onclick="copyToClipboard(\`${this.escapeForHtml(logEntry.sender)}\`)">
+                                <svg class="slds-icon slds-icon-text-default slds-icon_xx-small" aria-hidden="true">
+                                    <use xlink:href="${sldsUrl}#utility-copy_to_clipboard"></use>
+                                </svg>
+                                <span class="slds-assistive-text">Copy to clipboard</span>
+                            </span>
+                        </div>
+                        <pre class="json-content">${this.escapeForHtml(logEntry.sender)}</pre>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-left_xx-small">
+                        <div class="slds-grid slds-grid_vertical-align-center">
+                            <div class="slds-text-title slds-grow">Options</div>
+                            <span class="slds-icon_container slds-icon-utility-copy_to_clipboard copy-btn"
+                                  onclick="copyToClipboard(\`${this.escapeForHtml(logEntry.options)}\`)">
+                                <svg class="slds-icon slds-icon-text-default slds-icon_xx-small" aria-hidden="true">
+                                    <use xlink:href="${sldsUrl}#utility-copy_to_clipboard"></use>
+                                </svg>
+                                <span class="slds-assistive-text">Copy to clipboard</span>
+                            </span>
+                        </div>
+                        <pre class="json-content">${this.escapeForHtml(logEntry.options)}</pre>
+                    </div>
+                </div>
+            `;
+            
+            // Send message to pop-out window
+            this.popOutWindow.postMessage({
+                action: 'newLog',
+                logHtml,
+                isDragDrop: logEntry.isDragDrop
+            }, '*');
         }
     }
     
@@ -653,6 +717,11 @@ export default class SurveyJsEventDebugger extends LightningElement {
     
     handleClearLogs() {
         this.eventLogs = [];
+        
+        // Clear logs in pop-out window if it exists
+        if (this.popOutWindow && !this.popOutWindow.closed) {
+            this.popOutWindow.postMessage({ action: 'clearLogs' }, '*');
+        }
     }
     
     get hasLogs() {
@@ -665,6 +734,358 @@ export default class SurveyJsEventDebugger extends LightningElement {
     
     get expandLabel() {
         return this.isExpanded ? 'Collapse' : 'Expand';
+    }
+    
+    handleCopyToClipboard(event) {
+        const content = event.currentTarget.dataset.content;
+        if (!content) return;
+        
+        try {
+            // Create a temporary textarea element to copy from
+            const textarea = document.createElement('textarea');
+            textarea.value = content;
+            textarea.style.position = 'fixed';  // Prevent scrolling to bottom
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+            
+            // Execute copy command
+            const successful = document.execCommand('copy');
+            
+            // Clean up
+            document.body.removeChild(textarea);
+            
+            // Show success or error toast
+            if (successful) {
+                this.showToast('Success', 'Content copied to clipboard', 'success');
+            } else {
+                this.showToast('Error', 'Failed to copy content', 'error');
+            }
+        } catch (err) {
+            console.error('Error copying to clipboard:', err);
+            this.showToast('Error', 'Failed to copy content: ' + err.message, 'error');
+        }
+    }
+    
+    handlePopOut() {
+        try {
+            // Create the content for the new window
+            const debuggerContent = this.generatePopOutContent();
+            
+            // Create a blob URL instead of using document.write
+            const blob = new Blob([debuggerContent], { type: 'text/html' });
+            const blobUrl = URL.createObjectURL(blob);
+            
+            // Open a new window with the blob URL
+            const popOutWindow = window.open(blobUrl, 'SurveyJSDebugger', 'width=800,height=600,resizable=yes,scrollbars=yes');
+            
+            if (!popOutWindow) {
+                this.showToast('Error', 'Pop-out window was blocked. Please allow pop-ups for this site.', 'error');
+                return;
+            }
+            
+            // Focus the new window
+            popOutWindow.focus();
+            
+            // Set up communication between windows
+            this.setupPopOutCommunication(popOutWindow);
+            
+            // Clean up the blob URL when the window is closed
+            const checkWindowClosed = setInterval(() => {
+                if (popOutWindow.closed) {
+                    clearInterval(checkWindowClosed);
+                    URL.revokeObjectURL(blobUrl);
+                    this.popOutWindow = null;
+                }
+            }, 1000);
+            
+        } catch (err) {
+            console.error('Error creating pop-out window:', err);
+            this.showToast('Error', 'Failed to create pop-out window: ' + err.message, 'error');
+        }
+    }
+    
+    generatePopOutContent() {
+        // Get SLDS styles URL
+        const sldsUrl = 'https://cdnjs.cloudflare.com/ajax/libs/design-system/2.19.0/styles/salesforce-lightning-design-system.min.css';
+        
+        // Create HTML content for the pop-out window
+        return `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>SurveyJS Event Debugger</title>
+                <link rel="stylesheet" href="${sldsUrl}">
+                <style>
+                    body {
+                        padding: 1rem;
+                        font-family: 'Salesforce Sans', Arial, sans-serif;
+                        background-color: #f3f3f3;
+                    }
+                    .event-debugger {
+                        border: 1px solid #dddbda;
+                        border-radius: 0.25rem;
+                        background-color: #ffffff;
+                    }
+                    .event-logs {
+                        max-height: 500px;
+                        overflow-y: auto;
+                    }
+                    .log-entry {
+                        border-left: 3px solid #0070d2;
+                        margin-bottom: 0.5rem;
+                    }
+                    .log-entry[data-drag-drop="true"] {
+                        border-left-color: #ffb75d;
+                    }
+                    .json-content-container {
+                        position: relative;
+                    }
+                    .copy-button, .copy-btn {
+                        position: absolute;
+                        top: 0.5rem;
+                        right: 0.5rem;
+                        z-index: 10;
+                    }
+                    .json-content {
+                        white-space: pre-wrap;
+                        word-break: break-word;
+                        font-family: monospace;
+                        font-size: 0.75rem;
+                        background-color: #f8f8f8;
+                        border: 1px solid #e8e8e8;
+                        border-radius: 0.25rem;
+                        padding: 0.5rem;
+                        padding-right: 2rem; /* Make room for the copy button */
+                        max-height: 200px;
+                        overflow-y: auto;
+                        margin: 0;
+                    }
+                    .copy-btn {
+                        cursor: pointer;
+                        color: #0070d2;
+                    }
+                    .copy-btn:hover {
+                        color: #005fb2;
+                    }
+                    .toast {
+                        position: fixed;
+                        top: 1rem;
+                        right: 1rem;
+                        padding: 0.5rem 1rem;
+                        border-radius: 0.25rem;
+                        color: white;
+                        opacity: 0;
+                        transition: opacity 0.3s;
+                        z-index: 9000;
+                    }
+                    .toast.success {
+                        background-color: #04844b;
+                    }
+                    .toast.error {
+                        background-color: #c23934;
+                    }
+                    .toast.show {
+                        opacity: 1;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="slds-scope">
+                    <div class="event-debugger slds-card">
+                        <div class="slds-card__header slds-grid">
+                            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                <div class="slds-media__figure">
+                                    <span class="slds-icon_container slds-icon-utility-bug">
+                                        <svg class="slds-icon slds-icon-text-default slds-icon_small" aria-hidden="true">
+                                            <use xlink:href="${sldsUrl}#utility-bug"></use>
+                                        </svg>
+                                    </span>
+                                </div>
+                                <div class="slds-media__body">
+                                    <h2 class="slds-card__header-title">SurveyJS Event Debugger (Pop-out)</h2>
+                                </div>
+                                <div class="slds-no-flex">
+                                    <button class="slds-button slds-button_neutral" onclick="clearLogs()">Clear</button>
+                                </div>
+                            </header>
+                        </div>
+                        <div class="slds-card__body slds-card__body_inner">
+                            <div id="event-logs" class="event-logs">
+                                ${this.generateLogsHtml()}
+                            </div>
+                        </div>
+                    </div>
+                    <div id="toast" class="toast"></div>
+                </div>
+                <script>
+                    // Function to copy content to clipboard
+                    function copyToClipboard(text) {
+                        const textarea = document.createElement('textarea');
+                        textarea.value = text;
+                        textarea.style.position = 'fixed';
+                        document.body.appendChild(textarea);
+                        textarea.focus();
+                        textarea.select();
+                        
+                        try {
+                            const successful = document.execCommand('copy');
+                            document.body.removeChild(textarea);
+                            showToast(successful ? 'Success: Copied to clipboard' : 'Error: Copy failed', 
+                                      successful ? 'success' : 'error');
+                        } catch (err) {
+                            document.body.removeChild(textarea);
+                            showToast('Error: ' + err.message, 'error');
+                        }
+                    }
+                    
+                    // Function to show toast notification
+                    function showToast(message, type) {
+                        const toast = document.getElementById('toast');
+                        toast.textContent = message;
+                        toast.className = 'toast ' + type + ' show';
+                        
+                        setTimeout(() => {
+                            toast.className = 'toast ' + type;
+                        }, 3000);
+                    }
+                    
+                    // Function to clear logs
+                    function clearLogs() {
+                        document.getElementById('event-logs').innerHTML = 
+                            '<div class="slds-text-color_weak slds-p-around_medium slds-text-align_center">' +
+                            'No events logged yet.</div>';
+                            
+                        // Notify parent window
+                        window.opener.postMessage({ action: 'clearLogs' }, '*');
+                    }
+                    
+                    // Listen for messages from parent window
+                    window.addEventListener('message', function(event) {
+                        if (event.data && event.data.action === 'newLog') {
+                            const logsContainer = document.getElementById('event-logs');
+                            
+                            // Remove "no logs" message if present
+                            if (logsContainer.querySelector('.slds-text-color_weak')) {
+                                logsContainer.innerHTML = '';
+                            }
+                            
+                            // Add new log entry
+                            const logEntry = document.createElement('div');
+                            logEntry.className = 'slds-box slds-box_xx-small log-entry';
+                            logEntry.setAttribute('data-drag-drop', event.data.isDragDrop);
+                            logEntry.innerHTML = event.data.logHtml;
+                            
+                            // Add to the top
+                            if (logsContainer.firstChild) {
+                                logsContainer.insertBefore(logEntry, logsContainer.firstChild);
+                            } else {
+                                logsContainer.appendChild(logEntry);
+                            }
+                        }
+                    });
+                    
+                    // Notify parent window that we're ready
+                    window.opener.postMessage({ action: 'popOutReady' }, '*');
+                </script>
+            </body>
+            </html>
+        `;
+    }
+    
+    generateLogsHtml() {
+        if (!this.eventLogs || this.eventLogs.length === 0) {
+            return '<div class="slds-text-color_weak slds-p-around_medium slds-text-align_center">No events logged yet.</div>';
+        }
+        
+        // Get SLDS styles URL for the SVG icons
+        const sldsUrl = 'https://cdnjs.cloudflare.com/ajax/libs/design-system/2.19.0/styles/salesforce-lightning-design-system.min.css';
+        
+        // Generate HTML for each log entry
+        return this.eventLogs.map(log => {
+            return `
+                <div class="slds-box slds-box_xx-small log-entry" data-drag-drop="${log.isDragDrop}">
+                    <div class="slds-grid slds-grid_vertical-align-center">
+                        <div class="slds-text-heading_small slds-truncate slds-grow">${log.event}</div>
+                        <div class="slds-text-body_small slds-text-color_weak">${log.timestamp}</div>
+                    </div>
+                    <div class="slds-grid slds-grid_vertical-align-start slds-p-top_xx-small">
+                        <div class="slds-col slds-size_1-of-2 slds-p-right_xx-small">
+                            <div class="slds-text-title">Sender</div>
+                            <div class="json-content-container">
+                                <span class="slds-icon_container slds-icon-utility-copy_to_clipboard copy-btn copy-button" 
+                                      onclick="copyToClipboard(\`${this.escapeForHtml(log.sender)}\`)">
+                                    <svg class="slds-icon slds-icon-text-default slds-icon_xx-small" aria-hidden="true">
+                                        <use xlink:href="${sldsUrl}#utility-copy_to_clipboard"></use>
+                                    </svg>
+                                    <span class="slds-assistive-text">Copy to clipboard</span>
+                                </span>
+                                <pre class="json-content">${this.escapeForHtml(log.sender)}</pre>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-left_xx-small">
+                            <div class="slds-text-title">Options</div>
+                            <div class="json-content-container">
+                                <span class="slds-icon_container slds-icon-utility-copy_to_clipboard copy-btn copy-button"
+                                      onclick="copyToClipboard(\`${this.escapeForHtml(log.options)}\`)">
+                                    <svg class="slds-icon slds-icon-text-default slds-icon_xx-small" aria-hidden="true">
+                                        <use xlink:href="${sldsUrl}#utility-copy_to_clipboard"></use>
+                                    </svg>
+                                    <span class="slds-assistive-text">Copy to clipboard</span>
+                                </span>
+                                <pre class="json-content">${this.escapeForHtml(log.options)}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+    
+    setupPopOutCommunication(popOutWindow) {
+        // Store reference to pop-out window
+        this.popOutWindow = popOutWindow;
+        
+        // Listen for messages from pop-out window
+        window.addEventListener('message', (event) => {
+            if (event.source !== this.popOutWindow) return;
+            
+            if (event.data && event.data.action === 'clearLogs') {
+                this.handleClearLogs();
+            }
+        });
+        
+        // Handle window close
+        const checkWindowClosed = setInterval(() => {
+            if (this.popOutWindow && this.popOutWindow.closed) {
+                clearInterval(checkWindowClosed);
+                this.popOutWindow = null;
+            }
+        }, 1000);
+    }
+    
+    showToast(title, message, variant) {
+        // Dispatch toast event
+        const toastEvent = new CustomEvent('toast', {
+            detail: {
+                title,
+                message,
+                variant
+            }
+        });
+        this.dispatchEvent(toastEvent);
+        
+        // If we're in a Lightning component, we can use the standard toast event
+        if (this.template.querySelector('lightning-button')) {
+            const event = new ShowToastEvent({
+                title,
+                message,
+                variant
+            });
+            this.dispatchEvent(event);
+        }
     }
 } 
 

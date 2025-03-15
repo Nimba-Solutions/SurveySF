@@ -104,7 +104,14 @@
                                 <template if:true={hasLogs}>
                                     <template if:true={showRawLogs}>
                                         <div class="raw-logs">
-                                            <pre class="json-content">{rawEventLogs}</pre>
+                                            <div class="json-content-container">
+                                                <lightning-button-icon icon-name="utility:copy_to_clipboard"
+                                                    alternative-text="Copy to clipboard" title="Copy to clipboard"
+                                                    data-content={rawEventLogs} onclick={handleCopyToClipboard}
+                                                    class="copy-button">
+                                                </lightning-button-icon>
+                                                <pre class="json-content">{rawEventLogs}</pre>
+                                            </div>
                                         </div>
                                     </template>
                                     <template if:false={showRawLogs}>

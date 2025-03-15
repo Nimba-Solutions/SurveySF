@@ -121,9 +121,20 @@ lightning-formatted-text {
     padding: 0.5rem;
 }
 
+.raw-logs .json-content-container {
+    position: relative;
+}
+
 .raw-logs .json-content {
     max-height: calc(100vh - 250px);
-    padding-right: 0.5rem;
+    padding-right: 2rem;
+}
+
+.raw-logs .copy-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 10;
 }
 
 .help-text {

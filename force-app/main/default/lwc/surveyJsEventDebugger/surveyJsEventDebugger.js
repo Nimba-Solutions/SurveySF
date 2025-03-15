@@ -10,6 +10,7 @@ export default class SurveyJsEventDebugger extends LightningElement {
   @track isInitialized = false;
   @track maxLogs = 100;
   @track isOpen = false;
+  @track showRawLogs = false;
 
   // Store original event handlers
   originalHandlers = {};
@@ -866,5 +867,22 @@ export default class SurveyJsEventDebugger extends LightningElement {
       });
       this.dispatchEvent(event);
     }
+  }
+
+  handleRawLogsToggle(event) {
+    this.showRawLogs = event.target.checked;
+  }
+
+  get rawEventLogs() {
+    return JSON.stringify(
+      this.eventLogs.map((log) => ({
+        event: log.event,
+        timestamp: log.timestamp,
+        sender: JSON.parse(log.sender),
+        options: JSON.parse(log.options),
+      })),
+      null,
+      2
+    );
   }
 }

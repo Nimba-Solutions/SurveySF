@@ -117,6 +117,15 @@ lightning-formatted-text {
     margin: 0;
 }
 
+.raw-logs {
+    padding: 0.5rem;
+}
+
+.raw-logs .json-content {
+    max-height: calc(100vh - 250px);
+    padding-right: 0.5rem;
+}
+
 .help-text {
     background-color: #f3f3f3;
     color: #706e6b;

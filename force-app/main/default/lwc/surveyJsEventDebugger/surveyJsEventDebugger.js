@@ -9,6 +9,7 @@ export default class SurveyJsEventDebugger extends LightningElement {
   @track selectedEvents = [];
   @track isInitialized = false;
   @track maxLogs = 100;
+  @track isOpen = false;
 
   // Store original event handlers
   originalHandlers = {};
@@ -35,6 +36,29 @@ export default class SurveyJsEventDebugger extends LightningElement {
   connectedCallback() {
     // We'll initialize when the creator instance is provided
     this.checkForCreator();
+
+    // Add keyboard shortcut for toggling drawer
+    window.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+
+  disconnectedCallback() {
+    // Remove keyboard shortcut listener
+    window.removeEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+
+  handleKeyDown(event) {
+    // Toggle drawer with Alt + D
+    if (event.altKey && event.key.toLowerCase() === "d") {
+      this.toggleDrawer();
+    }
+  }
+
+  toggleDrawer() {
+    this.isOpen = !this.isOpen;
+  }
+
+  get drawerClasses() {
+    return `event-debugger ${this.isOpen ? "is-open" : ""}`;
   }
 
   @api
@@ -183,7 +207,7 @@ export default class SurveyJsEventDebugger extends LightningElement {
         categories[event.category] = {
           name: event.category,
           events: [],
-          isExpanded: event.category === "dragDrop", // Expand drag-drop by default
+          isExpanded: true, // Always expanded by default
         };
       }
 

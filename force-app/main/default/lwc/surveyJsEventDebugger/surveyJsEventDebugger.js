@@ -80,11 +80,6 @@ export default class SurveyJsEventDebugger extends LightningElement {
   }
 
   checkForCreator(force = false) {
-    console.log(
-      "SurveyJS Event Debugger: Checking for creator instance",
-      this.creatorInstance
-    );
-
     if ((this.creatorInstance && !this.isInitialized) || force) {
       // Wait a bit to ensure creator is fully initialized
       setTimeout(() => {
@@ -95,14 +90,8 @@ export default class SurveyJsEventDebugger extends LightningElement {
 
   attemptInitialization() {
     this.initAttempts++;
-    console.log(
-      `SurveyJS Event Debugger: Initialization attempt ${this.initAttempts}`
-    );
 
     if (this.isInitialized && !this.initAttempts > this.maxInitAttempts) {
-      console.log(
-        "SurveyJS Event Debugger: Already initialized or max attempts reached"
-      );
       return;
     }
 
@@ -135,11 +124,6 @@ export default class SurveyJsEventDebugger extends LightningElement {
   }
 
   initializeEventDebugger() {
-    console.log(
-      "SurveyJS Event Debugger: Initializing with creator",
-      this.creatorInstance
-    );
-
     // Discover available events
     this.discoverEvents(this.creatorInstance, "creator");
 
@@ -161,11 +145,6 @@ export default class SurveyJsEventDebugger extends LightningElement {
     this.selectDragDropEvents();
 
     this.isInitialized = true;
-    console.log(
-      "SurveyJS Event Debugger: Initialized with",
-      this.eventCategories.length,
-      "categories"
-    );
   }
 
   discoverEvents(obj, objName) {
@@ -313,8 +292,6 @@ export default class SurveyJsEventDebugger extends LightningElement {
 
     // Add our own handler to capture events even if no one else subscribes
     object[eventKey].add(function () {});
-
-    console.log(`SurveyJS Event Debugger: Monitoring ${path}`);
   }
 
   unmonitorEvent(eventInfo) {
@@ -327,8 +304,6 @@ export default class SurveyJsEventDebugger extends LightningElement {
       object[eventKey].add = this.originalHandlers[path];
       delete this.originalHandlers[path];
     }
-
-    console.log(`SurveyJS Event Debugger: Stopped monitoring ${path}`);
   }
 
   logEvent(eventPath, sender, options) {
@@ -365,18 +340,6 @@ export default class SurveyJsEventDebugger extends LightningElement {
       };
 
       this.eventLogs = [logEntry, ...this.eventLogs].slice(0, this.maxLogs);
-
-      console.log(
-        `SurveyJS Event: ${eventPath}`,
-        JSON.stringify(
-          {
-            sender: senderInfo,
-            options: optionsInfo,
-          },
-          null,
-          2
-        )
-      );
     } catch (error) {
       console.error("Error logging event:", error);
 

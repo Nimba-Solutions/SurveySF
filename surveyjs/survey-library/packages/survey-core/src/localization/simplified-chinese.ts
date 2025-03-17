@@ -59,12 +59,13 @@ export var simplifiedChineseSurveyStrings = {
   addColumn: "添加列",
   addRow: "添加行",
   removeRow: "删除答案",
-  emptyRowsText: "无内容",
+  noRowsText: "无内容",
   addPanel: "新添",
   removePanel: "删除",
   showDetails: "显示详细信息",
   hideDetails: "隐藏详细信息",
   choices_Item: "选项",
+  choices_Choice: "Choice 选项",
   matrix_column: "列",
   matrix_row: "行",
   multipletext_itemname: "文本",
@@ -99,6 +100,8 @@ export var simplifiedChineseSurveyStrings = {
   modalApplyButtonText: "确定",
   filterStringPlaceholder: "键入以搜索...",
   emptyMessage: "没有要显示的数据",
+  loadingPage: "装载。。。",
+  loadingData: "装载。。。",
   noEntriesText: "尚无条目。\n单击下面的按钮以添加新条目。",
   noEntriesReadonlyText: "没有条目。",
   tabTitlePlaceholder: "新面板",
@@ -126,16 +129,24 @@ setupLocale({ localeCode: "zh-cn", strings: simplifiedChineseSurveyStrings, nati
 // more: "More" => "更多"
 // tagboxDoneButtonCaption: "OK" => "还行"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "所有选择均已排名"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "将选项拖放到此处进行排名"// takePhotoCaption: "Take Photo" => "拍照"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "将选项拖放到此处进行排名"
+// takePhotoCaption: "Take Photo" => "拍照"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "单击下面的按钮使用相机拍照。"
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "拖放或选择要上传的文件或使用相机拍摄照片。"
-// replaceFileCaption: "Replace file" => "替换文件"// eachRowUniqueError: "Each row must have a unique value." => "每行必须具有唯一值。"
+// replaceFileCaption: "Replace file" => "替换文件"
+// eachRowUniqueError: "Each row must have a unique value." => "每行必须具有唯一值。"
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "无法上传文件。请为“onUploadFiles”事件添加处理程序。"
 // showDetails: "Show Details" => "显示详细信息"
 // hideDetails: "Hide Details" => "隐藏详细信息"
 // ok: "OK" => "还行"
 // cancel: "Cancel" => "取消"
 // refuseItemText: "Refuse to answer" => "拒绝回答"
-// dontKnowItemText: "Don't know" => "不知道"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "您的回复超过 64KB。请减小文件的大小，然后重试或联系调查所有者。"
-// signaturePlaceHolderReadOnly: "No signature" => "无签名"// tabTitlePlaceholder: "New Panel" => "新面板"// deselectAllItemText: "Deselect all" => "取消全选"
+// dontKnowItemText: "Don't know" => "不知道"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "您的回复超过 64KB。请减小文件的大小，然后重试或联系调查所有者。"
+// signaturePlaceHolderReadOnly: "No signature" => "无签名"
+// tabTitlePlaceholder: "New Panel" => "新面板"
+// deselectAllItemText: "Deselect all" => "取消全选"
 // textNoDigitsAllow: "Numbers are not allowed." => "不允许使用数字。"
+// choices_Choice: "Choice option" => "Choice 选项"
+// loadingPage: "Loading..." => "装载。。。"
+// loadingData: "Loading..." => "装载。。。"

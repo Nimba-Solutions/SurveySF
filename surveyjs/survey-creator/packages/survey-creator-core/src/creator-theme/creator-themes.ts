@@ -1,30 +1,46 @@
-import { assign } from "../utils/utils";
-import designTabSurveyThemeJSON from "../designTabSurveyThemeJSON";
+import { CreatorStylesManager } from "./styles-manager";
+import { DefaultLightColorCssVariables } from "../themes/default-light-color-css-variables";
+import { registerTheme, ThemesHash, sortDefaultThemes } from "../utils/themes";
 
 export interface ICreatorTheme {
   themeName?: string;
-  iconsSet?: string;
-  cssVariables?: { [index: string]: string };
+  iconSet?: string;
+  isLight?: boolean;
+  cssVariables?: { [index: string]: string | any };
 }
 
-export const PredefinedCreatorThemes: string[] = ["sc2020"];
-const sc2020CssVariables = {};
-assign(sc2020CssVariables, designTabSurveyThemeJSON.cssVariables, {
-  "--sjs-special-background": "#F3F3F3FF",
-  "--sjs-primary-background-500": "#19B394FF",
-  "--sjs-primary-background-10": "#19B3941A",
-  "--sjs-primary-background-400": "#14A48BFF",
-  "--sjs-secondary-background-500": "#FF9814FF",
-  "--sjs-secondary-background-25": "#FF981440",
-  "--sjs-secondary-background-10": "#FF98141A",
-  "--ctr-surface-background-color": "var(--sjs-special-background)",
-  "--ctr-toolbox-background-color": "var(--sjs-special-background)",
-});
+export const PredefinedCreatorThemes: string[] = ["default-light"];
+export const defaultCreatorThemesOrder = ["default-light", "default-contrast", "default-dark", "sc2020"];
+
+export function registerCreatorTheme(...themes: Array<ThemesHash<ICreatorTheme> | ICreatorTheme>) {
+  const importedThemeNames = [];
+  registerTheme((theme: ICreatorTheme) => {
+    CreatorThemes[theme.themeName] = theme;
+    importedThemeNames.push(theme.themeName);
+  }, ...themes);
+  sortDefaultThemes(defaultCreatorThemesOrder, importedThemeNames, PredefinedCreatorThemes);
+}
+
+const defaultVariables = {
+  "--sjs-special-background": "#EDF9F7",
+  "--sjs-primary-background-500": "#19B394",
+  "--sjs-secondary-background-500": "#19B394",
+};
 
 export const CreatorThemes: { [index: string]: ICreatorTheme } = {
-  "sc2020": {
-    themeName: "sc2020",
-    cssVariables: sc2020CssVariables,
-    iconsSet: "v1"
+  "default-light": {
+    themeName: "default-light",
+    cssVariables: defaultVariables,
+    iconSet: "v2"
   }
 };
+
+let stylesStr = "";
+if (Object.keys(DefaultLightColorCssVariables).length) {
+  Object.keys(DefaultLightColorCssVariables).forEach((varName) => {
+    try {
+      stylesStr += `${varName}: ${DefaultLightColorCssVariables[varName]};`;
+    } catch (e) { }
+  });
+}
+CreatorStylesManager.insertStylesRulesIntoDocument([{ selector: "survey-creator,.svc-creator", styles: stylesStr }]);

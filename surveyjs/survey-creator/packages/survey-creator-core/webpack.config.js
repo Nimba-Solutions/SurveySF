@@ -39,6 +39,7 @@ var buildPlatformJson = {
     "**/*"
   ],
   main: packageJson.name + ".js",
+  module: "fesm/" + packageJson.name + ".js",
   repository: {
     type: "git",
     url: "https://github.com/surveyjs/survey-creator.git",
@@ -56,13 +57,44 @@ var buildPlatformJson = {
       "optional": true
     },
   },
+  "exports": {
+    ".": {
+      "types": "./typings/entries/index.d.ts",
+      "import": "./fesm/survey-creator-core.js",
+      "require": "./survey-creator-core.js"
+    },
+    "./*.css": "./*.css",
+    "./survey-creator-core.i18n": {
+      "import": "./fesm/survey-creator-core.i18n.js",
+      "require": "./survey-creator-core.i18n.js"
+    },
+    "./i18n": {
+      "import": "./fesm/i18n/index.js",
+      "require": "./i18n/index.js"
+    },
+    "./i18n/*": {
+      "import": "./fesm/i18n/*.js",
+      "require": "./i18n/*.js"
+    },
+    "./themes": {
+      "types": "./themes/index.d.ts",
+      "import": "./fesm/themes/index.js",
+      "require": "./themes/index.js"
+    },
+    "./themes/index": {
+      "types": "./themes/index.d.ts",
+      "import": "./fesm/themes/index.js",
+      "require": "./themes/index.js"
+    },
+    "./themes/*": {
+      "types": "./themes/*.d.ts",
+      "require": "./themes/*.js"
+    }
+  },
   devDependencies: {},
 };
 
-module.exports = function (options) {
-  var buildPath = __dirname + "/build/";
-  var isProductionBuild = options.buildType === "prod";
-
+function getPercentageHandler(emitNonSourceFiles, emitStyles, buildPath, isProductionBuild) {
   function createStylesBundleWithFonts() {
     const getdir = (filename) => {
       return buildPath + filename;
@@ -85,27 +117,37 @@ module.exports = function (options) {
     }
 
   }
-
-  var percentage_handler = function(options) {
-    return function handler(percentage, msg) {
-      if (0 == percentage) {
-        console.log("Build started... good luck!");
-      } else if (1 == percentage && (options.isCore || options.isCore === undefined)) {
-        if (isProductionBuild) {
-          fs.createReadStream("./README.md").pipe(
-            fs.createWriteStream(buildPath + "README.md")
-          );
-        }
-        if (isProductionBuild) {
-          fs.writeFileSync(
-            buildPath + "package.json",
-            JSON.stringify(buildPlatformJson, null, 2),
-            "utf8"
-          );
-        }
+  return function handler(percentage, msg) {
+    if (0 == percentage) {
+      console.log("Build started... good luck!");
+    } else if (1 == percentage) {
+      if (emitNonSourceFiles) {
+        fs.createReadStream("./README.md").pipe(
+          fs.createWriteStream(buildPath + "README.md")
+        );
+        fs.writeFileSync(
+          buildPath + "package.json",
+          JSON.stringify(buildPlatformJson, null, 2),
+          "utf8"
+        );
+      }
+      if (emitStyles) {
         return createStylesBundleWithFonts();
       }
-    };
+    }
+  };
+}
+
+module.exports = function (options) {
+  const emitDeclarations = !!options.emitDeclarations;
+  const emitNonSourceFiles = !!options.emitNonSourceFiles;
+  const emitStyles = !!options.emitStyles;
+  const buildPath = __dirname + "/build/";
+  const isProductionBuild = options.buildType === "prod";
+
+  const compilerOptions = emitDeclarations ? {} : {
+    declaration: false,
+    declarationDir: null
   };
 
   var config = {
@@ -118,6 +160,8 @@ module.exports = function (options) {
       extensions: [".ts", ".js", ".tsx", ".scss"],
       //plugins: [new TsconfigPathsPlugin(/*{ configFile: "./tsconfig.json" }*/)],
       alias: {
+        "iconsV1": path.resolve(__dirname, "./src/icons/iconsV1"),
+        "iconsV2": path.resolve(__dirname, "./src/icons/iconsV2"),
         tslib: path.join(__dirname, "./src/entries/helpers.ts"),
       },
     },
@@ -130,7 +174,8 @@ module.exports = function (options) {
           test: /\.(ts|tsx)$/,
           loader: "ts-loader",
           options: {
-            configFile: options.tsConfigFile || "tsconfig.json"
+            configFile: options.tsConfigFile || "tsconfig.json",
+            compilerOptions
           }
         },
         {
@@ -139,7 +184,8 @@ module.exports = function (options) {
             {
               loader: MiniCssExtractPlugin.loader,
               options: {
-                publicPath: ""
+                publicPath: "",
+                emit: emitStyles
               }
             },
             {
@@ -151,6 +197,7 @@ module.exports = function (options) {
             {
               loader: "sass-loader",
               options: {
+                api: "modern",
                 sourceMap: options.buildType !== "prod",
               },
             },
@@ -188,23 +235,11 @@ module.exports = function (options) {
         commonjs2: "survey-core",
         commonjs: "survey-core",
         amd: "survey-core",
-      },
-      "survey-core/themes": {
-        root: "SurveyTheme",
-        commonjs2: "survey-core/themes",
-        commonjs: "survey-core/themes",
-        amd: "survey-core/themes",
-      },
-      "survey-creator-core/themes": {
-        root: "SurveyCreatorTheme",
-        commonjs2: "survey-creator-core/themes",
-        commonjs: "survey-creator-core/themes",
-        amd: "survey-creator-core/themes",
-      },
+      }
     },
     plugins: [
+      new webpack.ProgressPlugin(getPercentageHandler(emitNonSourceFiles, emitStyles, buildPath, isProductionBuild)),
       new DashedNamePlugin(),
-      new webpack.ProgressPlugin(percentage_handler(options)),
       new webpack.DefinePlugin({
         "process.env.ENVIRONMENT": JSON.stringify(options.buildType),
         "process.env.VERSION": JSON.stringify(packageJson.version),
@@ -219,7 +254,6 @@ module.exports = function (options) {
       }),
     ],
   };
-
   if (isProductionBuild) {
     config.plugins.push = config.plugins.concat([]);
   } else {

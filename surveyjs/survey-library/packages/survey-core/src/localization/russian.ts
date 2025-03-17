@@ -59,12 +59,13 @@ export var russianSurveyStrings = {
   addColumn: "Добавить колонку",
   addRow: "Добавить строку",
   removeRow: "Удалить",
-  emptyRowsText: "Рядов нет.",
+  noRowsText: "Рядов нет.",
   addPanel: "Добавить новую",
   removePanel: "Удалить",
   showDetails: "Показать подробности",
   hideDetails: "Скрыть подробности",
   choices_Item: "Вариант",
+  choices_Choice: "Вариант выбора",
   matrix_column: "Колонка",
   matrix_row: "Строка",
   multipletext_itemname: "текст",
@@ -99,6 +100,8 @@ export var russianSurveyStrings = {
   modalApplyButtonText: "Применять",
   filterStringPlaceholder: "Введите для поиска...",
   emptyMessage: "Нет данных для отображения",
+  loadingPage: "Загрузка...",
+  loadingData: "Загрузка...",
   noEntriesText: "Пока нет записей.\nНажмите кнопку ниже, чтобы добавить новую запись.",
   noEntriesReadonlyText: "Записей нет.",
   tabTitlePlaceholder: "Новая панель",
@@ -119,13 +122,21 @@ setupLocale({ localeCode: "ru", strings: russianSurveyStrings, nativeName: "ру
 // noEntriesReadonlyText: "There are no entries." => "Записей нет."
 // more: "More" => "Больше"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "Все варианты ранжируются"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Перетащите сюда варианты, чтобы ранжировать их"// takePhotoCaption: "Take Photo" => "Сделать фото"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Перетащите сюда варианты, чтобы ранжировать их"
+// takePhotoCaption: "Take Photo" => "Сделать фото"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "Нажмите кнопку ниже, чтобы сделать снимок с помощью камеры."
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "Перетащите или выберите файл для загрузки или съемки с помощью камеры."
-// replaceFileCaption: "Replace file" => "Заменить файл"// eachRowUniqueError: "Each row must have a unique value." => "Каждая строка должна иметь уникальное значение."
+// replaceFileCaption: "Replace file" => "Заменить файл"
+// eachRowUniqueError: "Each row must have a unique value." => "Каждая строка должна иметь уникальное значение."
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "Файлы не могут быть загружены. Пожалуйста, добавьте обработчик для события 'onUploadFiles'."
 // showDetails: "Show Details" => "Показать подробности"
 // hideDetails: "Hide Details" => "Скрыть подробности"
-// cancel: "Cancel" => "Отмена"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Ваш ответ превышает 64 КБ. Уменьшите размер файла (файлов) и повторите попытку или обратитесь к владельцу опроса."
-// signaturePlaceHolderReadOnly: "No signature" => "Без подписи"// tabTitlePlaceholder: "New Panel" => "Новая панель"// deselectAllItemText: "Deselect all" => "Отмена выбора всех"
+// cancel: "Cancel" => "Отмена"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Ваш ответ превышает 64 КБ. Уменьшите размер файла (файлов) и повторите попытку или обратитесь к владельцу опроса."
+// signaturePlaceHolderReadOnly: "No signature" => "Без подписи"
+// tabTitlePlaceholder: "New Panel" => "Новая панель"
+// deselectAllItemText: "Deselect all" => "Отмена выбора всех"
 // textNoDigitsAllow: "Numbers are not allowed." => "Номера не допускаются."
+// choices_Choice: "Choice option" => "Вариант выбора"
+// loadingPage: "Loading..." => "Загрузка..."
+// loadingData: "Loading..." => "Загрузка..."

@@ -1,6 +1,6 @@
 import { Action, ComputedUpdater, IElement, Question, SurveyModel, property, settings } from "survey-core";
 import { getLocString } from "../editorLocalization";
-import { scrollElementIntoView } from "../utils/utils";
+import { scrollElementIntoView } from "../utils/creator-utils";
 import { SearchManager } from "../components/search-manager";
 export class SearchManagerPropertyGrid extends SearchManager {
   private highlightedEditorClass = " spg-question--highlighted";
@@ -11,7 +11,6 @@ export class SearchManagerPropertyGrid extends SearchManager {
   public get propertyGridNoResultsFound(): string { return getLocString("ed.propertyGridNoResultsFound"); }
 
   @property() survey: SurveyModel;
-  @property() isVisible: boolean;
   @property({ defaultValue: [] }) allMatches: Array<Question>;
 
   private lastCollapsedElement: IElement;

@@ -59,12 +59,13 @@ export var germanSurveyStrings = {
   addColumn: "Spalte hinzufügen",
   addRow: "Zeile hinzufügen",
   removeRow: "Entfernen",
-  emptyRowsText: "Es gibt keine Reihen.",
+  noRowsText: "Es gibt keine Reihen.",
   addPanel: "Neu hinzufügen",
   removePanel: "Entfernen",
   showDetails: "Details anzeigen",
   hideDetails: "Details ausblenden",
   choices_Item: "Element",
+  choices_Choice: "Wahlmöglichkeit",
   matrix_column: "Spalte",
   matrix_row: "Zeile",
   multipletext_itemname: "Text",
@@ -99,6 +100,8 @@ export var germanSurveyStrings = {
   modalApplyButtonText: "Anwenden",
   filterStringPlaceholder: "Tippen Sie, um zu suchen...",
   emptyMessage: "Es gibt noch keine Daten.",
+  loadingPage: "Wird hochgeladen...",
+  loadingData: "Wird hochgeladen...",
   noEntriesText: "Es gibt noch keine Einträge.\nKlicken Sie auf die Schaltfläche unten, um einen neuen Eintrag hinzuzufügen.",
   noEntriesReadonlyText: "Es gibt keine Einträge.",
   tabTitlePlaceholder: "Neues Panel",
@@ -114,5 +117,9 @@ setupLocale({ localeCode: "de", strings: germanSurveyStrings, nativeName: "deuts
 
 // The following strings have been translated by a machine translation service
 // Remove those strings that you have corrected manually
-// tabTitlePlaceholder: "New Panel" => "Neues Panel"// deselectAllItemText: "Deselect all" => "Alle abwählen"
+// tabTitlePlaceholder: "New Panel" => "Neues Panel"
+// deselectAllItemText: "Deselect all" => "Alle abwählen"
 // textNoDigitsAllow: "Numbers are not allowed." => "Zahlen sind nicht erlaubt."
+// choices_Choice: "Choice option" => "Wahlmöglichkeit"
+// loadingPage: "Loading..." => "Wird hochgeladen..."
+// loadingData: "Loading..." => "Wird hochgeladen..."

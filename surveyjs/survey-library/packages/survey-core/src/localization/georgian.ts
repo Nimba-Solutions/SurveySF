@@ -59,12 +59,13 @@ export var georgianSurveyStrings = {
   addColumn: "სვეტის დამატება",
   addRow: "რიგის დამატება",
   removeRow: "წაშლა",
-  emptyRowsText: "რიგები არ არის.",
+  noRowsText: "რიგები არ არის.",
   addPanel: "ახალი დამატება",
   removePanel: "წაშლა",
   showDetails: "დეტალების ჩვენება",
   hideDetails: "დეტალების დამალვა",
   choices_Item: "ნივთი",
+  choices_Choice: "არჩევანის ვარიანტი",
   matrix_column: "სვეტი",
   matrix_row: "რიგი",
   multipletext_itemname: "ტექსტი",
@@ -99,6 +100,8 @@ export var georgianSurveyStrings = {
   modalApplyButtonText: "მიღება",
   filterStringPlaceholder: "ჩაწერეთ ძებნა...",
   emptyMessage: "მონაცემები არ არის საჩვენებლად",
+  loadingPage: "იტვირთება...",
+  loadingData: "იტვირთება...",
   noEntriesText: "ჯერ არ არის ჩანაწერები.\nდააჭირეთ ქვემოთ მოცემულ ღილაკს, რომ დაამატოთ ახალი ჩანაწერი.",
   noEntriesReadonlyText: "არ არსებობს ჩანაწერები.",
   tabTitlePlaceholder: "ახალი პანელი",
@@ -148,7 +151,7 @@ setupLocale({ localeCode: "ka", strings: georgianSurveyStrings, nativeName: "ქ
 // addColumn: "Add Column" => "სვეტის დამატება"
 // addRow: "Add Row" => "რიგის დამატება"
 // removeRow: "Remove" => "წაშლა"
-// emptyRowsText: "There are no rows." => "რიგები არ არის."
+// noRowsText: "There are no rows." => "რიგები არ არის."
 // addPanel: "Add new" => "ახალი დამატება"
 // removePanel: "Remove" => "წაშლა"
 // choices_Item: "item" => "ნივთი"
@@ -185,16 +188,24 @@ setupLocale({ localeCode: "ka", strings: georgianSurveyStrings, nativeName: "ქ
 // more: "More" => "სრულად"
 // tagboxDoneButtonCaption: "OK" => "კარგი"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "ყველა არჩევანი რანჟირებულია"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "გადაიტანეთ და ჩამოაგდეთ არჩევანი აქ, რომ დაასახელოთ ისინი"// takePhotoCaption: "Take Photo" => "გადაიღეთ ფოტო"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "გადაიტანეთ და ჩამოაგდეთ არჩევანი აქ, რომ დაასახელოთ ისინი"
+// takePhotoCaption: "Take Photo" => "გადაიღეთ ფოტო"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "დააჭირეთ ქვემოთ მოცემულ ღილაკს, რომ გადაიღოთ ფოტო კამერის გამოყენებით."
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "გადაიტანეთ და ჩამოაგდეთ ან შეარჩიეთ ფაილი კამერის გამოყენებით ფოტოს ასატვირთად ან გადასაღებად."
-// replaceFileCaption: "Replace file" => "ფაილის შეცვლა"// eachRowUniqueError: "Each row must have a unique value." => "თითოეულ რიგს უნდა ჰქონდეს უნიკალური მნიშვნელობა."
+// replaceFileCaption: "Replace file" => "ფაილის შეცვლა"
+// eachRowUniqueError: "Each row must have a unique value." => "თითოეულ რიგს უნდა ჰქონდეს უნიკალური მნიშვნელობა."
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "ფაილების ატვირთვა შეუძლებელია. გთხოვთ, დაამატოთ დამმუშავებელი 'onUploadFiles' ღონისძიებისთვის."
 // showDetails: "Show Details" => "დეტალების ჩვენება"
 // hideDetails: "Hide Details" => "დეტალების დამალვა"
 // ok: "OK" => "კარგი"
 // cancel: "Cancel" => "გაუქმება"
 // refuseItemText: "Refuse to answer" => "უარი პასუხზე"
-// dontKnowItemText: "Don't know" => "არ ვიცი"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "თქვენი პასუხი აღემატება 64KB. გთხოვთ, შეამციროთ თქვენი ფაილ(ებ)ის ზომა და სცადოთ ხელახლა ან დაუკავშირდეთ გამოკითხვის მფლობელს."
-// signaturePlaceHolderReadOnly: "No signature" => "ხელმოწერა არ არის"// tabTitlePlaceholder: "New Panel" => "ახალი პანელი"// deselectAllItemText: "Deselect all" => "ყველას არჩევა"
+// dontKnowItemText: "Don't know" => "არ ვიცი"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "თქვენი პასუხი აღემატება 64KB. გთხოვთ, შეამციროთ თქვენი ფაილ(ებ)ის ზომა და სცადოთ ხელახლა ან დაუკავშირდეთ გამოკითხვის მფლობელს."
+// signaturePlaceHolderReadOnly: "No signature" => "ხელმოწერა არ არის"
+// tabTitlePlaceholder: "New Panel" => "ახალი პანელი"
+// deselectAllItemText: "Deselect all" => "ყველას არჩევა"
 // textNoDigitsAllow: "Numbers are not allowed." => "ნომრები არ არის დაშვებული."
+// choices_Choice: "Choice option" => "არჩევანის ვარიანტი"
+// loadingPage: "Loading..." => "იტვირთება..."
+// loadingData: "Loading..." => "იტვირთება..."

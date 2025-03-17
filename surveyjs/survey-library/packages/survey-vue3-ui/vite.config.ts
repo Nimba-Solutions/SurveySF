@@ -16,9 +16,10 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [vue()],
     build: {
+      emptyOutDir: false,
       sourcemap: mode == "development",
       // Output compiled files to /dist.
-      outDir: "../../build/survey-vue3-ui",
+      outDir: "./build",
       lib: {
         // Set the entry point (file that contains our components exported).
         entry: resolve(__dirname, "src/index.ts"),
@@ -31,16 +32,13 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         // Vue is provided by the parent project, don't compile Vue source-code inside our library.
         external: ["vue", "survey-core"],
-
         plugins: [
           copy({
-            targets: [
-              { src: "./README.md", dest: "../../build/survey-vue3-ui" },
-            ],
+            targets: [{ src: "./README.md", dest: "./build" }],
           }),
           generatePackageJson({
             inputFolder: "publish",
-            outputFolder: "../../build/survey-vue3-ui",
+            outputFolder: "./build",
             baseContents: json,
           }),
         ],
@@ -48,7 +46,6 @@ export default defineConfig(({ mode }) => {
       },
     },
     resolve: {
-      preserveSymlinks: true,
       alias: {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
       },

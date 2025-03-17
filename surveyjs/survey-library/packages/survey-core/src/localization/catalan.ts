@@ -59,12 +59,13 @@ export var catalanSurveyStrings = {
   addColumn: "Afegeix una columna",
   addRow: "Afegiu una filera",
   removeRow: "Eliminar una filera",
-  emptyRowsText: "No hi ha files.",
+  noRowsText: "No hi ha files.",
   addPanel: "Afegeix un nou",
   removePanel: "Treure",
   showDetails: "Mostra els detalls",
   hideDetails: "Amaga els detalls",
   choices_Item: "ítem",
+  choices_Choice: "Opció d'elecció",
   matrix_column: "Columna",
   matrix_row: "Filera",
   multipletext_itemname: "SMS",
@@ -99,6 +100,8 @@ export var catalanSurveyStrings = {
   modalApplyButtonText: "Aplicar",
   filterStringPlaceholder: "Escriviu per cercar...",
   emptyMessage: "No hi ha dades per mostrar",
+  loadingPage: "Càrrega...",
+  loadingData: "Càrrega...",
   noEntriesText: "Encara no hi ha entrades.\nFeu clic al botó següent per afegir una entrada nova.",
   noEntriesReadonlyText: "No hi ha entrades.",
   tabTitlePlaceholder: "Nou Panell",
@@ -137,7 +140,7 @@ setupLocale({ localeCode: "ca", strings: catalanSurveyStrings, nativeName: "cata
 // confirmDelete: "Do you want to delete the record?" => "Vols eliminar el registre?"
 // keyDuplicationError: "This value should be unique." => "Aquest valor ha de ser únic."
 // addColumn: "Add Column" => "Afegeix una columna"
-// emptyRowsText: "There are no rows." => "No hi ha files."
+// noRowsText: "There are no rows." => "No hi ha files."
 // addPanel: "Add new" => "Afegeix un nou"
 // removePanel: "Remove" => "Treure"
 // choices_Item: "item" => "ítem"
@@ -172,16 +175,24 @@ setupLocale({ localeCode: "ca", strings: catalanSurveyStrings, nativeName: "cata
 // more: "More" => "Més"
 // tagboxDoneButtonCaption: "OK" => "D'ACORD"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "Totes les opcions estan classificades"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Arrossegueu i deixeu anar les opcions aquí per classificar-les"// takePhotoCaption: "Take Photo" => "Fer foto"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Arrossegueu i deixeu anar les opcions aquí per classificar-les"
+// takePhotoCaption: "Take Photo" => "Fer foto"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "Feu clic al botó següent per fer una foto amb la càmera."
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "Arrossegueu i deixeu anar o seleccioneu un fitxer per penjar-lo o fer-ne una foto amb la càmera."
-// replaceFileCaption: "Replace file" => "Substitueix el fitxer"// eachRowUniqueError: "Each row must have a unique value." => "Cada fila ha de tenir un valor únic."
+// replaceFileCaption: "Replace file" => "Substitueix el fitxer"
+// eachRowUniqueError: "Each row must have a unique value." => "Cada fila ha de tenir un valor únic."
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "No es poden carregar fitxers. Afegiu un controlador per a l'esdeveniment 'onUploadFiles'."
 // showDetails: "Show Details" => "Mostra els detalls"
 // hideDetails: "Hide Details" => "Amaga els detalls"
 // ok: "OK" => "D'ACORD"
 // cancel: "Cancel" => "Cancel·lar"
 // refuseItemText: "Refuse to answer" => "Negar-se a respondre"
-// dontKnowItemText: "Don't know" => "No sé"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "La teva resposta supera els 64KB. Reduïu la mida dels fitxers i torneu-ho a provar o poseu-vos en contacte amb el propietari de l'enquesta."
-// signaturePlaceHolderReadOnly: "No signature" => "Sense signatura"// tabTitlePlaceholder: "New Panel" => "Nou Panell"// deselectAllItemText: "Deselect all" => "Desselecciona-ho tot"
+// dontKnowItemText: "Don't know" => "No sé"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "La teva resposta supera els 64KB. Reduïu la mida dels fitxers i torneu-ho a provar o poseu-vos en contacte amb el propietari de l'enquesta."
+// signaturePlaceHolderReadOnly: "No signature" => "Sense signatura"
+// tabTitlePlaceholder: "New Panel" => "Nou Panell"
+// deselectAllItemText: "Deselect all" => "Desselecciona-ho tot"
 // textNoDigitsAllow: "Numbers are not allowed." => "No es permeten números."
+// choices_Choice: "Choice option" => "Opció d'elecció"
+// loadingPage: "Loading..." => "Càrrega..."
+// loadingData: "Loading..." => "Càrrega..."

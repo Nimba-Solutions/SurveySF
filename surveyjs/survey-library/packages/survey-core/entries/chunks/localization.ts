@@ -1,6 +1,7 @@
 import "../../src/localization/arabic";
 import "../../src/localization/basque";
 import "../../src/localization/bulgarian";
+import "../../src/localization/burmese";
 import "../../src/localization/catalan";
 import "../../src/localization/croatian";
 import "../../src/localization/czech";
@@ -48,3 +49,4 @@ import "../../src/localization/vietnamese";
 import "../../src/localization/welsh";
 import "../../src/localization/telugu";
 import "../../src/localization/philippines";
+import "../../src/localization/slovenian";

@@ -27,11 +27,7 @@ module.exports = {
   },
   getLocale: function(name) {
     const text = this.readFile(name);
-    let loc = this.getLocaleByText(text, "surveyLocalization.locales[\"");
-    if(!!loc) return loc;
-    return this.getLocaleByText(text, "surveyLocalization.setupLocale(\"");
-  },
-  getLocaleByText: function(text, subStr) {
+    let subStr = "localeCode: \"";
     let index = text.indexOf(subStr);
     if(index < 0) return undefined;
     index += subStr.length;
@@ -58,7 +54,7 @@ module.exports = {
     let content = text.substring(0, start + startStr.length) +
       newText + text.substring(end);
     let missedKeysStr = "";
-    let translatedKeysStr = "";
+    let translatedKeysStr = "\n";
     if(missedKeys > 0) {
       missedKeysStr = "// This dictionary contains " + missedKeys + " untranslated or inherited localization strings.\n// These strings are commented out. Uncomment and edit them if you want to add your translations.\n";
     }
@@ -73,7 +69,7 @@ module.exports = {
         const item = translatedKeys[i];
         keys.push("// " + item.key + ": " + JSON.stringify(item.english) + " => " + JSON.stringify(item.translation));
       }
-      translatedKeysStr = keys.join("\n");
+      translatedKeysStr += keys.join("\n");
     }
     const importIndex = content.indexOf("import {");
     if(importIndex > 0) {

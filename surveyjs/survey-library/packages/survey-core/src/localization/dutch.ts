@@ -59,12 +59,13 @@ export var dutchSurveyStrings = {
   addColumn: "Voeg kolom toe",
   addRow: "Voeg rij toe",
   removeRow: "Verwijder",
-  emptyRowsText: "Er zijn geen rijen.",
+  noRowsText: "Er zijn geen rijen.",
   addPanel: "Nieuwe toevoegen",
   removePanel: "Verwijder",
   showDetails: "Toon details",
   hideDetails: "Verberg details",
   choices_Item: "onderwerp",
+  choices_Choice: "Keuze optie",
   matrix_column: "Kolom",
   matrix_row: "Rij",
   multipletext_itemname: "Tekst",
@@ -99,6 +100,8 @@ export var dutchSurveyStrings = {
   modalApplyButtonText: "Toepassen",
   filterStringPlaceholder: "Typ om te zoeken...",
   emptyMessage: "Geen gegevens om weer te geven",
+  loadingPage: "Laden...",
+  loadingData: "Laden...",
   noEntriesText: "Er zijn nog geen inzendingen.\nKlik op de onderstaande knop om een nieuw item toe te voegen.",
   noEntriesReadonlyText: "Er zijn geen inzendingen.",
   tabTitlePlaceholder: "Nieuw paneel",
@@ -119,7 +122,7 @@ setupLocale({ localeCode: "nl", strings: dutchSurveyStrings, nativeName: "nederl
 // ratingOptionsCaption: "Select..." => "Selecteren..."
 // minError: "The value should not be less than {0}" => "De waarde mag niet lager zijn dan {0}"
 // maxError: "The value should not be greater than {0}" => "De waarde mag niet groter zijn dan {0}"
-// emptyRowsText: "There are no rows." => "Er zijn geen rijen."
+// noRowsText: "There are no rows." => "Er zijn geen rijen."
 // multipletext_itemname: "text" => "Sms"
 // modalCancelButtonText: "Cancel" => "Annuleren"
 // modalApplyButtonText: "Apply" => "Toepassen"
@@ -130,16 +133,24 @@ setupLocale({ localeCode: "nl", strings: dutchSurveyStrings, nativeName: "nederl
 // more: "More" => "Meer"
 // tagboxDoneButtonCaption: "OK" => "OK"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "Alle keuzes zijn gerangschikt"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Drag en drop keuzes hier om ze te rangschikken"// takePhotoCaption: "Take Photo" => "Foto maken"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Drag en drop keuzes hier om ze te rangschikken"
+// takePhotoCaption: "Take Photo" => "Foto maken"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "Klik op de onderstaande knop om een foto te maken met de camera."
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "Sleep en zet neer of selecteer een bestand om te uploaden of maak een foto met de camera."
-// replaceFileCaption: "Replace file" => "Bestand vervangen"// eachRowUniqueError: "Each row must have a unique value." => "Elke rij moet een unieke waarde hebben."
+// replaceFileCaption: "Replace file" => "Bestand vervangen"
+// eachRowUniqueError: "Each row must have a unique value." => "Elke rij moet een unieke waarde hebben."
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "Bestanden kunnen niet worden geüpload. Voeg een handler toe voor de gebeurtenis 'onUploadFiles'."
 // showDetails: "Show Details" => "Toon details"
 // hideDetails: "Hide Details" => "Verberg details"
 // ok: "OK" => "OK"
 // cancel: "Cancel" => "Annuleren"
 // refuseItemText: "Refuse to answer" => "Weiger te antwoorden"
-// dontKnowItemText: "Don't know" => "Weet niet"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Uw antwoord is groter dan 64 kB. Verklein de grootte van uw bestand(en) en probeer het opnieuw of neem contact op met een enquête-eigenaar."
-// signaturePlaceHolderReadOnly: "No signature" => "Geen handtekening"// tabTitlePlaceholder: "New Panel" => "Nieuw paneel"// deselectAllItemText: "Deselect all" => "Alles deselecteren"
+// dontKnowItemText: "Don't know" => "Weet niet"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Uw antwoord is groter dan 64 kB. Verklein de grootte van uw bestand(en) en probeer het opnieuw of neem contact op met een enquête-eigenaar."
+// signaturePlaceHolderReadOnly: "No signature" => "Geen handtekening"
+// tabTitlePlaceholder: "New Panel" => "Nieuw paneel"
+// deselectAllItemText: "Deselect all" => "Alles deselecteren"
 // textNoDigitsAllow: "Numbers are not allowed." => "Nummers zijn niet toegestaan."
+// choices_Choice: "Choice option" => "Keuze optie"
+// loadingPage: "Loading..." => "Laden..."
+// loadingData: "Loading..." => "Laden..."

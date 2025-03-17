@@ -1,5 +1,5 @@
 import { SurveySimulatorModel } from "../simulator";
-import { Base, propertyArray, property, PageModel, SurveyModel, Action, IAction, ActionContainer, ComputedUpdater, defaultV2Css, createDropdownActionModel, surveyLocalization, ITheme } from "survey-core";
+import { Base, propertyArray, property, PageModel, SurveyModel, Action, IAction, ActionContainer, ComputedUpdater, defaultCss, createDropdownActionModel, surveyLocalization, ITheme } from "survey-core";
 import { SurveyCreatorModel } from "../../creator-base";
 import { editorLocalization, getLocString } from "../../editorLocalization";
 import { notShortCircuitAnd } from "../../utils/utils";
@@ -36,7 +36,7 @@ export class PreviewViewModel extends Base {
     onSet: (val: PageModel, target: PreviewViewModel) => {
       if (!!val) {
         const survey = target.simulator.survey;
-        if (survey.firstPageIsStarted) {
+        if (survey.firstPageIsStartPage) {
           if (val === survey.pages[0]) {
             survey.clear(false, true);
           } else {
@@ -72,7 +72,7 @@ export class PreviewViewModel extends Base {
     return this.pages.visibleActions.length > 0 && !this.surveyProvider.isMobileView;
   }
 
-  constructor(protected surveyProvider: SurveyCreatorModel, private startThemeClasses: any = defaultV2Css) {
+  constructor(protected surveyProvider: SurveyCreatorModel, private startThemeClasses: any = defaultCss) {
     super();
     this.simulator = new SurveySimulatorModel(surveyProvider);
     this.pages.cssClasses = {
@@ -224,7 +224,10 @@ export class PreviewViewModel extends Base {
     this.updatePageList();
     this.show();
   }
-
+  private isSurveyRunning(): boolean {
+    const state = this.survey?.state;
+    return state === "running" || state === "starting";
+  }
   public buildActions() {
     const pageActions: Array<Action> = [];
     const setNearPage: (isNext: boolean) => void = (isNext: boolean) => {
@@ -235,7 +238,7 @@ export class PreviewViewModel extends Base {
         newIndex = 0;
       }
       let nearPage: PageModel = this.showInvisibleElements ? this.survey.pages[newIndex] : this.survey.visiblePages[newIndex];
-      if (!isNext && currentIndex === 0 && this.survey.firstPageIsStarted
+      if (!isNext && currentIndex === 0 && this.survey.firstPageIsStartPage
         && this.survey.pages.length > 0) {
         nearPage = this.survey.pages[0];
       }
@@ -246,7 +249,7 @@ export class PreviewViewModel extends Base {
 
     if (this.prevPageAction) {
       this.prevPageAction.visible = <any>new ComputedUpdater<boolean>(() => {
-        const isRunning = this.survey.state === "running";
+        const isRunning = this.isSurveyRunning();
         const isActiveTab = this.getTabName() === this.surveyProvider.activeTab;
         return notShortCircuitAnd(this.isRunning, isActiveTab, this.pageListItems.length > 1) && isRunning;
       });
@@ -279,11 +282,11 @@ export class PreviewViewModel extends Base {
     });
     pageActions.push(this.selectPageAction);
     this.selectPageAction.visible = <any>new ComputedUpdater<boolean>(() => {
-      return this.survey.state === "running";
+      return this.isSurveyRunning();
     });
     if (this.nextPageAction) {
       this.nextPageAction.visible = <any>new ComputedUpdater<boolean>(() => {
-        const isRunning = this.survey.state === "running";
+        const isRunning = this.isSurveyRunning();
         const isActiveTab = this.getTabName() === this.surveyProvider.activeTab;
         return notShortCircuitAnd(this.isRunning, isActiveTab, this.pageListItems.length > 1) && isRunning;
       });
@@ -318,7 +321,7 @@ export class PreviewViewModel extends Base {
   }
   public setTheme(themeName: string, themeMapper: any): void {
     const availableThemes = themeMapper.filter(item => item.name === themeName);
-    let theme = <any>defaultV2Css;
+    let theme = <any>defaultCss;
     if (availableThemes.length > 0) {
       theme = availableThemes[0].theme;
     }
@@ -341,8 +344,8 @@ export class PreviewViewModel extends Base {
   }
   private updatePrevNextPageActionState() {
     if (!this.prevPageAction || !this.survey) return;
-    const isPrevEnabled = this.survey.firstPageIsStarted && this.survey.state !== "starting"
-      || (!this.survey.firstPageIsStarted && !this.survey.isFirstPage);
+    const isPrevEnabled = this.survey.firstPageIsStartPage && this.survey.state !== "starting"
+      || (!this.survey.firstPageIsStartPage && !this.survey.isFirstPage);
     this.prevPageAction.enabled = isPrevEnabled;
     const isNextEnabled = this.survey && this.survey.visiblePages.indexOf(this.activePage) !== this.survey.visiblePages.length - 1;
     this.nextPageAction.enabled = isNextEnabled;

@@ -1,7 +1,7 @@
 import {
-  StylesManager, Base, IAction, ItemValue,
+  Base, IAction, ItemValue,
   JsonObjectProperty, MatrixDropdownColumn, Question,
-  SurveyModel, ILocalizableString, PopupBaseViewModel, SurveyElement
+  SurveyModel, ILocalizableString, PopupBaseViewModel, PageModel
 } from "survey-core";
 
 /**
@@ -93,6 +93,11 @@ export var settings = {
     maxCharsInButtonGroup: 25,
     showNavigationButtons: false,
     enableSearch: true,
+    maxColumns: 0,
+    minChoices: 0,
+    maxChoices: 0,
+    maxRows: 0,
+    maxRateValues: 0,
     maximumColumnsCount: 0,
     minimumChoicesCount: 0,
     maximumChoicesCount: 0,
@@ -106,7 +111,7 @@ export var settings = {
     /**
      * Use it to change the default question JSON on dropping it into designer or converting questions
      */
-    defaultJSON: {
+    defaultJSON: <{ [index: string]: any }>{
       dropdown: {
         choices: ["Item 1", "Item 2", "Item 3"]
       },
@@ -181,7 +186,7 @@ export var settings = {
     indentation: 2,
     exportFileName: "survey.json"
   },
-  useLegacyIcons: true
+  useLegacyIcons: false
 };
 export interface ICollectionItemAllowOperations {
   allowDelete: boolean;
@@ -198,7 +203,15 @@ export interface ICreatorPlugin {
   dispose?: () => void;
   onDesignerSurveyPropertyChanged?: (obj: Base, propName: string) => void;
   model: Base;
-  showOneCategoryInPropertyGrid?: boolean;
+}
+
+export interface ITabOptions {
+  name: string;
+  plugin: ICreatorPlugin;
+  title?: string;
+  iconName?: string;
+  componentName?: string;
+  index?: number;
 }
 
 export interface ISurveyCreatorOptions {
@@ -206,8 +219,15 @@ export interface ISurveyCreatorOptions {
   alwaySaveTextInPropertyEditors: boolean;
   readOnly: boolean;
   maxLogicItemsInCondition: number;
-  showTitlesInExpressions: boolean;
+  /**
+   * @deprecated
+   */
   showObjectTitles: boolean;
+  /**
+   * @deprecated
+   */
+  showTitlesInExpressions: boolean;
+  useElementTitles: boolean;
   allowEditExpressionsInTextEditor: boolean;
   maximumColumnsCount: number;
   minimumChoicesCount: number;
@@ -308,10 +328,6 @@ export interface ISurveyCreatorOptions {
     list: any[],
     variables: string[]
   ): string;
-  onConditionGetTitleCallback(
-    expression: string,
-    title: string
-  ): string;
   isConditionOperatorEnabled(questionName: string, question: Question, operator: string, isEnabled: boolean): boolean;
   onLogicGetTitleCallback(
     expression: string,
@@ -337,6 +353,7 @@ export interface ISurveyCreatorOptions {
     context?: { element: Base, item?: any, elementType?: string, propertyName?: string }
   ): void;
   translationLocalesOrder: Array<string>;
+  canAddPage(pageToAdd?: PageModel): boolean;
 }
 
 export class EmptySurveyCreatorOptions implements ISurveyCreatorOptions {
@@ -350,8 +367,15 @@ export class EmptySurveyCreatorOptions implements ISurveyCreatorOptions {
   alwaySaveTextInPropertyEditors: boolean;
   readOnly: boolean;
   maxLogicItemsInCondition: number;
-  showTitlesInExpressions: boolean;
+  /**
+   * @deprecated
+   */
   showObjectTitles: boolean;
+  /**
+   * @deprecated
+   */
+  showTitlesInExpressions: boolean;
+  useElementTitles: boolean;
   allowEditExpressionsInTextEditor: boolean = true;
   maximumColumnsCount: number = settings.propertyGrid.maximumColumnsCount;
   minimumChoicesCount: number = settings.propertyGrid.minimumChoicesCount;
@@ -474,12 +498,6 @@ export class EmptySurveyCreatorOptions implements ISurveyCreatorOptions {
     list: any[],
     variables: string[]
   ): string { return "asc"; }
-  onConditionGetTitleCallback(
-    expression: string,
-    title: string
-  ): string {
-    return title;
-  }
   isConditionOperatorEnabled(questionName: string, question: Question, operator: string, isEnabled: boolean): boolean { return isEnabled; }
   onLogicGetTitleCallback(
     expression: string,
@@ -497,6 +515,5 @@ export class EmptySurveyCreatorOptions implements ISurveyCreatorOptions {
   doMachineTranslation(fromLocale: string, toLocale: string, strings: Array<string>, callback: (translated: Array<string>) => void): void { }
   chooseFiles(input: HTMLInputElement, callback: (files: File[]) => void, context?: { element: Base, item?: any, elementType?: string, propertyName?: string }): void { }
   translationLocalesOrder: Array<string> = [];
+  canAddPage(pageToAdd?: PageModel): boolean { return true; }
 }
-
-StylesManager.applyTheme("defaultV2");

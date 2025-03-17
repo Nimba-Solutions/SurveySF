@@ -80,32 +80,6 @@ test("Add condition", () => {
   expect(conditionEditor.text).toEqual("{q} = 1 and {q2} = 2");
   expect(conditionEditor.title).toEqual("{q} = 1 and {q2} = 2");
 });
-test("Custom text for condition title", () => {
-  const survey = new SurveyModel({
-    questions: [
-      { type: "text", name: "q1" },
-      { type: "text", name: "q" },
-      { type: "text", name: "q2" }
-    ]
-  });
-  const options = new EmptySurveyCreatorOptions();
-  options.onConditionGetTitleCallback = (expression: string, title: string): string => {
-    if (!expression) return "Please setup the expression";
-    return "Your expression is: " + title;
-  };
-  const conditionEditor = new ConditionEditor(survey, survey.getQuestionByName("q1"), options);
-  expect(conditionEditor.title).toEqual("Please setup the expression");
-  conditionEditor.text = "{q} = 1";
-  expect(conditionEditor.title).toEqual("Your expression is: {q} = 1");
-  conditionEditor.panel.addPanel();
-  expect(conditionEditor.title).toEqual("Please setup the expression");
-  var editPanel = conditionEditor.panel.panels[1];
-  var nameQuestion = editPanel.getQuestionByName("questionName");
-  nameQuestion.value = "q2";
-  editPanel.getQuestionByName("questionValue").value = 2;
-  expect(conditionEditor.title).toEqual("Your expression is: {q} = 1 and {q2} = 2");
-});
-
 test("Do not delete the only condition, but clear it", () => {
   var survey = new SurveyModel({
     questions: [
@@ -1390,7 +1364,7 @@ test("Check text for add panel button", () => {
     new SurveyModel(),
     new QuestionTextModel("q1")
   );
-  expect(editor.panel.panelAddText).toEqual("Add Condition");
+  expect(editor.panel.addPanelText).toEqual("Add Condition");
 });
 test("Show rating/ranking in new line", () => {
   var survey = new SurveyModel({

@@ -671,11 +671,7 @@ QUnit.test("Edit choices in matrix", function (assert) {
     "Update text accordingly"
   );
   question.choices[0].locText.text = "item1";
-  assert.equal(
-    matrix.visibleRows[0].cells[1].question.isEmpty(),
-    true,
-    "text is equal to value"
-  );
+  assert.equal(matrix.visibleRows[0].cells[1].question.value, "item1", "Do not reset tedt");
 });
 
 QUnit.test("Edit choices in matrix with custom property", function (assert) {
@@ -1788,4 +1784,16 @@ QUnit.test("Column visible property", function (assert) {
   assert.equal(visibleQuestion.value, false, "column visible, #3");
   assert.equal(column.visible, false, "column visible property, #3");
   assert.equal(Serializer.getObjPropertyValue(column, "visible"), false, "Serializer.getObjPropertyValue, #3");
+});
+QUnit.test("Multiple text item, onPropertyValueChanged", function (assert) {
+  const question = new QuestionMultipleTextModel("q1");
+  const item = question.addItem("item1");
+  const logs = new Array<string>();
+  item.onPropertyChanged.add((sender, options) => {
+    logs.push(options.name);
+  });
+  item.name = "item2";
+  item.title = "Item 2";
+  item.validators.push(new ExpressionValidator("{q1}=1"));
+  assert.deepEqual(logs, ["name", "title", "validators"], "#1");
 });

@@ -1,6 +1,6 @@
 import { url, setJSON, getJSON, getToolboxItemByText } from "../helper";
 import { Selector } from "testcafe";
-const title = "Property Grid";
+const title = "Width of survey on the designer surface";
 
 fixture`${title}`.page`${url}`.beforeEach(async (t) => {
   await t.resizeWindow(1920, 1080);
@@ -42,8 +42,8 @@ test("Change survey width 1", async (t) => {
     .pressKey("tab");
 
   await t
-    .expect(Selector(".sd-container-modern").clientWidth).gte(1200)
-    .expect(Selector(".sd-container-modern").clientWidth).lte(1220);
+    .expect(Selector(".sd-container-modern").clientWidth).gte(1175)
+    .expect(Selector(".sd-container-modern").clientWidth).lte(1200);
 });
 
 test("Change survey width 2", async (t) => {

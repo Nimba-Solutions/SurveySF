@@ -59,12 +59,13 @@ export var thaiStrings = {
   addColumn: "เพิ่มคอลัมน์",
   addRow: "เพิ่มแถว",
   removeRow: "ลบ",
-  emptyRowsText: "ไม่มีแถว",
+  noRowsText: "ไม่มีแถว",
   addPanel: "เพิ่ม",
   removePanel: "ลบ",
   showDetails: "แสดงรายละเอียด",
   hideDetails: "ซ่อนรายละเอียด",
   choices_Item: "ชิ้น",
+  choices_Choice: "ตัวเลือกตัวเลือก",
   matrix_column: "คอลัมน์",
   matrix_row: "แถว",
   multipletext_itemname: "ข้อความ",
@@ -99,6 +100,8 @@ export var thaiStrings = {
   modalApplyButtonText: "ใช้",
   filterStringPlaceholder: "พิมพ์เพื่อค้นหา...",
   emptyMessage: "ไม่มีข้อมูลที่จะแสดง",
+  loadingPage: "การโหลด   ",
+  loadingData: "การโหลด   ",
   noEntriesText: "ยังไม่มีรายการ\nคลิกปุ่มด้านล่างเพื่อเพิ่มรายการใหม่",
   noEntriesReadonlyText: "ไม่มีรายการ",
   tabTitlePlaceholder: "แผงใหม่",
@@ -120,7 +123,7 @@ setupLocale({ localeCode: "th", strings: thaiStrings, nativeName: "ไทย", e
 // minError: "The value should not be less than {0}" => "ค่าไม่ควรน้อยกว่า {0}"
 // maxError: "The value should not be greater than {0}" => "ค่าไม่ควรเกิน{0}"
 // filePlaceholder: "Drag and drop a file here or click the button below and choose a file to upload." => "ลากและวางไฟล์ที่นี่หรือคลิกปุ่มด้านล่างและเลือกไฟล์ที่จะอัปโหลด"
-// emptyRowsText: "There are no rows." => "ไม่มีแถว"
+// noRowsText: "There are no rows." => "ไม่มีแถว"
 // multipletext_itemname: "text" => "ข้อความ"
 // signaturePlaceHolder: "Sign here" => "ลงชื่อที่นี่"
 // modalCancelButtonText: "Cancel" => "ยกเลิก"
@@ -132,15 +135,24 @@ setupLocale({ localeCode: "th", strings: thaiStrings, nativeName: "ไทย", e
 // more: "More" => "อีก"
 // tagboxDoneButtonCaption: "OK" => "ตกลง, ได้"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "ตัวเลือกทั้งหมดจะถูกจัดอันดับ"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "ลากและวางตัวเลือกที่นี่เพื่อจัดอันดับ"// takePhotoCaption: "Take Photo" => "ถ่ายรูป"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "ลากและวางตัวเลือกที่นี่เพื่อจัดอันดับ"
+// takePhotoCaption: "Take Photo" => "ถ่ายรูป"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "คลิกปุ่มด้านล่างเพื่อถ่ายภาพโดยใช้กล้อง"
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "ลากและวางหรือเลือกไฟล์ที่จะอัปโหลดหรือถ่ายภาพโดยใช้กล้อง"
-// replaceFileCaption: "Replace file" => "แทนที่ไฟล์"// eachRowUniqueError: "Each row must have a unique value." => "แต่ละแถวต้องมีค่าที่ไม่ซ้ํากัน"
+// replaceFileCaption: "Replace file" => "แทนที่ไฟล์"
+// eachRowUniqueError: "Each row must have a unique value." => "แต่ละแถวต้องมีค่าที่ไม่ซ้ํากัน"
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "ไม่สามารถอัปโหลดไฟล์ได้ โปรดเพิ่มตัวจัดการสําหรับเหตุการณ์ 'onUploadFiles'"
 // showDetails: "Show Details" => "แสดงรายละเอียด"
 // hideDetails: "Hide Details" => "ซ่อนรายละเอียด"
 // ok: "OK" => "ตกลง, ได้"
-// cancel: "Cancel" => "ยกเลิก"// refuseItemText: "Refuse to answer" => "ปฏิเสธที่จะตอบ"
-// dontKnowItemText: "Don't know" => "ไม่ทราบ"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "คําตอบของคุณเกิน 64KB โปรดลดขนาดไฟล์ของคุณแล้วลองอีกครั้งหรือติดต่อเจ้าของแบบสํารวจ"
-// signaturePlaceHolderReadOnly: "No signature" => "ไม่มีลายเซ็น"// tabTitlePlaceholder: "New Panel" => "แผงใหม่"// deselectAllItemText: "Deselect all" => "ยกเลิกการเลือกทั้งหมด"
+// cancel: "Cancel" => "ยกเลิก"
+// refuseItemText: "Refuse to answer" => "ปฏิเสธที่จะตอบ"
+// dontKnowItemText: "Don't know" => "ไม่ทราบ"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "คําตอบของคุณเกิน 64KB โปรดลดขนาดไฟล์ของคุณแล้วลองอีกครั้งหรือติดต่อเจ้าของแบบสํารวจ"
+// signaturePlaceHolderReadOnly: "No signature" => "ไม่มีลายเซ็น"
+// tabTitlePlaceholder: "New Panel" => "แผงใหม่"
+// deselectAllItemText: "Deselect all" => "ยกเลิกการเลือกทั้งหมด"
 // textNoDigitsAllow: "Numbers are not allowed." => "ไม่อนุญาตให้ใช้หมายเลข"
+// choices_Choice: "Choice option" => "ตัวเลือกตัวเลือก"
+// loadingPage: "Loading..." => "การโหลด   "
+// loadingData: "Loading..." => "การโหลด   "

@@ -38,7 +38,7 @@ npm install survey-creator-react --save
 Import Survey Creator and SurveyJS Form Library style sheets as shown below:
 
 ```js
-import "survey-core/defaultV2.min.css";
+import "survey-core/survey-core.min.css";
 import "survey-creator-core/survey-creator-core.min.css";
 ```
 
@@ -46,16 +46,16 @@ import "survey-creator-core/survey-creator-core.min.css";
 
 To configure the Survey Creator component, specify [its properties](https://surveyjs.io/survey-creator/documentation/api-reference/icreatoroptions) in a configuration object. In this tutorial, the object enables the following properties:
 
-- [`showLogicTab`](https://surveyjs.io/survey-creator/documentation/api-reference/icreatoroptions#showLogicTab)        
-Displays the Logic tab in the tab panel.
-
-- [`isAutoSave`](https://surveyjs.io/survey-creator/documentation/api-reference/icreatoroptions#isAutoSave)        
+- [`autoSaveEnabled`](https://surveyjs.io/survey-creator/documentation/api-reference/icreatoroptions#autoSaveEnabled)        
 Automatically saves the survey JSON schema on every change.
+
+- [`collapseOnDrag`](https://surveyjs.io/survey-creator/documentation/api-reference/icreatoroptions#collapseOnDrag)        
+Collapses pages on the design surface when users start dragging a survey element.
 
 ```js
 const creatorOptions = {
-  showLogicTab: true,
-  isAutoSave: true
+  autoSaveEnabled: true,
+  collapseOnDrag: true
 };
 ```
 
@@ -76,12 +76,12 @@ export function SurveyCreatorWidget() {
 
 ```js
 import { SurveyCreator } from "survey-creator-react";
-import "survey-core/defaultV2.min.css";
+import "survey-core/survey-core.min.css";
 import "survey-creator-core/survey-creator-core.min.css";
 
 const creatorOptions = {
-  showLogicTab: true,
-  isAutoSave: true
+  autoSaveEnabled: true,
+  collapseOnDrag: true
 };
 
 export function SurveyCreatorWidget() {
@@ -124,12 +124,12 @@ export function SurveyCreatorWidget() {
 // 'use client'
 
 import { SurveyCreatorComponent, SurveyCreator } from "survey-creator-react";
-import "survey-core/defaultV2.min.css";
+import "survey-core/survey-core.min.css";
 import "survey-creator-core/survey-creator-core.min.css";
 
 const creatorOptions = {
-  showLogicTab: true,
-  isAutoSave: true
+  autoSaveEnabled: true,
+  collapseOnDrag: true
 };
 
 export function SurveyCreatorWidget() {
@@ -143,7 +143,7 @@ export function SurveyCreatorWidget() {
 
 ## Save and Load Survey Model Schemas
 
-Survey Creator produces survey model schemas as JSON objects. You can persist these objects on your server: save updates and restore previously saved schemas. To save a JSON object, implement the `saveSurveyFunc` function. It accepts two arguments:
+Survey Creator produces survey model schemas as JSON objects. You can persist these objects on your server: save updates and restore previously saved schemas. To save a JSON object, implement the [`saveSurveyFunc`](/survey-creator/documentation/api-reference/survey-creator#saveSurveyFunc) function. It accepts two arguments:
 
 - `saveNo`      
 An incremental number of the current change. Since web services are asynchronous, you cannot guarantee that the service receives the changes in the same order as the client sends them. For example, change #11 may arrive to the server faster than change #10. In your web service code, update the storage only if you receive changes with a higher `saveNo`.
@@ -195,6 +195,8 @@ function saveSurveyJson(url, json, saveNo, callback) {
 }
 ```
 
+[View Demo](/survey-creator/examples/set-how-survey-configuration-changes-are-saved/ (linkStyle))
+
 If you are running a NodeJS server, you can check a survey JSON schema before saving it. On the server, create a `SurveyModel` and call its [`toJSON()`](https://surveyjs.io/form-library/documentation/api-reference/survey-data-model#toJSON) method. This method deletes unknown properties and incorrect property values from the survey JSON schema:
 
 ```js
@@ -209,7 +211,7 @@ const correctSurveyJson = survey.toJSON();
 // ...
 ```
 
-To load a survey model schema JSON into Survey Creator, assign the schema to Survey Creator's [`JSON`](https://surveyjs.io/survey-creator/documentation/api-reference/survey-creator#JSON) or [`text`](https://surveyjs.io/survey-creator/documentation/api-reference/survey-creator#text) property. Use `text` if the JSON object is converted to a string; otherwise, use `JSON`. The following code takes a survey model schema from the `localStorage`. If the schema is not found (for example, when Survey Creator is launched for the first time), a default JSON is used:
+To load a survey model schema into Survey Creator, assign the schema to Survey Creator's [`JSON`](https://surveyjs.io/survey-creator/documentation/api-reference/survey-creator#JSON) or [`text`](https://surveyjs.io/survey-creator/documentation/api-reference/survey-creator#text) property. Use `text` if the JSON object is converted to a string; otherwise, use `JSON`. The following code takes a survey model schema from the `localStorage`. If the schema is not found (for example, when Survey Creator is launched for the first time), a default JSON is used:
 
 
 ```js
@@ -244,12 +246,12 @@ export function SurveyCreatorWidget() {
 // 'use client'
 
 import { SurveyCreatorComponent, SurveyCreator } from "survey-creator-react";
-import "survey-core/defaultV2.min.css";
+import "survey-core/survey-core.min.css";
 import "survey-creator-core/survey-creator-core.min.css";
 
 const creatorOptions = {
-  showLogicTab: true,
-  isAutoSave: true
+  autoSaveEnabled: true,
+  collapseOnDrag: true
 };
 
 const defaultJson = {
@@ -350,12 +352,12 @@ To view the application, run `npm run start` in a command line and open [http://
 // 'use client'
 
 import { SurveyCreatorComponent, SurveyCreator } from "survey-creator-react";
-import "survey-core/defaultV2.min.css";
+import "survey-core/survey-core.min.css";
 import "survey-creator-core/survey-creator-core.min.css";
 
 const creatorOptions = {
-  showLogicTab: true,
-  isAutoSave: true
+  autoSaveEnabled: true,
+  collapseOnDrag: true
 };
 
 const defaultJson = {

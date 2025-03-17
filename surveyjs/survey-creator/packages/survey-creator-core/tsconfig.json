@@ -11,11 +11,7 @@
     "baseUrl": ".",
     "declaration": true,
     "declarationDir": "build/typings/",
-    "paths": {
-      "survey-creator-core/themes": [
-        "./src/themes/index.ts"
-      ],
-    },
+    "types": []
   },
   "include": [
     "./src/entries/index.ts"

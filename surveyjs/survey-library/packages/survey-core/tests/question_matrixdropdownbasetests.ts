@@ -10,6 +10,7 @@ import { QuestionMatrixDropdownModel } from "../src/question_matrixdropdown";
 import { QuestionCheckboxModel } from "../src/question_checkbox";
 import { ItemValue } from "../src/itemvalue";
 import { settings } from "../src/settings";
+import { setOldTheme } from "./oldTheme";
 export * from "../src/localization/german";
 
 export default QUnit.module("Survey_QuestionMatrixDropdownBase");
@@ -84,6 +85,7 @@ QUnit.test("table vertical align and alternate rows", function (assert) {
       },
     ],
   });
+  setOldTheme(survey);
 
   const matrix = <QuestionMatrixDropdownModelBase>survey.getQuestionByName("matrix");
 
@@ -229,7 +231,7 @@ QUnit.test("column cell css classes by column cellType test", function (assert) 
       }
     ]
   });
-
+  setOldTheme(survey);
   const matrix = <QuestionMatrixDropdownModelBase>survey.getQuestionByName("matrix");
   assert.equal(matrix.renderedTable.headerRow.cells.length, 6);
   assert.equal(matrix.renderedTable.headerRow.cells[0].className, "sv_matrix_cell_header sv_matrix_cell--dropdown", "empty column");
@@ -350,7 +352,7 @@ QUnit.test("column cell css classes by matrix cellType test", function (assert) 
       }
     ]
   });
-
+  setOldTheme(survey);
   const matrix = <QuestionMatrixDropdownModelBase>survey.getQuestionByName("matrix");
   assert.equal(matrix.renderedTable.headerRow.cells.length, 6);
   assert.equal(matrix.renderedTable.headerRow.cells[0].className, "sv_matrix_cell_header sv_matrix_cell--dropdown", "empty column");
@@ -452,6 +454,7 @@ QUnit.test("Check matrixdropdown cells cssClasses with showInMultipleColumns", f
       },
     ],
   });
+  setOldTheme(survey);
   survey.css = {
     matrixdropdown: {
       headerCell: "custom-header-cell",
@@ -1855,4 +1858,29 @@ QUnit.test("Serialize empty column title, #9007", function (assert) {
   }, "Serialize empty title");
 
   settings.serialization.matrixDropdownColumnSerializeTitle = false;
+});
+QUnit.test("column.defaultDisplayValue", function (assert) {
+  const survey = new SurveyModel();
+  survey.setDesignMode(true);
+  survey.fromJSON({
+    elements: [
+      {
+        cellType: "text",
+        type: "matrixdropdown",
+        name: "q1",
+        "columns": [{ name: "col1", defaultDisplayValue: { default: "col1-default", de: "col1-de" } }],
+        rows: ["Row 1", "Row 2"]
+      }
+    ]
+  });
+  const matrix = <QuestionMatrixDropdownModelBase>survey.getQuestionByName("q1");
+  const rows = matrix.visibleRows;
+  const qCell1 = rows[0].cells[0].question;
+  const qCell2 = rows[1].cells[0].question;
+  assert.equal(qCell1.displayValue, "col1-default", "displayValue, #1");
+  assert.equal(qCell2.displayValue, "col1-default", "displayValue, #2");
+  qCell1.value = "col1-value";
+  survey.locale = "de";
+  assert.equal(qCell1.displayValue, "col1-value", "displayValue, #3");
+  assert.equal(qCell2.displayValue, "col1-de", "displayValue, #4");
 });

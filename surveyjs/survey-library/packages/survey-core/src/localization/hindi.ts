@@ -59,12 +59,13 @@ export var hindiStrings = {
   addColumn: "कॉलम जोड़ें",
   addRow: "पंक्ति जोड़ें",
   removeRow: "हटाए",
-  emptyRowsText: "कोई पंक्तियाँ नहीं हैं.",
+  noRowsText: "कोई पंक्तियाँ नहीं हैं.",
   addPanel: "नया जोड़ें",
   removePanel: "हटाए",
   showDetails: "विवरण दिखाएँ",
   hideDetails: "विवरण छुपाएँ",
   choices_Item: "मद",
+  choices_Choice: "पसंद विकल्प",
   matrix_column: "कॉलम",
   matrix_row: "पंक्ति",
   multipletext_itemname: "टेक्स्ट",
@@ -99,6 +100,8 @@ export var hindiStrings = {
   modalApplyButtonText: "लागू करना",
   filterStringPlaceholder: "खोज करने के लिए टाइप करें...",
   emptyMessage: "प्रदर्शित करने के लिए कोई डेटा नहीं",
+  loadingPage: "लोड।।।",
+  loadingData: "लोड।।।",
   noEntriesText: "अभी तक कोई प्रविष्टियां नहीं हैं।\nनई प्रविष्टि जोड़ने के लिए नीचे दिए गए बटन पर क्लिक करें.",
   noEntriesReadonlyText: "कोई प्रविष्टियाँ नहीं हैं.",
   tabTitlePlaceholder: "नया पैनल",
@@ -121,7 +124,7 @@ setupLocale({ localeCode: "hi", strings: hindiStrings, nativeName: "hindi", engl
 // minError: "The value should not be less than {0}" => "मान {0} से कम नहीं होना चाहिए"
 // maxError: "The value should not be greater than {0}" => "मान {0} से अधिक नहीं होना चाहिए"
 // filePlaceholder: "Drag and drop a file here or click the button below and choose a file to upload." => "यहां एक फ़ाइल खींचें और छोड़ें या नीचे दिए गए बटन पर क्लिक करें और अपलोड करने के लिए एक फ़ाइल चुनें।"
-// emptyRowsText: "There are no rows." => "कोई पंक्तियाँ नहीं हैं."
+// noRowsText: "There are no rows." => "कोई पंक्तियाँ नहीं हैं."
 // multipletext_itemname: "text" => "टेक्स्ट"
 // signaturePlaceHolder: "Sign here" => "यहां साइन करें"
 // modalCancelButtonText: "Cancel" => "रद्द करना"
@@ -133,15 +136,24 @@ setupLocale({ localeCode: "hi", strings: hindiStrings, nativeName: "hindi", engl
 // more: "More" => "अधिक"
 // tagboxDoneButtonCaption: "OK" => "ठीक है"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "सभी विकल्पों को रैंक किया गया है"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "विकल्पों को रैंक करने के लिए उन्हें यहां खींचें और छोड़ दें"// takePhotoCaption: "Take Photo" => "फोटो ले लो"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "विकल्पों को रैंक करने के लिए उन्हें यहां खींचें और छोड़ दें"
+// takePhotoCaption: "Take Photo" => "फोटो ले लो"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "कैमरे का उपयोग करके फोटो लेने के लिए नीचे दिए गए बटन पर क्लिक करें।"
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "कैमरे का उपयोग करके फ़ोटो अपलोड करने या फ़ोटो लेने के लिए किसी फ़ाइल को खींचें और छोड़ें या चुनें."
-// replaceFileCaption: "Replace file" => "फ़ाइल बदलें"// eachRowUniqueError: "Each row must have a unique value." => "प्रत्येक पंक्ति का एक अद्वितीय मान होना चाहिए."
+// replaceFileCaption: "Replace file" => "फ़ाइल बदलें"
+// eachRowUniqueError: "Each row must have a unique value." => "प्रत्येक पंक्ति का एक अद्वितीय मान होना चाहिए."
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "फ़ाइलें अपलोड नहीं की जा सकती. कृपया 'onloadFiles' ईवेंट के लिए एक हैंडलर जोड़ें."
 // showDetails: "Show Details" => "विवरण दिखाएँ"
 // hideDetails: "Hide Details" => "विवरण छुपाएँ"
 // ok: "OK" => "ठीक है"
-// cancel: "Cancel" => "रद्द करना"// refuseItemText: "Refuse to answer" => "जवाब देने से इनकार"
-// dontKnowItemText: "Don't know" => "नहीं मालूम"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "आपकी प्रतिक्रिया 64KB से अधिक है। कृपया अपनी फ़ाइल(फ़ाइलों) का आकार घटाएँ और पुन: प्रयास करें या सर्वेक्षण स्वामी से संपर्क करें."
-// signaturePlaceHolderReadOnly: "No signature" => "कोई हस्ताक्षर नहीं"// tabTitlePlaceholder: "New Panel" => "नया पैनल"// deselectAllItemText: "Deselect all" => "सभी को अचयनित करें"
+// cancel: "Cancel" => "रद्द करना"
+// refuseItemText: "Refuse to answer" => "जवाब देने से इनकार"
+// dontKnowItemText: "Don't know" => "नहीं मालूम"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "आपकी प्रतिक्रिया 64KB से अधिक है। कृपया अपनी फ़ाइल(फ़ाइलों) का आकार घटाएँ और पुन: प्रयास करें या सर्वेक्षण स्वामी से संपर्क करें."
+// signaturePlaceHolderReadOnly: "No signature" => "कोई हस्ताक्षर नहीं"
+// tabTitlePlaceholder: "New Panel" => "नया पैनल"
+// deselectAllItemText: "Deselect all" => "सभी को अचयनित करें"
 // textNoDigitsAllow: "Numbers are not allowed." => "संख्या की अनुमति नहीं है।"
+// choices_Choice: "Choice option" => "पसंद विकल्प"
+// loadingPage: "Loading..." => "लोड।।।"
+// loadingData: "Loading..." => "लोड।।।"

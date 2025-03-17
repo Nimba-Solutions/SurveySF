@@ -6,13 +6,13 @@ import {
   JsonEditorBaseModel,
   TabJsonEditorBasePlugin
 } from "./json-editor-plugin";
-require("./json-editor-textarea.scss");
+import "./json-editor-textarea.scss";
 
 export class TextareaJsonEditorModel extends JsonEditorBaseModel {
   @property({ defaultValue: "", onSet: (_, target) => target.onTextChanged() })
   protected _text: string;
   @propertyArray() private _errors: any[];
-  public ariaLabel: string = getLocString("tabs.editor");
+  public ariaLabel: string = getLocString("tabs.json");
   public textElement: HTMLTextAreaElement;
   @property({ defaultValue: false }) canShowErrors: boolean;
 
@@ -89,7 +89,7 @@ export class TabJsonEditorTextareaPlugin
   implements ICreatorPlugin {
   constructor(creator: SurveyCreatorModel) {
     super(creator);
-    creator.addPluginTab("editor", this, undefined, "svc-tab-json-editor-textarea");
+    creator.addTab({ name: "json", plugin: this, iconName: "icon-codeeditor-24x24", componentName: "svc-tab-json-editor-textarea" });
   }
   protected createModel(
     creator: SurveyCreatorModel

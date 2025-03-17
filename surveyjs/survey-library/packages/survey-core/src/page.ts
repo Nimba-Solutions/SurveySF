@@ -11,7 +11,6 @@ import {
 import { PanelModelBase, PanelModel } from "./panel";
 import { LocalizableString } from "./localizablestring";
 import { CssClassBuilder } from "./utils/cssClassBuilder";
-import { DragDropPageHelperV1 } from "./drag-drop-page-helper-v1";
 
 /**
  * The `PageModel` object describes a survey page and contains properties and methods that allow you to control the page and access its elements (panels and questions).
@@ -20,13 +19,11 @@ import { DragDropPageHelperV1 } from "./drag-drop-page-helper-v1";
  */
 export class PageModel extends PanelModel implements IPage {
   private hasShownValue: boolean = false;
-  private dragDropPageHelper: DragDropPageHelperV1;
   public isPageContainer: boolean;
 
   constructor(name: string = "") {
     super(name);
     this.createLocalizableString("navigationDescription", this, true);
-    this.dragDropPageHelper = new DragDropPageHelperV1(this);
   }
   public getType(): string {
     return "page";
@@ -48,10 +45,12 @@ export class PageModel extends PanelModel implements IPage {
      && !!this.parent && !this.parent.isPanel;
   }
   protected getElementsForRows(): Array<IElement> {
-    const q = this.survey?.currentSingleQuestion;
-    if(!!q) {
-      if((<any>q).page === this) return [q];
-      return [];
+    if(!this.isStartPage) {
+      const q = this.survey?.currentSingleQuestion;
+      if(!!q) {
+        if((<any>q).page === this) return [q];
+        return [];
+      }
     }
     return super.getElementsForRows();
   }
@@ -82,7 +81,7 @@ export class PageModel extends PanelModel implements IPage {
   public getCssTitleExpandableSvg(): string {
     return null;
   }
-  public get cssRequiredText(): string {
+  public get cssRequiredMark(): string {
     return "";
   }
   protected canShowPageNumber(): boolean {
@@ -229,14 +228,42 @@ export class PageModel extends PanelModel implements IPage {
   }
   @property({ defaultValue: -1, onSet: (val: number, target: PageModel) => target.onNumChanged(val) }) num: number;
   /**
-   * Set this property to "hide" to make "Prev", "Next" and "Complete" buttons are invisible for this page. Set this property to "show" to make these buttons visible, even if survey showNavigationButtons property is false.
-   * @see SurveyMode.showNavigationButtons
+   * @deprecated Use the [`showNavigationButtons`](https://surveyjs.io/form-library/documentation/api-reference/page-model#showNavigationButtons) property instead.
    */
   public get navigationButtonsVisibility(): string {
-    return this.getPropertyValue("navigationButtonsVisibility");
+    const result = this.showNavigationButtons;
+    if (result === undefined || result === null) {
+      return "inherit";
+    }
+    return result ? "show" : "hide";
   }
   public set navigationButtonsVisibility(val: string) {
-    this.setPropertyValue("navigationButtonsVisibility", val.toLowerCase());
+    if (typeof val == "string") {
+      val = val.toLowerCase();
+    }
+    this.showNavigationButtons = val;
+  }
+  /**
+   * Gets or sets the visibility of the Start, Next, Previous, and Complete navigation buttons on this page. Overrides the [`showNavigationButtons`](https://surveyjs.io/form-library/documentation/api-reference/survey-data-model#showNavigationButtons) property specified on the survey-level.
+   *
+   * Default value: `undefined` (the visibility depends on the survey-level setting)
+   */
+  public get showNavigationButtons(): boolean | string {
+    return this.getPropertyValue("showNavigationButtons", undefined);
+  }
+  public set showNavigationButtons(val: boolean | string) {
+    this.setShowNavigationButtonsProperty(val);
+  }
+  public setShowNavigationButtonsProperty(val: boolean | string) {
+    if (val === true || val === false) {
+      this.setPropertyValue("showNavigationButtons", val);
+    } else if (val === "show") {
+      this.setPropertyValue("showNavigationButtons", true);
+    } else if (val === "hide") {
+      this.setPropertyValue("showNavigationButtons", false);
+    } else {
+      this.setPropertyValue("showNavigationButtons", undefined);
+    }
   }
   /**
    * Returns `true` if this is the current page.
@@ -254,7 +281,7 @@ export class PageModel extends PanelModel implements IPage {
   get hasShown(): boolean {
     return this.wasShown;
   }
-  public setWasShown(val: boolean) {
+  public setWasShown(val: boolean): void {
     if (val == this.hasShownValue) return;
     this.hasShownValue = val;
     if (this.isDesignMode || val !== true) return;
@@ -264,7 +291,12 @@ export class PageModel extends PanelModel implements IPage {
         (<PanelModelBase><any>els[i]).randomizeElements(this.areQuestionsRandomized);
       }
     }
-    this.randomizeElements(this.areQuestionsRandomized);
+    if(this.randomizeElements(this.areQuestionsRandomized)) {
+      const singleQuestion: any = this.survey?.currentSingleQuestion;
+      if(singleQuestion?.page === this) {
+        this.survey.currentSingleQuestion = this.getFirstVisibleQuestion();
+      }
+    }
   }
   /**
    * Scrolls this page to the top.
@@ -310,8 +342,7 @@ export class PageModel extends PanelModel implements IPage {
     this.setPropertyValue("timeLimit", val);
   }
   /**
-   * Obsolete. Use the [`timeLimit`](https://surveyjs.io/form-library/documentation/api-reference/page-model#timeLimit) property instead.
-   * @deprecated
+   * @deprecated Use the [`timeLimit`](https://surveyjs.io/form-library/documentation/api-reference/page-model#timeLimit) property instead.
    */
   public get maxTimeToFinish(): number {
     return this.timeLimit;
@@ -331,24 +362,6 @@ export class PageModel extends PanelModel implements IPage {
     if (this.survey != null) {
       this.survey.pageVisibilityChanged(this, this.isVisible);
     }
-  }
-  public getDragDropInfo(): any { return this.dragDropPageHelper.getDragDropInfo(); }
-  public dragDropStart(
-    src: IElement,
-    target: IElement,
-    nestedPanelDepth: number = -1
-  ): void {
-    this.dragDropPageHelper.dragDropStart(src, target, nestedPanelDepth);
-  }
-  public dragDropMoveTo(
-    destination: ISurveyElement,
-    isBottom: boolean = false,
-    isEdge: boolean = false
-  ): boolean {
-    return this.dragDropPageHelper.dragDropMoveTo(destination, isBottom, isEdge);
-  }
-  public dragDropFinish(isCancel: boolean = false): IElement {
-    return this.dragDropPageHelper.dragDropFinish(isCancel);
   }
 
   public ensureRowsVisibility() {
@@ -382,11 +395,22 @@ Serializer.addClass(
   "page",
   [
     {
-      name: "navigationButtonsVisibility",
-      default: "inherit",
-      choices: ["inherit", "show", "hide"],
+      name: "showNavigationButtons:boolean",
+      defaultFunc: () => undefined,
+      onSetValue: function (obj: any, value: any) {
+        obj && obj.setShowNavigationButtonsProperty(value);
+      },
+      alternativeName: "navigationButtonsVisibility"
     },
-    { name: "timeLimit:number", alternativeName: "maxTimeToFinish", default: 0, minValue: 0 },
+    {
+      name: "timeLimit:number",
+      alternativeName: "maxTimeToFinish",
+      default: 0,
+      minValue: 0,
+      visibleIf: (obj: any) => {
+        return !!obj.survey && obj.survey.showTimer;
+      }
+    },
     {
       name: "navigationTitle",
       visibleIf: function (obj: any) {

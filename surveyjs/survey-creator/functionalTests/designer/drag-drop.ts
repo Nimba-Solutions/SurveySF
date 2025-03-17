@@ -108,110 +108,110 @@ test("Drag Drop Toolbox All Questions", async (t) => {
 
   await t
     .hover(CheckboxItem)
-    .dragToElement(CheckboxItem, newGhostPagePage, { speed: 0.5 });
+    .dragToElement(CheckboxItem, newGhostPagePage, { speed: 0.5, destinationOffsetY: -50 });
   pagesLength = await getPagesLength();
   await t.expect(pagesLength).eql(2);
 
   await t
     .hover(RadiogroupItem)
-    .dragToElement(RadiogroupItem, newGhostPagePage, { speed: 0.5 });
+    .dragToElement(RadiogroupItem, newGhostPagePage, { speed: 0.5, destinationOffsetY: -50 });
   pagesLength = await getPagesLength();
   await t.expect(pagesLength).eql(3);
 
   await t
     .hover(DropdownItem)
-    .dragToElement(DropdownItem, newGhostPagePage, { speed: 0.5 });
+    .dragToElement(DropdownItem, newGhostPagePage, { speed: 0.5, destinationOffsetY: -50 });
   pagesLength = await getPagesLength();
   await t.expect(pagesLength).eql(4);
 
   await t
     .hover(CommentItem)
-    .dragToElement(CommentItem, newGhostPagePage, { speed: 0.5 });
+    .dragToElement(CommentItem, newGhostPagePage, { speed: 0.5, destinationOffsetY: -50 });
   pagesLength = await getPagesLength();
   await t.expect(pagesLength).eql(5);
   await t.scrollIntoView(newGhostPagePage);
 
   await t
     .hover(RatingToolboxItem)
-    .dragToElement(RatingToolboxItem, newGhostPagePage, { speed: 0.5 });
+    .dragToElement(RatingToolboxItem, newGhostPagePage, { speed: 0.5, destinationOffsetY: -50 });
   pagesLength = await getPagesLength();
   await t.expect(pagesLength).eql(6);
 
   await t
     .hover(RankingItem)
-    .dragToElement(RankingItem, newGhostPagePage, { speed: 0.5 });
+    .dragToElement(RankingItem, newGhostPagePage, { speed: 0.5, destinationOffsetY: -50 });
   pagesLength = await getPagesLength();
   await t.expect(pagesLength).eql(7);
 
   await t
     .hover(SingleInputToolboxItem)
-    .dragToElement(SingleInputToolboxItem, newGhostPagePage, { speed: 0.5 });
+    .dragToElement(SingleInputToolboxItem, newGhostPagePage, { speed: 0.5, destinationOffsetY: -50 });
   pagesLength = await getPagesLength();
   await t.expect(pagesLength).eql(8);
 
   await t
     .hover(HtmlItem)
-    .dragToElement(HtmlItem, newGhostPagePage, { speed: 0.5 });
+    .dragToElement(HtmlItem, newGhostPagePage, { speed: 0.5, destinationOffsetY: -50 });
   pagesLength = await getPagesLength();
   await t.expect(pagesLength).eql(9);
 
   await t
     .hover(SignatureItem)
-    .dragToElement(SignatureItem, newGhostPagePage, { speed: 0.5 });
+    .dragToElement(SignatureItem, newGhostPagePage, { speed: 0.5, destinationOffsetY: -50 });
   pagesLength = await getPagesLength();
   await t.expect(pagesLength).eql(10);
 
   await t
     .hover(ExpressionItem)
-    .dragToElement(ExpressionItem, newGhostPagePage, { speed: 0.5 });
+    .dragToElement(ExpressionItem, newGhostPagePage, { speed: 0.5, destinationOffsetY: -50 });
   pagesLength = await getPagesLength();
   await t.expect(pagesLength).eql(11);
 
   await t
     .hover(FileItem)
-    .dragToElement(FileItem, newGhostPagePage, { speed: 0.5 });
+    .dragToElement(FileItem, newGhostPagePage, { speed: 0.5, destinationOffsetY: -50 });
   pagesLength = await getPagesLength();
   await t.expect(pagesLength).eql(12);
 
   await t
     .hover(MatrixSingleChoiceItem)
-    .dragToElement(MatrixSingleChoiceItem, newGhostPagePage, { speed: 0.5 });
+    .dragToElement(MatrixSingleChoiceItem, newGhostPagePage, { speed: 0.5, destinationOffsetY: -50 });
   pagesLength = await getPagesLength();
   await t.expect(pagesLength).eql(13);
 
   await t
     .hover(MatrixMultipleChoiceItem)
-    .dragToElement(MatrixMultipleChoiceItem, newGhostPagePage, { speed: 0.5 });
+    .dragToElement(MatrixMultipleChoiceItem, newGhostPagePage, { speed: 0.5, destinationOffsetY: -50 });
   pagesLength = await getPagesLength();
   await t.expect(pagesLength).eql(14);
 
   await t
     .hover(MatrixDynamicRowsItem)
-    .dragToElement(MatrixDynamicRowsItem, newGhostPagePage, { speed: 0.5 });
+    .dragToElement(MatrixDynamicRowsItem, newGhostPagePage, { speed: 0.5, destinationOffsetY: -50 });
   pagesLength = await getPagesLength();
   await t.expect(pagesLength).eql(15);
 
   await t
     .hover(MultipleTextItem)
-    .dragToElement(MultipleTextItem, newGhostPagePage, { speed: 0.5 });
+    .dragToElement(MultipleTextItem, newGhostPagePage, { speed: 0.5, destinationOffsetY: -50 });
   pagesLength = await getPagesLength();
   await t.expect(pagesLength).eql(16);
 
   await t
     .hover(PanelItem)
-    .dragToElement(PanelItem, newGhostPagePage, { speed: 0.5 });
+    .dragToElement(PanelItem, newGhostPagePage, { speed: 0.5, destinationOffsetY: -50 });
   pagesLength = await getPagesLength();
   await t.expect(pagesLength).eql(17);
 
   await t
     .hover(PanelDynamicItem)
-    .dragToElement(PanelDynamicItem, newGhostPagePage, { speed: 0.5 });
+    .dragToElement(PanelDynamicItem, newGhostPagePage, { speed: 0.5, destinationOffsetY: -50 });
   pagesLength = await getPagesLength();
   await t.expect(pagesLength).eql(18);
 
   await t
     .hover(BooleanItem)
-    .dragToElement(BooleanItem, newGhostPagePage, { speed: 0.5 })
+    .dragToElement(BooleanItem, newGhostPagePage, { speed: 0.5, destinationOffsetY: -50 })
     .wait(150);
 
   pagesLength = await getPagesLength();
@@ -219,7 +219,7 @@ test("Drag Drop Toolbox All Questions", async (t) => {
 
   await t
     .hover(ImageItem)
-    .dragToElement(BooleanItem, newGhostPagePage, { speed: 0.5 })
+    .dragToElement(BooleanItem, newGhostPagePage, { speed: 0.5, destinationOffsetY: -50 })
     .wait(150);
 
   pagesLength = await getPagesLength();
@@ -1887,25 +1887,25 @@ test("Drag Drop indicator - rows", async (t) => {
     .hover(toolboxToolAction)
     .dispatchEvent(toolboxToolAction, "pointerdown")
 
-    .hover(Selector(".svc-row").nth(0).find(".svc-question__adorner"), { offsetX: 100, offsetY: 5 })
+    .hover(Selector(".svc-row").nth(0).find(".svc-question__adorner"), { offsetX: 100, offsetY: 5, speed: 0.1 })
     .expect(Selector(".svc-row").nth(0).hasClass("svc-row--drag-over-top")).ok()
 
-    .hover(Selector(".svc-row").nth(0).find(".svc-question__adorner"), { offsetX: 100, offsetY: 150 })
+    .hover(Selector(".svc-row").nth(0).find(".svc-question__adorner"), { offsetX: 100, offsetY: 150, speed: 0.1 })
     .expect(Selector(".svc-row").nth(0).hasClass("svc-row--drag-over-top")).notOk()
     .expect(Selector(".svc-row").nth(0).hasClass("svc-row--drag-over-bottom")).ok()
 
-    .hover(Selector(".svc-row").nth(1).find(".svc-question__adorner"), { offsetX: 100, offsetY: 5 })
+    .hover(Selector(".svc-row").nth(1).find(".svc-question__adorner"), { offsetX: 100, offsetY: 5, speed: 0.1 })
     .expect(Selector(".svc-row").nth(0).hasClass("svc-row--drag-over-top")).notOk()
     .expect(Selector(".svc-row").nth(0).hasClass("svc-row--drag-over-bottom")).notOk()
     .expect(Selector(".svc-row").nth(1).hasClass("svc-row--drag-over-top")).ok()
 
-    .hover(Selector(".svc-row").nth(1).find(".svc-question__adorner"), { offsetX: 100, offsetY: 150 })
+    .hover(Selector(".svc-row").nth(1).find(".svc-question__adorner"), { offsetX: 100, offsetY: 150, speed: 0.1 })
     .expect(Selector(".svc-row").nth(0).hasClass("svc-row--drag-over-top")).notOk()
     .expect(Selector(".svc-row").nth(0).hasClass("svc-row--drag-over-bottom")).notOk()
     .expect(Selector(".svc-row").nth(1).hasClass("svc-row--drag-over-top")).notOk()
     .expect(Selector(".svc-row").nth(1).hasClass("svc-row--drag-over-bottom")).ok()
 
-    .hover(Selector(".svc-page__content").nth(1), { offsetX: 100, offsetY: 1 })
+    .hover(Selector(".svc-page__content").nth(1), { offsetX: 100, offsetY: 1, speed: 0.1 })
     .dispatchEvent(Selector(".svc-page__content").nth(1), "pointerup")
     .expect(Selector(".svc-row").nth(0).hasClass("svc-row--drag-over-top")).notOk()
     .expect(Selector(".svc-row").nth(0).hasClass("svc-row--drag-over-bottom")).notOk()
@@ -1964,7 +1964,7 @@ test("Drag Drop page with other pages collapsed on start drag", async (t) => {
   await ClientFunction(() => {
     window["creator"].expandCollapseButtonVisibility = "always";
     window["creator"].allowDragPages = true;
-    window["creator"].collapsePagesOnDrag = true;
+    window["creator"].collapseOnDrag = true;
   })();
 
   await t.resizeWindow(1600, 900);
@@ -2054,6 +2054,7 @@ test("Drag Drop page with other pages collapsed on start drag", async (t) => {
   };
 
   const page1 = Selector("[data-sv-drop-target-survey-page=\"page1\"]");
+  const page2 = Selector("[data-sv-drop-target-survey-page=\"page2\"]");
   const page4 = Selector("[data-sv-drop-target-survey-page=\"page4\"]");
   const page4DragHandle = Selector("[data-sv-drop-target-survey-page=\"page4\"] > .svc-question__drag-area > .svc-question__drag-element");
 
@@ -2064,7 +2065,15 @@ test("Drag Drop page with other pages collapsed on start drag", async (t) => {
     .dispatchEvent(page4DragHandle, "pointerdown")
     .hover(page4, { speed: 0.05 })
     .expect(page4.hasClass("svc-page__content--dragged")).ok()
-    .expect(Selector(".svc-page__content--collapsed").count).eql(4)
+    .expect(Selector(".svc-page__content--collapsed").count).eql(4);
+
+  const pageRectBottom = await page1.getBoundingClientRectProperty("bottom");
+  const pageRectLeft = await page1.getBoundingClientRectProperty("left");
+  await t
+    //test indicator between pages
+    .hover(Selector("#survey-creator"), { offsetX: Math.round(pageRectLeft) + 50, offsetY: Math.round(pageRectBottom) + 6 })
+    .expect(page2.find(".svc-question__drop-indicator--top").visible).ok()
+
     .hover(page1, { offsetX: 150, offsetY: 60, speed: 0.05 })
     .expect(page1.find(".svc-question__drop-indicator--top").visible).notOk()
     .expect(page1.find(".svc-question__drop-indicator--bottom").visible).ok()
@@ -2076,4 +2085,92 @@ test("Drag Drop page with other pages collapsed on start drag", async (t) => {
     .expect(Selector(".svc-page__content--collapsed").count).eql(0);
   const resultJson0 = await getJSON();
   await t.expect(resultJson0).eql(expectedJson);
+});
+
+test("Drag Drop page to denied area and then keep ghost page after added new one", async (t) => {
+  await ClientFunction(() => {
+    window["creator"].expandCollapseButtonVisibility = "always";
+    window["creator"].allowDragPages = true;
+    window["creator"].collapseOnDrag = true;
+  })();
+
+  await t.resizeWindow(1600, 900);
+  const json = {
+    "logoPosition": "right",
+    "pages": [
+      {
+        "name": "page1",
+        "elements": [
+          {
+            "type": "text",
+            "name": "question1"
+          }
+        ]
+      },
+      {
+        "name": "page2",
+        "elements": [
+          {
+            "type": "boolean",
+            "name": "question2"
+          }
+        ]
+      },
+    ]
+  };
+  await setJSON(json);
+
+  const expectedJson = {
+    "logoPosition": "right",
+    "pages": [
+      {
+        "name": "page1",
+        "elements": [
+          {
+            "type": "text",
+            "name": "question1"
+          }
+        ]
+      },
+      {
+        "name": "page2",
+        "elements": [
+          {
+            "type": "boolean",
+            "name": "question2"
+          }
+        ]
+      },
+      {
+        "name": "page3",
+        "elements": [
+          {
+            "type": "text",
+            "name": "question3"
+          }
+        ]
+      }
+    ]
+  };
+
+  const page2 = Selector("[data-sv-drop-target-survey-page=\"page2\"]");
+  const page2DragHandle = Selector("[data-sv-drop-target-survey-page=\"page2\"] > .svc-question__drag-area > .svc-question__drag-element");
+
+  await t
+    .scrollIntoView(page2)
+    .hover(page2, { offsetX: 150, offsetY: 20 })
+    .expect(Selector(".svc-page__content--collapsed").count).eql(0)
+    .dispatchEvent(page2DragHandle, "pointerdown")
+    .hover(Selector(".svc-designer-header"), { speed: 0.05 })
+    .dispatchEvent(page2DragHandle, "pointerup")
+    .wait(500)
+    .expect(Selector(".svc-page__content--collapsed").count).eql(0);
+  await t
+    .scrollIntoView(Selector(".svc-element__add-new-question").nth(2))
+    .expect(Selector(".svc-element__add-new-question").nth(3).exists).notOk()
+    .click(Selector(".svc-element__add-new-question").nth(2));
+  const resultJson0 = await getJSON();
+  await t.expect(resultJson0).eql(expectedJson);
+  await t
+    .expect(Selector(".svc-element__add-new-question").nth(3).visible).ok();
 });

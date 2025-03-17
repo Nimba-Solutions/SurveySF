@@ -12,11 +12,12 @@ import {
   CssClassBuilder
 } from "survey-core";
 import { SurveyCreatorModel } from "../creator-base";
-import { isPanelDynamic } from "../survey-elements";
+import { DropTo, isPanelDynamic } from "../dragdrop-survey-elements";
 import { cleanHtmlElementAfterAnimation, prepareElementForVerticalAnimation } from "survey-core";
 import { listComponentCss } from "./list-theme";
 
 export class SurveyElementActionContainer extends AdaptiveActionContainer {
+  public alwaysShrink = false;
   private needToShrink(item: Action, shrinkTypeConverterAction: boolean) {
     return (item.innerItem.location == "start" && shrinkTypeConverterAction || item.innerItem.location != "start");
   }
@@ -49,28 +50,29 @@ export class SurveyElementActionContainer extends AdaptiveActionContainer {
     this.hiddenItemsListModel.cssClasses = listComponentCss;
   }
 
-  public fit(dimension: number, dotsItemSize: number) {
-    if (dimension <= 0) return;
+  public fit(options: { availableSpace: number, gap?: number }) {
+    if (options.availableSpace <= 0) return;
 
     this.dotsItem.visible = false;
     const items = this.visibleActions;
 
-    if (dimension >= items.reduce((sum, i) => sum += i.maxDimension, 0)) {
-      items.forEach(i => i.mode = "large");
-      return;
-    }
+    if (!this.alwaysShrink) {
+      if (options.availableSpace >= items.reduce((sum, i) => sum += i.maxDimension, 0)) {
+        items.forEach(i => i.mode = "large");
+        return;
+      }
 
-    if (dimension >= items.reduce((sum, i) => sum += this.calcItemSize(i, false), 0)) {
-      this.setModeForActions(false);
-      return;
-    }
+      if (options.availableSpace >= items.reduce((sum, i) => sum += this.calcItemSize(i, false), 0)) {
+        this.setModeForActions(false);
+        return;
+      }
 
-    if (dimension >= items.reduce((sum, i) => sum += this.calcItemSize(i, false, ["convertInputType"]), 0)) {
-      this.setModeForActions(false, ["convertInputType"]);
-      return;
+      if (options.availableSpace >= items.reduce((sum, i) => sum += this.calcItemSize(i, false, ["convertInputType"]), 0)) {
+        this.setModeForActions(false, ["convertInputType"]);
+        return;
+      }
     }
-
-    if (dimension >= items.reduce((sum, i) => sum += this.calcItemSize(i, true), 0)) {
+    if (options.availableSpace >= items.reduce((sum, i) => sum += this.calcItemSize(i, true), 0)) {
       this.setModeForActions(true);
       return;
     }
@@ -93,11 +95,13 @@ export class SurveyElementActionContainer extends AdaptiveActionContainer {
 
 export class SurveyElementAdornerBase<T extends SurveyElement = SurveyElement> extends Base {
   public static AdornerValueName = "__sjs_creator_adorner";
-  public actionContainer: ActionContainer;
   protected expandCollapseAction: IAction;
   @property({ defaultValue: true }) allowDragging: boolean;
   @property({ defaultValue: false }) expandCollapseAnimationRunning: boolean;
   public rootElement: HTMLElement;
+
+  @property({ defaultValue: null }) dragTypeOverMe: DropTo;
+  @property({ defaultValue: false }) isDragMe: boolean;
 
   protected get dragInsideCollapsedContainer(): boolean {
     return this.collapsed && this.creator.dragDropSurveyElements.insideContainer;
@@ -108,8 +112,8 @@ export class SurveyElementAdornerBase<T extends SurveyElement = SurveyElement> e
     onSet: (val, target: SurveyElementAdornerBase<T>) => {
       target.renderedCollapsed = val;
       if (!val) target.needToRenderContent = true;
-      if (target.creator.designerStateManager && !target.creator.designerStateManager.isSuspended && target.surveyElement) {
-        target.creator.designerStateManager.getElementState(target.surveyElement).collapsed = val;
+      if (target.creator.designerStateManager && target.surveyElement) {
+        target.creator.designerStateManager.setElementCollapsed(target.surveyElement, val);
       }
       setTimeout(() => {
         target.creator.survey.pages.forEach(p => p.ensureRowsVisibility());
@@ -225,11 +229,23 @@ export class SurveyElementAdornerBase<T extends SurveyElement = SurveyElement> e
   public get renderedCollapsed(): boolean {
     return !!this._renderedCollapsed;
   }
-  protected createActionContainers() {
-    this.actionContainer = this.createActionContainer();
+  protected createTopActionContainer(): ActionContainer {
+    const actionContainer = new ActionContainer();
+    actionContainer.sizeMode = "small";
+    if (this.creator.expandCollapseButtonVisibility != "never") {
+      actionContainer.setItems([this.expandCollapseAction]);
+      actionContainer.cssClasses = {
+        root: "svc-survey-element-top-toolbar sv-action-bar",
+        item: "svc-survey-element-top-toolbar__item",
+        itemIcon: "svc-survey-element-toolbar-item__icon",
+        itemTitle: "svc-survey-element-toolbar-item__title",
+        itemTitleWithIcon: "svc-survey-element-toolbar-item__title--with-icon",
+      };
+    }
+    return actionContainer;
   }
 
-  protected createActionContainer(): ActionContainer {
+  protected createActionContainer(): SurveyElementActionContainer {
     const actionContainer = new SurveyElementActionContainer();
     actionContainer.dotsItem.popupModel.horizontalPosition = "center";
     return actionContainer;
@@ -277,7 +293,7 @@ export class SurveyElementAdornerBase<T extends SurveyElement = SurveyElement> e
       this.updateActionsProperties();
     }
   };
-  protected surveyElement: T
+  public surveyElement: T
   get element() {
     return this.surveyElement;
   }
@@ -287,10 +303,39 @@ export class SurveyElementAdornerBase<T extends SurveyElement = SurveyElement> e
   ) {
     super();
     this.expandCollapseAction = this.getExpandCollapseAction();
-    this.createActionContainers();
     this.attachToUI(surveyElement);
   }
+  private actionContainerValue: SurveyElementActionContainer;
+  protected get isActionContainerCreated(): boolean {
+    return !!this.actionContainerValue;
+  }
+  public get actionContainer(): SurveyElementActionContainer {
+    if (!this.actionContainerValue) {
+      this.actionContainerValue = this.createActionContainer();
+      if (this.surveyElement) {
+        this.updateActionsContainer(this.surveyElement);
+        this.updateActionsVisibility(false);
+      }
+    }
+    return this.actionContainerValue;
+  }
+  private topActionContainerValue: ActionContainer;
+  public get topActionContainer(): ActionContainer {
+    if (!this.topActionContainerValue) {
+      this.topActionContainerValue = this.createTopActionContainer();
+      if (this.surveyElement) {
+        this.updateActionsVisibility(true);
+      }
+    }
+    return this.topActionContainerValue;
+  }
 
+  private creatorOnLocaleChanged: (sender: Base, options: any) => void = (_, options) => {
+    if (this.surveyElement) {
+      this.updateActionsContainer(this.surveyElement);
+      this.updateActionsProperties();
+    }
+  };
   public static GetAdorner<V = SurveyElementAdornerBase>(surveyElement: SurveyElement): V {
     return surveyElement.getPropertyValue(SurveyElementAdornerBase.AdornerValueName) as V;
   }
@@ -303,8 +348,7 @@ export class SurveyElementAdornerBase<T extends SurveyElement = SurveyElement> e
 
   protected restoreState(): void {
     if (!!this.surveyElement) {
-      const state = this.creator.designerStateManager?.getElementState(this.surveyElement);
-      this.collapsed = state.collapsed;
+      this.collapsed = this.creator.designerStateManager?.getElementCollapsed(this.surveyElement);
     }
     if (!this.surveyElement || this.surveyElement.isInteractiveDesignElement) {
       this.needToRenderContent = !this.collapsed;
@@ -349,6 +393,7 @@ export class SurveyElementAdornerBase<T extends SurveyElement = SurveyElement> e
     }
     if (this.surveyElement != surveyElement) {
       this.setSurveyElement(surveyElement);
+      this.creator.onLocaleChanded.add(this.creatorOnLocaleChanged);
       this.creator.sidebar.onPropertyChanged.add(this.sidebarFlyoutModeChangedFunc);
       this.creator.expandCollapseManager.add(this);
     }
@@ -362,17 +407,22 @@ export class SurveyElementAdornerBase<T extends SurveyElement = SurveyElement> e
     this.rootElement = undefined;
     this.detachOnlyMyElement();
     this.surveyElement = undefined;
+    this.creator.onLocaleChanded.remove(this.creatorOnLocaleChanged);
     this.creator.sidebar.onPropertyChanged.remove(this.sidebarFlyoutModeChangedFunc);
     this.creator.expandCollapseManager.remove(this);
   }
   public dispose(): void {
     this.detachFromUI();
-    if (!this.actionContainer.isDisposed) {
-      this.actionContainer.dispose();
-    }
+    this.disposeActions(this.actionContainerValue);
+    this.disposeActions(this.topActionContainerValue);
     super.dispose();
     this.sidebarFlyoutModeChangedFunc = undefined;
     this.animationCollapsed = undefined;
+  }
+  private disposeActions(container: ActionContainer): void {
+    if (!!container && !container.isDisposed) {
+      container.dispose();
+    }
   }
   protected onElementSelectedChanged(isSelected: boolean): void {
     if (!isSelected) return;
@@ -384,6 +434,7 @@ export class SurveyElementAdornerBase<T extends SurveyElement = SurveyElement> e
     return {
       id: "collapse",
       css: "sv-action-bar-item--collapse",
+      locTooltipName: new ComputedUpdater<string>(() => this.collapsed ? "ed.expandTooltip" : "ed.collapseTooltip") as any,
       iconName: new ComputedUpdater<string>(() => this.collapsed ? expandIcon : collapseIcon) as any,
       iconSize: "auto",
       action: () => {
@@ -392,18 +443,24 @@ export class SurveyElementAdornerBase<T extends SurveyElement = SurveyElement> e
     };
   }
   protected cleanActionsContainer() {
-    const actions = this.actionContainer.actions;
-    this.actionContainer.setItems([]);
+    const container = this.actionContainerValue;
+    if (!container) return;
+    const actions = container.actions;
+    container.setItems([]);
     actions.forEach(action => action.dispose && action.dispose());
   }
   protected updateActionsContainer(surveyElement: SurveyElement) {
+    if (!this.actionContainerValue) return;
     const actions: Array<Action> = [];
     this.buildActions(actions);
     this.creator.onElementMenuItemsChanged(surveyElement, actions);
-    this.actionContainer.setItems(actions);
+    this.actionContainerValue.setItems(actions);
   }
   protected updateActionsProperties(): void {
     if (this.isDisposed) return;
+    this.updateActionsPropertiesCore();
+  }
+  protected updateActionsPropertiesCore(): void {
     this.updateElementAllowOptions(
       this.creator.getElementAllowOperations(this.surveyElement),
       this.isOperationsAllow()
@@ -433,14 +490,24 @@ export class SurveyElementAdornerBase<T extends SurveyElement = SurveyElement> e
   protected isOperationsAllow(): boolean {
     return !this.creator.readOnly;
   }
+  private actionVisibilityCache: { [index: string]: boolean } = {};
   protected updateActionVisibility(id: string, isVisible: boolean) {
-    var action = this.getActionById(id);
-    if (!action) return;
-    if (action.visible == isVisible) return;
-    action.visible = isVisible;
+    var action = this.actionContainerValue?.getActionById(id) || this.topActionContainerValue?.getActionById(id);
+    if (!action) {
+      this.actionVisibilityCache[id] = isVisible;
+    } else {
+      if (action.visible !== isVisible) {
+        action.visible = isVisible;
+      }
+    }
+  }
+  protected updateActionsVisibility(isTop: boolean): void {
+    for (var key in this.actionVisibilityCache) {
+      this.updateActionVisibility(key, this.actionVisibilityCache[key]);
+    }
   }
   public getActionById(id: string): Action {
-    return this.actionContainer.getActionById(id);
+    return this.actionContainer.getActionById(id) || this.topActionContainer.getActionById(id);
   }
   protected buildActions(items: Array<Action>) {
     items.push(

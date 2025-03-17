@@ -15,7 +15,7 @@ export class TabTranslationPlugin implements ICreatorPlugin {
   private importCsvAction: Action;
   private exportCsvAction: Action;
   private sidebarTab: SidebarPageModel;
-  private _showOneCategoryInPropertyGrid: boolean = false;
+  private _showOneCategoryInPropertyGrid: boolean = true;
   private tabControlModel: TabControlModel;
 
   public model: Translation;
@@ -40,7 +40,8 @@ export class TabTranslationPlugin implements ICreatorPlugin {
   }
 
   constructor(private creator: SurveyCreatorModel) {
-    creator.addPluginTab("translation", this);
+    creator.addTab({ name: "translation", plugin: this, iconName: "icon-language" });
+    this.showOneCategoryInPropertyGrid = creator.showOneCategoryInPropertyGrid;
     this.tabControlModel = new TabControlModel(this.creator.sidebar);
     this.sidebarTab = this.creator.sidebar.addPage("translation");
     this.sidebarTab.caption = editorLocalization.getString("ed.translationPropertyGridTitle");
@@ -51,7 +52,7 @@ export class TabTranslationPlugin implements ICreatorPlugin {
     this.updateSettingsSurvey();
     this.model.readOnly = this.creator.readOnly;
     this.model.translationStringVisibilityCallback = (obj: Base, propertyName: string, visible: boolean) => {
-      const options = { obj: obj, propertyName: propertyName, visible: visible };
+      const options = { obj: obj, element: obj, propertyName: propertyName, visible: visible };
       !this.creator.onTranslationStringVisibility.isEmpty && this.creator.onTranslationStringVisibility.fire(this.creator, options);
       return options.visible;
     };
@@ -133,6 +134,7 @@ export class TabTranslationPlugin implements ICreatorPlugin {
     this.importCsvAction.visible = false;
     this.exportCsvAction.visible = false;
     this.creator.sidebar.hideSideBarVisibilityControlActions = false;
+    this.creator.sidebar.header.reset();
     return true;
   }
   private updateTabControl() {
@@ -160,13 +162,14 @@ export class TabTranslationPlugin implements ICreatorPlugin {
         pressed: false,
         action: () => {
           this.creator.sidebar.expandSidebar();
-          this.creator.sidebar.header.subTitle = languagesString;
+          this.creator.sidebar.header.title = languagesString;
           action.active = true;
         }
       });
 
       this.tabControlModel.topToolbar.setItems([action]);
-      this.creator.sidebar.header.subTitle = languagesString;
+      this.creator.sidebar.header.title = languagesString;
+      this.creator.sidebar.header.subTitle = this.sidebarTab.caption;
     }
   }
   private createMergeLocaleWithDefaultActionTitleUpdater(): any {

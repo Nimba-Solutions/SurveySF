@@ -166,7 +166,7 @@ QUnit.test("Check error row visibility", (assert) => {
   });
   const question = <QuestionMultipleTextModel>survey.getAllQuestions()[0];
   assert.notOk(question.getRows()[0].isVisible);
-  survey.completeLastPage();
+  survey.tryComplete();
   assert.ok(question.getRows()[0].isVisible);
   question.items[0].editor.value = "test";
   assert.ok(question.getRows()[0].isVisible);
@@ -242,7 +242,41 @@ QUnit.test("defaultValueExpression executing", (assert) => {
   q1.items[1].value = 5;
   assert.equal(q1.items[2].editor.value, 15, "Calculated correctly");
 });
-QUnit.test("Make itemSize invisible by default", (assert) => {
-  const prop = Serializer.findProperty("multipletext", "itemSize");
+QUnit.test("Make inputSize invisible by default", (assert) => {
+  const prop = Serializer.findProperty("multipletext", "inputSize");
+  assert.strictEqual(prop.visible, false);
+});
+QUnit.test("mutltipletext fromJSON, bug#9400", (assert) => {
+  const survey = new SurveyModel({
+    questions: [
+      {
+        type: "multipletext",
+        name: "q1",
+        items: [
+          {
+            name: "item1"
+          },
+          {
+            name: "item2"
+          },
+          {
+            name: "item3",
+            defaultValueExpression: "{q1.item1} + {q1.item2}"
+          }
+        ]
+      }
+    ]
+  });
+  const q1 = <QuestionMultipleTextModel>survey.getQuestionByName("q1");
+  const q2 = <QuestionMultipleTextModel>survey.currentPage.addNewQuestion("multipletext", "q2");
+  assert.equal(q2.rows.length, 2 * 2, "rows #1");
+  const json = q1.toJSON();
+  delete json["name"];
+  q2.fromJSON(json);
+  assert.equal(q2.items.length, 3, "items");
+  assert.equal(q2.rows.length, 3 * 2, "rows # 2");
+});
+QUnit.test("Make inputSize invisible by default", (assert) => {
+  const prop = Serializer.findProperty("multipletext", "inputSize");
   assert.strictEqual(prop.visible, false);
 });

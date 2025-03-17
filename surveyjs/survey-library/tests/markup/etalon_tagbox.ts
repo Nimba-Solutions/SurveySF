@@ -1,4 +1,4 @@
-import { _setIsTouch, settings } from "survey-core";
+import { _setIsTouch, _setIsTablet } from "survey-core";
 import { registerMarkupTests } from "./helper";
 
 registerMarkupTests(
@@ -42,9 +42,11 @@ registerMarkupTests(
       },
       before: () => {
         _setIsTouch(true);
+        _setIsTablet(true);
       },
       after: () => {
         _setIsTouch(false);
+        _setIsTablet(undefined);
       },
       removeIds: true,
       snapshot: "tagbox-mobile"
@@ -127,8 +129,6 @@ registerMarkupTests(
       },
       removeIds: true,
       initSurvey: (survey) => survey.setDesignMode(true),
-      before: () => { settings.supportCreatorV2 = true; },
-      after: () => { settings.supportCreatorV2 = false; },
       snapshot: "tagbox-disabled-with-value"
     }, {
       name: "Test Tagbox question without clear button markup",

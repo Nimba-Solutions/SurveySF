@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/surveyjs/survey-creator/compare/v2.0.0-rc.10...v2.0.0) (2025-03-07)
+
+## [2.0.0-rc.10](https://github.com/surveyjs/survey-creator/compare/v2.0.0-rc.9...v2.0.0-rc.10) (2025-03-05)
+
+## [2.0.0-rc.9](https://github.com/surveyjs/survey-creator/compare/v2.0.0-rc.8...v2.0.0-rc.9) (2025-03-03)
+
+## [2.0.0-rc.8](https://github.com/surveyjs/survey-creator/compare/v2.0.0-rc.7...v2.0.0-rc.8) (2025-02-25)
+
+## [2.0.0-rc.7](https://github.com/surveyjs/survey-creator/compare/v2.0.0-rc.6...v2.0.0-rc.7) (2025-02-25)
+
+## [2.0.0-rc.6](https://github.com/surveyjs/survey-creator/compare/v2.0.0-rc.5...v2.0.0-rc.6) (2025-02-22)
+
+## [2.0.0-rc.5](https://github.com/surveyjs/survey-creator/compare/v2.0.0-rc.4...v2.0.0-rc.5) (2025-02-20)
+
+## [2.0.0-rc.4](https://github.com/surveyjs/survey-creator/compare/v2.0.0-rc.3...v2.0.0-rc.4) (2025-02-13)
+
+## [2.0.0-rc.3](https://github.com/surveyjs/survey-creator/compare/v2.0.0-rc.2...v2.0.0-rc.3) (2025-02-12)
+
+## [2.0.0-rc.2](https://github.com/surveyjs/survey-creator/compare/v2.0.0-rc.1...v2.0.0-rc.2) (2025-02-03)
+
+## [2.0.0-rc.1](https://github.com/surveyjs/survey-creator/compare/v2.0.0-rc.0...v2.0.0-rc.1) (2025-02-03)
+
+## [2.0.0-rc.0](https://github.com/surveyjs/survey-creator/compare/v1.12.17...v2.0.0-rc.0) (2025-01-29)
+
+### [1.12.17](https://github.com/surveyjs/survey-creator/compare/v1.12.16...v1.12.17) (2024-12-30)
+
+### [1.12.16](https://github.com/surveyjs/survey-creator/compare/v1.12.15...v1.12.16) (2024-12-24)
+
 ### [1.12.15](https://github.com/surveyjs/survey-creator/compare/v1.12.14...v1.12.15) (2024-12-17)
 
 ### [1.12.14](https://github.com/surveyjs/survey-creator/compare/v1.12.13...v1.12.14) (2024-12-10)

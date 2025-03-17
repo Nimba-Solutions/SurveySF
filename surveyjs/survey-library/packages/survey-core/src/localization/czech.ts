@@ -59,12 +59,13 @@ export var czechSurveyStrings = {
   addColumn: "Přidat sloupec",
   addRow: "Přidat řádek",
   removeRow: "Odstranit",
-  emptyRowsText: "Neexistují žádné řádky.",
+  noRowsText: "Neexistují žádné řádky.",
   addPanel: "Přidat nový",
   removePanel: "Odstranit",
   showDetails: "Zobrazit podrobnosti",
   hideDetails: "Skrýt podrobnosti",
   choices_Item: "položka",
+  choices_Choice: "Možnost volby",
   matrix_column: "Sloupec",
   matrix_row: "Řádek",
   multipletext_itemname: "Text",
@@ -99,6 +100,8 @@ export var czechSurveyStrings = {
   modalApplyButtonText: "Použít",
   filterStringPlaceholder: "Zadejte hledaný text...",
   emptyMessage: "Žádná data k zobrazení",
+  loadingPage: "Nakládka...",
+  loadingData: "Nakládka...",
   noEntriesText: "Zatím nejsou žádné záznamy.\nKliknutím na tlačítko níže přidáte novou položku.",
   noEntriesReadonlyText: "Nejsou zde žádné položky.",
   tabTitlePlaceholder: "Nový panel",
@@ -120,7 +123,7 @@ setupLocale({ localeCode: "cs", strings: czechSurveyStrings, nativeName: "češt
 // minError: "The value should not be less than {0}" => "Hodnota by neměla být menší než {0}"
 // maxError: "The value should not be greater than {0}" => "Hodnota by neměla být větší než {0}"
 // filePlaceholder: "Drag and drop a file here or click the button below and choose a file to upload." => "Přetáhněte sem soubor nebo klikněte na tlačítko níže a vyberte soubor, který chcete nahrát."
-// emptyRowsText: "There are no rows." => "Neexistují žádné řádky."
+// noRowsText: "There are no rows." => "Neexistují žádné řádky."
 // multipletext_itemname: "text" => "Text"
 // signaturePlaceHolder: "Sign here" => "Podepište se zde"
 // modalCancelButtonText: "Cancel" => "Zrušit"
@@ -132,16 +135,24 @@ setupLocale({ localeCode: "cs", strings: czechSurveyStrings, nativeName: "češt
 // more: "More" => "Více"
 // tagboxDoneButtonCaption: "OK" => "OK"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "Všechny možnosti jsou seřazeny"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Přetáhněte volby zde a seřaďte je"// takePhotoCaption: "Take Photo" => "Pořídit fotografii"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Přetáhněte volby zde a seřaďte je"
+// takePhotoCaption: "Take Photo" => "Pořídit fotografii"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "Kliknutím na tlačítko níže pořídíte fotografii pomocí fotoaparátu."
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "Přetáhněte nebo vyberte soubor, který chcete nahrát nebo pořiďte fotografii pomocí fotoaparátu."
-// replaceFileCaption: "Replace file" => "Nahradit soubor"// eachRowUniqueError: "Each row must have a unique value." => "Každý řádek musí mít jedinečnou hodnotu."
+// replaceFileCaption: "Replace file" => "Nahradit soubor"
+// eachRowUniqueError: "Each row must have a unique value." => "Každý řádek musí mít jedinečnou hodnotu."
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "Soubory nelze nahrát. Přidejte obslužnou rutinu pro událost 'onUploadFiles'."
 // showDetails: "Show Details" => "Zobrazit podrobnosti"
 // hideDetails: "Hide Details" => "Skrýt podrobnosti"
 // ok: "OK" => "OK"
 // cancel: "Cancel" => "Zrušit"
 // refuseItemText: "Refuse to answer" => "Odmítnout odpovědět"
-// dontKnowItemText: "Don't know" => "Nevím"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Vaše odpověď překračuje 64 kB. Zmenšete prosím velikost svých souborů a zkuste to znovu nebo kontaktujte vlastníka průzkumu."
-// signaturePlaceHolderReadOnly: "No signature" => "Bez podpisu"// tabTitlePlaceholder: "New Panel" => "Nový panel"// deselectAllItemText: "Deselect all" => "Zrušit výběr všech"
+// dontKnowItemText: "Don't know" => "Nevím"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Vaše odpověď překračuje 64 kB. Zmenšete prosím velikost svých souborů a zkuste to znovu nebo kontaktujte vlastníka průzkumu."
+// signaturePlaceHolderReadOnly: "No signature" => "Bez podpisu"
+// tabTitlePlaceholder: "New Panel" => "Nový panel"
+// deselectAllItemText: "Deselect all" => "Zrušit výběr všech"
 // textNoDigitsAllow: "Numbers are not allowed." => "Čísla nejsou povolena."
+// choices_Choice: "Choice option" => "Možnost volby"
+// loadingPage: "Loading..." => "Nakládka..."
+// loadingData: "Loading..." => "Nakládka..."

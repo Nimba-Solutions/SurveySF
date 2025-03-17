@@ -55,7 +55,7 @@
             :class="model.designerCss"
             :style="[
               { maxWidth: model.survey.renderedWidth },
-              model.surveyThemeVariables,
+              model.surfaceCssVariables,
             ]"
           >
             <div
@@ -100,7 +100,7 @@
               />
             </div>
           </div>
-          <div v-if="!model.creator.isMobileView" class="svc-tab-designer__tools">
+          <div v-if="model.showSurfaceTools" class="svc-tab-designer__tools">
             <div
               v-if="model.creator.showPageNavigator"
               class="svc-tab-designer__page-navigator"
@@ -111,7 +111,7 @@
                 :pageEditMode="model.creator.pageEditMode"
               />
               </div>
-              <div v-if="model.hasToolbar" class="svc-tab-designer__toolbar">
+              <div v-if="model.showSurfaceToolbar" class="svc-tab-designer__toolbar">
                 <SvComponent :is="'sv-action-bar'" :model="model.surfaceToolbar" />
               </div>
             </div>

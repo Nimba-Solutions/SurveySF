@@ -3,10 +3,16 @@
 //import "../../src/modern.scss";
 
 import { DomWindowHelper } from "../../src/global_variables_utils";
+import { settings } from "../../src/settings";
 
 export var Version: string;
 export var ReleaseDate: string;
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
 Version = `${process.env.VERSION}`;
+settings.version = Version;
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
 ReleaseDate = `${process.env.RELEASE_DATE}`;
 
 export function checkLibraryVersion(ver: string, libraryName: string): void {
@@ -104,7 +110,7 @@ export {
   VerticalAlignment
 } from "../../src/base-interfaces";
 export { SurveyError } from "../../src/survey-error";
-export { SurveyElementCore, SurveyElement, DragTypeOverMeEnum } from "../../src/survey-element";
+export { SurveyElementCore, SurveyElement } from "../../src/survey-element";
 export { CalculatedValue } from "../../src/calculatedValue";
 export {
   CustomError,
@@ -241,7 +247,6 @@ export { TextPreProcessor } from "../../src/textPreProcessor";
 export { Notifier } from "../../src/notifier";
 export { Cover, CoverCell } from "../../src/header";
 
-export { dxSurveyService } from "../../src/dxSurveyService";
 export { englishStrings } from "../../src/localization/english";
 export { surveyLocalization, surveyStrings, getLocaleString, getLocaleStrings, setupLocale } from "../../src/surveyStrings";
 // export { cultureInfo } from "../../src/cultureInfo";
@@ -259,7 +264,7 @@ export {
 
 export { ListModel } from "../../src/list";
 export { MultiSelectListModel } from "../../src/multiSelectListModel";
-export { PopupModel, createDialogOptions, IDialogOptions } from "../../src/popup";
+export { PopupModel, IDialogOptions } from "../../src/popup";
 export { PopupBaseViewModel } from "../../src/popup-view-model";
 export { PopupDropdownViewModel } from "../../src/popup-dropdown-view-model";
 export { PopupModalViewModel } from "../../src/popup-modal-view-model";
@@ -271,7 +276,7 @@ export {
   ButtonGroupItemModel,
   ButtonGroupItemValue
 } from "../../src/question_buttongroup";
-export { IsMobile, IsTouch, _setIsTouch } from "../../src/utils/devices";
+export { IsMobile, IsTouch, _setIsTouch, _setIsTablet } from "../../src/utils/devices";
 export {
   confirmAction,
   confirmActionAsync,
@@ -299,7 +304,7 @@ export { InputMaskCurrency } from "../../src/mask/mask_currency";
 export * from "../../src/utils/cssClassBuilder";
 export * from "../../src/utils/text-area";
 
-export { surveyCss, defaultV2Css, defaultV2ThemeName } from "../../src/defaultCss/defaultV2Css";
+export { surveyCss, defaultCss, defaultThemeName } from "../../src/defaultCss/defaultCss";
 
 //Uncomment to include the "date" question type.
 //export {default as QuestionDateModel} from "../../src/plugins/question_date";

@@ -1,6 +1,5 @@
 <ng-template #template>
-  <div [class]="model.designerCss" [style.maxWidth]="survey.renderedWidth"
-    [style]="model.surveyThemeVariables">
+  <div [class]="model.designerCss" [style.maxWidth]="survey.renderedWidth" [style]="model.surfaceCssVariables">
     <div *ngIf="creator.allowEditSurveyTitle" class="svc-designer-header">
       <div *ngIf="survey.renderedHasHeader" [class]="survey.css.header" [survey]="survey" sv-ng-survey-header></div>
     </div>
@@ -19,12 +18,12 @@
 
   </div>
 
-  <div *ngIf="!creator.isMobileView" class="svc-tab-designer__tools">
+  <div *ngIf="model.showSurfaceTools" class="svc-tab-designer__tools">
     <div *ngIf="creator.showPageNavigator" class="svc-tab-designer__page-navigator">
       <svc-page-navigator [pagesController]="model.pagesController" [pageEditMode]="creator.pageEditMode">
       </svc-page-navigator>
     </div>
-    <div *ngIf="model.hasToolbar" class="svc-tab-designer__toolbar">
+    <div *ngIf="model.showSurfaceToolbar" class="svc-tab-designer__toolbar">
       <sv-action-bar [model]="model.surfaceToolbar"></sv-action-bar>
     </div>
   </div>

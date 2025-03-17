@@ -1,17 +1,7 @@
-import {
-  Base,
-  SurveyModel,
-  SurveyTemplateRendererTemplateData,
-  QuestionRowModel,
-  DragTypeOverMeEnum,
-  property
-} from "survey-core";
-import { SurveyCreatorModel } from "../creator-base";
-require("./row.scss");
+import "./row.scss";
 
 export class ScrollViewModel {
   private _containerElementValue: HTMLElement;
-  private _rootElementValue: HTMLElement;
   private _scrollbarElement: HTMLElement;
   private _containerBodyElement: HTMLElement;
   private _scrollbarSizerElement: HTMLElement;
@@ -19,9 +9,7 @@ export class ScrollViewModel {
 
   private _lockScroll = false;
 
-  constructor() {
-    //this.dragTypeOverMe = this.row.dragTypeOverMe;
-  }
+  constructor() { }
 
   public setRootElement(element: HTMLElement) {
     this._containerElementValue = element?.querySelector(".svc-scroll__scroller");
@@ -35,7 +23,6 @@ export class ScrollViewModel {
           ? entry.contentBoxSize[0].blockSize
           : entry.contentRect.width;
         this._scrollbarSizerElement.style.height = height + "px";
-        this._scrollbarElement.style.visibility = this._scrollbarElement.clientHeight >= height ? "hidden" : "";
       }
     });
     this._containerBodyResizeObserver.observe(this._containerBodyElement);

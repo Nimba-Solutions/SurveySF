@@ -59,12 +59,13 @@ export var norwegianSurveyStrings = {
   addColumn: "Legg til kolonne",
   addRow: "Legg til rad",
   removeRow: "Fjern",
-  emptyRowsText: "Det er ingen rader.",
+  noRowsText: "Det er ingen rader.",
   addPanel: "Legg til ny",
   removePanel: "Fjerne",
   showDetails: "Vis detaljer",
   hideDetails: "Skjul detaljer",
   choices_Item: "element",
+  choices_Choice: "Valg alternativ",
   matrix_column: "Kolonne",
   matrix_row: "Rad",
   multipletext_itemname: "Tekst",
@@ -99,6 +100,8 @@ export var norwegianSurveyStrings = {
   modalApplyButtonText: "Bruke",
   filterStringPlaceholder: "Skriv for å søke ...",
   emptyMessage: "Ingen data å vise",
+  loadingPage: "Lasting...",
+  loadingData: "Lasting...",
   noEntriesText: "Det er ingen oppføringer ennå.\nKlikk på knappen nedenfor for å legge til en ny oppføring.",
   noEntriesReadonlyText: "Det er ingen oppføringer.",
   tabTitlePlaceholder: "Nytt panel",
@@ -120,7 +123,7 @@ setupLocale({ localeCode: "no", strings: norwegianSurveyStrings, nativeName: "no
 // minError: "The value should not be less than {0}" => "Verdien bør ikke være mindre enn {0}"
 // maxError: "The value should not be greater than {0}" => "Verdien bør ikke være større enn {0}"
 // filePlaceholder: "Drag and drop a file here or click the button below and choose a file to upload." => "Dra og slipp en fil her, eller klikk på knappen nedenfor og velg en fil du vil laste opp."
-// emptyRowsText: "There are no rows." => "Det er ingen rader."
+// noRowsText: "There are no rows." => "Det er ingen rader."
 // multipletext_itemname: "text" => "Tekst"
 // signaturePlaceHolder: "Sign here" => "Logg inn her"
 // modalCancelButtonText: "Cancel" => "Annullere"
@@ -132,16 +135,24 @@ setupLocale({ localeCode: "no", strings: norwegianSurveyStrings, nativeName: "no
 // more: "More" => "Mer"
 // tagboxDoneButtonCaption: "OK" => "OK"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "Alle valg er rangert"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Dra og slipp valg her for å rangere dem"// takePhotoCaption: "Take Photo" => "Ta bilde"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Dra og slipp valg her for å rangere dem"
+// takePhotoCaption: "Take Photo" => "Ta bilde"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "Klikk på knappen nedenfor for å ta et bilde med kameraet."
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "Dra og slipp eller velg en fil for å laste opp eller ta et bilde med kameraet."
-// replaceFileCaption: "Replace file" => "Erstatt fil"// eachRowUniqueError: "Each row must have a unique value." => "Hver rad må ha en unik verdi."
+// replaceFileCaption: "Replace file" => "Erstatt fil"
+// eachRowUniqueError: "Each row must have a unique value." => "Hver rad må ha en unik verdi."
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "Filer kan ikke lastes opp. Legg til et behandlingsprogram for onUploadFiles-hendelsen."
 // showDetails: "Show Details" => "Vis detaljer"
 // hideDetails: "Hide Details" => "Skjul detaljer"
 // ok: "OK" => "OK"
 // cancel: "Cancel" => "Annullere"
 // refuseItemText: "Refuse to answer" => "Nekter å svare"
-// dontKnowItemText: "Don't know" => "Vet ikke"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Svaret ditt overstiger 64 kB. Reduser størrelsen på filen(e) din(e), og prøv på nytt, eller kontakt eieren av en spørreundersøkelse."
-// signaturePlaceHolderReadOnly: "No signature" => "Ingen signatur"// tabTitlePlaceholder: "New Panel" => "Nytt panel"// deselectAllItemText: "Deselect all" => "Fjern merket for alle"
+// dontKnowItemText: "Don't know" => "Vet ikke"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Svaret ditt overstiger 64 kB. Reduser størrelsen på filen(e) din(e), og prøv på nytt, eller kontakt eieren av en spørreundersøkelse."
+// signaturePlaceHolderReadOnly: "No signature" => "Ingen signatur"
+// tabTitlePlaceholder: "New Panel" => "Nytt panel"
+// deselectAllItemText: "Deselect all" => "Fjern merket for alle"
 // textNoDigitsAllow: "Numbers are not allowed." => "Tall er ikke tillatt."
+// choices_Choice: "Choice option" => "Valg alternativ"
+// loadingPage: "Loading..." => "Lasting..."
+// loadingData: "Loading..." => "Lasting..."

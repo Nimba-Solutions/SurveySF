@@ -54,15 +54,15 @@ Certain question types can contain multiple values. Use a dot symbol to access a
     </thead>
     <tbody>
       <tr>
-        <td><a href="/Documentation/Library?id=questionmultipletextmodel" class="v2-class---paragraph-link">Multiple Textboxes</a></td>
+        <td><a href="/Documentation/Library?id=questionmultipletextmodel">Multiple Textboxes</a></td>
         <td><code>{questionname.itemname}</code></td>
       </tr>
       <tr>
-        <td><a href="/Documentation/Library?id=questionmatrixmodel" class="v2-class---paragraph-link">Single-Select Matrix</a></td>
+        <td><a href="/Documentation/Library?id=questionmatrixmodel">Single-Select Matrix</a></td>
         <td><code>{questionname.rowname}</code></td>
       </tr>
       <tr>
-        <td rowspan="2" style="vertical-align:middle"><a href="/Documentation/Library?id=questionmatrixdropdownmodel" class="v2-class---paragraph-link">Multi-Select Matrix</a></td>
+        <td rowspan="2" style="vertical-align:middle"><a href="/Documentation/Library?id=questionmatrixdropdownmodel">Multi-Select Matrix</a></td>
         <td><code>{questionname.rowname.columnname}</code></td>
       </tr>
       <tr>
@@ -86,15 +86,15 @@ In question types whose value is an array, you can use zero-based indexes to acc
     </thead>
     <tbody>
       <tr>
-        <td><a href="https://surveyjs.io/form-library/documentation/api-reference/checkbox-question-model" class="v2-class---paragraph-link">Checkboxes</a>, <br><a href="https://surveyjs.io/form-library/documentation/api-reference/image-picker-question-model" class="v2-class---paragraph-link">Image Picker</a>, <br><a href="https://surveyjs.io/form-library/documentation/api-reference/multiple-text-entry-question-model" class="v2-class---paragraph-link">Multiple Textboxes</a>, <br><a href="https://surveyjs.io/form-library/documentation/api-reference/ranking-question-model" class="v2-class---paragraph-link">Ranking</a></td>
+        <td><a href="https://surveyjs.io/form-library/documentation/api-reference/checkbox-question-model">Checkboxes</a>, <br><a href="https://surveyjs.io/form-library/documentation/api-reference/image-picker-question-model">Image Picker</a>, <br><a href="https://surveyjs.io/form-library/documentation/api-reference/multiple-text-entry-question-model">Multiple Textboxes</a>, <br><a href="https://surveyjs.io/form-library/documentation/api-reference/ranking-question-model">Ranking</a></td>
         <td style="vertical-align:middle"><code>{questionname[index]}</code></td>
       </tr>
       <tr>
-        <td><a href="/Documentation/Library?id=questionpaneldynamicmodel" class="v2-class---paragraph-link">Dynamic Panel</a></td>
+        <td><a href="/Documentation/Library?id=questionpaneldynamicmodel">Dynamic Panel</a></td>
         <td style="vertical-align:middle"><code>{dynamicpanelname[index].questionname}</code></td>
       </tr>
       <tr>
-        <td><a href="/Documentation/Library?id=questionmatrixdynamicmodel" class="v2-class---paragraph-link">Dynamic Matrix</a></td>
+        <td><a href="/Documentation/Library?id=questionmatrixdynamicmodel">Dynamic Matrix</a></td>
         <td style="vertical-align:middle"><code>{dynamicmatrixname[rowindex].columnname}</code></td>
       </tr>
     </tbody>
@@ -114,7 +114,7 @@ You can also use prefixes, such as `row`, `panel`, and `parentPanel`, to access 
     </thead>
     <tbody>
       <tr>
-        <td rowspan="2" style="vertical-align:middle"><a href="/form-library/documentation/api-reference/matrix-table-question-model" class="v2-class---paragraph-link">Single-Select Matrix</a>, <a href="/form-library/documentation/api-reference/matrix-table-with-dropdown-list" class="v2-class---paragraph-link">Multi-Select Matrix</a>, <a href="/form-library/documentation/api-reference/dynamic-matrix-table-question-model" class="v2-class---paragraph-link">Dynamic Matrix</a></td>
+        <td rowspan="2" style="vertical-align:middle"><a href="/form-library/documentation/api-reference/matrix-table-question-model">Single-Select Matrix</a>, <a href="/form-library/documentation/api-reference/matrix-table-with-dropdown-list">Multi-Select Matrix</a>, <a href="/form-library/documentation/api-reference/dynamic-matrix-table-question-model">Dynamic Matrix</a></td>
         <td><code>{row.columnname}</code></td>
         <td>Accesses a cell in the same row.</td>
       </tr>
@@ -123,7 +123,7 @@ You can also use prefixes, such as `row`, `panel`, and `parentPanel`, to access 
         <td>Accesses the row name (the <code>value</code> property within objects in the <a href="https://surveyjs.io/form-library/documentation/api-reference/matrix-table-with-dropdown-list#rows"><code>rows</code></a> array). Use this placeholder if you need to distinguish between matrix rows.</td>
       </tr>
       <tr>
-        <td rowspan="2" style="vertical-align:middle"><a href="/form-library/documentation/api-reference/dynamic-panel-model" class="v2-class---paragraph-link">Dynamic Panel</a></td>
+        <td rowspan="2" style="vertical-align:middle"><a href="/form-library/documentation/api-reference/dynamic-panel-model">Dynamic Panel</a></td>
         <td><code>{panel.questionname}</code></td>
         <td>Accesses a question within the same panel.</td>
       </tr>
@@ -313,7 +313,8 @@ The following built-in functions are available:
 - [`day`](#day)
 - [`weekday`](#weekday)
 - [`getDate`](#getdate)
-- [`diffDays`](#diffdays)
+- [`dateAdd`](#dateadd)
+- [`dateDiff`](#datediff)
 - [`sum`](#sum)
 - [`max`](#max)
 - [`min`](#min)
@@ -455,7 +456,7 @@ Returns the day of the week for a given date as a value from 0 (Sunday) to 6 (Sa
 
 #### `getDate`
 
-*Definition*: `getDate(questionName: expression): Date`
+*Definition*: `getDate(question: expression): Date`
 
 Returns a Date value converted from a given question's value.
 
@@ -465,29 +466,27 @@ Returns a Date value converted from a given question's value.
 
 ---
 
+#### `dateAdd`
+
+*Definition*: `dateAdd(date: any, numberToAdd: number, interval: "days" | "months" | "years"): Date`
+
+Adds or subtracts a specified number of full days (default), months, or years to or from a date value.
+
+*Example*: `"expression": "dateAdd({startDate}, 14, "days")"`
+
+[View Source Code](https://github.com/surveyjs/survey-library/blob/665a7457d79a0b5d7a8f9c0993fab24bce4167a0/packages/survey-core/src/functionsfactory.ts#L269-L286 (linkStyle))
+
+---
+
 #### `dateDiff`
 
-*Definition*: `dateDiff(fromDate: any, toDate: any, "days" | "months" | "years"): number`
+*Definition*: `dateDiff(fromDate: any, toDate: any, interval: "days" | "months" | "years"): number`
 
 Returns a difference between two given dates in full days (default), months, or years.
 
 *Example*: `"expression": "dateDiff({birthdate}, today(), "months")"`
 
 [View Source Code](https://github.com/surveyjs/survey-library/blob/1b94692b94bd219a5620e9da647ce0953bf2fba4/src/functionsfactory.ts#L263-L267 (linkStyle))
-
----
-
-#### `diffDays`
-
-> This function is obsolete. Use the [`dateDiff`](#datediff) function instead.
-
-*Definition*: `diffDays(fromDate: any, toDate: any): number`
- 
-Returns the number of days between two given dates.
-
-*Example*: `"expression": "diffDays({startDate}, {endDate}) < 7"`
-
-[View Source Code](https://github.com/surveyjs/survey-library/blob/68eb0054dc83d2f45a6daa1042bf7440c8faf007/src/functionsfactory.ts#L266-L274 (linkStyle))
 
 ---
 
@@ -541,7 +540,7 @@ Returns the average of passed numbers.
 
 #### `sumInArray`
 
-*Definition*: `sumInArray(questionName: expression, dataFieldName: string, filter?: expression): number`
+*Definition*: `sumInArray(question: expression, dataFieldName: string, filter?: expression): number`
 
 Returns the sum of numbers taken from a specified data field. This data field is searched in an array that contains a user response to a [Multi-Select Matrix](https://surveyjs.io/form-library/examples/multi-select-matrix-question/), [Dynamic Matrix](https://surveyjs.io/form-library/examples/dynamic-matrix-add-new-rows/), or [Dynamic Panel](/form-library/examples/duplicate-group-of-fields-in-form/) question. The optional `filter` parameter defines a rule according to which values are included in the calculation.
 
@@ -555,7 +554,7 @@ The following code sums up values from a `"total"` matrix column but includes on
 
 #### `maxInArray`
 
-*Definition*: `maxInArray(questionName: expression, dataFieldName: string, filter?: expression): number`
+*Definition*: `maxInArray(question: expression, dataFieldName: string, filter?: expression): number`
 
 Returns the maximum of numbers taken from a specified data field. This data field is searched in an array that contains a user response to a [Multi-Select Matrix](https://surveyjs.io/form-library/examples/multi-select-matrix-question/), [Dynamic Matrix](https://surveyjs.io/form-library/examples/dynamic-matrix-add-new-rows/), or [Dynamic Panel](/form-library/examples/duplicate-group-of-fields-in-form/) question. The optional `filter` parameter defines a rule according to which values are included in the calculation.
 
@@ -569,7 +568,7 @@ The following code finds a maximum value within a `"quantity"` matrix column, bu
 
 #### `minInArray`
 
-*Definition*: `minInArray(questionName: expression, dataFieldName: string, filter?: expression): number`
+*Definition*: `minInArray(question: expression, dataFieldName: string, filter?: expression): number`
  
 Returns the minimum of numbers taken from a specified data field. This data field is searched in an array that contains a user response to a [Multi-Select Matrix](https://surveyjs.io/form-library/examples/multi-select-matrix-question/), [Dynamic Matrix](https://surveyjs.io/form-library/examples/dynamic-matrix-add-new-rows/), or [Dynamic Panel](/form-library/examples/duplicate-group-of-fields-in-form/) question. The optional `filter` parameter defines a rule according to which values are included in the calculation.
 
@@ -583,7 +582,7 @@ The following code finds a minimum value within a `"quantity"` matrix column but
 
 #### `avgInArray`
 
-*Definition*: `avgInArray(questionName: expression, dataFieldName: string, filter?: expression): number`
+*Definition*: `avgInArray(question: expression, dataFieldName: string, filter?: expression): number`
 
 Returns the average of numbers taken from a specified data field. This data field is searched in an array that contains a user response to a [Multi-Select Matrix](https://surveyjs.io/form-library/examples/multi-select-matrix-question/), [Dynamic Matrix](https://surveyjs.io/form-library/examples/dynamic-matrix-add-new-rows/), or [Dynamic Panel](/form-library/examples/duplicate-group-of-fields-in-form/) question. The optional `filter` parameter defines a rule according to which values are included in the calculation.
 
@@ -597,7 +596,7 @@ The following code finds an average of values within a `"quantity"` matrix colum
 
 #### `countInArray`
 
-*Definition*: `countInArray(questionName: expression, dataFieldName: string, filter?: expression): number`
+*Definition*: `countInArray(question: expression, dataFieldName: string, filter?: expression): number`
 
 Returns the total number of array items in which a specified data field has a value other than `null` or `undefined`. This data field is searched in an array that contains a user response to a [Multi-Select Matrix](https://surveyjs.io/form-library/examples/multi-select-matrix-question/), [Dynamic Matrix](https://surveyjs.io/form-library/examples/dynamic-matrix-add-new-rows/), or [Dynamic Panel](/form-library/examples/duplicate-group-of-fields-in-form/) question.
 
@@ -620,6 +619,13 @@ The second parameter allows you to get a display text associated with a specific
 *Example*: `"expression": "displayValue('my-dropdown-question', 5)"`
 
 [View Source Code](https://github.com/surveyjs/survey-library/blob/54b8acc0b19fcad282d5306e3124cf89e9ab4fa9/src/functionsfactory.ts#L390-L396 (linkStyle))
+
+> When using the `displayValue` function within a [`setValueExpression`](https://surveyjs.io/form-library/documentation/api-reference/question#setValueExpression), specify the [`setValueIf`](https://surveyjs.io/form-library/documentation/api-reference/question#setValueIf) expression as well. This requirement stems from the fact that the `setValueExpression` is reevaluated only when `setValueIf` is `true` or once the value of a referenced question is changed. Although you do pass a question name to the `displayValue` function, this name is only used to access the question within JavaScript code and doesn't directly reference it. To trigger the reevaluation in this case, define the `setValueIf` expression as follows:
+>
+> ```js
+> "setValueExpression": "displayValue('my-dropdown-question')",
+> "setValueIf": "{my-dropdown-question} notempty"
+> ```
 
 ---
 

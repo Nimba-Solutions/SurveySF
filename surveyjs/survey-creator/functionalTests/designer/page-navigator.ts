@@ -1,4 +1,4 @@
-import { addQuestionByAddQuestionButton, url, selectedObjectTextSelector } from "../helper";
+import { addQuestionByAddQuestionButton, url, selectedObjectTextSelector, setAllowEditSurveyTitle } from "../helper";
 import { ClientFunction, Selector } from "testcafe";
 const title = "Page navigator";
 
@@ -61,13 +61,14 @@ test("Check page navigator track scrolling", async (t) => {
   await t
     .expect(Selector(firstPageNavigatorItem).exists).ok()
     .expect(Selector(lastPageNavigatorItem).exists).notOk()
-    .scroll(Selector(".svc-tab-designer--with-page-navigator .svc-scroll__scroller"), "bottomRight")
-    .scroll(Selector(".svc-tab-designer--with-page-navigator .svc-scroll__scroller"), "bottomRight")
+    .scroll(Selector(".svc-tab-designer--with-surface-tools .svc-scroll__scroller"), "bottomRight")
+    .scroll(Selector(".svc-tab-designer--with-surface-tools .svc-scroll__scroller"), "bottomRight")
     .expect(Selector(firstPageNavigatorItem).exists).notOk()
     .expect(Selector(lastPageNavigatorItem).exists).ok();
 });
 
 test("PageNavigator shown if scrolling exists", async t => {
+  await setAllowEditSurveyTitle(false);
   await t.resizeWindow(1600, 1400);
   await t
     .expect(getAddNewQuestionButton().visible).ok()

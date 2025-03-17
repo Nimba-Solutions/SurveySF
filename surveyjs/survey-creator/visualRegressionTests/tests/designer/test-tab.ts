@@ -6,6 +6,7 @@ const title = "Test tab Screenshot";
 fixture`${title}`.page`${url}`;
 
 const json1 = {
+  showQuestionNumbers: "on",
   "logoPosition": "right",
   "pages": [
     {
@@ -73,6 +74,7 @@ test("mobile iphone", async (t) => {
 fixture`${title}`.page`${urlPreviewThemeSwitcher}`;
 
 const json2 = {
+  showQuestionNumbers: "on",
   "pages": [
     {
       "name": "page1",
@@ -167,6 +169,7 @@ test("Hidden Question Issue: #3298", async (t) => {
     await explicitErrorHandler();
     await setJSON(
       {
+        showQuestionNumbers: "on",
         "logoPosition": "right",
         "pages": [
           {
@@ -209,7 +212,8 @@ test("Hidden Question Issue: #3298", async (t) => {
 });
 
 const json3 = {
-  focusFirstQuestionAutomatic: true,
+  autoFocusFirstQuestion: true,
+  showQuestionNumbers: "on",
   "width": "755px",
   "widthMode": "static",
   "pages": [
@@ -243,13 +247,15 @@ test("Check survey timer", async (t) => {
 
     await t.resizeWindow(1920, 1080);
     const json = {
-      "focusFirstQuestionAutomatic": true,
+      showQuestionNumbers: "on",
+      headerView: "basic",
+      "autoFocusFirstQuestion": true,
       "title": "American History",
       "showTimerPanel": "bottom",
       "showTimerPanelMode": "survey",
       "maxTimeToFinish": 60,
       "widthMode": "static",
-      "firstPageIsStarted": true,
+      "firstPageIsStartPage": true,
       "pages": [
         {
           "elements": [
@@ -316,7 +322,7 @@ test("Check survey timer", async (t) => {
 });
 test("empty survey preview", async (t) => {
   await wrapVisualTest(t, async (t, comparer) => {
-    const simulator = Selector(".svc-test-tab--empty");
+    const simulator = Selector(".svc-test-tab__content");
     await t.resizeWindow(800, 600);
 
     await setJSON({});
@@ -330,6 +336,7 @@ test("dropdown popup in simulator", async (t) => {
     const simulator = Selector(".svd-simulator-content");
     await t.resizeWindow(1200, 1000);
     await setJSON({
+      showQuestionNumbers: "on",
       "logoPosition": "right",
       "pages": [
         {
@@ -370,6 +377,7 @@ test("dropdown popup in simulator - mobile", async (t) => {
     const simulator = Selector(".svd-simulator-content");
     await t.resizeWindow(1200, 1000);
     await setJSON({
+      showQuestionNumbers: "on",
       "logoPosition": "right",
       "pages": [
         {
@@ -408,6 +416,7 @@ test("background image in preview", async (t) => {
     const previewTab = Selector(".svc-creator-tab").filterVisible();
     await t.resizeWindow(1024, 768);
     await setJSON({
+      showQuestionNumbers: "on",
       "pages": [
         {
           "name": "page1",
@@ -442,6 +451,7 @@ test("Page selector with invisible page", async t => {
   await wrapVisualTest(t, async (t, comparer) => {
     await t.resizeWindow(1024, 768);
     await setJSON({
+      showQuestionNumbers: "on",
       "pages": [
         {
           "name": "page1",
@@ -491,6 +501,7 @@ test("Tagbox has wrong style on preview tab", async t => {
   await wrapVisualTest(t, async (t, comparer) => {
     await t.resizeWindow(1024, 768);
     await setJSON({
+      showQuestionNumbers: "on",
       "pages": [
         {
           "name": "page1",

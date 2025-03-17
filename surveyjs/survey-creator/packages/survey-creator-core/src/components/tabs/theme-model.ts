@@ -1,29 +1,34 @@
 import { Base, ITheme, JsonObjectProperty, Question, Serializer, property, ILoadFromJSONOptions, ISaveToJSONOptions, IHeader, EventBase, SurveyModel, ArrayChanges } from "survey-core";
 import { getLocString } from "../../editorLocalization";
-import { PredefinedThemes, Themes } from "./themes";
+import { defaultThemesOrder, PredefinedThemes, Themes } from "./themes";
 import { settings } from "../../creator-settings";
 
 import { DefaultFonts, fontsettingsFromCssVariable, fontsettingsToCssVariable } from "./theme-custom-questions/font-settings";
 import { backgroundCornerRadiusFromCssVariable, backgroundCornerRadiusToCssVariable } from "./theme-custom-questions/background-corner-radius";
 import { createBoxShadowReset, trimBoxShadowValue } from "./theme-custom-questions/shadow-effects";
 import { HeaderModel } from "./header-model";
-import * as LibraryThemes from "survey-core/themes";
-import { ColorCalculator, assign, ingectAlpha, parseColor, roundTo2Decimals } from "../../utils/utils";
+import { registerTheme, ThemesHash, sortDefaultThemes } from "../../utils/themes";
+import { assign, roundTo2Decimals } from "../../utils/utils";
+import { ColorCalculator, ingectAlpha, parseColor } from "../../utils/color-utils";
 import { UndoRedoManager } from "../../plugins/undo-redo/undo-redo-manager";
 import { updateCustomQuestionJSONs } from "./theme-custom-questions";
 import { SurveyCreatorModel } from "../../creator-base";
 
 export * from "./header-model";
 
-Object.keys(LibraryThemes || {}).forEach(libraryThemeName => {
-  const libraryTheme: ITheme = LibraryThemes[libraryThemeName];
-  const creatorThemeVariables = {};
-  const creatorTheme = {};
-  assign(creatorThemeVariables, libraryTheme.cssVariables);
-  assign(creatorTheme, libraryTheme, { cssVariables: creatorThemeVariables });
-  const creatorThemeName = getThemeFullName(libraryTheme);
-  Themes[creatorThemeName] = creatorTheme;
-});
+export function registerSurveyTheme(...themes: Array<ThemesHash<ITheme> | ITheme>) {
+  const importedThemeNames = [];
+  registerTheme((theme: ITheme) => {
+    const creatorThemeVariables = {};
+    const creatorTheme = {};
+    assign(creatorThemeVariables, theme.cssVariables);
+    assign(creatorTheme, theme, { cssVariables: creatorThemeVariables });
+    const creatorThemeName = getThemeFullName(theme);
+    Themes[creatorThemeName] = creatorTheme;
+    importedThemeNames.push(theme.themeName);
+  }, ...themes);
+  sortDefaultThemes(defaultThemesOrder, importedThemeNames, PredefinedThemes);
+}
 
 export function getThemeFullName(theme: ITheme) {
   const themeName = theme.themeName || ThemeModel.DefaultTheme.themeName || "default";
@@ -98,10 +103,21 @@ export function getThemeChanges(fullTheme: ITheme, baseTheme?: ITheme) {
 }
 
 export class ThemeModel extends Base implements ITheme {
-  public static DefaultTheme = Themes["default-light"] || {};
+  private static defaultThemeValue: ITheme;
+  public static get DefaultTheme() {
+    if(!this.defaultThemeValue) {
+      return Themes["default-light"] || {};
+    } else {
+      return this.defaultThemeValue;
+    }
+  }
+  public static set DefaultTheme(val: ITheme) {
+    this.defaultThemeValue = val;
+  }
   public undoRedoManager: UndoRedoManager;
   private themeCssVariablesChanges: { [index: string]: string } = {};
   private colorCalculator = new ColorCalculator();
+  private dependentColorNames = ["--sjs-primary-backcolor-light", "--sjs-primary-backcolor-dark"];
 
   @property() backgroundImage: string;
   @property() backgroundImageFit: "auto" | "contain" | "cover";
@@ -197,25 +213,24 @@ export class ThemeModel extends Base implements ITheme {
   }
 
   private initializeColorCalculator(cssVariables: { [index: string]: string }) {
-    if (!cssVariables["--sjs-primary-backcolor"] ||
-      !cssVariables["--sjs-primary-backcolor-light"] ||
-      !cssVariables["--sjs-primary-backcolor-dark"]) {
+    const baseColorName = "--sjs-primary-backcolor";
+    const cssValuesExists = this.dependentColorNames.every(name => !!cssVariables[name]);
+    if (!cssVariables[baseColorName] || !cssValuesExists) {
       return;
     }
 
-    this.colorCalculator.initialize(
-      cssVariables["--sjs-primary-backcolor"],
-      cssVariables["--sjs-primary-backcolor-light"],
-      cssVariables["--sjs-primary-backcolor-dark"]
-    );
+    const dependentColorValues = this.dependentColorNames.map(name => { return cssVariables[name]; });
+    this.colorCalculator.initializeColorSettings(cssVariables[baseColorName], dependentColorValues);
   }
 
   private updatePropertiesDependentOnPrimaryColor(value: string) {
-    this.colorCalculator.calculateColors(value);
-    this.setPropertyValue("--sjs-primary-backcolor-light", this.colorCalculator.colorSettings.newColorLight);
-    this.setPropertyValue("--sjs-primary-backcolor-dark", this.colorCalculator.colorSettings.newColorDark);
-    this.setThemeCssVariablesChanges("--sjs-primary-backcolor-light", this.colorCalculator.colorSettings.newColorLight);
-    this.setThemeCssVariablesChanges("--sjs-primary-backcolor-dark", this.colorCalculator.colorSettings.newColorDark);
+    if (!this.colorCalculator.isInitialized) return;
+
+    const newDependentColors = this.colorCalculator.calculateDependentColorValues(value);
+    this.dependentColorNames.forEach((name, index) => {
+      this.setPropertyValue(name, newDependentColors[index]);
+      this.setThemeCssVariablesChanges(name, newDependentColors[index]);
+    });
   }
   private cssVariablePropertiesChanged(name: string, value: any, property: JsonObjectProperty) {
     let nameProcessed = true;
@@ -568,13 +583,15 @@ export class ThemeModel extends Base implements ITheme {
 
 }
 
+const themeNameValues = PredefinedThemes.map(theme => ({ value: theme, text: getLocString("theme.names." + theme) }));
+
 Serializer.addClass(
   "theme",
   [
     {
       type: "dropdown",
       name: "themeName",
-      choices: PredefinedThemes.map(theme => ({ value: theme, text: getLocString("theme.names." + theme) })),
+      choices: themeNameValues,
       category: "general",
     }, {
       type: "buttongroup",

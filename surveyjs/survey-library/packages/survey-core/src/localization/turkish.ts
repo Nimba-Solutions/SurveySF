@@ -59,12 +59,13 @@ export var turkishSurveyStrings = {
   addColumn: "Sütun Ekle",
   addRow: "Satır Ekle",
   removeRow: "Kaldır",
-  emptyRowsText: "Satır yok.",
+  noRowsText: "Satır yok.",
   addPanel: "Yeni ekle",
   removePanel: "Kaldır",
   showDetails: "Detayları göster",
   hideDetails: "Detayları Gizle",
   choices_Item: "öğe",
+  choices_Choice: "Seçim seçeneği",
   matrix_column: "Sütun",
   matrix_row: "Satır",
   multipletext_itemname: "metin",
@@ -99,6 +100,8 @@ export var turkishSurveyStrings = {
   modalApplyButtonText: "Uygula",
   filterStringPlaceholder: "Aramak için yazın...",
   emptyMessage: "Görüntülenecek veri yok",
+  loadingPage: "Yükleme...",
+  loadingData: "Yükleme...",
   noEntriesText: "Henüz giriş yok.\nYeni bir giriş eklemek için aşağıdaki düğmeyi tıklayın.",
   noEntriesReadonlyText: "Giriş yok.",
   tabTitlePlaceholder: "Yeni Panel",
@@ -117,12 +120,20 @@ setupLocale({ localeCode: "tr", strings: turkishSurveyStrings, nativeName: "tür
 // takePhotoCaption: "Take Photo" => "Fotoğraf Çekin"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "Kamerayı kullanarak fotoğraf çekmek için aşağıdaki düğmeyi tıklayın."
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "Kamerayı kullanarak fotoğraf yüklemek veya fotoğraf çekmek için bir dosyayı sürükleyip bırakın veya seçin."
-// replaceFileCaption: "Replace file" => "Dosyayı değiştir"// eachRowUniqueError: "Each row must have a unique value." => "Her satırın benzersiz bir değeri olmalıdır."
+// replaceFileCaption: "Replace file" => "Dosyayı değiştir"
+// eachRowUniqueError: "Each row must have a unique value." => "Her satırın benzersiz bir değeri olmalıdır."
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "Dosyalar yüklenemiyor. Lütfen 'onUploadFiles' olayı için bir işleyici ekleyin."
 // showDetails: "Show Details" => "Detayları göster"
 // hideDetails: "Hide Details" => "Detayları Gizle"
 // ok: "OK" => "TAMAM"
-// cancel: "Cancel" => "İptal"// refuseItemText: "Refuse to answer" => "Cevap vermeyi reddet"
-// dontKnowItemText: "Don't know" => "Bilmiyorum"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Yanıtınız 64 KB'ı aşıyor. Lütfen dosyalarınızın boyutunu küçültün ve tekrar deneyin veya bir anket sahibiyle iletişime geçin."
-// signaturePlaceHolderReadOnly: "No signature" => "İmza yok"// tabTitlePlaceholder: "New Panel" => "Yeni Panel"// deselectAllItemText: "Deselect all" => "Tümünün seçimini kaldır"
+// cancel: "Cancel" => "İptal"
+// refuseItemText: "Refuse to answer" => "Cevap vermeyi reddet"
+// dontKnowItemText: "Don't know" => "Bilmiyorum"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Yanıtınız 64 KB'ı aşıyor. Lütfen dosyalarınızın boyutunu küçültün ve tekrar deneyin veya bir anket sahibiyle iletişime geçin."
+// signaturePlaceHolderReadOnly: "No signature" => "İmza yok"
+// tabTitlePlaceholder: "New Panel" => "Yeni Panel"
+// deselectAllItemText: "Deselect all" => "Tümünün seçimini kaldır"
 // textNoDigitsAllow: "Numbers are not allowed." => "Numaralara izin verilmez."
+// choices_Choice: "Choice option" => "Seçim seçeneği"
+// loadingPage: "Loading..." => "Yükleme..."
+// loadingData: "Loading..." => "Yükleme..."

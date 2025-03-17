@@ -33,12 +33,12 @@ export class TabDesignerComponent extends SurveyElementBase<ITabDesignerComponen
 
   private addDragDropEvents = () => {
     this.creator.onDragStart.add(this.denyUpdate);
-    this.creator.onDragEnd.add(this.allowUpdate);
+    this.creator.onDragClear.add(this.allowUpdate);
   }
 
   private clearDragDropEvents = () => {
     this.creator.onDragStart.remove(this.denyUpdate);
-    this.creator.onDragEnd.remove(this.allowUpdate);
+    this.creator.onDragClear.remove(this.allowUpdate);
   }
 
   componentDidMount(): void {
@@ -145,8 +145,10 @@ export class TabDesignerComponent extends SurveyElementBase<ITabDesignerComponen
   renderTabContent(): React.JSX.Element {
     const survey: SurveyModel = this.creator.survey;
     const surveyHeader = this.renderHeader(this.creator.allowEditSurveyTitle);
-    const style: any = { ...this.model.surveyThemeVariables };
+    const style: any = { ...this.model.surfaceCssVariables };
     style.maxWidth = survey.renderedWidth;
+
+    const tabTools = this.renderTabTools();
 
     return (<React.Fragment>
       <div className={this.model.designerCss} style={style} >
@@ -159,22 +161,27 @@ export class TabDesignerComponent extends SurveyElementBase<ITabDesignerComponen
           css={survey.css}
         /> */}
       </div>
-      {
-        !this.creator.isMobileView ? <div className="svc-tab-designer__tools">
-          {[
-            this.creator.showPageNavigator ?
-              <div key={1} className="svc-tab-designer__page-navigator"><SurveyPageNavigator
-                pagesController={this.model.pagesController} pageEditMode={this.model.creator.pageEditMode}
-              ></SurveyPageNavigator></div>
-              : null,
-            this.model.hasToolbar ?
-              <div key={2} className="svc-tab-designer__toolbar">
-                <SurveyActionBar model={this.model.surfaceToolbar} handleClick={false}></SurveyActionBar></div>
-              : null
-          ]}
-        </div> : null
-      }
+      {tabTools}
     </React.Fragment>);
+  }
+
+  renderTabTools(): React.JSX.Element {
+    if (!this.model.showSurfaceTools) return null;
+
+    const pageNavigator = this.creator.showPageNavigator ?
+      <div className="svc-tab-designer__page-navigator"><SurveyPageNavigator
+        pagesController={this.model.pagesController} pageEditMode={this.model.creator.pageEditMode}
+      ></SurveyPageNavigator></div>
+      : null;
+
+    const surfaceToolbar = this.model.showSurfaceToolbar ?
+      <SurveyActionBar model={this.model.surfaceToolbar} handleClick={false}></SurveyActionBar>
+      : null;
+
+    return <div className="svc-tab-designer__tools">
+      {pageNavigator}
+      {surfaceToolbar}
+    </div>;
   }
 }
 

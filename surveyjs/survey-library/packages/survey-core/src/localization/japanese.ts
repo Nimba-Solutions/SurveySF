@@ -59,12 +59,13 @@ export var japaneseSurveyStrings = {
   addColumn: "列の追加",
   addRow: "追加行",
   removeRow: "削除",
-  emptyRowsText: "行がありません。",
+  noRowsText: "行がありません。",
   addPanel: "新規追加",
   removePanel: "削除",
   showDetails: "詳細を表示",
   hideDetails: "詳細を非表示",
   choices_Item: "項目",
+  choices_Choice: "選択オプション",
   matrix_column: "列",
   matrix_row: "行",
   multipletext_itemname: "テキスト",
@@ -99,6 +100,8 @@ export var japaneseSurveyStrings = {
   modalApplyButtonText: "申し込む",
   filterStringPlaceholder: "検索するタイプ...",
   emptyMessage: "表示するデータがありません",
+  loadingPage: "積載。。。",
+  loadingData: "積載。。。",
   noEntriesText: "エントリはまだありません。\n下のボタンをクリックして、新しいエントリを追加します。",
   noEntriesReadonlyText: "エントリはありません。",
   tabTitlePlaceholder: "新しいパネル",
@@ -120,7 +123,7 @@ setupLocale({ localeCode: "ja", strings: japaneseSurveyStrings, nativeName: "日
 // minError: "The value should not be less than {0}" => "値は {0} 値より小さくすることはできません"
 // maxError: "The value should not be greater than {0}" => "値は {0} を超えてはなりません。"
 // filePlaceholder: "Drag and drop a file here or click the button below and choose a file to upload." => "ここにファイルをドラッグ&ドロップするか、下のボタンをクリックしてアップロードするファイルを選択してください。"
-// emptyRowsText: "There are no rows." => "行はありません。"
+// noRowsText: "There are no rows." => "行はありません。"
 // multipletext_itemname: "text" => "テキスト"
 // signaturePlaceHolder: "Sign here" => "ここに署名"
 // modalCancelButtonText: "Cancel" => "キャンセル"
@@ -132,17 +135,24 @@ setupLocale({ localeCode: "ja", strings: japaneseSurveyStrings, nativeName: "日
 // more: "More" => "もっとその"
 // tagboxDoneButtonCaption: "OK" => "わかりました"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "すべての選択肢がランク付けされます"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "ここに選択肢をドラッグアンドドロップしてランク付けします"// takePhotoCaption: "Take Photo" => "写真を撮る"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "ここに選択肢をドラッグアンドドロップしてランク付けします"
+// takePhotoCaption: "Take Photo" => "写真を撮る"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "下のボタンをクリックして、カメラを使用して写真を撮ります。"
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "アップロードするファイルをドラッグアンドドロップまたは選択するか、カメラを使用して写真を撮ります。"
-// replaceFileCaption: "Replace file" => "ファイルの置換"// eachRowUniqueError: "Each row must have a unique value." => "各行には一意の値が必要です。"
+// replaceFileCaption: "Replace file" => "ファイルの置換"
+// eachRowUniqueError: "Each row must have a unique value." => "各行には一意の値が必要です。"
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "ファイルはアップロードできません。「onUploadFiles」イベントのハンドラーを追加してください。"
 // showDetails: "Show Details" => "詳細を表示"
 // hideDetails: "Hide Details" => "詳細を隠す"
 // ok: "OK" => "わかりました"
 // cancel: "Cancel" => "キャンセル"
 // refuseItemText: "Refuse to answer" => "回答を拒否する"
-// dontKnowItemText: "Don't know" => "わかりません"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "回答は 64 KB を超えています。ファイルのサイズを小さくしてもう一度お試しいただくか、アンケートの所有者にお問い合わせください。"
-// signaturePlaceHolderReadOnly: "No signature" => "署名なし"// tabTitlePlaceholder: "New Panel" => "新規パネル"
+// dontKnowItemText: "Don't know" => "わかりません"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "回答は 64 KB を超えています。ファイルのサイズを小さくしてもう一度お試しいただくか、アンケートの所有者にお問い合わせください。"
+// signaturePlaceHolderReadOnly: "No signature" => "署名なし"
+// tabTitlePlaceholder: "New Panel" => "新規パネル"
 // deselectAllItemText: "Deselect all" => "すべて選択解除"
 // textNoDigitsAllow: "Numbers are not allowed." => "数字は使用できません。"
+// choices_Choice: "Choice option" => "選択オプション"
+// loadingPage: "Loading..." => "積載。。。"
+// loadingData: "Loading..." => "積載。。。"

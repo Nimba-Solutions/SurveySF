@@ -32,39 +32,48 @@ const buildPlatformJson = {
     "**/*"
   ],
   "main": "survey-react-ui.js",
+  "module": "fesm/survey-react-ui.js",
   typings: "./typings/entries/index.d.ts",
-
+  "exports": {
+    ".": {
+      "types": "./typings/entries/index.d.ts",
+      "import": "./fesm/survey-react-ui.js",
+      "require": "./survey-react-ui.js"
+    }
+  },
   "peerDependencies": {
-    "survey-core": "*",
-    "react": "^16.5.0 || ^17.0.1 || ^18.2.0",
-    "react-dom": "^16.5.0 || ^17.0.1 || ^18.2.0"
+    "survey-core": packageJson.version,
+    "react": "^16.5.0 || ^17.0.1 || ^18.1.0 || ^19.0.0",
+    "react-dom": "^16.5.0 || ^17.0.1 || ^18.1.0 || ^19.0.0",
   }
 };
 
-module.exports = function (options) {
-  const buildPath = __dirname + "/build/";
-  const isProductionBuild = options.buildType === "prod";
-
-  const percentage_handler = function handler(percentage, msg) {
+function getPercentageHandler(emitNonSourceFiles, buildPath) {
+  return function handler(percentage, msg) {
     if (0 == percentage) {
       console.log("Build started... good luck!");
-    } else if (1 == percentage) {
-      if (isProductionBuild) {
-        fs.createReadStream("./README.md").pipe(
-          fs.createWriteStream(buildPath + "README.md")
-        );
-      }
-
-      if (isProductionBuild) {
-        fs.writeFileSync(
-          buildPath + "package.json",
-          JSON.stringify(buildPlatformJson, null, 2),
-          "utf8"
-        );
-      }
+    } else if (1 == percentage && emitNonSourceFiles) {
+      fs.createReadStream("./README.md").pipe(
+        fs.createWriteStream(buildPath + "README.md")
+      );
+      fs.writeFileSync(
+        buildPath + "package.json",
+        JSON.stringify(buildPlatformJson, null, 2),
+        "utf8"
+      );
     }
   };
+}
 
+module.exports = function (options) {
+  const emitDeclarations = !!options.emitDeclarations;
+  const emitNonSourceFiles = !!options.emitNonSourceFiles;
+  const buildPath = __dirname + "/build/";
+  const isProductionBuild = options.buildType === "prod";
+  const compilerOptions = emitDeclarations ? {} : {
+    declaration: false,
+    declarationDir: null
+  };
   const config = {
     mode: isProductionBuild ? "production" : "development",
     entry: {
@@ -72,9 +81,6 @@ module.exports = function (options) {
     },
     resolve: {
       extensions: [".ts", ".js", ".tsx", ".scss"],
-      // alias: {
-      //   tslib: path.join(__dirname, "./src/entries/helpers.ts")
-      // }
     },
     optimization: {
       minimize: isProductionBuild
@@ -85,7 +91,8 @@ module.exports = function (options) {
           test: /\.(ts|tsx)$/,
           loader: "ts-loader",
           options: {
-            transpileOnly: isProductionBuild
+            configFile: options.tsConfigFile || "tsconfig.json",
+            compilerOptions
           }
         },
         {
@@ -106,11 +113,6 @@ module.exports = function (options) {
             }
           ]
         },
-        // {
-        //   test: /\.html$/,
-        //   exclude: [/node_modules/, require.resolve('./index.html')],
-        //   loader: "html-loader"
-        // },
         {
           test: /\.(svg|png)$/,
           use: {
@@ -125,8 +127,8 @@ module.exports = function (options) {
       filename: "[name]" + (isProductionBuild ? ".min" : "") + ".js",
       library: {
         root: options.libraryName || "SurveyReact",
-        amd: '[dashedname]',
-        commonjs: '[dashedname]',
+        amd: "[dashedname]",
+        commonjs: "[dashedname]",
       },
       libraryTarget: "umd",
       globalObject: "this",
@@ -154,9 +156,8 @@ module.exports = function (options) {
     },
     plugins: [
       new DashedNamePlugin(),
-      new webpack.ProgressPlugin(percentage_handler),
+      new webpack.ProgressPlugin(getPercentageHandler(emitNonSourceFiles, buildPath)),
       new webpack.DefinePlugin({
-        "process.env.ENVIRONMENT": JSON.stringify(options.buildType),
         "process.env.VERSION": JSON.stringify(packageJson.version)
       }),
       new MiniCssExtractPlugin({
@@ -174,20 +175,20 @@ module.exports = function (options) {
     config.devtool = "source-map";
     config.plugins = config.plugins.concat([
       new webpack.LoaderOptionsPlugin({ debug: true }),
-      // new HtmlWebpackPlugin({
-      //   filename: "index.html",
-      //   inject: "body",
-      //   template: "index.html"
-      // }),
+      new HtmlWebpackPlugin({
+        filename: "index.html",
+        inject: "body",
+        template: "index.html"
+      }),
     ]);
-    // config.devServer = {
-    //   static: {
-    //     directory: path.join(__dirname, '.'),
-    //   },
-    //   //host: "0.0.0.0",
-    //   compress: false,
-    //   port: 8082
-    // };
+    config.devServer = {
+      static: {
+        directory: path.join(__dirname, "."),
+      },
+      //host: "0.0.0.0",
+      compress: false,
+      port: 7777
+    };
   }
 
   return config;

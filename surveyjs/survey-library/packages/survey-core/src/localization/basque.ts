@@ -59,12 +59,13 @@ export var basqueSurveyStrings = {
   addColumn: "Zutabe bat gehitu",
   addRow: "Errenkada bat gehitu",
   removeRow: "Errenkada bat kendu",
-  emptyRowsText: "Ez dago errenkadarik.",
+  noRowsText: "Ez dago errenkadarik.",
   addPanel: "Berria gehitu",
   removePanel: "Kendu",
   showDetails: "Xehetasunak erakutsi",
   hideDetails: "Xehetasunak ezkutatu",
   choices_Item: "artikulua",
+  choices_Choice: "Aukeratzeko aukera",
   matrix_column: "Zutabea",
   matrix_row: "Errenkada",
   multipletext_itemname: "testua",
@@ -99,6 +100,8 @@ export var basqueSurveyStrings = {
   modalApplyButtonText: "Ezarri",
   filterStringPlaceholder: "Idatzi bila...",
   emptyMessage: "Ez daturik erakusteko",
+  loadingPage: "Karga...",
+  loadingData: "Karga...",
   noEntriesText: "Oraindik ez sarrerarik.\nKlik beheko botoian klik egin sarrera berri bat eransteko.",
   noEntriesReadonlyText: "Ez sarrerarik.",
   tabTitlePlaceholder: "Panel berria",
@@ -125,16 +128,24 @@ setupLocale({ localeCode: "eu", strings: basqueSurveyStrings, nativeName: "euska
 // more: "More" => "Gehiago"
 // tagboxDoneButtonCaption: "OK" => "Ados"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "Aukera guztiak sailkatuta daude"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Arrastaka eta askatzen ditu hemen sailkatzeko"// takePhotoCaption: "Take Photo" => "Argazkia hartu"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Arrastaka eta askatzen ditu hemen sailkatzeko"
+// takePhotoCaption: "Take Photo" => "Argazkia hartu"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "Egin klik beheko botoian, kamerarekin argazki bat hartzeko."
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "Arrastatu eta askatu artxibo bat kamerarekin argazki bat kargatzeko edo hartzeko."
-// replaceFileCaption: "Replace file" => "Artxiboa ordeztu"// eachRowUniqueError: "Each row must have a unique value." => "Ilara bakoitzak balio bakarra izan behar du."
+// replaceFileCaption: "Replace file" => "Artxiboa ordeztu"
+// eachRowUniqueError: "Each row must have a unique value." => "Ilara bakoitzak balio bakarra izan behar du."
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "Artxiboak ezin dira kargatu. Gaineratu kontrolatzaile bat 'onUploadFiles' ekitaldirako."
 // showDetails: "Show Details" => "Xehetasunak erakutsi"
 // hideDetails: "Hide Details" => "Xehetasunak ezkutatu"
 // ok: "OK" => "Ados"
 // cancel: "Cancel" => "Ezeztatu"
 // refuseItemText: "Refuse to answer" => "Erantzuteari uko egin"
-// dontKnowItemText: "Don't know" => "Ez dakit"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Erantzuna 64 KB-tik gorakoa da. Murriztu artxiboaren tamaina, eta berriro saiatu edo jarri harremanetan inkesta baten jabearekin."
-// signaturePlaceHolderReadOnly: "No signature" => "Sinadurarik gabe"// tabTitlePlaceholder: "New Panel" => "Panel berria"// deselectAllItemText: "Deselect all" => "Guztiaren aukeraketa bertan behera utzi"
+// dontKnowItemText: "Don't know" => "Ez dakit"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Erantzuna 64 KB-tik gorakoa da. Murriztu artxiboaren tamaina, eta berriro saiatu edo jarri harremanetan inkesta baten jabearekin."
+// signaturePlaceHolderReadOnly: "No signature" => "Sinadurarik gabe"
+// tabTitlePlaceholder: "New Panel" => "Panel berria"
+// deselectAllItemText: "Deselect all" => "Guztiaren aukeraketa bertan behera utzi"
 // textNoDigitsAllow: "Numbers are not allowed." => "Ezin da zenbakirik egin."
+// choices_Choice: "Choice option" => "Aukeratzeko aukera"
+// loadingPage: "Loading..." => "Karga..."
+// loadingData: "Loading..." => "Karga..."

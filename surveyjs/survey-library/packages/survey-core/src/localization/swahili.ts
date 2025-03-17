@@ -59,12 +59,13 @@ export var swahiliStrings = {
   addColumn: "Ongeza Kolamu",
   addRow: "Ongeza safu",
   removeRow: "Toa",
-  emptyRowsText: "Hakuna safu.",
+  noRowsText: "Hakuna safu.",
   addPanel: "Ongeza mpya",
   removePanel: "Toa",
   showDetails: "Onyesha Maelezo",
   hideDetails: "Ficha Maelezo",
   choices_Item: "kitu",
+  choices_Choice: "Chaguo la uchaguzi",
   matrix_column: "Kolamu",
   matrix_row: "Safu",
   multipletext_itemname: "Ujumbe",
@@ -99,6 +100,8 @@ export var swahiliStrings = {
   modalApplyButtonText: "Tekeleza",
   filterStringPlaceholder: "Andika ili kutafuta...",
   emptyMessage: "Hakuna data ya kuonyesha",
+  loadingPage: "Kupakia...",
+  loadingData: "Kupakia...",
   noEntriesText: "Hakuna maingizo kwa sasa.\nBofya kitufe hapa chini ili kuongeza ingizo jipya.",
   noEntriesReadonlyText: "Hakuna viingilio.",
   tabTitlePlaceholder: "Jopo Jipya",
@@ -120,7 +123,7 @@ setupLocale({ localeCode: "sw", strings: swahiliStrings, nativeName: "swahili", 
 // minError: "The value should not be less than {0}" => "Thamani haipaswi kuwa chini ya {0}"
 // maxError: "The value should not be greater than {0}" => "Thamani haipaswi kuwa kubwa kuliko {0}"
 // filePlaceholder: "Drag and drop a file here or click the button below and choose a file to upload." => "Buruta na udondoshe faili hapa au bofya kitufe hapa chini na uchague faili ya kupakia."
-// emptyRowsText: "There are no rows." => "Hakuna safu."
+// noRowsText: "There are no rows." => "Hakuna safu."
 // multipletext_itemname: "text" => "Ujumbe"
 // signaturePlaceHolder: "Sign here" => "Ingia hapa"
 // modalCancelButtonText: "Cancel" => "Katisha"
@@ -132,16 +135,24 @@ setupLocale({ localeCode: "sw", strings: swahiliStrings, nativeName: "swahili", 
 // more: "More" => "Zaidi"
 // tagboxDoneButtonCaption: "OK" => "Sawa kabisa"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "Chaguzi zote zimeorodheshwa"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Buruta na uache uchaguzi hapa ili kuziorodhesha"// takePhotoCaption: "Take Photo" => "Chukua Picha"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Buruta na uache uchaguzi hapa ili kuziorodhesha"
+// takePhotoCaption: "Take Photo" => "Chukua Picha"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "Bonyeza kitufe hapa chini ili kupiga picha kwa kutumia kamera."
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "Drag na kuacha au kuchagua faili kupakia au kuchukua picha kwa kutumia kamera."
-// replaceFileCaption: "Replace file" => "Badilisha faili"// eachRowUniqueError: "Each row must have a unique value." => "Kila safu lazima iwe na thamani ya kipekee."
+// replaceFileCaption: "Replace file" => "Badilisha faili"
+// eachRowUniqueError: "Each row must have a unique value." => "Kila safu lazima iwe na thamani ya kipekee."
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "Faili haziwezi kupakiwa. Tafadhali ongeza kishiko kwa tukio la 'onUploadFiles'."
 // showDetails: "Show Details" => "Onyesha Maelezo"
 // hideDetails: "Hide Details" => "Ficha Maelezo"
 // ok: "OK" => "Sawa kabisa"
 // cancel: "Cancel" => "Katisha"
 // refuseItemText: "Refuse to answer" => "Kukataa kujibu"
-// dontKnowItemText: "Don't know" => "Sijui"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Jibu lako ni zaidi ya 64KB. Tafadhali punguza ukubwa wa faili yako na jaribu tena au wasiliana na mmiliki wa utafiti."
-// signaturePlaceHolderReadOnly: "No signature" => "Hakuna saini"// tabTitlePlaceholder: "New Panel" => "Jopo Jipya"// deselectAllItemText: "Deselect all" => "Delete All"
+// dontKnowItemText: "Don't know" => "Sijui"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Jibu lako ni zaidi ya 64KB. Tafadhali punguza ukubwa wa faili yako na jaribu tena au wasiliana na mmiliki wa utafiti."
+// signaturePlaceHolderReadOnly: "No signature" => "Hakuna saini"
+// tabTitlePlaceholder: "New Panel" => "Jopo Jipya"
+// deselectAllItemText: "Deselect all" => "Delete All"
 // textNoDigitsAllow: "Numbers are not allowed." => "Hesabu haziruhusiwi."
+// choices_Choice: "Choice option" => "Chaguo la uchaguzi"
+// loadingPage: "Loading..." => "Kupakia..."
+// loadingData: "Loading..." => "Kupakia..."

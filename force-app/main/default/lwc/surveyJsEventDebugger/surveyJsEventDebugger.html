@@ -1,0 +1,176 @@
+<template>
+    <div class={drawerClasses}>
+        <div class="help-text">
+            Press <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>D</kbd> to toggle the debugger
+        </div>
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="utility:bug" size="small"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span>SurveyJS Event Debugger</span>
+                    </h2>
+                </div>
+                <div class="slds-no-flex">
+                    <lightning-button-icon icon-name="utility:close" alternative-text="Close" title="Close"
+                        onclick={toggleDrawer}>
+                    </lightning-button-icon>
+                </div>
+            </header>
+        </div>
+
+        <div class="slds-card__body slds-card__body_inner" if:true={isExpanded}>
+            <!-- Not initialized message -->
+            <div if:false={isInitialized} class="slds-text-color_weak slds-p-around_medium">
+                <div class="slds-grid slds-grid_vertical-align-center">
+                    <div class="slds-spinner_container slds-is-relative slds-m-right_small">
+                        <lightning-spinner alternative-text="Initializing" size="small"></lightning-spinner>
+                    </div>
+                    <div>
+                        Waiting for SurveyJS Creator to initialize... (Attempt {initAttempts}/{maxInitAttempts})
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div if:true={isInitialized}>
+                <div class="tab-nav">
+                    <lightning-tabset variant="scoped">
+                        <lightning-tab label="Available Events" title="Available Events">
+                            <div class="event-categories slds-scrollable_y">
+                                <template for:each={eventCategories} for:item="category">
+                                    <div key={category.name} class="slds-p-bottom_small">
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-p-bottom_xx-small category-header"
+                                            data-category={category.name} onclick={handleToggleCategory}>
+                                            <template if:true={category.isExpanded}>
+                                                <lightning-icon icon-name="utility:chevrondown" size="xx-small"
+                                                    class="slds-p-right_x-small">
+                                                </lightning-icon>
+                                            </template>
+                                            <template if:false={category.isExpanded}>
+                                                <lightning-icon icon-name="utility:chevronright" size="xx-small"
+                                                    class="slds-p-right_x-small">
+                                                </lightning-icon>
+                                            </template>
+                                            <div class="slds-text-heading_small">{category.name}</div>
+                                            <div class="slds-badge slds-m-left_x-small">{category.events.length}</div>
+                                        </div>
+
+                                        <div if:true={category.isExpanded} class="slds-p-left_small">
+                                            <template for:each={category.events} for:item="event">
+                                                <div key={event.path}
+                                                    class="slds-form-element slds-p-vertical_xx-small">
+                                                    <div class="slds-form-element__control">
+                                                        <div class="slds-checkbox">
+                                                            <lightning-input type="checkbox" label={event.name}
+                                                                checked={event.isSelected} data-event={event.path}
+                                                                onchange={handleEventToggle}>
+                                                            </lightning-input>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </lightning-tab>
+                        <lightning-tab label="Event Logs" title="Event Logs">
+                            <div class="slds-grid slds-grid_vertical-align-center slds-p-bottom_x-small">
+                                <div class="slds-text-title_caps slds-grow">
+                                    Event Logs
+                                </div>
+                                <div class="slds-grid slds-grid_align-end">
+                                    <lightning-button-group>
+                                        <lightning-input type="checkbox" label="Show Raw Logs" checked={showRawLogs}
+                                            onchange={handleRawLogsToggle}>
+                                        </lightning-input>
+                                        <template if:true={hasLogs}>
+                                            <lightning-button label="Clear" variant="neutral" onclick={handleClearLogs}>
+                                            </lightning-button>
+                                        </template>
+                                        <template if:false={hasLogs}>
+                                            <lightning-button label="Clear" variant="neutral" disabled
+                                                onclick={handleClearLogs}>
+                                            </lightning-button>
+                                        </template>
+                                    </lightning-button-group>
+                                </div>
+                            </div>
+
+                            <div class="event-logs slds-scrollable_y">
+                                <template if:true={hasLogs}>
+                                    <template if:true={showRawLogs}>
+                                        <div class="raw-logs">
+                                            <div class="json-content-container">
+                                                <lightning-button-icon icon-name="utility:copy_to_clipboard"
+                                                    alternative-text="Copy to clipboard" title="Copy to clipboard"
+                                                    data-content={rawEventLogs} onclick={handleCopyToClipboard}
+                                                    class="copy-button">
+                                                </lightning-button-icon>
+                                                <pre class="json-content">{rawEventLogs}</pre>
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <template if:false={showRawLogs}>
+                                        <template for:each={eventLogs} for:item="log">
+                                            <div key={log.id}
+                                                class="slds-box slds-box_xx-small slds-m-bottom_x-small log-entry"
+                                                data-drag-drop={log.isDragDrop}>
+                                                <div class="slds-grid slds-grid_vertical-align-center">
+                                                    <div class="slds-text-heading_small slds-truncate slds-grow">
+                                                        {log.event}
+                                                    </div>
+                                                    <div class="slds-text-body_small slds-text-color_weak">
+                                                        {log.timestamp}
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="slds-grid slds-grid_vertical-align-start slds-p-top_xx-small">
+                                                    <div class="slds-col slds-size_1-of-2 slds-p-right_xx-small">
+                                                        <div class="slds-text-title">Sender</div>
+                                                        <div class="json-content-container">
+                                                            <lightning-button-icon icon-name="utility:copy_to_clipboard"
+                                                                alternative-text="Copy to clipboard"
+                                                                title="Copy to clipboard" data-content={log.sender}
+                                                                onclick={handleCopyToClipboard} class="copy-button">
+                                                            </lightning-button-icon>
+                                                            <pre class="json-content">{log.sender}</pre>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-col slds-size_1-of-2 slds-p-left_xx-small">
+                                                        <div class="slds-text-title">Options</div>
+                                                        <div class="json-content-container">
+                                                            <lightning-button-icon icon-name="utility:copy_to_clipboard"
+                                                                alternative-text="Copy to clipboard"
+                                                                title="Copy to clipboard" data-content={log.options}
+                                                                onclick={handleCopyToClipboard} class="copy-button">
+                                                            </lightning-button-icon>
+                                                            <pre class="json-content">{log.options}</pre>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </template>
+                                </template>
+
+                                <div if:false={hasLogs}
+                                    class="slds-text-color_weak slds-p-around_medium slds-text-align_center">
+                                    No events logged yet. Select events to monitor from the Available Events tab.
+                                </div>
+                            </div>
+                        </lightning-tab>
+                    </lightning-tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Drawer handle -->
+    <div if:false={isOpen} class="drawer-handle" onclick={toggleDrawer}>
+        <lightning-icon icon-name="utility:bug" size="x-small"></lightning-icon>
+    </div>
+</template>

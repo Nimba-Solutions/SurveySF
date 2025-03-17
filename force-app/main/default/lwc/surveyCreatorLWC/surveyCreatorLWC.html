@@ -18,7 +18,10 @@
             <template if:false={loaded}>
                 <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
             </template>
+            <c-survey-js-event-debugger creator-instance={creatorInstance}></c-survey-js-event-debugger>
+            <br />
             <div class="surveyContainer" lwc:dom="manual"></div>
+
         </div>
     </div>
 </template>

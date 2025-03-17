@@ -1,11 +1,12 @@
-import { DragTypeOverMeEnum } from "survey-core";
 import { PageAdorner } from "../src/components/page";
 import { TabDesignerViewModel } from "../src/components/tabs/designer";
 import { settings } from "../src/creator-settings";
+import { DropTo } from "../src/dragdrop-survey-elements";
 import { CreatorTester } from "./creator-tester";
 
 test("Check page adorner css on drag over", (): any => {
   const creator = new CreatorTester();
+  creator.expandCollapseButtonVisibility = "never";
   creator.JSON = {
     pages: [
       { name: "page1" },
@@ -27,6 +28,7 @@ test("Check page adorner css on drag over", (): any => {
 
 test("Check page adorner css on drag over", (): any => {
   const creator = new CreatorTester();
+  creator.expandCollapseButtonVisibility = "never";
   creator.JSON = {
     pages: [
       { name: "page1" },
@@ -82,6 +84,7 @@ test("Check page getAnimatedElement methods", () => {
 });
 test("Check css when dragging page over top/bottom", () => {
   const creator = new CreatorTester();
+  creator.expandCollapseButtonVisibility = "never";
   creator.JSON = {
     pages: [
       { name: "page1" },
@@ -93,15 +96,15 @@ test("Check css when dragging page over top/bottom", () => {
   );
   expect(pageAdorner.css).toBe("");
   creator.dragDropSurveyElements.draggedElement = creator.survey.pages[0];
-  pageAdorner.dragTypeOverMe = DragTypeOverMeEnum.InsideEmptyPanel;
+  pageAdorner.dragTypeOverMe = DropTo.Inside;
   expect(pageAdorner.css).toBe("");
-  pageAdorner.dragTypeOverMe = DragTypeOverMeEnum.Left;
+  pageAdorner.dragTypeOverMe = DropTo.Left;
   expect(pageAdorner.css).toBe("");
-  pageAdorner.dragTypeOverMe = DragTypeOverMeEnum.Right;
+  pageAdorner.dragTypeOverMe = DropTo.Right;
   expect(pageAdorner.css).toBe("");
-  pageAdorner.dragTypeOverMe = DragTypeOverMeEnum.Top;
+  pageAdorner.dragTypeOverMe = DropTo.Top;
   expect(pageAdorner.css).toBe("svc-question__content--drag-over-top");
-  pageAdorner.dragTypeOverMe = DragTypeOverMeEnum.Bottom;
+  pageAdorner.dragTypeOverMe = DropTo.Bottom;
   expect(pageAdorner.css).toBe("svc-question__content--drag-over-bottom");
 });
 test("Check ghost page adorner actions visibility", (): any => {
@@ -124,4 +127,21 @@ test("Check ghost page adorner actions visibility", (): any => {
   pageAdornerGhost.isGhost = true;
   expect(pageAdorner.getActionById("settings").visible).toBeTruthy();
   expect(pageAdornerGhost.getActionById("settings").visible).toBeFalsy();
+});
+test("Actions should always shrink in mobile", (): any => {
+  const creator = new CreatorTester();
+  creator.JSON = {
+    pages: [
+      { name: "page1" },
+    ]
+  };
+  creator.sidebar.flyoutMode = true;
+  const pageAdorner = new PageAdorner(
+    creator,
+    creator.survey.pages[0]
+  );
+
+  expect(pageAdorner.actionContainer.alwaysShrink).toBeFalsy();
+  creator.isMobileView = true;
+  expect(pageAdorner.actionContainer.alwaysShrink).toBeTruthy();
 });

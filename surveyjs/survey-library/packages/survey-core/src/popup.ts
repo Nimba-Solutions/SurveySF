@@ -2,8 +2,9 @@ import { Base, EventBase } from "./base";
 import { IAction } from "./actions/action";
 import { property } from "./jsonobject";
 import { VerticalPosition, HorizontalPosition, PositionMode } from "./utils/popup";
-import { ConsoleWarnings } from "./console-warnings";
+import { calculateIsTablet, IsTouch } from "./utils/devices";
 
+type DisplayPopupMode = "modal-popup" | "modal-overlay" | "menu-overlay" | "menu-popup-overlay" | "menu-popup";
 export interface IPopupOptionsBase {
   onHide?: () => void;
   onShow?: () => void;
@@ -66,19 +67,14 @@ export class PopupModel<T = any> extends Base implements IPopupOptionsBase {
   constructor(
     contentComponentName: string,
     contentComponentData: T,
-    option1?: IPopupOptionsBase | any,
-    option2?: any
+    options?: IPopupOptionsBase
   ) {
     super();
     this.contentComponentName = contentComponentName;
     this.contentComponentData = contentComponentData;
-    if (!!option1 && typeof option1 === "string") {
-      this.verticalPosition = option1 as VerticalPosition;
-      this.horizontalPosition = option2;
-    } else if (!!option1) {
-      const popupOptions = option1 as IPopupOptionsBase;
-      for (var key in popupOptions) {
-        (<any>this)[key] = (<any>popupOptions)[key];
+    if (!!options) {
+      for (var key in options) {
+        (<any>this)[key] = (<any>options)[key];
       }
     }
   }
@@ -111,9 +107,49 @@ export class PopupModel<T = any> extends Base implements IPopupOptionsBase {
     this.onFooterActionsCreated.fire(this, options);
     return options.actions;
   }
+
+  public getDisplayMode(): DisplayPopupMode {
+    if (this.isModal) {
+      return this.displayMode === "popup" ? "modal-popup" : "modal-overlay";
+    } else {
+      if (this.displayMode === "popup") {
+        return "menu-popup";
+      } else {
+        let result: DisplayPopupMode;
+        switch (this.overlayDisplayMode) {
+          case "plain": {
+            result = "menu-popup";
+            break;
+          }
+          case "dropdown-overlay": {
+            result = "menu-overlay";
+            break;
+          }
+          case "tablet-dropdown-overlay": {
+            result = "menu-popup-overlay";
+            break;
+          }
+          case "auto": {
+            if (!IsTouch) {
+              result = "menu-popup"; // desktop
+            } else if (calculateIsTablet()) {
+              result = "menu-popup-overlay"; //tablet
+            } else {
+              result = "menu-overlay"; // phone
+            }
+            break;
+          }
+        }
+        return result;
+      }
+    }
+  }
+
   public updateDisplayMode(menuType: "dropdown" | "popup" | "overlay"): void {
     if(this.displayMode !== menuType) {
-      this.setWidthByTarget = menuType === "dropdown";
+      const isDropdown = menuType === "dropdown";
+      this.setWidthByTarget = isDropdown;
+      this.isFocusedContent = !isDropdown;
     }
     switch (menuType) {
       case "dropdown": {
@@ -140,29 +176,4 @@ export class PopupModel<T = any> extends Base implements IPopupOptionsBase {
     super.dispose();
     this.onDispose();
   }
-}
-
-export function createDialogOptions(
-  componentName: string,
-  data: any,
-  onApply: () => boolean,
-  onCancel?: () => void,
-  onHide = () => { },
-  onShow = () => { },
-  cssClass?: string,
-  title?: string,
-  displayMode: "popup" | "overlay" = "popup"): IDialogOptions {
-  ConsoleWarnings.warn("The `showModal()` and `createDialogOptions()` methods are obsolete. Use the `showDialog()` method instead.");
-
-  return <IDialogOptions>{
-    componentName: componentName,
-    data: data,
-    onApply: onApply,
-    onCancel: onCancel,
-    onHide: onHide,
-    onShow: onShow,
-    cssClass: cssClass,
-    title: title,
-    displayMode: displayMode
-  };
 }

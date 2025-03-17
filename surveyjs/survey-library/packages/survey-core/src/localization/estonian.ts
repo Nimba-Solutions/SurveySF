@@ -59,12 +59,13 @@ export var estonianSurveyStrings = {
   addColumn: "Lisa veerg",
   addRow: "Lisa rida",
   removeRow: "Eemalda",
-  emptyRowsText: "Ridu pole.",
+  noRowsText: "Ridu pole.",
   addPanel: "Lisa uus",
   removePanel: "Eemalda",
   showDetails: "Näita detaile",
   hideDetails: "Peida üksikasjad",
   choices_Item: "üksus",
+  choices_Choice: "Valiku valik",
   matrix_column: "Veerg",
   matrix_row: "Rida",
   multipletext_itemname: "Tekst",
@@ -99,6 +100,8 @@ export var estonianSurveyStrings = {
   modalApplyButtonText: "Kohaldata",
   filterStringPlaceholder: "Tippige otsimiseks...",
   emptyMessage: "Kuvatavaid andmeid pole",
+  loadingPage: "Laadimise...",
+  loadingData: "Laadimise...",
   noEntriesText: "Sissekandeid veel ei ole.\nUue kirje lisamiseks klõpsake allolevat nuppu.",
   noEntriesReadonlyText: "Kirjeid ei ole.",
   tabTitlePlaceholder: "Uus paneel",
@@ -120,7 +123,7 @@ setupLocale({ localeCode: "et", strings: estonianSurveyStrings, nativeName: "ees
 // minError: "The value should not be less than {0}" => "Väärtus ei tohiks olla väiksem kui {0}"
 // maxError: "The value should not be greater than {0}" => "Väärtus ei tohiks olla suurem kui {0}"
 // filePlaceholder: "Drag and drop a file here or click the button below and choose a file to upload." => "Pukseerige fail siia või klõpsake allolevat nuppu ja valige üleslaaditav fail."
-// emptyRowsText: "There are no rows." => "Ridu pole."
+// noRowsText: "There are no rows." => "Ridu pole."
 // multipletext_itemname: "text" => "Tekst"
 // signaturePlaceHolder: "Sign here" => "Allkirjasta siin"
 // modalCancelButtonText: "Cancel" => "Tühistama"
@@ -132,16 +135,24 @@ setupLocale({ localeCode: "et", strings: estonianSurveyStrings, nativeName: "ees
 // more: "More" => "Rohkem"
 // tagboxDoneButtonCaption: "OK" => "OK"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "Kõik valikud on järjestatud"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Lohistage valikuid siia, et neid järjestada"// takePhotoCaption: "Take Photo" => "Pildistamine"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Lohistage valikuid siia, et neid järjestada"
+// takePhotoCaption: "Take Photo" => "Pildistamine"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "Kaamera abil pildistamiseks klõpsake allolevat nuppu."
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "Pukseerige või valige üleslaaditav fail või pildistage seda kaamera abil."
-// replaceFileCaption: "Replace file" => "Asenda fail"// eachRowUniqueError: "Each row must have a unique value." => "Igal real peab olema kordumatu väärtus."
+// replaceFileCaption: "Replace file" => "Asenda fail"
+// eachRowUniqueError: "Each row must have a unique value." => "Igal real peab olema kordumatu väärtus."
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "Faile ei saa üles laadida. Palun lisage sündmuse \"onUploadFiles\" jaoks käitleja."
 // showDetails: "Show Details" => "Näita detaile"
 // hideDetails: "Hide Details" => "Peida üksikasjad"
 // ok: "OK" => "OK"
 // cancel: "Cancel" => "Tühistama"
 // refuseItemText: "Refuse to answer" => "Keeldu vastamast"
-// dontKnowItemText: "Don't know" => "Ei tea"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Teie vastus ületab 64 KB. Vähendage faili(de) mahtu ja proovige uuesti või võtke ühendust uuringu omanikuga."
-// signaturePlaceHolderReadOnly: "No signature" => "Allkiri puudub"// tabTitlePlaceholder: "New Panel" => "Uus paneel"// deselectAllItemText: "Deselect all" => "Kõigi valiku tühistamine"
+// dontKnowItemText: "Don't know" => "Ei tea"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Teie vastus ületab 64 KB. Vähendage faili(de) mahtu ja proovige uuesti või võtke ühendust uuringu omanikuga."
+// signaturePlaceHolderReadOnly: "No signature" => "Allkiri puudub"
+// tabTitlePlaceholder: "New Panel" => "Uus paneel"
+// deselectAllItemText: "Deselect all" => "Kõigi valiku tühistamine"
 // textNoDigitsAllow: "Numbers are not allowed." => "Numbrid ei ole lubatud."
+// choices_Choice: "Choice option" => "Valiku valik"
+// loadingPage: "Loading..." => "Laadimise..."
+// loadingData: "Loading..." => "Laadimise..."

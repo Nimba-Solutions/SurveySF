@@ -15,7 +15,7 @@ export class SurveyQuestionImagePicker extends SurveyQuestionElementBase {
   protected renderElement(): React.JSX.Element {
     var cssClasses = this.question.cssClasses;
     return (
-      <fieldset className={this.question.getSelectBaseRootCss()}>
+      <fieldset className={this.question.getSelectBaseRootCss()} style={this.question.getContainerStyle()}>
         <legend className="sv-hidden">{this.question.locTitle.renderedHtml}</legend>
         {this.question.hasColumns ? this.getColumns(cssClasses) : this.getItems(cssClasses)}
       </fieldset>
@@ -203,14 +203,14 @@ export class SurveyQuestionImagePickerItem extends ReactSurveyElement {
             readOnly={this.question.isReadOnlyAttr}
             onChange={this.handleOnChange}
             aria-required={this.question.ariaRequired}
-            aria-label={this.question.ariaLabel}
+            aria-label={item.locText.renderedHtml}
             aria-invalid={this.question.ariaInvalid}
             aria-errormessage={this.question.ariaErrormessage}
           />
           <div className={this.question.cssClasses.itemDecorator}>
             <div className={this.question.cssClasses.imageContainer}>
               {!!this.question.cssClasses.checkedItemDecorator ?
-                <span className={this.question.cssClasses.checkedItemDecorator}>
+                <span className={this.question.cssClasses.checkedItemDecorator} aria-hidden="true">
                   {!!this.question.cssClasses.checkedItemSvgIconId ? <SvgIcon size={"auto"} className={this.question.cssClasses.checkedItemSvgIcon} iconName={this.question.cssClasses.checkedItemSvgIconId}></SvgIcon> : null}
                 </span> : null}
               {control}

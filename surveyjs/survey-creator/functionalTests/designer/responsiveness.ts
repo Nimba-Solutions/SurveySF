@@ -105,6 +105,7 @@ test("Responsive creator: property grid", async (t) => {
   });
   const westResizer = Selector(".svc-resizer-west");
   const eastResizer = Selector(".svc-resizer-east");
+  let pgWidth = 481;
   await t
     .resizeWindow(1920, 900)
     .expect(westResizer.visible).ok()
@@ -112,21 +113,21 @@ test("Responsive creator: property grid", async (t) => {
 
     .click(questions.find(".sv-string-editor").withText("question1"))
     .expect(propertyGridSelector.visible).ok()
-    .expect(propertyGridSelector.offsetWidth).eql(451)
+    .expect(propertyGridSelector.offsetWidth).eql(pgWidth)
     .expect(flyoutPropertyGrid.exists).notOk()
     .expect(questionToolbarActions.count).eql(4)
 
-    .drag(westResizer, 100, 0)
-    .expect(propertyGridSelector.offsetWidth).eql(371)
+    .drag(westResizer, 150, 0)
+    .expect(propertyGridSelector.offsetWidth).eql(pgWidth - 150)
 
     .resizeWindow(750, 700)
     .click(expandButtonSelector)
     .expect(propertyGridSelector.visible).ok()
-    .expect(propertyGridSelector.offsetWidth).eql(371)
+    .expect(propertyGridSelector.offsetWidth).eql(pgWidth - 150)
     .expect(flyoutPropertyGrid.exists).ok()
 
     .drag(westResizer, -150, 0)
-    .expect(propertyGridSelector.offsetWidth).eql(521)
+    .expect(propertyGridSelector.offsetWidth).eql(pgWidth)
 
     .click(collapseButtonSelector)
     .expect(propertyGridSelector.visible).notOk()
@@ -149,13 +150,13 @@ test("Responsive creator: property grid", async (t) => {
   await t
     .expect(westResizer.visible).notOk()
     .expect(eastResizer.visible).ok()
-    .expect(propertyGridSelector.offsetWidth).eql(521)
+    .expect(propertyGridSelector.offsetWidth).eql(pgWidth)
 
     .drag(eastResizer, -120, 0)
-    .expect(propertyGridSelector.offsetWidth).eql(401)
+    .expect(propertyGridSelector.offsetWidth).eql(pgWidth - 120)
 
     .drag(eastResizer, 100, 0)
-    .expect(propertyGridSelector.offsetWidth).eql(501);
+    .expect(propertyGridSelector.offsetWidth).eql(pgWidth - 20);
 });
 
 test("Responsive creator: designer tab for mobile devices", async (t) => {
@@ -289,7 +290,7 @@ test("Property grid editor popup", async (t) => {
     .click(getPropertyGridCategory(generalGroupName))
     .click(getPropertyGridCategory("Data"))
     .click(Selector("span").withExactText("Set Default Answer"))
-    .expect(Selector(".sv-popup--modal").visible).ok()
+    .expect(Selector(".sv-popup--modal-popup").visible).ok()
     .click(Selector("button").withExactText("Cancel"))
     .resizeWindow(380, 600)
     .click(Selector(".svc-survey-element-toolbar__item[title=\"Open settings\"]").filterVisible())
@@ -297,7 +298,7 @@ test("Property grid editor popup", async (t) => {
     .click(question1, { offsetX: 5, offsetY: 5 })
     .click(Selector(".svc-question__content-actions .svc-survey-element-toolbar__item[title=\"Open settings\"]").filterVisible())
     .click(Selector("span").withExactText("Set Default Answer"))
-    .expect(Selector(".sv-popup--overlay").visible).ok();
+    .expect(Selector(".sv-popup--modal-overlay").visible).ok();
 });
 
 test("Question type popup - wide", async (t) => {
@@ -307,7 +308,7 @@ test("Question type popup - wide", async (t) => {
   await t
     .resizeWindow(1920, 900)
     .click(Selector("button.svc-element__question-type-selector"))
-    .expect(Selector(".sv-popup:not(.sv-popup--overlay) li").withText("Single-Line Input").visible).ok();
+    .expect(getListItemByText("Single-Line Input").exists).ok();
 });
 
 test("Question type popup - narrow", async (t) => {
@@ -326,7 +327,7 @@ test("Question type popup - narrow", async (t) => {
   await t
     .resizeWindow(380, 600)
     .click(Selector("button.svc-element__question-type-selector"))
-    .expect(Selector(".sv-popup.sv-popup--overlay li").withText("Single-Line Input").filterVisible().exists).ok();
+    .expect(getListItemByText("Single-Line Input").exists).ok();
 });
 
 test("Responsive creator: property grid - click the shadow", async (t) => {
@@ -334,7 +335,7 @@ test("Responsive creator: property grid - click the shadow", async (t) => {
   await setJSON(json);
   await t
     .resizeWindow(900, 700)
-    .click(Selector(".svc-creator"), { offsetX: 237, offsetY: 273 })
+    .click(Selector(".svc-page__content"), { offsetX: 5, offsetY: 5 })
     .click(expandButtonSelector)
     .expect(propertyGridSelector.visible).ok()
     .expect(flyoutPropertyGrid.exists).ok()

@@ -80,14 +80,14 @@ export class SurveyCreatorComponent extends SurveyElementBase<
     const creatorStyles = {};
     assign(creatorStyles, this.style, this.props.creator.themeVariables);
     let licenseBanner = null;
-    if (!this.props.creator.haveCommercialLicense) {
-      const htmlValue = { __html: this.props.creator.licenseText };
-      licenseBanner = (
-        <div className="svc-creator__banner">
-          <span className="svc-creator__non-commercial-text" dangerouslySetInnerHTML={htmlValue}></span>
-        </div>
-      );
-    }
+    // if (!this.props.creator.haveCommercialLicense) {
+    //   const htmlValue = { __html: this.props.creator.licenseText };
+    //   licenseBanner = (
+    //     <div className="svc-creator__banner">
+    //       <span className="svc-creator__non-commercial-text" dangerouslySetInnerHTML={htmlValue}></span>
+    //     </div>
+    //   );
+    // }
     //AM: width unrecognized by react
     return (
       <div className={this.creator.getRootCss()} ref={this.rootNode} style={creatorStyles}>

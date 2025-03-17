@@ -33,7 +33,8 @@ import {
   ComponentCollection,
   QuestionBooleanModel,
   QuestionRadiogroupModel,
-  PageModel
+  PageModel,
+  ActionContainer
 } from "survey-core";
 import {
   EmptySurveyCreatorOptions,
@@ -61,11 +62,11 @@ test("Check property grid survey options", () => {
     "survey",
     "showProgressBar"
   ).defaultValue;
-  Serializer.findProperty("survey", "showProgressBar").defaultValue = "top";
+  Serializer.findProperty("survey", "showProgressBar").defaultValue = true;
   var question = new QuestionTextModel("q1");
   var propertyGrid = new PropertyGridModelTester(question);
-  expect(propertyGrid.survey.showNavigationButtons).toEqual("none");
-  expect(propertyGrid.survey.showProgressBar).toEqual("off");
+  expect(propertyGrid.survey.showNavigationButtons).toEqual(false);
+  expect(propertyGrid.survey.showProgressBar).toEqual(false);
   Serializer.findProperty("survey", "showProgressBar").defaultValue = oldValue;
 });
 
@@ -156,10 +157,10 @@ test("dropdown property editor localization", (): any => {
     "Under the input field"
   );
 
-  var showPreviewQuestion = <QuestionDropdownModel>propertyGrid.survey.getQuestionByName("showPreviewBeforeComplete");
+  var showPreviewQuestion = <QuestionDropdownModel>propertyGrid.survey.getQuestionByName("previewMode");
   expect(showPreviewQuestion.getType()).toEqual("dropdown"); //"correct property editor is created" a lot of text
-  expect(showPreviewQuestion.choices[0].value).toEqual("noPreview");
-  expect(showPreviewQuestion.choices[0].text).toEqual("No preview");
+  expect(showPreviewQuestion.choices[0].value).toEqual("allQuestions");
+  expect(showPreviewQuestion.choices[0].text).toEqual("Show all questions");
 
   var localeQuestion = <QuestionDropdownModel>propertyGrid.survey.getQuestionByName("locale");
   expect(localeQuestion.getType()).toEqual("dropdown"); //"correct property editor is created"
@@ -236,8 +237,10 @@ test("dropdown property editor, get choices on callback", () => {
   Serializer.removeProperty("survey", "region");
 });
 test("Serializer.addpropery, type: 'dropdown' cuts the text before dots, provided into choices. Bug#5787", (): any => {
-  Serializer.addProperty("survey", { name: "prop1:dropdown", type: "dropdown",
-    choices: ["Gemini 1.5 Pro", "Claude 3.5 Sonnet"] });
+  Serializer.addProperty("survey", {
+    name: "prop1:dropdown", type: "dropdown",
+    choices: ["Gemini 1.5 Pro", "Claude 3.5 Sonnet"]
+  });
   const survey = new SurveyModel();
   const propertyGrid = new PropertyGridModelTester(survey);
   const question = propertyGrid.survey.getQuestionByName("prop1");
@@ -610,22 +613,23 @@ test("Change editingObj of the property grid", () => {
   propertyGrid.obj = question2;
   expect(propertyGrid.survey.getValue("name")).toEqual("q2"); //"name property value is set for the second editingObj"
 });
-test("Check objValueChangedCallback", () => {
-  var count = 0;
-  var objValueChangedCallback = () => {
+test("Check onNewSurveyCreatedCallback", () => {
+  let count = 0;
+  const onNewSurveyCreatedCallback = () => {
     count++;
   };
-  var question = new QuestionTextModel("q1");
-  var question2 = new QuestionTextModel("q2");
-  var propertyGrid = new PropertyGridModelTester(question);
-  propertyGrid.objValueChangedCallback = objValueChangedCallback;
-  expect(count).toEqual(0); //"objValueChangedCallback isn't called");
+  const question = new QuestionTextModel("q1");
+  const question2 = new QuestionTextModel("q2");
+  const propertyGrid = new PropertyGridModelTester(question);
+  propertyGrid.onNewSurveyCreatedCallback = onNewSurveyCreatedCallback;
+  expect(count).toEqual(0); //"onNewSurveyCreatedCallback isn't called");
   propertyGrid.obj = question2;
-  expect(count).toEqual(1); //"objValueChangedCallback is called after changing obj value"
+  expect(propertyGrid.survey).toBeTruthy();
+  expect(count).toEqual(1); //"onNewSurveyCreatedCallback is called after changing obj value"
   propertyGrid.obj = question2;
-  expect(count).toEqual(1); //"objValueChangedCallback isn't called after setting same obj value"
+  expect(count).toEqual(1); //"onNewSurveyCreatedCallback isn't called after setting same obj value"
   propertyGrid.obj = question;
-  expect(count).toEqual(2); //"objValueChangedCallback is called after changing obj value"
+  expect(count).toEqual(2); //"onNewSurveyCreatedCallback is called after changing obj value"
 });
 test("Support property visibleIf attribute", () => {
   var question = new QuestionCheckboxModel("q1");
@@ -2161,7 +2165,7 @@ test("Support property availableInMatrixColumn attribute && correct category, #5
   Serializer.removeProperty("question", "prop3");
 });
 
-test("Validate Selected Element Errors", (): any => {
+test("Validate Selected Element Errors 1", (): any => {
   var titleProp = Serializer.findProperty("question", "title");
   var oldIsRequired = titleProp.isRequired;
   titleProp.isRequired = true;
@@ -2195,7 +2199,7 @@ test("Required properties restore on change to empty value", (): any => {
   expect(titleQuestion.value).toBeFalsy();
   titleProp.isRequired = oldIsRequired;
 });
-test("Validate Selected Element Errors", () => {
+test("Validate Selected Element Errors 2", () => {
   var question = new QuestionTextModel("q1");
   var options = new EmptySurveyCreatorOptions();
   var propertyGrid = new PropertyGridModelTester(question, options);
@@ -2546,7 +2550,7 @@ test("Show empty rows template if there is no rows", () => {
   );
   expect(propEditorQuestion.hideColumnsIfEmpty).toBeTruthy();
   expect(propEditorQuestion.renderedTable.showTable).toBeFalsy();
-  expect(propEditorQuestion.emptyRowsText).toEqual("You don't have any triggers yet");
+  expect(propEditorQuestion.noRowsText).toEqual("You don't have any triggers yet");
   expect(propEditorQuestion.addRowText).toEqual("Add new trigger");
 
   propertyGrid = new PropertyGridModelTester(survey.getQuestionByName("q1"));
@@ -2555,7 +2559,7 @@ test("Show empty rows template if there is no rows", () => {
   );
   expect(propEditorQuestion.hideColumnsIfEmpty).toBeTruthy();
   expect(propEditorQuestion.renderedTable.showTable).toBeFalsy();
-  expect(propEditorQuestion.emptyRowsText).toEqual("You don't have any choices yet");
+  expect(propEditorQuestion.noRowsText).toEqual("You don't have any choices yet");
   expect(propEditorQuestion.addRowText).toEqual("Add new choice");
 });
 test("Different property editors for trigger value", () => {
@@ -2619,13 +2623,13 @@ test("AllowRowsDragDrop and property readOnly", () => {
     propertyGrid.survey.getQuestionByName("choices")
   );
   expect(choicesQuestion).toBeTruthy();
-  expect(choicesQuestion.allowRowsDragAndDrop).toBeTruthy();
+  expect(choicesQuestion.allowRowReorder).toBeTruthy();
   Serializer.findProperty("selectbase", "choices").readOnly = true;
   propertyGrid = new PropertyGridModelTester(question);
   choicesQuestion = <QuestionMatrixDynamicModel>(
     propertyGrid.survey.getQuestionByName("choices")
   );
-  expect(choicesQuestion.allowRowsDragAndDrop).toBeFalsy();
+  expect(choicesQuestion.allowRowReorder).toBeFalsy();
   Serializer.findProperty("selectbase", "choices").readOnly = false;
 });
 
@@ -2903,7 +2907,7 @@ test("PropertyGridEditorQuestionValue without nonvalue questions", () => {
   const propertyGrid = new PropertyGridModelTester(survey);
   const triggersQuestion = <QuestionMatrixDynamicModel>(propertyGrid.survey.getQuestionByName("triggers"));
   expect(triggersQuestion).toBeTruthy();
-  expect(triggersQuestion.isUniqueCaseSensitive).toEqual(false);
+  expect(triggersQuestion.useCaseSensitiveComparison).toEqual(false);
   expect(triggersQuestion.visibleRows).toHaveLength(1);
   triggersQuestion.visibleRows[0].showDetailPanel();
   const setToValue = triggersQuestion.visibleRows[0].detailPanel.getQuestionByName("setToName");
@@ -3108,9 +3112,11 @@ test("Do not select page on adding new page in the property grid #5564", () => {
   expect(creator.survey.pages).toHaveLength(1);
   creator.selectElement(creator.survey);
   const pagesQuestion = <QuestionMatrixDynamicModel>creator.propertyGrid.getQuestionByName("pages");
+  expect(pagesQuestion.visibleRows).toHaveLength(1);
   const actions = pagesQuestion.getTitleActions();
   actions[actions.length - 1].action();
   expect(creator.survey.pages).toHaveLength(2);
+  expect(pagesQuestion.visibleRows).toHaveLength(2);
   expect((<any>creator.selectedElement).pages).toHaveLength(2);
 });
 test("Setup correct categories for dynamic properties in components", () => {
@@ -3320,6 +3326,47 @@ test("check pages editor respects onPageAdding", () => {
   addNewPageAction.action!();
   expect(creator.survey.pages.length).toBe(1);
   settings.defaultNewSurveyJSON = savedNewJSON;
+});
+test("Localication and survey.pages property, Bug#6687", () => {
+  const deutschStrings: any = {
+    ed: {
+      newPageName: "Seite"
+    }
+  };
+  editorLocalization.locales["de"] = deutschStrings;
+  const creator = new CreatorTester();
+  creator.locale = "de";
+  creator.JSON = {};
+  const propertyGrid = new PropertyGridModelTester(creator.survey);
+  const pagesQuestion = <QuestionMatrixDynamicModel>(
+    propertyGrid.survey.getQuestionByName("pages")
+  );
+  const propertyEditor = new PropertyGridEditorMatrixPages();
+  const options = { titleActions: [], question: pagesQuestion };
+  propertyEditor.onGetQuestionTitleActions(creator.survey, options, creator);
+  const addNewPageAction = options.titleActions[0] as IAction;
+
+  expect(creator.survey.pages.length).toBe(0);
+  addNewPageAction.action!();
+
+  expect(creator.survey.pages.length).toBe(1);
+  expect(creator.survey.pages[0].name).toBe("Seite1");
+});
+test("panellayoutcolumns doesn't have adding button", () => {
+  const creator = new CreatorTester();
+  creator.JSON = {
+    gridLayoutEnabled: true,
+    elements: [{ type: "text", name: "q1" }]
+  };
+  const propertyGrid = new PropertyGridModelTester(creator.survey.pages[0]);
+  const gridColumnsQuestion = <QuestionMatrixDynamicModel>(propertyGrid.survey.getQuestionByName("gridLayoutColumns"));
+  expect(gridColumnsQuestion).toBeTruthy();
+  expect(gridColumnsQuestion.allowAddRows).toBeFalsy();
+  expect(gridColumnsQuestion.getTitleToolbar()).toBeTruthy();
+  const helpButton = gridColumnsQuestion.titleActions.find(a => a.id === "property-grid-help");
+  const addButton = gridColumnsQuestion.titleActions.find(a => a.id === "add-item");
+  expect(helpButton).toBeTruthy();
+  expect(addButton).toBeFalsy();
 });
 test("Set property name into correct category", () => {
   Serializer.addProperty("question", {
@@ -3624,4 +3671,70 @@ test("Depends on & defaultFunc, Bug#6143", () => {
   expect(questionSecondName.value).toBe("q3_second");
 
   Serializer.removeProperty("question", "secondName");
+});
+test("Undo for deleting validator in text, Bug#6295", () => {
+  const creator = new CreatorTester();
+  creator.JSON = {
+    elements: [{ type: "text", name: "q1", validators: [{ type: "expression" }] }]
+  };
+  const q1 = creator.survey.getQuestionByName("q1");
+  expect(q1.validators).toHaveLength(1);
+  creator.selectQuestionByName("q1");
+  const propGridSurvey = creator.propertyGrid;
+  const matrix = propGridSurvey.getQuestionByName("validators");
+  expect(matrix).toBeTruthy();
+  matrix.focus();
+  expect(matrix.visibleRows).toHaveLength(1);
+  matrix.removeRow(0);
+  expect(matrix.visibleRows).toHaveLength(0);
+  expect(q1.validators).toHaveLength(0);
+  creator.undo();
+  expect(q1.validators).toHaveLength(1);
+  expect(matrix.visibleRows).toHaveLength(1);
+});
+test("Undo for deleting validator in multiple text item, Bug#6295", () => {
+  const creator = new CreatorTester();
+  creator.JSON = {
+    elements: [{ type: "multipletext", name: "q1", items: [{ name: "item1", validators: [{ type: "expression" }] }] }]
+  };
+  const q1 = creator.survey.getQuestionByName("q1");
+  const item1: Question = q1.items[0];
+  expect(item1.validators).toHaveLength(1);
+  creator.selectElement(item1);
+  const propGridSurvey = creator.propertyGrid;
+  const matrix = propGridSurvey.getQuestionByName("validators");
+  expect(matrix).toBeTruthy();
+  matrix.focus();
+  expect(matrix.visibleRows).toHaveLength(1);
+  matrix.removeRow(0);
+  expect(matrix.visibleRows).toHaveLength(0);
+  expect(item1.validators).toHaveLength(0);
+  creator.undo();
+  expect(item1.validators).toHaveLength(1);
+  expect(matrix.visibleRows).toHaveLength(1);
+});
+test("Pages Collection Editor - The Trash Bin (Remove) button is unavailable when you use the Add Page button Bug#6645", () => {
+  const creator = new CreatorTester();
+  const propertyGrid = new PropertyGridModelTester(creator.survey, creator);
+  const pagesQuestion = <QuestionMatrixDynamicModel>propertyGrid.survey.getQuestionByName("pages");
+  expect(pagesQuestion.visibleRows).toHaveLength(0);
+  const action = pagesQuestion.getTitleActions().filter(action => action.id === "add-item")[0];
+  expect(action).toBeTruthy();
+  action.action();
+  action.action();
+  expect(pagesQuestion.visibleRows).toHaveLength(2);
+
+  const rows = pagesQuestion.renderedTable.rows;
+  expect(rows[0].isErrorsRow).toBeFalsy();
+  expect(rows[0].hasEndActions).toBeTruthy();
+  let cell = rows[0].cells[rows[0].cells.length - 1];
+  expect(cell.isActionsCell).toBeTruthy();
+  let container = <ActionContainer>cell.item.value;
+  expect(container.getActionById("remove-row")).toBeTruthy();
+  expect(rows[2].isErrorsRow).toBeFalsy();
+  expect(rows[2].hasEndActions).toBeTruthy();
+  cell = rows[2].cells[rows[2].cells.length - 1];
+  expect(cell.isActionsCell).toBeTruthy();
+  container = <ActionContainer>cell.item.value;
+  expect(container.getActionById("remove-row")).toBeTruthy();
 });

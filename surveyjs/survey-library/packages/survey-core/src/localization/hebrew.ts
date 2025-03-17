@@ -59,12 +59,13 @@ export var hebrewSurveyStrings = {
   addColumn: "הוסף עמודה",
   addRow: "להוסיף שורה",
   removeRow: "לְהַסִיר",
-  emptyRowsText: "אין שורות.",
+  noRowsText: "אין שורות.",
   addPanel: "הוסף חדש",
   removePanel: "לְהַסִיר",
   showDetails: "הראה פרטים",
   hideDetails: "הסתר פרטים",
   choices_Item: "פריט",
+  choices_Choice: "אפשרות בחירה",
   matrix_column: "טור",
   matrix_row: "שׁוּרָה",
   multipletext_itemname: "טקסט",
@@ -99,6 +100,8 @@ export var hebrewSurveyStrings = {
   modalApplyButtonText: "החל",
   filterStringPlaceholder: "הקלד כדי לחפש...",
   emptyMessage: "אין נתונים להצגה",
+  loadingPage: "טעינת...",
+  loadingData: "טעינת...",
   noEntriesText: "אין עדיין ערכים.\nלחץ על הלחצן למטה כדי להוסיף ערך חדש.",
   noEntriesReadonlyText: "אין ערכים.",
   tabTitlePlaceholder: "פאנל חדש",
@@ -120,7 +123,7 @@ setupLocale({ localeCode: "he", strings: hebrewSurveyStrings, nativeName: "עב�
 // minError: "The value should not be less than {0}" => "הערך לא צריך להיות קטן מ {0}"
 // maxError: "The value should not be greater than {0}" => "הערך לא צריך להיות גדול מ- {0}"
 // filePlaceholder: "Drag and drop a file here or click the button below and choose a file to upload." => "גרור ושחרר קובץ לכאן או לחץ על הלחצן למטה ובחר קובץ להעלאה."
-// emptyRowsText: "There are no rows." => "אין שורות."
+// noRowsText: "There are no rows." => "אין שורות."
 // multipletext_itemname: "text" => "טקסט"
 // signaturePlaceHolder: "Sign here" => "חתום כאן"
 // modalCancelButtonText: "Cancel" => "ביטל"
@@ -132,10 +135,12 @@ setupLocale({ localeCode: "he", strings: hebrewSurveyStrings, nativeName: "עב�
 // more: "More" => "עוד"
 // tagboxDoneButtonCaption: "OK" => "אוקיי"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "כל האפשרויות מדורגות"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "גרור ושחרר אפשרויות לכאן כדי לדרג אותן"// takePhotoCaption: "Take Photo" => "צלם תמונה"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "גרור ושחרר אפשרויות לכאן כדי לדרג אותן"
+// takePhotoCaption: "Take Photo" => "צלם תמונה"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "לחץ על הלחצן למטה כדי לצלם תמונה באמצעות המצלמה."
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "גרור ושחרר או בחר קובץ כדי להעלות או לצלם תמונה באמצעות המצלמה."
-// replaceFileCaption: "Replace file" => "החלפת קובץ"// eachRowUniqueError: "Each row must have a unique value." => "לכל שורה חייב להיות ערך ייחודי."
+// replaceFileCaption: "Replace file" => "החלפת קובץ"
+// eachRowUniqueError: "Each row must have a unique value." => "לכל שורה חייב להיות ערך ייחודי."
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "לא ניתן להעלות קבצים. אנא הוסף מטפל לאירוע 'onUploadFiles'."
 // showDetails: "Show Details" => "הראה פרטים"
 // hideDetails: "Hide Details" => "הסתר פרטים"
@@ -144,5 +149,10 @@ setupLocale({ localeCode: "he", strings: hebrewSurveyStrings, nativeName: "עב�
 // refuseItemText: "Refuse to answer" => "מסרבים לענות"
 // dontKnowItemText: "Don't know" => "לא יודע"
 // savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "תגובתך עולה על 64KB. הקטן את גודל הקבצים שלך ונסה שוב או פנה לבעלים של סקר."
-// signaturePlaceHolderReadOnly: "No signature" => "אין חתימה"// tabTitlePlaceholder: "New Panel" => "פאנל חדש"// deselectAllItemText: "Deselect all" => "בטל את הבחירה בהכל"
+// signaturePlaceHolderReadOnly: "No signature" => "אין חתימה"
+// tabTitlePlaceholder: "New Panel" => "פאנל חדש"
+// deselectAllItemText: "Deselect all" => "בטל את הבחירה בהכל"
 // textNoDigitsAllow: "Numbers are not allowed." => "מספרים אינם מותרים."
+// choices_Choice: "Choice option" => "אפשרות בחירה"
+// loadingPage: "Loading..." => "טעינת..."
+// loadingData: "Loading..." => "טעינת..."

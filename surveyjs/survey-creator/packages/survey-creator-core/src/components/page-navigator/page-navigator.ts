@@ -1,8 +1,8 @@
 import { PagesController } from "../../pages-controller";
 import { PageModel, PopupModel, ListModel, Base, propertyArray, SurveyModel, property, IAction, Action, ComputedUpdater } from "survey-core";
 
-require("./page-navigator.scss");
-require("./page-navigator-item.scss");
+import "./page-navigator.scss";
+import "./page-navigator-item.scss";
 import { getLocString } from "../../editorLocalization";
 import { listComponentCss } from "../list-theme";
 
@@ -105,7 +105,7 @@ export class PageNavigatorViewModel extends Base {
   }
   private patchContainerOffset(el: HTMLElement) {
     while (!!el) {
-      if (el.className.indexOf("svc-tab-designer--with-page-navigator") !== -1) {
+      if (el.className.indexOf("svc-tab-designer--with-surface-tools") !== -1) {
         el.offsetParent.scrollTop = 0;
         return;
       }

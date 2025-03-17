@@ -8,6 +8,7 @@ renamedKeys["tabs.theme"] = "ed.themeSurvey";
 renamedKeys["tabs.translation"] = "ed.translation";
 renamedKeys["tabs.designer"] = "ed.designer";
 renamedKeys["tabs.editor"] = "ed.jsonEditor";
+renamedKeys["tabs.json"] = "tabs.editor";
 renamedKeys["tabs.logic"] = "ed.logic";
 
 export class EditorLocalization {
@@ -46,6 +47,7 @@ export class EditorLocalization {
     this.reset();
   }
   public getString(strName: string, locale: string = null): string {
+    if(!strName) return strName;
     const oldVal = this.getOldKeysString(strName, locale);
     if(!!oldVal) return oldVal;
     const path = strName.split(".");
@@ -340,6 +342,10 @@ surveyLocalization.onGetExternalString = (name: string, locale: string): string 
 
 export function getLocString(strName: string, locale: string = null) {
   return editorLocalization.getString(strName, locale);
+}
+
+export function getLocaleStrings(loc: string): any {
+  return editorLocalization.getLocaleStrings(loc);
 }
 
 export var defaultStrings = enStrings;

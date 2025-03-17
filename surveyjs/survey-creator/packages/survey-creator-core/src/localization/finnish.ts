@@ -22,7 +22,7 @@ export var fiStrings = {
     theme: "Teemoja",
     translation: "Käännös",
     designer: "Kyselyn suunnittelija",
-    editor: "JSON Editori",
+    json: "JSON Editori",
     logic: "Kyselyn logiikka"
   },
   // Question types
@@ -107,8 +107,13 @@ export var fiStrings = {
     redo: "Tee uudelleen",
     undoTooltip: "Kumoa viimeinen muutos",
     redoTooltip: "Tee muutos uudelleen",
+    expandTooltip: "Laajentaa",
+    collapseTooltip: "Romahdus",
     expandAllTooltip: "Laajenna kaikki",
     collapseAllTooltip: "Kutista kaikki",
+    zoomInTooltip: "Lähennä",
+    zoom100Tooltip: "Zoomaa 100 %:iin",
+    zoomOutTooltip: "Loitonna",
     lockQuestionsTooltip: "Lukitse laajenna/kutista tila kysymyksiä varten",
     showMoreChoices: "Näytä lisää",
     showLessChoices: "Näytä vähemmän",
@@ -144,6 +149,7 @@ export var fiStrings = {
     saveError: "Virhe! Editorin sisältöä ei ole tallennettu.",
     translationPropertyGridTitle: "Kieliasetukset",
     themePropertyGridTitle: "Teeman asetukset",
+    addLanguageTooltip: "Lisää kieli",
     translationLanguages: "Kielet",
     translationDeleteLanguage: "Oletko varma, että haluat poistaa kaikki merkkijonot tältä kieleltä?",
     translationAddLanguage: "Valitse käännettävä kieli",
@@ -296,7 +302,7 @@ export var fiStrings = {
       description: "Paneelin kuvaus",
       visibleIf: "Tee paneeli näkyväksi, jos",
       requiredIf: "Tee paneeli pakolliseksi, jos",
-      questionsOrder: "Kyselyjärjestys paneelissa",
+      questionOrder: "Kyselyjärjestys paneelissa",
       page: "Pääsivu",
       startWithNewLine: "Näytä paneeli uudella rivillä",
       state: "Paneelin tiivistystila",
@@ -304,6 +310,10 @@ export var fiStrings = {
       minWidth: "Paneelin vähimmäisleveys",
       maxWidth: "Paneelin enimmäisleveys",
       showNumber: "Numeroi tämä paneeli"
+    },
+    panellayoutcolumn: {
+      effectiveWidth: "Tehollinen leveys, %",
+      questionTitleWidth: "Kysymyksen otsikon leveys, px"
     },
     paneldynamic: {
       name: "Paneelin nimi",
@@ -324,15 +334,13 @@ export var fiStrings = {
       templateTabTitle: "Välilehden otsikkomalli",
       tabTitlePlaceholder: "Välilehden otsikon paikkamerkki",
       templateVisibleIf: "Tee yksittäinen paneeli näkyväksi, jos",
-      hideNumber: "Piilota paneelin numero",
+      showNumber: "Paneelin numerointi",
       titleLocation: "Paneelin otsikon tasaus",
       descriptionLocation: "Paneelin kuvauksen tasaus",
-      templateTitleLocation: "Kysymyksen otsikon tasaus",
+      templateQuestionTitleLocation: "Kysymyksen otsikon tasaus",
       templateErrorLocation: "Virhesanoman tasaus",
       newPanelPosition: "Uusi paneelin sijainti",
       showRangeInProgress: "Edistymispalkin näyttäminen",
-      showProgressBar: "Edistymispalkin näyttäminen",
-      progressBarLocation: "Edistymispalkin tasaus",
       keyName: "Päällekkäisten vastausten estäminen seuraavassa kysymyksessä"
     },
     question: {
@@ -343,7 +351,7 @@ export var fiStrings = {
       requiredIf: "Tee kysymys pakolliseksi, jos",
       page: "Pääsivu",
       state: "Kysymysruudun tiivistystila",
-      hideNumber: "Piilota kysymyksen numero",
+      showNumber: "Numeroi tämä kysymys",
       titleLocation: "Kysymyksen otsikon tasaus",
       descriptionLocation: "Kysymyksen kuvauksen tasaus",
       errorLocation: "Virhesanoman tasaus",
@@ -385,7 +393,8 @@ export var fiStrings = {
     // survey templates
     survey: {
       title: "Kyselyn otsikko",
-      description: "Kyselyn kuvaus"
+      description: "Kyselyn kuvaus",
+      readOnly: "Tee kyselystä vain luku -muotoinen"
     },
     page: {
       name: "Sivun nimi",
@@ -394,7 +403,7 @@ export var fiStrings = {
       visibleIf: "Tee sivusta näkyvä, jos",
       requiredIf: "Tee sivusta pakollinen, jos",
       timeLimit: "Sivun viimeistelyn aikaraja (sekunteina)",
-      questionsOrder: "Kyselyjärjestys sivulla"
+      questionOrder: "Kyselyjärjestys sivulla"
     },
     matrixdropdowncolumn: {
       name: "Sarakkeen nimi",
@@ -436,8 +445,9 @@ export var fiStrings = {
     imageHeight: "Kuvan korkeus",
     imageWidth: "Kuvan leveys",
     valueName: "Arvon nimi",
+    defaultDisplayValue: "Dynaamisten tekstien oletusnäyttöarvo",
     rateDescriptionLocation: "Otsikon tasaus",
-    size: "Syöttökentän koko (merkkeinä)",
+    size: "Syöttökentän leveys (merkkeinä)",
     cellErrorLocation: "Solun virhesanoman tasaus",
     enabled: "Käytössä",
     disabled: "Pois käytöstä",
@@ -503,6 +513,7 @@ export var fiStrings = {
     listIsEmpty: "Lisää uusi kohde",
     "listIsEmpty@choices": "Vaihtoehtoja ei ole vielä lisätty",
     "listIsEmpty@columns": "Sinulla ei ole vielä sarakkeita",
+    "listIsEmpty@gridLayoutColumns": "Sinulla ei vielä ole asettelusarakkeita",
     "listIsEmpty@rows": "Sinulla ei ole vielä rivejä",
     "listIsEmpty@validators": "Sinulla ei ole vielä vahvistussääntöjä",
     "listIsEmpty@calculatedValues": "Sinulla ei ole vielä mukautettuja muuttujia",
@@ -536,6 +547,7 @@ export var fiStrings = {
     titlePlaceholder: "Syötä otsikko tähän",
     surveyTitlePlaceholder: "Syötä kyselyn otsikko tähän",
     pageTitlePlaceholder: "Syötä sivun otsikko tähän",
+    startPageTitlePlaceholder: "Aloitussivu",
     descriptionPlaceholder: "Lisää kuvaus",
     surveyDescriptionPlaceholder: "Lisää kyselyn kuvaus",
     pageDescriptionPlaceholder: "Lisää sivun kuvaus",
@@ -560,7 +572,7 @@ export var fiStrings = {
     isRequired: "On vaadittu?",
     markRequired: "Merkitse pakollisesti",
     removeRequiredMark: "Poista vaadittu merkki",
-    isAllRowRequired: "Vaadi vastaus kaikille riveille",
+    eachRowRequired: "Vaadi vastaus kaikille riveille",
     eachRowUnique: "Estä päällekkäiset vastaukset riveillä",
     requiredErrorText: "Vaadittu virheteksti",
     startWithNewLine: "Onko aloitus uudella rivillä?",
@@ -572,7 +584,7 @@ export var fiStrings = {
     maxSize: "Tiedoston enimmäiskoko tavuina",
     rowCount: "Rivien määrä",
     columnLayout: "Sarakkeiden asettelu",
-    addRowLocation: "Lisää rivipainikkeen sijainti",
+    addRowButtonLocation: "Lisää rivipainikkeen sijainti",
     transposeData: "Rivien transponointi sarakkeisiin",
     addRowText: "Lisää rivipainikkeen teksti",
     removeRowText: "Poista rivipainikkeen teksti",
@@ -608,10 +620,9 @@ export var fiStrings = {
     simulator: "Valitse laite",
     landscapeOrientation: "Vaakasuunta",
     portraitOrientation: "Pystysuuntaan vaihtaminen",
-    mode: "Tila (vain muokkaus / vain luku)",
     clearInvisibleValues: "Tyhjennä näkymättömät arvot",
     cookieName: "Evästeen nimi (poistaaksesi kysely käytöstä suorita kysely kaksi kertaa paikallisesti)",
-    sendResultOnPageNext: "Lähetä kyselyn tulokset seuraavalla sivulla",
+    partialSendEnabled: "Lähetä kyselyn tulokset seuraavalla sivulla",
     storeOthersAsComment: "Tallenna 'muut' arvo erilliseen kenttään",
     showPageTitles: "Näytä sivun otsikot",
     showPageNumbers: "Näytä sivunumerot",
@@ -622,19 +633,21 @@ export var fiStrings = {
     editText: "Muokkaa -painikkeen teksti",
     startSurveyText: "Aloita -painikkeen teksti",
     showNavigationButtons: "Näytä navigointipainikkeet (oletusnavigointi)",
+    navigationButtonsLocation: "Siirtymispainikkeiden tasaus",
     showPrevButton: "Näytä edellinen -painike (käyttäjä voi palata edelliselle sivulle)",
-    firstPageIsStarted: "Kyselyn ensimmäinen sivu on aloitussivu.",
-    showCompletedPage: "Näytä valmis sivu lopussa (completeHtml)",
-    goNextPageAutomatic: "Kun vastaat kaikkiin kysymyksiin, siirry seuraavalle sivulle automaattisesti",
-    allowCompleteSurveyAutomatic: "Vastaa kyselyyn automaattisesti",
+    firstPageIsStartPage: "Kyselyn ensimmäinen sivu on aloitussivu.",
+    showCompletePage: "Näytä valmis sivu lopussa (completeHtml)",
+    autoAdvanceEnabled: "Kun vastaat kaikkiin kysymyksiin, siirry seuraavalle sivulle automaattisesti",
+    autoAdvanceAllowComplete: "Vastaa kyselyyn automaattisesti",
     showProgressBar: "Näytä edistymispalkki",
+    progressBarLocation: "Edistymispalkin tasaus",
     questionTitleLocation: "Kysymyksen otsikon sijainti",
     questionTitleWidth: "Kysymyksen otsikon leveys",
-    requiredText: "Kysymys vaadittu symboli (t)",
+    requiredMark: "Kysymys vaadittu symboli (t)",
     questionTitleTemplate: "Kysymyksen otsikkomalli, oletusarvo: '{no}. {require} {title}'",
     questionErrorLocation: "Kysymyksen virheen sijainti",
-    focusFirstQuestionAutomatic: "Fokusoi ensimmäiseen kysymykseen sivun vaihtuessa",
-    questionsOrder: "Elementtien järjestys sivulla",
+    autoFocusFirstQuestion: "Fokusoi ensimmäiseen kysymykseen sivun vaihtuessa",
+    questionOrder: "Elementtien järjestys sivulla",
     timeLimit: "Enimmäisaika saada kysely täytettyä",
     timeLimitPerPage: "Enimmäisaika kyselyn sivun täyttämiseen",
     showTimer: "Käytä ajastinta",
@@ -643,15 +656,15 @@ export var fiStrings = {
     renderMode: "Renderöinnin tila",
     allowAddPanel: "Salli paneelin lisääminen",
     allowRemovePanel: "Salli paneelin poistaminen",
-    panelAddText: "Paneelin tekstin lisääminen",
-    panelRemoveText: "Paneelin tekstin poistaminen",
+    addPanelText: "Paneelin tekstin lisääminen",
+    removePanelText: "Paneelin tekstin poistaminen",
     isSinglePage: "Näytä kaikki elementit yhdellä sivulla",
     html: "Html",
     setValue: "Vastata",
     dataFormat: "Kuvan muoto",
     allowAddRows: "Salli rivien lisääminen",
     allowRemoveRows: "Salli rivien poistaminen",
-    allowRowsDragAndDrop: "Salli rivin vetäminen ja pudottaminen",
+    allowRowReorder: "Salli rivin vetäminen ja pudottaminen",
     responsiveImageSizeHelp: "Ei sovelleta, jos määrität kuvan tarkan leveyden tai korkeuden.",
     minImageWidth: "Kuvan vähimmäisleveys",
     maxImageWidth: "Kuvan enimmäisleveys",
@@ -678,13 +691,13 @@ export var fiStrings = {
     logo: "Logo (URL-osoite tai base64-koodattu merkkijono)",
     questionsOnPageMode: "Kyselyn rakenne",
     maxTextLength: "Vastauksen enimmäispituus (merkkeinä)",
-    maxOthersLength: "Kommentin enimmäispituus (merkkeinä)",
+    maxCommentLength: "Kommentin enimmäispituus (merkkeinä)",
     commentAreaRows: "Kommenttialueen korkeus (riveinä)",
     autoGrowComment: "Laajenna kommenttialue tarvittaessa automaattisesti",
     allowResizeComment: "Salli käyttäjien muuttaa tekstialueiden kokoa",
     textUpdateMode: "Tekstikysymyksen arvon päivittäminen",
     maskType: "Syöttörajoitteen tyyppi",
-    focusOnFirstError: "Aseta kohdistus ensimmäiseen virheelliseen vastaukseen",
+    autoFocusFirstError: "Aseta kohdistus ensimmäiseen virheelliseen vastaukseen",
     checkErrorsMode: "Suorita vahvistus",
     validateVisitedEmptyFields: "Vahvista tyhjät kentät, kun kohdistus on kadonnut",
     navigateToUrl: "Siirry URL-osoitteeseen",
@@ -718,9 +731,9 @@ export var fiStrings = {
     minPanelCount: "Paneelien vähimmäismäärä",
     maxPanelCount: "Paneelien enimmäismäärä",
     panelsState: "Sisäpaneelin laajennustila",
-    panelPrevText: "Edellinen paneeli -painikkeen työkaluvihje",
-    panelNextText: "Seuraava paneeli -painikkeen työkaluvihje",
-    panelRemoveButtonLocation: "Poista paneelipainikkeen sijainti",
+    prevPanelText: "Edellinen paneeli -painikkeen työkaluvihje",
+    nextPanelText: "Seuraava paneeli -painikkeen työkaluvihje",
+    removePanelButtonLocation: "Poista paneelipainikkeen sijainti",
     hideIfRowsEmpty: "Piilota kysymys, jos rivejä ei ole",
     hideColumnsIfEmpty: "Piilota sarakkeet, jos rivejä ei ole",
     rateValues: "Muokatut hinta-arvot",
@@ -742,21 +755,22 @@ export var fiStrings = {
     keyDuplicationError: "Ei-yksilöllinen avainarvo -virhesanoma",
     minSelectedChoices: "Valitut valinnat vähintään:",
     maxSelectedChoices: "Valittujen vaihtoehtojen enimmäismäärä",
-    showClearButton: "Näytä Tyhjennä-painike",
     logoWidth: "Logon leveys (CSS-hyväksytyissä arvoissa)",
     logoHeight: "Logon korkeus (CSS:n hyväksymissä arvoissa)",
     readOnly: "Vain luku -tilassa",
     enableIf: "Muokattavissa, jos",
-    emptyRowsText: "Ei rivejä -viesti",
+    noRowsText: "Ei rivejä -viesti",
     separateSpecialChoices: "Erilliset erikoisvalinnat (Ei mitään, Muu, Valitse kaikki)",
     choicesFromQuestion: "Kopioi valinnat seuraavasta kysymyksestä",
     choicesFromQuestionMode: "Mitkä vaihtoehdot kopioidaan?",
+    choiceValuesFromQuestion: "Käytä seuraavan matriisin sarakkeen tai paneelikysymyksen arvoja valintatunnuksina",
+    choiceTextsFromQuestion: "Käytä seuraavan matriisin sarakkeen tai paneelikysymyksen arvoja valintateksteinä",
     progressBarShowPageTitles: "Sivujen otsikoiden näyttäminen edistymispalkissa",
     progressBarShowPageNumbers: "Sivunumeroiden näyttäminen edistymispalkissa",
     showCommentArea: "Näytä kommenttialue",
     commentPlaceholder: "Kommenttialueen paikkamerkki",
     displayRateDescriptionsAsExtremeItems: "Näytä nopeuskuvaukset ääriarvoina",
-    rowsOrder: "Rivien järjestys",
+    rowOrder: "Rivien järjestys",
     columnsLayout: "Sarakkeen asettelu",
     columnColCount: "Sisäkkäisten sarakkeiden määrä",
     correctAnswer: "Oikea vastaus",
@@ -785,6 +799,11 @@ export var fiStrings = {
       top: "Päällä",
       bottom: "Alla"
     },
+    previewMode: "Esikatselu-tila",
+    gridLayoutEnabled: "Ota ruudukkoasettelu käyttöön",
+    gridLayoutColumns: "Ruudukkoasettelun sarakkeet",
+    maskSettings: "Maskin asetukset",
+    detailErrorLocation: "Rivin laajennuksen virhesanoman tasaus",
     // Creator tabs
     tabs: {
       panel: {
@@ -833,6 +852,7 @@ export var fiStrings = {
       background: "Tausta",
       appearance: "Ulkonäkö",
       accentColors: "Korostusvärit",
+      surfaceBackground: "Surfacen tausta",
       scaling: "Skaalaus",
       others: "Muut"
     },
@@ -843,8 +863,7 @@ export var fiStrings = {
     columnsEnableIf: "Sarakkeet ovat näkyvissä, jos",
     rowsEnableIf: "Rivit ovat näkyvissä, jos",
     innerIndent: "Sisäisten sisennysten lisääminen",
-    defaultValueFromLastRow: "Oletusarvojen ottaminen viimeiseltä riviltä",
-    defaultValueFromLastPanel: "Ota oletusarvot viimeisestä paneelista",
+    copyDefaultValueFromLastEntry: "Käytä viimeisen merkinnän vastauksia oletuksena",
     enterNewValue: "Anna arvo.",
     noquestions: "Kyselyssä ei ole yhtään kysymystä.",
     createtrigger: "Luo triggeri",
@@ -887,6 +906,7 @@ export var fiStrings = {
     maxWidth_placeholder: "Esimerkki: 50 %",
     imageHeight_placeholder: "auto",
     imageWidth_placeholder: "auto",
+    itemTitleWidth_placeholder: "Esimerkki: 100px",
     theme: {
       themeName: "Teema",
       isPanelless: "Kysymyksen ulkonäkö",
@@ -1102,6 +1122,8 @@ export var fiStrings = {
     noPreview: "Ei esikatselua",
     showAllQuestions: "Näytä esikatselu kaikilla kysymyksillä",
     showAnsweredQuestions: "Näytä esikatselu vastatuilla kysymyksillä",
+    allQuestions: "Näytä kaikki kysymykset",
+    answeredQuestions: "Näytä vain vastatut kysymykset",
     pages: "Valmiit sivut",
     questions: "Vastatut kysymykset",
     requiredQuestions: "Vastatut vaaditut kysymykset",
@@ -1120,7 +1142,7 @@ export var fiStrings = {
     timerInfoMode: {
       combined: "Molemmat"
     },
-    addRowLocation: {
+    addRowButtonLocation: {
       default: "Riippuu matriisin asettelusta"
     },
     panelsState: {
@@ -1191,22 +1213,19 @@ export var fiStrings = {
       percent: "Prosenttiosuus",
       date: "Päivämäärä"
     },
-    rowsOrder: {
+    rowOrder: {
       initial: "Alkuperäinen"
     },
-    questionsOrder: {
+    questionOrder: {
       initial: "Alkuperäinen"
-    },
-    showProgressBar: {
-      off: "Piilevä",
-      topbottom: "Ylhäällä ja alhaalla",
-      aboveheader: "Otsikon yläpuolella",
-      belowheader: "Otsikon alapuolella"
     },
     progressBarLocation: {
       top: "Huippu",
       bottom: "Pohja",
-      topBottom: "Ylhäällä ja alhaalla"
+      topbottom: "Ylhäällä ja alhaalla",
+      aboveheader: "Otsikon yläpuolella",
+      belowheader: "Otsikon alapuolella",
+      off: "Piilevä"
     },
     sum: "Summa",
     count: "Laske",
@@ -1345,13 +1364,15 @@ export var fiStrings = {
       questionTitleLocation: "Koskee kaikkia tämän paneelin kysymyksiä. Jos haluat ohittaa tämän asetuksen, määritä otsikon tasaussäännöt yksittäisille kysymyksille. Peri-vaihtoehto käyttää sivutason (jos määritetty) tai kyselytason asetusta (\"Ylin\" oletuksena).",
       questionTitleWidth: "Määrittää kysymysten otsikoiden tasaisen leveyden, kun ne tasataan kysymysruutujen vasemmalle puolelle. Hyväksyy CSS-arvot (px, %, in, pt jne.).",
       questionErrorLocation: "Määrittää virhesanoman sijainnin suhteessa kaikkiin paneelin kysymyksiin. Peri-vaihtoehto käyttää sivutason (jos määritetty) tai kyselytason asetusta.",
-      questionsOrder: "Säilyttää kysymysten alkuperäisen järjestyksen tai satunnaistaa ne. Peri-vaihtoehto käyttää sivutason (jos määritetty) tai kyselytason asetusta.",
+      questionOrder: "Säilyttää kysymysten alkuperäisen järjestyksen tai satunnaistaa ne. Peri-vaihtoehto käyttää sivutason (jos määritetty) tai kyselytason asetusta.",
       page: "Siirtää paneelin valitun sivun loppuun.",
       innerIndent: "Lisää tilaa tai reunuksen paneelin sisällön ja paneeliruudun vasemman reunan väliin.",
       startWithNewLine: "Poista valinta, jos haluat näyttää paneelin yhdellä rivillä edellisen kysymyksen tai paneelin kanssa. Asetusta ei käytetä, jos paneeli on lomakkeen ensimmäinen elementti.",
       state: "Valitse seuraavista: \"Laajennettu\" - paneeli näytetään kokonaisuudessaan ja se voidaan kutistaa; \"Tiivistetty\" - paneeli näyttää vain otsikon ja kuvauksen ja sitä voidaan laajentaa; \"Lukittu\" - paneeli näkyy kokonaisuudessaan eikä sitä voi kutistaa.",
       width: "Asettaa paneelin leveyden suhteessa muihin saman rivin mittauselementteihin. Hyväksyy CSS-arvot (px, %, in, pt jne.).",
-      showQuestionNumbers: "Määrittää numerot tässä paneelissa sisäkkäisille kysymyksille."
+      showQuestionNumbers: "Määrittää numerot tässä paneelissa sisäkkäisille kysymyksille.",
+      effectiveColSpan: "Määrittää, kuinka monta saraketta tämä paneeli kattaa ruudukkoasettelussa.",
+      gridLayoutColumns: "Tämän taulukon avulla voit määrittää paneelin jokaisen ruudukkosarakkeen. Se määrittää automaattisesti kunkin sarakkeen leveysprosentin rivin elementtien enimmäismäärän perusteella. Jos haluat mukauttaa ruudukon asettelua, säädä näitä arvoja manuaalisesti ja määritä otsikon leveys kunkin sarakkeen kaikille kysymyksille."
     },
     paneldynamic: {
       name: "Paneelin tunnus, joka ei näy vastaajille.",
@@ -1359,7 +1380,7 @@ export var fiStrings = {
       visibleIf: "Käytä taikasauvakuvaketta asettaaksesi ehdollisen säännön, joka määrittää paneelin näkyvyyden.",
       enableIf: "Määritä taikasauvakuvakkeen avulla ehdollinen sääntö, joka poistaa paneelin vain luku -tilan käytöstä.",
       requiredIf: "Määritä taikasauvakuvakkeen avulla ehdollinen sääntö, joka estää kyselyn lähettämisen, ellei vähintään yhteen sisäkkäiseen kysymykseen ole vastausta.",
-      templateTitleLocation: "Koskee kaikkia tämän paneelin kysymyksiä. Jos haluat ohittaa tämän asetuksen, määritä otsikon tasaussäännöt yksittäisille kysymyksille. Peri-vaihtoehto käyttää sivutason (jos määritetty) tai kyselytason asetusta (\"Ylin\" oletuksena).",
+      templateQuestionTitleLocation: "Koskee kaikkia tämän paneelin kysymyksiä. Jos haluat ohittaa tämän asetuksen, määritä otsikon tasaussäännöt yksittäisille kysymyksille. Peri-vaihtoehto käyttää sivutason (jos määritetty) tai kyselytason asetusta (\"Ylin\" oletuksena).",
       templateErrorLocation: "Määrittää virhesanoman sijainnin suhteessa kysymykseen, jonka syöte on virheellinen. Valitse seuraavista: \"Top\" - virheteksti sijoitetaan kysymysruudun yläosaan; \"Pohja\" - virheteksti sijoitetaan kysymysruudun alaosaan. Peri-vaihtoehto käyttää sivutason (jos määritetty) tai kyselytason asetusta (\"Ylin\" oletuksena).",
       errorLocation: "Määrittää virhesanoman sijainnin suhteessa kaikkiin paneelin kysymyksiin. Peri-vaihtoehto käyttää sivutason (jos määritetty) tai kyselytason asetusta.",
       page: "Siirtää paneelin valitun sivun loppuun.",
@@ -1374,13 +1395,15 @@ export var fiStrings = {
       titleLocation: "Tämä asetus periytyy automaattisesti kaikkiin tämän paneelin kysymyksiin. Jos haluat ohittaa tämän asetuksen, määritä otsikon tasaussäännöt yksittäisille kysymyksille. Peri-vaihtoehto käyttää sivutason (jos määritetty) tai kyselytason asetusta (\"Ylin\" oletuksena).",
       descriptionLocation: "\"Peri\" -vaihtoehto käyttää sivutason (jos määritetty) tai kyselytason asetusta (\"Paneelin otsikon alla\" oletuksena).",
       newPanelPosition: "Määrittää juuri lisätyn paneelin sijainnin. Oletuksena uudet paneelit lisätään loppuun. Valitse \"Seuraava\" lisätäksesi uuden paneelin nykyisen jälkeen.",
-      defaultValueFromLastPanel: "Monistaa edellisen paneelin vastaukset ja määrittää ne seuraavaan lisättyyn dynaamiseen paneeliin.",
+      copyDefaultValueFromLastEntry: "Monistaa edellisen paneelin vastaukset ja määrittää ne seuraavaan lisättyyn dynaamiseen paneeliin.",
       keyName: "Viittaa kysymyksen nimeen, jos haluat edellyttää, että käyttäjä antaa yksilöllisen vastauksen tähän kysymykseen kussakin paneelissa."
     },
+    copyDefaultValueFromLastEntry: "Monistaa vastaukset viimeiseltä riviltä ja määrittää ne seuraavalle lisätylle dynaamiselle riville.",
     defaultValueExpression: "Tämän asetuksen avulla voit määrittää oletusarvoisen vastausarvon lausekkeen perusteella. Lauseke voi sisältää peruslaskutoimituksia - '{q1_id} + {q2_id}', totuusarvolausekkeita, kuten '{age} > 60', ja funktioita: 'iif()', 'today()', 'age()', 'min()', 'max()', 'avg()' jne. Tämän lausekkeen määrittämä arvo toimii alkuperäisenä oletusarvona, jonka vastaajan manuaalinen syöttö voi ohittaa.",
     resetValueIf: "Käytä taikasauvakuvaketta asettaaksesi ehdollisen säännön, joka määrittää, milloin vastaajan syöte palautetaan arvoon \"Oletusarvolauseke\" tai \"Aseta arvolauseke\" tai \"Oletusvastaus\" -arvoon (jos jompikumpi on asetettu).",
     setValueIf: "Käytä taikasauvakuvaketta asettaaksesi ehdollisen säännön, joka määrittää, milloin \"Aseta arvolauseke\" suoritetaan, ja määritä tuloksena oleva arvo dynaamisesti vastauksena.",
     setValueExpression: "Määritä lauseke, joka määrittää arvon, joka määritetään, kun Aseta arvo jos -säännön ehdot täyttyvät. Lauseke voi sisältää peruslaskutoimituksia - '{q1_id} + {q2_id}', totuusarvolausekkeita, kuten '{age} > 60', ja funktioita: 'iif()', 'today()', 'age()', 'min()', 'max()', 'avg()' jne. Tämän lausekkeen määrittämä arvo voidaan ohittaa vastaajan manuaalisella syötöllä.",
+    gridLayoutEnabled: "Survey Creatorin avulla voit manuaalisesti säätää lomake-elementtien sisäisiä leveyksiä asettelun hallitsemiseksi. Jos tämä ei tuota toivottua tulosta, voit ottaa käyttöön ruudukkoasettelun, joka jäsentää elementtejä sarakepohjaisen järjestelmän avulla. Määritä asettelusarakkeet valitsemalla sivu tai paneeli ja käyttämällä \"Kysymysasetukset\" → \"Ruudukkosarakkeet\" -taulukkoa. Jos haluat säätää, kuinka monta saraketta kysymys kattaa, valitse se ja aseta haluamasi arvo \"Asettelu\" → \"Sarakeväli\" -kenttään.",
     question: {
       name: "Kysymystunnus, joka ei näy vastaajille.",
       description: "Kirjoita kysymyksen alaotsikko.",
@@ -1401,7 +1424,8 @@ export var fiStrings = {
       textUpdateMode: "Valitse seuraavista: \"Kadonneessa tarkennuksessa\" - arvo päivitetään, kun syöttökenttä menettää tarkennuksen; \"Kirjoitettaessa\" - arvo päivitetään reaaliajassa, kun käyttäjät kirjoittavat. \"Peri\"-vaihtoehto käyttää kyselytason asetusta (\"Oletusarvoisesti menetetty kohdistus\").",
       url: "Voit käyttää mitä tahansa verkkopalvelua tietolähteenä monivalintakysymyksissä. Voit täyttää valinta-arvot antamalla tiedot tarjoavan palvelun URL-osoitteen.",
       searchMode: "Vertailutoiminto, jota käytetään avattavan luettelon suodattamiseen.",
-      textWrapEnabled: "Valintavaihtoehtojen pitkät tekstit luovat automaattisesti rivinvaihdot, jotka mahtuvat avattavaan valikkoon. Poista valinta, jos haluat leikata tekstit."
+      textWrapEnabled: "Valintavaihtoehtojen pitkät tekstit luovat automaattisesti rivinvaihdot, jotka mahtuvat avattavaan valikkoon. Poista valinta, jos haluat leikata tekstit.",
+      effectiveColSpan: "Määrittää, kuinka monta saraketta tämä kysymys kattaa ruudukkoasettelussa."
     },
     signaturepad: {
       signatureWidth: "Määrittää näytettävän allekirjoitusalueen ja tuloksena olevan kuvan leveyden.",
@@ -1430,7 +1454,8 @@ export var fiStrings = {
     },
     // survey templates
     survey: {
-      mode: "Valitse jompikumpi seuraavista: \"Muokattavissa\" - vastaajat voivat täyttää kyselysi; \"Vain luku\" - poistaa lomakkeen muokkauksen käytöstä."
+      readOnly: "Valitse tämä, jos haluat estää vastaajia vastaamasta kyselyyn.",
+      progressBarLocation: "Määrittää edistymispalkin sijainnin. \"Auto\"-arvo näyttää edistymispalkin kyselyn otsikon ylä- tai alapuolella."
     },
     matrixdropdowncolumn: {
       name: "Sarakkeen tunnus, joka ei näy vastaajille.",
@@ -1449,20 +1474,20 @@ export var fiStrings = {
     logoWidth: "Määrittää logon leveyden CSS-yksiköissä (px, %, in, pt jne.).",
     logoHeight: "Asettaa logon korkeuden CSS-yksiköinä (px, %, in, pt jne.).",
     logoFit: "Valitse seuraavista: \"Ei mitään\" - kuva säilyttää alkuperäisen kokonsa; \"Sisältää\" - kuvan kokoa muutetaan sopivaksi säilyttäen samalla kuvasuhteensa; \"Kansi\" - kuva täyttää koko laatikon säilyttäen samalla kuvasuhteensa; \"Täytä\" - kuva venytetään täyttämään laatikko säilyttämättä sen kuvasuhdetta.",
-    goNextPageAutomatic: "Valitse tämä, jos haluat, että kysely siirtyy automaattisesti seuraavalle sivulle, kun vastaaja on vastannut kaikkiin nykyisen sivun kysymyksiin. Tätä ominaisuutta ei käytetä, jos sivun viimeinen kysymys on avoin tai sallii useita vastauksia.",
-    allowCompleteSurveyAutomatic: "Valitse, haluatko kyselyn täyttyvän automaattisesti, kun vastaaja on vastannut kaikkiin kysymyksiin.",
+    autoAdvanceEnabled: "Valitse tämä, jos haluat, että kysely siirtyy automaattisesti seuraavalle sivulle, kun vastaaja on vastannut kaikkiin nykyisen sivun kysymyksiin. Tätä ominaisuutta ei käytetä, jos sivun viimeinen kysymys on avoin tai sallii useita vastauksia.",
+    autoAdvanceAllowComplete: "Valitse, haluatko kyselyn täyttyvän automaattisesti, kun vastaaja on vastannut kaikkiin kysymyksiin.",
     showNavigationButtons: "Määrittää sivun navigointipainikkeiden näkyvyyden ja sijainnin.",
-    showProgressBar: "Määrittää edistymispalkin näkyvyyden ja sijainnin. \"Auto\"-arvo näyttää edistymispalkin kyselyn otsikon ylä- tai alapuolella.",
+    navigationButtonsLocation: "Määrittää navigointipainikkeiden sijainnin sivulla.",
     showPreviewBeforeComplete: "Ota esikatselusivu käyttöön vain kaikilla kysymyksillä tai vastatuilla kysymyksillä.",
     questionTitleLocation: "Koskee kaikkia kyselyn kysymyksiä. Tämä asetus voidaan ohittaa otsikon tasaussäännöillä alemmilla tasoilla: paneeli, sivu tai kysymys. Alemman tason asetus ohittaa korkeammalla tasolla olevat.",
-    requiredText: "Symboli tai symbolisarja, joka osoittaa, että vastaus vaaditaan.",
+    requiredMark: "Symboli tai symbolisarja, joka osoittaa, että vastaus vaaditaan.",
     questionStartIndex: "Kirjoita numero tai kirjain, jolla haluat aloittaa numeroinnin.",
     questionErrorLocation: "Määrittää virhesanoman sijainnin suhteessa kysymykseen, jonka syöte on virheellinen. Valitse seuraavista: \"Top\" - virheteksti sijoitetaan kysymysruudun yläosaan; \"Pohja\" - virheteksti sijoitetaan kysymysruudun alaosaan.",
-    focusFirstQuestionAutomatic: "Valitse tämä, jos haluat, että kunkin sivun ensimmäinen syöttökenttä on valmis tekstinsyöttöä varten.",
-    questionsOrder: "Säilyttää kysymysten alkuperäisen järjestyksen tai satunnaistaa ne. Tämän asetuksen vaikutus näkyy vain Esikatselu-välilehdessä.",
+    autoFocusFirstQuestion: "Valitse tämä, jos haluat, että kunkin sivun ensimmäinen syöttökenttä on valmis tekstinsyöttöä varten.",
+    questionOrder: "Säilyttää kysymysten alkuperäisen järjestyksen tai satunnaistaa ne. Tämän asetuksen vaikutus näkyy vain Esikatselu-välilehdessä.",
     maxTextLength: "Vain tekstinsyöttökysymykset.",
-    maxOthersLength: "Vain kysymysten kommentit.",
-    commentAreaRows: "Määrittää tekstialueilla näytettävien rivien määrän kysymyskommentteja varten. Tulossa vie enemmän rivejä, vierityspalkki tulee näkyviin.",
+    maxCommentLength: "Vain kysymysten kommentit.",
+    commentAreaRows: "Määrittää kysymyskommenttien tekstialueilla näytettävien rivien määrän. Jos syöttö vie enemmän rivejä, vierityspalkki tulee näkyviin.",
     autoGrowComment: "Valitse tämä, jos haluat, että kysymysten kommentit ja pitkät tekstit -kysymykset kasvavat automaattisesti syötetyn tekstin pituuden perusteella.",
     allowResizeComment: "Vain kysymyskommentit ja pitkän tekstin kysymykset.",
     calculatedValues: "Mukautetut muuttujat toimivat väli- tai apumuuttujina, joita käytetään lomakelaskelmissa. He ottavat vastaajan syötteet lähdearvoina. Jokaisella mukautetulla muuttujalla on yksilöllinen nimi ja lauseke, johon se perustuu.",
@@ -1476,10 +1501,10 @@ export var fiStrings = {
     rowTitleWidth: "Hyväksyy CSS-arvot (px, %, in, pt jne.).",
     totalText: "Näkyy vain, kun vähintään yhdessä sarakkeessa on Summa-tyyppi tai Summa-lauseke.",
     cellErrorLocation: "Määrittää virhesanoman sijainnin suhteessa soluun, jonka syöte on virheellinen. \"Peri\" -vaihtoehto käyttää asetusta \"Virheilmoituksen kohdistus\" -ominaisuudesta.",
+    detailErrorLocation: "Määrittää tieto-osiin sisältyvien kysymysten virhesanomien sijainnin. \"Peri\" -vaihtoehto käyttää asetusta \"Virheilmoituksen kohdistus\" -ominaisuudesta.",
     keyDuplicationError: "Kun Estä päällekkäiset vastaukset -ominaisuus on käytössä, vastaaja, joka yrittää lähettää merkinnän kaksoiskappaleen, saa seuraavan virhesanoman.",
     totalExpression: "Voit laskea kokonaisarvot lausekkeen perusteella. Lauseke voi sisältää peruslaskutoimituksia ('{q1_id} + {q2_id}'), totuusarvolausekkeita ('{age} > 60') ja funktioita ('iif()', 'today()', 'age()', 'min()', 'max()', 'avg()' jne.).",
     confirmDelete: "Käynnistää kehotteen, jossa pyydetään vahvistamaan rivin poisto.",
-    defaultValueFromLastRow: "Monistaa vastaukset viimeiseltä riviltä ja määrittää ne seuraavalle lisätylle dynaamiselle riville.",
     keyName: "Jos määritetty sarake sisältää samat arvot, kysely heittää \"Ei-yksilöllinen avainarvo\" -virheen.",
     description: "Kirjoita tekstitys.",
     locale: "Aloita kyselyn luominen valitsemalla kieli. Jos haluat lisätä käännöksen, vaihda uuteen kieleen ja käännä alkuperäinen teksti täällä tai Käännökset-välilehdessä.",
@@ -1498,8 +1523,9 @@ export var fiStrings = {
       questionTitleLocation: "Koskee kaikkia tämän sivun kysymyksiä. Jos haluat ohittaa tämän asetuksen, määritä otsikon tasaussäännöt yksittäisille kysymyksille tai paneeleille. \"Peri\"-vaihtoehto käyttää kyselytason asetusta (\"Ylin\" oletuksena).",
       questionTitleWidth: "Määrittää kysymysten otsikoiden tasaisen leveyden, kun ne tasataan kysymysruutujen vasemmalle puolelle. Hyväksyy CSS-arvot (px, %, in, pt jne.).",
       questionErrorLocation: "Määrittää virhesanoman sijainnin suhteessa kysymykseen, jonka syöte on virheellinen. Valitse seuraavista: \"Top\" - virheteksti sijoitetaan kysymysruudun yläosaan; \"Pohja\" - virheteksti sijoitetaan kysymysruudun alaosaan. \"Peri\"-vaihtoehto käyttää kyselytason asetusta (\"Ylin\" oletuksena).",
-      questionsOrder: "Säilyttää kysymysten alkuperäisen järjestyksen tai satunnaistaa ne. \"Peri\" -vaihtoehto käyttää kyselytason asetusta (\"Alkuperäinen\" oletuksena). Tämän asetuksen vaikutus näkyy vain Esikatselu-välilehdessä.",
-      navigationButtonsVisibility: "Määrittää navigointipainikkeiden näkyvyyden sivulla. \"Peri\" -vaihtoehto käyttää kyselytason asetusta, jonka oletusarvo on \"Näkyvä\"."
+      questionOrder: "Säilyttää kysymysten alkuperäisen järjestyksen tai satunnaistaa ne. \"Peri\" -vaihtoehto käyttää kyselytason asetusta (\"Alkuperäinen\" oletuksena). Tämän asetuksen vaikutus näkyy vain Esikatselu-välilehdessä.",
+      showNavigationButtons: "Määrittää navigointipainikkeiden näkyvyyden sivulla. \"Peri\" -vaihtoehto käyttää kyselytason asetusta, jonka oletusarvo on \"Näkyvä\".",
+      gridLayoutColumns: "Tämän taulukon avulla voit määrittää sivun jokaisen ruudukkosarakkeen. Se määrittää automaattisesti kunkin sarakkeen leveysprosentin rivin elementtien enimmäismäärän perusteella. Jos haluat mukauttaa ruudukon asettelua, säädä näitä arvoja manuaalisesti ja määritä otsikon leveys kunkin sarakkeen kaikille kysymyksille."
     },
     timerLocation: "Määrittää ajastimen sijainnin sivulla.",
     panelsState: "Valitse seuraavista: \"Lukittu\" - käyttäjät eivät voi laajentaa tai kutistaa paneeleja; \"Kutista kaikki\" - kaikki paneelit alkavat romahtaneessa tilassa; \"Laajenna kaikki\" - kaikki paneelit alkavat laajennetussa tilassa; \"Ensimmäinen laajennettu\" - vain ensimmäistä paneelia laajennetaan aluksi.",
@@ -1511,9 +1537,12 @@ export var fiStrings = {
     maxWidth: "Hyväksyy CSS-arvot (px, %, in, pt jne.).",
     width: "Hyväksyy CSS-arvot (px, %, in, pt jne.).",
     valueName: "Jos et määritä tätä ominaisuutta, vastaus tallennetaan Name-ominaisuuden määrittämään kenttään.",
+    defaultDisplayValue: "Arvo, joka näkyy HTML-kysymyksissä ja kyselyn elementtien dynaamisissa otsikoissa ja kuvauksissa, kun kysymyksen arvo on tyhjä.",
     useDisplayValuesInDynamicTexts: "Yksi- ja monivalintakysymystyypeissä kullakin valintavaihtoehdolla on tunnus ja näyttöarvo. Kun tämä asetus on valittuna, se näyttää tunnusarvon sijaan HTML-kysymyksissä ja kyselyelementtien dynaamisissa otsikoissa ja kuvauksissa.",
     clearIfInvisible: "Valitse, poistetaanko ehdollisen logiikan piilottamat kysymysarvot ja milloin se tehdään. \"Peri\"-vaihtoehto käyttää kyselytason asetusta (\"Kyselyn valmistuttua\" oletuksena).",
     choicesFromQuestionMode: "Valitse seuraavista: \"Kaikki\" - kopioi kaikki valintavaihtoehdot valitusta kysymyksestä; \"Valittu\" - kopioi dynaamisesti vain valitut valintavaihtoehdot; \"Ei valittu\" - kopioi dynaamisesti vain valitsemattomat valintavaihtoehdot. Vaihtoehdot \"Ei mitään\" ja \"Muut\" kopioidaan oletusarvoisesti, jos ne on otettu käyttöön lähdekysymyksessä.",
+    choiceValuesFromQuestion: "Yksi- ja monivalintakysymystyypeissä kullakin valintavaihtoehdolla on tunnus ja näyttöarvo. Tämä asetus määrittää, mikä matriisisarake tai paneelikysymys antaa tunnukset.",
+    choiceTextsFromQuestion: "Yksi- ja monivalintakysymystyypeissä kullakin valintavaihtoehdolla on tunnus ja näyttöarvo. Tämä asetus määrittää, mikä matriisisarake tai paneelikysymys sisältää näyttötekstit.",
     showOtherItem: "Kun tämä on valittuna, käyttäjät voivat lisätä lisätietoja erilliseen kommenttiruutuun.",
     separateSpecialChoices: "Näyttää jokaisen erityisen valintavaihtoehdon (\"Ei mitään\", \"Muu\", \"Valitse kaikki\") uudella rivillä, vaikka käytettäisiin monisarakkeista asettelua.",
     path: "Määritä palvelutietojoukon sijainti, jossa objektien kohderyhmä sijaitsee. Jätä tyhjäksi, jos URL-osoite osoittaa jo matriisiin.",
@@ -1535,8 +1564,8 @@ export var fiStrings = {
     needConfirmRemoveFile: "Käynnistää kehotteen, jossa pyydetään vahvistamaan tiedoston poistaminen.",
     selectToRankEnabled: "Ota käyttöön, jos haluat luokitella vain valitut vaihtoehdot. Käyttäjät vetävät valitut kohteet valintaluettelosta järjestääkseen ne sijoitusalueella.",
     dataList: "Kirjoita luettelo vaihtoehdoista, joita vastaajalle ehdotetaan syötteen aikana.",
-    itemSize: "Asetus muuttaa vain syöttökenttien kokoa eikä vaikuta kysymysruudun leveyteen.",
-    itemTitleWidth: "Määrittää yhdenmukaisen leveyden kaikille tuoteotsikoille kuvapisteinä",
+    inputSize: "Asetus muuttaa vain syöttökenttien kokoa eikä vaikuta kysymysruudun leveyteen.",
+    itemTitleWidth: "Määrittää yhdenmukaisen leveyden kaikille nimikeotsikoille. Hyväksyy CSS-arvot (px, %, in, pt jne.).",
     inputTextAlignment: "Valitse, miten syötteen arvo tasataan kenttään. Oletusasetus \"Auto\" kohdistaa syöttöarvon oikealle, jos valuuttaa tai numeerista peittoa käytetään, ja vasemmalle, jos ei.",
     altText: "Toimii korvikkeena, kun kuvaa ei voida näyttää käyttäjän laitteella, ja esteettömyyssyistä.",
     rateColorMode: "Määrittää valitun emojin värin, kun luokituskuvakkeen tyypiksi on asetettu \"Hymiöt\". Valitse seuraavista: \"Oletus\" - valittu emoji näkyy kyselyn oletusvärillä; \"Scale\" - valittu emoji perii värin luokitusasteikolta.",
@@ -1585,10 +1614,6 @@ export var fiStrings = {
       textAreaWidth: "Kyselyn otsikon ja kuvauksen sisältävän otsikkoalueen leveys pikseleinä mitattuna.",
       overlapEnabled: "Kun tämä asetus on käytössä, kyselyn yläosa peittää otsikon alaosan.",
       mobileHeight: "Kun arvoksi on määritetty 0, korkeus lasketaan automaattisesti otsikon sisällön mukaan."
-    },
-    panellayoutcolumn: {
-      effectiveWidth: "Hyväksyy arvot %.",
-      questionTitleWidth: "Hyväksyy arvot px."
     },
     progressBarInheritWidthFrom: "Sama kuin säilö -vaihtoehto säätää edistymispalkin alueen leveyttä automaattisesti sopimaan HTML-elementtiin, johon kysely sijoitetaan."
   },
@@ -1653,12 +1678,11 @@ export var fiStrings = {
     maxValueExpression: "Enimmäisarvon lauseke",
     step: "Askel",
     dataList: "Tietoluettelo",
-    itemSize: "Kohteen koko",
+    inputSize: "Kohteen koko",
     itemTitleWidth: "Kohteen otsikon leveys (px)",
     inputTextAlignment: "Syöttöarvon tasaus",
     elements: "Elementit",
     content: "Sisältö",
-    navigationButtonsVisibility: "Navigointikuvakkeen näkyvyys",
     navigationTitle: "Navigoinnin otsikko",
     navigationDescription: "Navigoinnin kuvaus",
     longTap: "Pitkä napautus",
@@ -1755,7 +1779,8 @@ export var fiStrings = {
       orchid: "Orkidea",
       tulip: "Tulppaani",
       brown: "Ruskea",
-      green: "Vihreä"
+      green: "Vihreä",
+      gray: "Harmaa"
     }
   },
   creatortheme: {
@@ -1873,7 +1898,7 @@ setupLocale({ localeCode: "fi", strings: fiStrings });
 // pe.dataFormat: "Image format" => "Kuvan muoto"
 // pe.allowAddRows: "Allow adding rows" => "Salli rivien lisääminen"
 // pe.allowRemoveRows: "Allow removing rows" => "Salli rivien poistaminen"
-// pe.allowRowsDragAndDrop: "Allow row drag and drop" => "Salli rivin vetäminen ja pudottaminen"
+// pe.allowRowReorder: "Allow row drag and drop" => "Salli rivin vetäminen ja pudottaminen"
 // pe.responsiveImageSizeHelp: "Does not apply if you specify the exact image width or height." => "Ei sovelleta, jos määrität kuvan tarkan leveyden tai korkeuden."
 // pe.minImageWidth: "Minimum image width" => "Kuvan vähimmäisleveys"
 // pe.maxImageWidth: "Maximum image width" => "Kuvan enimmäisleveys"
@@ -1890,11 +1915,11 @@ setupLocale({ localeCode: "fi", strings: fiStrings });
 // pe.logo: "Logo (URL or base64-encoded string)" => "Logo (URL-osoite tai base64-koodattu merkkijono)"
 // pe.questionsOnPageMode: "Survey structure" => "Kyselyn rakenne"
 // pe.maxTextLength: "Maximum answer length (in characters)" => "Vastauksen enimmäispituus (merkkeinä)"
-// pe.maxOthersLength: "Maximum comment length (in characters)" => "Kommentin enimmäispituus (merkkeinä)"
+// pe.maxCommentLength: "Maximum comment length (in characters)" => "Kommentin enimmäispituus (merkkeinä)"
 // pe.autoGrowComment: "Auto-expand comment area if necessary" => "Laajenna kommenttialue tarvittaessa automaattisesti"
 // pe.allowResizeComment: "Allow users to resize text areas" => "Salli käyttäjien muuttaa tekstialueiden kokoa"
 // pe.textUpdateMode: "Update text question value" => "Tekstikysymyksen arvon päivittäminen"
-// pe.focusOnFirstError: "Set focus on the first invalid answer" => "Aseta kohdistus ensimmäiseen virheelliseen vastaukseen"
+// pe.autoFocusFirstError: "Set focus on the first invalid answer" => "Aseta kohdistus ensimmäiseen virheelliseen vastaukseen"
 // pe.checkErrorsMode: "Run validation" => "Suorita vahvistus"
 // pe.navigateToUrl: "Navigate to URL" => "Siirry URL-osoitteeseen"
 // pe.navigateToUrlOnCondition: "Dynamic URL" => "Dynaaminen URL-osoite"
@@ -1929,11 +1954,11 @@ setupLocale({ localeCode: "fi", strings: fiStrings });
 // pe.panelsState: "Inner panel expand state" => "Sisäpaneelin laajennustila"
 // pe.templateDescription: "Description template" => "Kuvaus-malli"
 // pe.templateTitle: "Title template" => "Otsikko-malli"
-// pe.panelPrevText: "Previous Panel button tooltip" => "Edellinen paneeli -painikkeen työkaluvihje"
-// pe.panelNextText: "Next Panel button tooltip" => "Seuraava paneeli -painikkeen työkaluvihje"
+// pe.prevPanelText: "Previous Panel button tooltip" => "Edellinen paneeli -painikkeen työkaluvihje"
+// pe.nextPanelText: "Next Panel button tooltip" => "Seuraava paneeli -painikkeen työkaluvihje"
 // pe.showRangeInProgress: "Show progress bar" => "Näytä edistymispalkki"
-// pe.templateTitleLocation: "Question title location" => "Kysymyksen otsikon sijainti"
-// pe.panelRemoveButtonLocation: "Remove Panel button location" => "Poista paneelipainikkeen sijainti"
+// pe.templateQuestionTitleLocation: "Question title location" => "Kysymyksen otsikon sijainti"
+// pe.removePanelButtonLocation: "Remove Panel button location" => "Poista paneelipainikkeen sijainti"
 // pe.hideIfRowsEmpty: "Hide the question if there are no rows" => "Piilota kysymys, jos rivejä ei ole"
 // pe.hideColumnsIfEmpty: "Hide columns if there are no rows" => "Piilota sarakkeet, jos rivejä ei ole"
 // pe.rateValues: "Custom rate values" => "Muokatut hinta-arvot"
@@ -1956,13 +1981,12 @@ setupLocale({ localeCode: "fi", strings: fiStrings });
 // pe.keyDuplicationError: "\"Non-unique key value\" error message" => "Ei-yksilöllinen avainarvo -virhesanoma"
 // pe.minSelectedChoices: "Minimum selected choices" => "Valitut valinnat vähintään:"
 // pe.maxSelectedChoices: "Maximum selected choices" => "Valittujen vaihtoehtojen enimmäismäärä"
-// pe.showClearButton: "Show the Clear button" => "Näytä Tyhjennä-painike"
 // pe.showNumber: "Show panel number" => "Näytä paneelin numero"
 // pe.logoWidth: "Logo width (in CSS-accepted values)" => "Logon leveys (CSS-hyväksytyissä arvoissa)"
 // pe.logoHeight: "Logo height (in CSS-accepted values)" => "Logon korkeus (CSS:n hyväksymissä arvoissa)"
 // pe.readOnly: "Read-only" => "Vain luku -tilassa"
 // pe.enableIf: "Editable if" => "Muokattavissa, jos"
-// pe.emptyRowsText: "\"No rows\" message" => "Ei rivejä -viesti"
+// pe.noRowsText: "\"No rows\" message" => "Ei rivejä -viesti"
 // pe.size: "Input field size (in characters)" => "Syöttökentän koko (merkkeinä)"
 // pe.separateSpecialChoices: "Separate special choices (None, Other, Select All)" => "Erilliset erikoisvalinnat (Ei mitään, Muu, Valitse kaikki)"
 // pe.choicesFromQuestion: "Copy choices from the following question" => "Kopioi valinnat seuraavasta kysymyksestä"
@@ -1970,7 +1994,7 @@ setupLocale({ localeCode: "fi", strings: fiStrings });
 // pe.showCommentArea: "Show the comment area" => "Näytä kommenttialue"
 // pe.commentPlaceholder: "Comment area placeholder" => "Kommenttialueen paikkamerkki"
 // pe.displayRateDescriptionsAsExtremeItems: "Display rate descriptions as extreme values" => "Näytä nopeuskuvaukset ääriarvoina"
-// pe.rowsOrder: "Row order" => "Rivien järjestys"
+// pe.rowOrder: "Row order" => "Rivien järjestys"
 // pe.columnsLayout: "Column layout" => "Sarakkeen asettelu"
 // pe.columnColCount: "Nested column count" => "Sisäkkäisten sarakkeiden määrä"
 // pe.state: "Panel expand state" => "Paneelin laajenna tila"
@@ -1987,8 +2011,6 @@ setupLocale({ localeCode: "fi", strings: fiStrings });
 // pe.indent: "Add indents" => "Sisennysten lisääminen"
 // panel.indent: "Add outer indents" => "Ulompien sisennysten lisääminen"
 // pe.innerIndent: "Add inner indents" => "Sisäisten sisennysten lisääminen"
-// pe.defaultValueFromLastRow: "Take default values from the last row" => "Oletusarvojen ottaminen viimeiseltä riviltä"
-// pe.defaultValueFromLastPanel: "Take default values from the last panel" => "Ota oletusarvot viimeisestä paneelista"
 // pe.emptyExpressionPlaceHolder: "Type expression here..." => "Kirjoita lauseke tähän..."
 // pe.clearIfInvisible: "Clear the value if the question becomes hidden" => "Poista arvo, jos kysymys piilotetaan"
 // pe.valuePropertyName: "Value property name" => "Arvo-ominaisuuden nimi"
@@ -2057,7 +2079,7 @@ setupLocale({ localeCode: "fi", strings: fiStrings });
 // showTimerPanel.none: "Hidden" => "Piilevä"
 // showTimerPanelMode.all: "Both" => "Molemmat"
 // detailPanelMode.none: "Hidden" => "Piilevä"
-// addRowLocation.default: "Depends on matrix layout" => "Riippuu matriisin asettelusta"
+// addRowButtonLocation.default: "Depends on matrix layout" => "Riippuu matriisin asettelusta"
 // panelsState.default: "Users cannot expand or collapse panels" => "Käyttäjät eivät voi laajentaa tai kutistaa paneeleja"
 // panelsState.collapsed: "All panels are collapsed" => "Kaikki paneelit on tiivistetty"
 // panelsState.expanded: "All panels are expanded" => "Kaikki paneelit on laajennettu"
@@ -2356,7 +2378,7 @@ setupLocale({ localeCode: "fi", strings: fiStrings });
 // panel.description: "Panel description" => "Paneelin kuvaus"
 // panel.visibleIf: "Make the panel visible if" => "Tee paneeli näkyväksi, jos"
 // panel.requiredIf: "Make the panel required if" => "Tee paneeli pakolliseksi, jos"
-// panel.questionsOrder: "Question order within the panel" => "Kyselyjärjestys paneelissa"
+// panel.questionOrder: "Question order within the panel" => "Kyselyjärjestys paneelissa"
 // panel.startWithNewLine: "Display the panel on a new line" => "Näytä paneeli uudella rivillä"
 // panel.state: "Panel collapse state" => "Paneelin tiivistystila"
 // panel.width: "Inline panel width" => "Tekstiin sidotun paneelin leveys"
@@ -2381,7 +2403,7 @@ setupLocale({ localeCode: "fi", strings: fiStrings });
 // paneldynamic.hideNumber: "Hide the panel number" => "Piilota paneelin numero"
 // paneldynamic.titleLocation: "Panel title alignment" => "Paneelin otsikon tasaus"
 // paneldynamic.descriptionLocation: "Panel description alignment" => "Paneelin kuvauksen tasaus"
-// paneldynamic.templateTitleLocation: "Question title alignment" => "Kysymyksen otsikon tasaus"
+// paneldynamic.templateQuestionTitleLocation: "Question title alignment" => "Kysymyksen otsikon tasaus"
 // paneldynamic.templateErrorLocation: "Error message alignment" => "Virhesanoman tasaus"
 // paneldynamic.newPanelPosition: "New panel location" => "Uusi paneelin sijainti"
 // paneldynamic.keyName: "Prevent duplicate responses in the following question" => "Päällekkäisten vastausten estäminen seuraavassa kysymyksessä"
@@ -2414,7 +2436,7 @@ setupLocale({ localeCode: "fi", strings: fiStrings });
 // page.description: "Page description" => "Sivun kuvaus"
 // page.visibleIf: "Make the page visible if" => "Tee sivusta näkyvä, jos"
 // page.requiredIf: "Make the page required if" => "Tee sivusta pakollinen, jos"
-// page.questionsOrder: "Question order on the page" => "Kyselyjärjestys sivulla"
+// page.questionOrder: "Question order on the page" => "Kyselyjärjestys sivulla"
 // matrixdropdowncolumn.name: "Column name" => "Sarakkeen nimi"
 // matrixdropdowncolumn.title: "Column title" => "Sarakkeen otsikko"
 // matrixdropdowncolumn.isUnique: "Prevent duplicate responses" => "Päällekkäisten vastausten estäminen"
@@ -2486,8 +2508,8 @@ setupLocale({ localeCode: "fi", strings: fiStrings });
 // totalDisplayStyle.currency: "Currency" => "Valuutta"
 // totalDisplayStyle.percent: "Percentage" => "Prosenttiosuus"
 // totalDisplayStyle.date: "Date" => "Päivämäärä"
-// rowsOrder.initial: "Original" => "Alkuperäinen"
-// questionsOrder.initial: "Original" => "Alkuperäinen"
+// rowOrder.initial: "Original" => "Alkuperäinen"
+// questionOrder.initial: "Original" => "Alkuperäinen"
 // showProgressBar.aboveheader: "Above the header" => "Otsikon yläpuolella"
 // showProgressBar.belowheader: "Below the header" => "Otsikon alapuolella"
 // pv.sum: "Sum" => "Summa"
@@ -2503,7 +2525,7 @@ setupLocale({ localeCode: "fi", strings: fiStrings });
 // panel.requiredIf: "Use the magic wand icon to set a conditional rule that prevents survey submission unless at least one nested question has an answer." => "Määritä taikasauvakuvakkeen avulla ehdollinen sääntö, joka estää kyselyn lähettämisen, ellei vähintään yhteen sisäkkäiseen kysymykseen ole vastausta."
 // panel.questionTitleLocation: "Applies to all questions within this panel. If you want to override this setting, define title alignment rules for individual questions. The \"Inherit\" option applies the page-level (if set) or survey-level setting (\"Top\" by default)." => "Koskee kaikkia tämän paneelin kysymyksiä. Jos haluat ohittaa tämän asetuksen, määritä otsikon tasaussäännöt yksittäisille kysymyksille. Peri-vaihtoehto käyttää sivutason (jos määritetty) tai kyselytason asetusta (\"Ylin\" oletuksena)."
 // panel.questionErrorLocation: "Sets the location of an error message in relation to all questions within the panel. The \"Inherit\" option applies the page-level (if set) or survey-level setting." => "Määrittää virhesanoman sijainnin suhteessa kaikkiin paneelin kysymyksiin. Peri-vaihtoehto käyttää sivutason (jos määritetty) tai kyselytason asetusta."
-// panel.questionsOrder: "Keeps the original order of questions or randomizes them. The \"Inherit\" option applies the page-level (if set) or survey-level setting." => "Säilyttää kysymysten alkuperäisen järjestyksen tai satunnaistaa ne. Peri-vaihtoehto käyttää sivutason (jos määritetty) tai kyselytason asetusta."
+// panel.questionOrder: "Keeps the original order of questions or randomizes them. The \"Inherit\" option applies the page-level (if set) or survey-level setting." => "Säilyttää kysymysten alkuperäisen järjestyksen tai satunnaistaa ne. Peri-vaihtoehto käyttää sivutason (jos määritetty) tai kyselytason asetusta."
 // panel.page: "Repositions the panel to the end of a selected page." => "Siirtää paneelin valitun sivun loppuun."
 // panel.innerIndent: "Adds space or margin between the panel content and the left border of the panel box." => "Lisää tilaa tai reunuksen paneelin sisällön ja paneeliruudun vasemman reunan väliin."
 // panel.startWithNewLine: "Unselect to display the panel in one line with the previous question or panel. The setting doesn't apply if the panel is the first element in your form." => "Poista valinta, jos haluat näyttää paneelin yhdellä rivillä edellisen kysymyksen tai paneelin kanssa. Asetusta ei käytetä, jos paneeli on lomakkeen ensimmäinen elementti."
@@ -2514,7 +2536,7 @@ setupLocale({ localeCode: "fi", strings: fiStrings });
 // paneldynamic.visibleIf: "Use the magic wand icon to set a conditional rule that determines panel visibility." => "Käytä taikasauvakuvaketta asettaaksesi ehdollisen säännön, joka määrittää paneelin näkyvyyden."
 // paneldynamic.enableIf: "Use the magic wand icon to set a conditional rule that disables the read-only mode for the panel." => "Määritä taikasauvakuvakkeen avulla ehdollinen sääntö, joka poistaa paneelin vain luku -tilan käytöstä."
 // paneldynamic.requiredIf: "Use the magic wand icon to set a conditional rule that prevents survey submission unless at least one nested question has an answer." => "Määritä taikasauvakuvakkeen avulla ehdollinen sääntö, joka estää kyselyn lähettämisen, ellei vähintään yhteen sisäkkäiseen kysymykseen ole vastausta."
-// paneldynamic.templateTitleLocation: "Applies to all questions within this panel. If you want to override this setting, define title alignment rules for individual questions. The \"Inherit\" option applies the page-level (if set) or survey-level setting (\"Top\" by default)." => "Koskee kaikkia tämän paneelin kysymyksiä. Jos haluat ohittaa tämän asetuksen, määritä otsikon tasaussäännöt yksittäisille kysymyksille. Peri-vaihtoehto käyttää sivutason (jos määritetty) tai kyselytason asetusta (\"Ylin\" oletuksena)."
+// paneldynamic.templateQuestionTitleLocation: "Applies to all questions within this panel. If you want to override this setting, define title alignment rules for individual questions. The \"Inherit\" option applies the page-level (if set) or survey-level setting (\"Top\" by default)." => "Koskee kaikkia tämän paneelin kysymyksiä. Jos haluat ohittaa tämän asetuksen, määritä otsikon tasaussäännöt yksittäisille kysymyksille. Peri-vaihtoehto käyttää sivutason (jos määritetty) tai kyselytason asetusta (\"Ylin\" oletuksena)."
 // paneldynamic.templateErrorLocation: "Sets the location of an error message in relation to a question with invalid input. Choose between: \"Top\" - an error text is placed at the top of the question box; \"Bottom\" - an error text is placed at the bottom of the question box. The \"Inherit\" option applies the page-level (if set) or survey-level setting (\"Top\" by default)." => "Määrittää virhesanoman sijainnin suhteessa kysymykseen, jonka syöte on virheellinen. Valitse seuraavista: \"Top\" - virheteksti sijoitetaan kysymysruudun yläosaan; \"Pohja\" - virheteksti sijoitetaan kysymysruudun alaosaan. Peri-vaihtoehto käyttää sivutason (jos määritetty) tai kyselytason asetusta (\"Ylin\" oletuksena)."
 // paneldynamic.errorLocation: "Sets the location of an error message in relation to all questions within the panel. The \"Inherit\" option applies the page-level (if set) or survey-level setting." => "Määrittää virhesanoman sijainnin suhteessa kaikkiin paneelin kysymyksiin. Peri-vaihtoehto käyttää sivutason (jos määritetty) tai kyselytason asetusta."
 // paneldynamic.page: "Repositions the panel to the end of a selected page." => "Siirtää paneelin valitun sivun loppuun."
@@ -2528,7 +2550,7 @@ setupLocale({ localeCode: "fi", strings: fiStrings });
 // paneldynamic.titleLocation: "This setting is automatically inherited by all questions within this panel. If you want to override this setting, define title alignment rules for individual questions. The \"Inherit\" option applies the page-level (if set) or survey-level setting (\"Top\" by default)." => "Tämä asetus periytyy automaattisesti kaikkiin tämän paneelin kysymyksiin. Jos haluat ohittaa tämän asetuksen, määritä otsikon tasaussäännöt yksittäisille kysymyksille. Peri-vaihtoehto käyttää sivutason (jos määritetty) tai kyselytason asetusta (\"Ylin\" oletuksena)."
 // paneldynamic.descriptionLocation: "The \"Inherit\" option applies the page-level (if set) or survey-level setting (\"Under the panel title\" by default)." => "\"Peri\" -vaihtoehto käyttää sivutason (jos määritetty) tai kyselytason asetusta (\"Paneelin otsikon alla\" oletuksena)."
 // paneldynamic.newPanelPosition: "Defines the position of a newly added panel. By default, new panels are added to the end. Select \"Next\" to insert a new panel after the current one." => "Määrittää juuri lisätyn paneelin sijainnin. Oletuksena uudet paneelit lisätään loppuun. Valitse \"Seuraava\" lisätäksesi uuden paneelin nykyisen jälkeen."
-// paneldynamic.defaultValueFromLastPanel: "Duplicates answers from the last panel and assigns them to the next added dynamic panel." => "Monistaa edellisen paneelin vastaukset ja määrittää ne seuraavaan lisättyyn dynaamiseen paneeliin."
+// paneldynamic.copyDefaultValueFromLastEntry: "Duplicates answers from the last panel and assigns them to the next added dynamic panel." => "Monistaa edellisen paneelin vastaukset ja määrittää ne seuraavaan lisättyyn dynaamiseen paneeliin."
 // paneldynamic.keyName: "Reference a question name to require a user to provide a unique response for this question in each panel." => "Viittaa kysymyksen nimeen, jos haluat edellyttää, että käyttäjä antaa yksilöllisen vastauksen tähän kysymykseen kussakin paneelissa."
 // pehelp.defaultValueExpression: "This setting allows you to assign a default answer value based on an expression. The expression can include basic calculations - `{q1_id} + {q2_id}`, Boolean expressions, such as `{age} > 60`, and functions: `iif()`, `today()`, `age()`, `min()`, `max()`, `avg()`, etc. The value determined by this expression serves as the initial default value that can be overridden by a respondent's manual input." => "Tämän asetuksen avulla voit määrittää oletusarvoisen vastausarvon lausekkeen perusteella. Lauseke voi sisältää peruslaskutoimituksia - '{q1_id} + {q2_id}', totuusarvolausekkeita, kuten '{age} > 60', ja funktioita: 'iif()', 'today()', 'age()', 'min()', 'max()', 'avg()' jne. Tämän lausekkeen määrittämä arvo toimii alkuperäisenä oletusarvona, jonka vastaajan manuaalinen syöttö voi ohittaa."
 // pehelp.resetValueIf: "Use the magic wand icon to set a conditional rule that determines when a respondent's input is reset to the value based on the \"Default value expression\" or \"Set value expression\" or to the \"Default answer\" value (if either is set)." => "Käytä taikasauvakuvaketta asettaaksesi ehdollisen säännön, joka määrittää, milloin vastaajan syöte palautetaan arvoon \"Oletusarvolauseke\" tai \"Aseta arvolauseke\" tai \"Oletusvastaus\" -arvoon (jos jompikumpi on asetettu)."
@@ -2578,13 +2600,13 @@ setupLocale({ localeCode: "fi", strings: fiStrings });
 // pehelp.showProgressBar: "Sets the visibility and location of a progress bar. The \"Auto\" value displays the progress bar above or below the survey header." => "Määrittää edistymispalkin näkyvyyden ja sijainnin. \"Auto\"-arvo näyttää edistymispalkin kyselyn otsikon ylä- tai alapuolella."
 // pehelp.showPreviewBeforeComplete: "Enable the preview page with all or answered questions only." => "Ota esikatselusivu käyttöön vain kaikilla kysymyksillä tai vastatuilla kysymyksillä."
 // pehelp.questionTitleLocation: "Applies to all questions within the survey. This setting can be overridden by title alignment rules at lower levels: panel, page, or question. A lower-level setting will override those on a higher level." => "Koskee kaikkia kyselyn kysymyksiä. Tämä asetus voidaan ohittaa otsikon tasaussäännöillä alemmilla tasoilla: paneeli, sivu tai kysymys. Alemman tason asetus ohittaa korkeammalla tasolla olevat."
-// pehelp.requiredText: "A symbol or a sequence of symbols indicating that an answer is required." => "Symboli tai symbolisarja, joka osoittaa, että vastaus vaaditaan."
+// pehelp.requiredMark: "A symbol or a sequence of symbols indicating that an answer is required." => "Symboli tai symbolisarja, joka osoittaa, että vastaus vaaditaan."
 // pehelp.questionStartIndex: "Enter a number or letter with which you want to start numbering." => "Kirjoita numero tai kirjain, jolla haluat aloittaa numeroinnin."
 // pehelp.questionErrorLocation: "Sets the location of an error message in relation to the question with invalid input. Choose between: \"Top\" - an error text is placed at the top of the question box; \"Bottom\" - an error text is placed at the bottom of the question box." => "Määrittää virhesanoman sijainnin suhteessa kysymykseen, jonka syöte on virheellinen. Valitse seuraavista: \"Top\" - virheteksti sijoitetaan kysymysruudun yläosaan; \"Pohja\" - virheteksti sijoitetaan kysymysruudun alaosaan."
-// pehelp.focusFirstQuestionAutomatic: "Select if you want the first input field on each page ready for text entry." => "Valitse tämä, jos haluat, että kunkin sivun ensimmäinen syöttökenttä on valmis tekstinsyöttöä varten."
-// pehelp.questionsOrder: "Keeps the original order of questions or randomizes them. The effect of this setting is only visible in the Preview tab." => "Säilyttää kysymysten alkuperäisen järjestyksen tai satunnaistaa ne. Tämän asetuksen vaikutus näkyy vain Esikatselu-välilehdessä."
+// pehelp.autoFocusFirstQuestion: "Select if you want the first input field on each page ready for text entry." => "Valitse tämä, jos haluat, että kunkin sivun ensimmäinen syöttökenttä on valmis tekstinsyöttöä varten."
+// pehelp.questionOrder: "Keeps the original order of questions or randomizes them. The effect of this setting is only visible in the Preview tab." => "Säilyttää kysymysten alkuperäisen järjestyksen tai satunnaistaa ne. Tämän asetuksen vaikutus näkyy vain Esikatselu-välilehdessä."
 // pehelp.maxTextLength: "For text entry questions only." => "Vain tekstinsyöttökysymykset."
-// pehelp.maxOthersLength: "For question comments only." => "Vain kysymysten kommentit."
+// pehelp.maxCommentLength: "For question comments only." => "Vain kysymysten kommentit."
 // pehelp.autoGrowComment: "Select if you want question comments and Long Text questions to auto-grow in height based on the entered text length." => "Valitse tämä, jos haluat, että kysymysten kommentit ja pitkät tekstit -kysymykset kasvavat automaattisesti syötetyn tekstin pituuden perusteella."
 // pehelp.allowResizeComment: "For question comments and Long Text questions only." => "Vain kysymyskommentit ja pitkän tekstin kysymykset."
 // pehelp.calculatedValues: "Custom variables serve as intermediate or auxiliary variables used in form calculations. They take respondent inputs as source values. Each custom variable has a unique name and an expression it's based on." => "Mukautetut muuttujat toimivat väli- tai apumuuttujina, joita käytetään lomakelaskelmissa. He ottavat vastaajan syötteet lähdearvoina. Jokaisella mukautetulla muuttujalla on yksilöllinen nimi ja lauseke, johon se perustuu."
@@ -2600,7 +2622,7 @@ setupLocale({ localeCode: "fi", strings: fiStrings });
 // pehelp.keyDuplicationError: "When the \"Prevent duplicate responses\" property is enabled, a respondent attempting to submit a duplicate entry will receive the following error message." => "Kun Estä päällekkäiset vastaukset -ominaisuus on käytössä, vastaaja, joka yrittää lähettää merkinnän kaksoiskappaleen, saa seuraavan virhesanoman."
 // pehelp.totalExpression: "Allows you to calculate total values based on an expression. The expression can include basic calculations (`{q1_id} + {q2_id}`), Boolean expressions (`{age} > 60`) and functions ('iif()`, `today()`, `age()`, `min()`, `max()`, `avg()`, etc.)." => "Voit laskea kokonaisarvot lausekkeen perusteella. Lauseke voi sisältää peruslaskutoimituksia ('{q1_id} + {q2_id}'), totuusarvolausekkeita ('{age} > 60') ja funktioita ('iif()', 'today()', 'age()', 'min()', 'max()', 'avg()' jne.)."
 // pehelp.confirmDelete: "Triggers a prompt asking to confirm the row deletion." => "Käynnistää kehotteen, jossa pyydetään vahvistamaan rivin poisto."
-// pehelp.defaultValueFromLastRow: "Duplicates answers from the last row and assigns them to the next added dynamic row." => "Monistaa vastaukset viimeiseltä riviltä ja määrittää ne seuraavalle lisätylle dynaamiselle riville."
+// pehelp.copyDefaultValueFromLastEntry: "Duplicates answers from the last row and assigns them to the next added dynamic row." => "Monistaa vastaukset viimeiseltä riviltä ja määrittää ne seuraavalle lisätylle dynaamiselle riville."
 // pehelp.description: "Type a subtitle." => "Kirjoita tekstitys."
 // pehelp.locale: "Choose a language to begin creating your survey. To add a translation, switch to a new language and translate the original text here or in the Translations tab." => "Aloita kyselyn luominen valitsemalla kieli. Jos haluat lisätä käännöksen, vaihda uuteen kieleen ja käännä alkuperäinen teksti täällä tai Käännökset-välilehdessä."
 // pehelp.detailPanelMode: "Sets the location of a details section in relation to a row. Choose from: \"None\" - no expansion is added; \"Under the row\" - a row expansion is placed under each row of the matrix; \"Under the row, display one row expansion only\" - an expansion is displayed under a single row only, the remaining row expansions are collapsed." => "Määrittää tieto-osan sijainnin suhteessa riviin. Valitse seuraavista: \"Ei mitään\" - laajennusta ei lisätä; \"Rivin alla\" - matriisin jokaisen rivin alle sijoitetaan rivilaajennus; \"Näytä rivin alla vain yhden rivin laajennus\" - laajennus näkyy vain yhden rivin alla, loput rivilaajennukset kutistetaan."
@@ -2615,8 +2637,8 @@ setupLocale({ localeCode: "fi", strings: fiStrings });
 // page.requiredIf: "Use the magic wand icon to set a conditional rule that prevents survey submission unless at least one nested question has an answer." => "Määritä taikasauvakuvakkeen avulla ehdollinen sääntö, joka estää kyselyn lähettämisen, ellei vähintään yhteen sisäkkäiseen kysymykseen ole vastausta."
 // page.questionTitleLocation: "Applies to all questions within this page. If you want to override this setting, define title alignment rules for individual questions or panels. The \"Inherit\" option applies the survey-level setting (\"Top\" by default)." => "Koskee kaikkia tämän sivun kysymyksiä. Jos haluat ohittaa tämän asetuksen, määritä otsikon tasaussäännöt yksittäisille kysymyksille tai paneeleille. \"Peri\"-vaihtoehto käyttää kyselytason asetusta (\"Ylin\" oletuksena)."
 // page.questionErrorLocation: "Sets the location of an error message in relation to the question with invalid input. Choose between: \"Top\" - an error text is placed at the top of the question box; \"Bottom\" - an error text is placed at the bottom of the question box. The \"Inherit\" option applies the survey-level setting (\"Top\" by default)." => "Määrittää virhesanoman sijainnin suhteessa kysymykseen, jonka syöte on virheellinen. Valitse seuraavista: \"Top\" - virheteksti sijoitetaan kysymysruudun yläosaan; \"Pohja\" - virheteksti sijoitetaan kysymysruudun alaosaan. \"Peri\"-vaihtoehto käyttää kyselytason asetusta (\"Ylin\" oletuksena)."
-// page.questionsOrder: "Keeps the original order of questions or randomizes them. The \"Inherit\" option applies the survey-level setting (\"Original\" by default). The effect of this setting is only visible in the Preview tab." => "Säilyttää kysymysten alkuperäisen järjestyksen tai satunnaistaa ne. \"Peri\" -vaihtoehto käyttää kyselytason asetusta (\"Alkuperäinen\" oletuksena). Tämän asetuksen vaikutus näkyy vain Esikatselu-välilehdessä."
-// page.navigationButtonsVisibility: "Sets the visibility of navigation buttons on the page. The \"Inherit\" option applies the survey-level setting, which defaults to \"Visible\"." => "Määrittää navigointipainikkeiden näkyvyyden sivulla. \"Peri\" -vaihtoehto käyttää kyselytason asetusta, jonka oletusarvo on \"Näkyvä\"."
+// page.questionOrder: "Keeps the original order of questions or randomizes them. The \"Inherit\" option applies the survey-level setting (\"Original\" by default). The effect of this setting is only visible in the Preview tab." => "Säilyttää kysymysten alkuperäisen järjestyksen tai satunnaistaa ne. \"Peri\" -vaihtoehto käyttää kyselytason asetusta (\"Alkuperäinen\" oletuksena). Tämän asetuksen vaikutus näkyy vain Esikatselu-välilehdessä."
+// page.showNavigationButtons: "Sets the visibility of navigation buttons on the page. The \"Inherit\" option applies the survey-level setting, which defaults to \"Visible\"." => "Määrittää navigointipainikkeiden näkyvyyden sivulla. \"Peri\" -vaihtoehto käyttää kyselytason asetusta, jonka oletusarvo on \"Näkyvä\"."
 // pehelp.panelsState: "Choose from: \"Locked\" - users cannot expand or collapse panels; \"Collapse all\" - all panels start in a collapsed state; \"Expand all\" - all panels start in an expanded state; \"First expanded\" - only the first panel is initially expanded." => "Valitse seuraavista: \"Lukittu\" - käyttäjät eivät voi laajentaa tai kutistaa paneeleja; \"Kutista kaikki\" - kaikki paneelit alkavat romahtaneessa tilassa; \"Laajenna kaikki\" - kaikki paneelit alkavat laajennetussa tilassa; \"Ensimmäinen laajennettu\" - vain ensimmäistä paneelia laajennetaan aluksi."
 // pehelp.imageLinkName: "Enter a shared property name within the array of objects that contains the image or video file URLs you want to display in the choice list." => "Kirjoita jaetun ominaisuuden nimi objektiryhmään, joka sisältää valintaluettelossa näytettävät kuvan tai videotiedoston URL-osoitteet."
 // pehelp.choices: "The left value serves as an item ID used in conditional rules, the right value is displayed to respondents." => "Vasen arvo toimii ehdollisissa säännöissä käytettynä kohteen tunnuksena, oikea arvo näytetään vastaajille."
@@ -2644,7 +2666,7 @@ setupLocale({ localeCode: "fi", strings: fiStrings });
 // pehelp.needConfirmRemoveFile: "Triggers a prompt asking to confirm the file deletion." => "Käynnistää kehotteen, jossa pyydetään vahvistamaan tiedoston poistaminen."
 // pehelp.selectToRankEnabled: "Enable to rank only selected choices. Users will drag selected items from the choice list to order them within the ranking area." => "Ota käyttöön, jos haluat luokitella vain valitut vaihtoehdot. Käyttäjät vetävät valitut kohteet valintaluettelosta järjestääkseen ne sijoitusalueella."
 // pehelp.dataList: "Enter a list of choices that will be suggested to the respondent during input." => "Kirjoita luettelo vaihtoehdoista, joita vastaajalle ehdotetaan syötteen aikana."
-// pehelp.itemSize: "The setting only resizes the input fields and doesn't affect the width of the question box." => "Asetus muuttaa vain syöttökenttien kokoa eikä vaikuta kysymysruudun leveyteen."
+// pehelp.inputSize: "The setting only resizes the input fields and doesn't affect the width of the question box." => "Asetus muuttaa vain syöttökenttien kokoa eikä vaikuta kysymysruudun leveyteen."
 // pehelp.itemTitleWidth: "Sets consistent width for all item labels in pixels" => "Määrittää yhdenmukaisen leveyden kaikille tuoteotsikoille kuvapisteinä"
 // pehelp.contentMode: "The \"Auto\" option automatically determines the suitable mode for display - Image, Video, or YouTube - based on the source URL provided." => "\"Auto\" -vaihtoehto määrittää automaattisesti sopivan näyttötilan - Kuva, Video tai YouTube - annetun lähde-URL-osoitteen perusteella."
 // pehelp.altText: "Serves as a substitute when the image cannot be displayed on a user's device and for accessibility purposes." => "Toimii korvikkeena, kun kuvaa ei voida näyttää käyttäjän laitteella, ja esteettömyyssyistä."
@@ -2657,8 +2679,8 @@ setupLocale({ localeCode: "fi", strings: fiStrings });
 // p.itemTitleWidth: "Item label width (in px)" => "Nimikkeen otsikon leveys (px)"
 // p.selectToRankEmptyRankedAreaText: "Text to show if all options are selected" => "Teksti, joka näyttää, onko kaikki asetukset valittu"
 // p.selectToRankEmptyUnrankedAreaText: "Placeholder text for the ranking area" => "Sijoitusalueen paikkamerkkiteksti"
-// pe.allowCompleteSurveyAutomatic: "Complete the survey automatically" => "Vastaa kyselyyn automaattisesti"
-// pehelp.allowCompleteSurveyAutomatic: "Select if you want the survey to complete automatically after a respondent answers all questions." => "Valitse, haluatko kyselyn täyttyvän automaattisesti, kun vastaaja on vastannut kaikkiin kysymyksiin."
+// pe.autoAdvanceAllowComplete: "Complete the survey automatically" => "Vastaa kyselyyn automaattisesti"
+// pehelp.autoAdvanceAllowComplete: "Select if you want the survey to complete automatically after a respondent answers all questions." => "Valitse, haluatko kyselyn täyttyvän automaattisesti, kun vastaaja on vastannut kaikkiin kysymyksiin."
 // masksettings.saveMaskedValue: "Save masked value in survey results" => "Peitetyn arvon tallentaminen kyselyn tuloksiin"
 // patternmask.pattern: "Value pattern" => "Arvon kuvio"
 // datetimemask.min: "Minimum value" => "Pienin arvo"
@@ -2881,7 +2903,7 @@ setupLocale({ localeCode: "fi", strings: fiStrings });
 // names.default-dark: "Dark" => "Tumma"
 // names.default-contrast: "Contrast" => "Kontrasti"
 // panel.showNumber: "Number this panel" => "Numeroi tämä paneeli"
-// pehelp.goNextPageAutomatic: "Select if you want the survey to auto-advance to the next page once a respondent has answered all questions on the current page. This feature won't apply if the last question on the page is open-ended or allows multiple answers." => "Valitse tämä, jos haluat, että kysely siirtyy automaattisesti seuraavalle sivulle, kun vastaaja on vastannut kaikkiin nykyisen sivun kysymyksiin. Tätä ominaisuutta ei käytetä, jos sivun viimeinen kysymys on avoin tai sallii useita vastauksia."
+// pehelp.autoAdvanceEnabled: "Select if you want the survey to auto-advance to the next page once a respondent has answered all questions on the current page. This feature won't apply if the last question on the page is open-ended or allows multiple answers." => "Valitse tämä, jos haluat, että kysely siirtyy automaattisesti seuraavalle sivulle, kun vastaaja on vastannut kaikkiin nykyisen sivun kysymyksiin. Tätä ominaisuutta ei käytetä, jos sivun viimeinen kysymys on avoin tai sallii useita vastauksia."
 // autocomplete.name: "Full Name" => "Koko nimi"
 // autocomplete.honorific-prefix: "Prefix" => "Etuliite"
 // autocomplete.given-name: "First Name" => "Etunimi"
@@ -2938,3 +2960,52 @@ setupLocale({ localeCode: "fi", strings: fiStrings });
 // ed.lockQuestionsTooltip: "Lock expand/collapse state for questions" => "Lukitse laajenna/kutista tila kysymyksiä varten"
 // pe.listIsEmpty@pages: "You don't have any pages yet" => "Sinulla ei ole vielä sivuja"
 // pe.addNew@pages: "Add new page" => "Lisää uusi sivu"
+// ed.zoomInTooltip: "Zoom In" => "Lähennä"
+// ed.zoomOutTooltip: "Zoom Out" => "Loitonna"
+// tabs.surfaceBackground: "Surface Background" => "Surfacen tausta"
+// pe.copyDefaultValueFromLastEntry: "Use answers from the last entry as default" => "Käytä viimeisen merkinnän vastauksia oletuksena"
+// colors.gray: "Gray" => "Harmaa"
+// pe.navigationButtonsLocation: "Navigation buttons alignment" => "Siirtymispainikkeiden tasaus"
+// pv.allQuestions: "Show all questions" => "Näytä kaikki kysymykset"
+// pv.answeredQuestions: "Show answered questions only" => "Näytä vain vastatut kysymykset"
+// pehelp.navigationButtonsLocation: "Sets the location of navigation buttons on a page." => "Määrittää navigointipainikkeiden sijainnin sivulla."
+// pe.size: "Input field width (in characters)" => "Syöttökentän leveys (merkkeinä)"
+// pe.choiceValuesFromQuestion: "Use values from the following matrix column or panel question as choice IDs" => "Käytä seuraavan matriisin sarakkeen tai paneelikysymyksen arvoja valintatunnuksina"
+// pe.choiceTextsFromQuestion: "Use values from the following matrix column or panel question as choice texts" => "Käytä seuraavan matriisin sarakkeen tai paneelikysymyksen arvoja valintateksteinä"
+// pehelp.choiceValuesFromQuestion: "In single- and multiple-selection question types, each choice option has an ID and display value. This setting specifies which matrix column or panel question should provide the IDs." => "Yksi- ja monivalintakysymystyypeissä kullakin valintavaihtoehdolla on tunnus ja näyttöarvo. Tämä asetus määrittää, mikä matriisisarake tai paneelikysymys antaa tunnukset."
+// pehelp.choiceTextsFromQuestion: "In single- and multiple-selection question types, each choice option has an ID and display value. This setting specifies which matrix column or panel question should provide the display texts." => "Yksi- ja monivalintakysymystyypeissä kullakin valintavaihtoehdolla on tunnus ja näyttöarvo. Tämä asetus määrittää, mikä matriisisarake tai paneelikysymys sisältää näyttötekstit."
+// pe.progressBarLocation: "Progress bar alignment" => "Edistymispalkin tasaus"
+// progressBarLocation.topbottom: "Top and bottom" => "Ylhäällä ja alhaalla"
+// progressBarLocation.aboveheader: "Above the header" => "Otsikon yläpuolella"
+// progressBarLocation.belowheader: "Below the header" => "Otsikon alapuolella"
+// progressBarLocation.off: "Hidden" => "Piilevä"
+// survey.progressBarLocation: "Sets the location of the progress bar. The \"Auto\" value displays the progress bar above or below the survey header." => "Määrittää edistymispalkin sijainnin. \"Auto\"-arvo näyttää edistymispalkin kyselyn otsikon ylä- tai alapuolella."
+// survey.readOnly: "Make the survey read-only" => "Tee kyselystä vain luku -muotoinen"
+// survey.readOnly: "Select if you want to prevent respondents from filling out your survey." => "Valitse tämä, jos haluat estää vastaajia vastaamasta kyselyyn."
+// paneldynamic.showNumber: "Number the panel" => "Paneelin numerointi"
+// question.showNumber: "Number this question" => "Numeroi tämä kysymys"
+// pe.previewMode: "Preview mode" => "Esikatselu-tila"
+// pe.gridLayoutEnabled: "Enable the grid layout" => "Ota ruudukkoasettelu käyttöön"
+// pe.maskSettings: "Mask settings" => "Maskin asetukset"
+// pe.detailErrorLocation: "Row expansion error message alignment" => "Rivin laajennuksen virhesanoman tasaus"
+// pehelp.detailErrorLocation: "Sets the location of error messages for questions nested in detail sections. The \"Inherit\" option applies the setting from the \"Error message alignment\" property." => "Määrittää tieto-osiin sisältyvien kysymysten virhesanomien sijainnin. \"Peri\" -vaihtoehto käyttää asetusta \"Virheilmoituksen kohdistus\" -ominaisuudesta."
+// pe.gridLayoutColumns: "Grid layout columns" => "Ruudukkoasettelun sarakkeet"
+// pe.startPageTitlePlaceholder: "Start Page" => "Aloitussivu"
+// panellayoutcolumn.effectiveWidth: "Effective width, %" => "Tehollinen leveys, %"
+// panellayoutcolumn.questionTitleWidth: "Question title width, px" => "Kysymyksen otsikon leveys, px"
+// pe.listIsEmpty@gridLayoutColumns: "You don't have layout columns yet" => "Sinulla ei vielä ole asettelusarakkeita"
+// panel.effectiveColSpan: "Specifies how many columns this panel spans within the grid layout." => "Määrittää, kuinka monta saraketta tämä paneeli kattaa ruudukkoasettelussa."
+// panel.gridLayoutColumns: "This table lets you configure each grid column within the panel. It automatically sets the width percentage for each column based on the maximum number of elements in a row. To customize the grid layout, manually adjust these values and define the title width for all questions in each column." => "Tämän taulukon avulla voit määrittää paneelin jokaisen ruudukkosarakkeen. Se määrittää automaattisesti kunkin sarakkeen leveysprosentin rivin elementtien enimmäismäärän perusteella. Jos haluat mukauttaa ruudukon asettelua, säädä näitä arvoja manuaalisesti ja määritä otsikon leveys kunkin sarakkeen kaikille kysymyksille."
+// pehelp.gridLayoutEnabled: "Survey Creator allows you to manually adjust the inline widths of form elements to control the layout. If this doesn't produce the desired outcome, you can enable the grid layout, which structures form elements using a column-based system. To configure layout columns, select a page or panel and use the \"Question Settings\" → \"Grid columns\" table. To adjust how many columns a question spans, select it and set the desired value in the \"Layout\" → \"Column span\" field." => "Survey Creatorin avulla voit manuaalisesti säätää lomake-elementtien sisäisiä leveyksiä asettelun hallitsemiseksi. Jos tämä ei tuota toivottua tulosta, voit ottaa käyttöön ruudukkoasettelun, joka jäsentää elementtejä sarakepohjaisen järjestelmän avulla. Määritä asettelusarakkeet valitsemalla sivu tai paneeli ja käyttämällä \"Kysymysasetukset\" → \"Ruudukkosarakkeet\" -taulukkoa. Jos haluat säätää, kuinka monta saraketta kysymys kattaa, valitse se ja aseta haluamasi arvo \"Asettelu\" → \"Sarakeväli\" -kenttään."
+// question.effectiveColSpan: "Specifies how many columns this question spans within the grid layout." => "Määrittää, kuinka monta saraketta tämä kysymys kattaa ruudukkoasettelussa."
+// page.gridLayoutColumns: "This table lets you configure each grid column on the page. It automatically sets the width percentage for each column based on the maximum number of elements in a row. To customize the grid layout, manually adjust these values and define the title width for all questions in each column." => "Tämän taulukon avulla voit määrittää sivun jokaisen ruudukkosarakkeen. Se määrittää automaattisesti kunkin sarakkeen leveysprosentin rivin elementtien enimmäismäärän perusteella. Jos haluat mukauttaa ruudukon asettelua, säädä näitä arvoja manuaalisesti ja määritä otsikon leveys kunkin sarakkeen kaikille kysymyksille."
+
+// ed.expandTooltip: "Expand" => "Laajentaa"
+// ed.collapseTooltip: "Collapse" => "Romahdus"
+// pe.itemTitleWidth_placeholder: "Ex.: 100px" => "Esimerkki: 100px"
+// pehelp.itemTitleWidth: "Sets consistent width for all item labels. Accepts CSS values (px, %, in, pt, etc.)." => "Määrittää yhdenmukaisen leveyden kaikille nimikeotsikoille. Hyväksyy CSS-arvot (px, %, in, pt jne.)."
+// ed.zoom100Tooltip: "Zoom to 100%" => "Zoomaa 100 %:iin"
+// ed.addLanguageTooltip: "Add Language" => "Lisää kieli"
+// pehelp.commentAreaRows: "Sets the number of displayed lines in text areas for question comments. If the input takes up more lines, the scroll bar appears." => "Määrittää kysymyskommenttien tekstialueilla näytettävien rivien määrän. Jos syöttö vie enemmän rivejä, vierityspalkki tulee näkyviin."
+// pe.defaultDisplayValue: "Default display value for dynamic texts" => "Dynaamisten tekstien oletusnäyttöarvo"
+// pehelp.defaultDisplayValue: "A value displayed in HTML questions and in the dynamic titles and descriptions of survey elements when the question value is empty." => "Arvo, joka näkyy HTML-kysymyksissä ja kyselyn elementtien dynaamisissa otsikoissa ja kuvauksissa, kun kysymyksen arvo on tyhjä."

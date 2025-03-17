@@ -59,12 +59,13 @@ export var croatianStrings = {
   addColumn: "Dodavanje stupca",
   addRow: "Dodavanje redaka",
   removeRow: "Ukloniti",
-  emptyRowsText: "Nema redova.",
+  noRowsText: "Nema redova.",
   addPanel: "Dodavanje novih",
   removePanel: "Ukloniti",
   showDetails: "Pokaži detalje",
   hideDetails: "Sakrij detalje",
   choices_Item: "stavku",
+  choices_Choice: "Opcija izbora",
   matrix_column: "Stupca",
   matrix_row: "Redak",
   multipletext_itemname: "Tekstualna poruka",
@@ -99,6 +100,8 @@ export var croatianStrings = {
   modalApplyButtonText: "Primijeniti",
   filterStringPlaceholder: "Upišite za pretraživanje...",
   emptyMessage: "Nema podataka za prikaz",
+  loadingPage: "Učitavanje...",
+  loadingData: "Učitavanje...",
   noEntriesText: "Još nema unosa.\nKliknite donji gumb da biste dodali novi unos.",
   noEntriesReadonlyText: "Nema unosa.",
   tabTitlePlaceholder: "Nova ploča",
@@ -120,7 +123,7 @@ setupLocale({ localeCode: "hr", strings: croatianStrings, nativeName: "hrvatski"
 // minError: "The value should not be less than {0}" => "Vrijednost ne smije biti manja od {0}"
 // maxError: "The value should not be greater than {0}" => "Vrijednost ne smije biti veća od {0}"
 // filePlaceholder: "Drag and drop a file here or click the button below and choose a file to upload." => "Povucite i ispustite datoteku ovdje ili kliknite donji gumb i odaberite datoteku koju želite prenijeti."
-// emptyRowsText: "There are no rows." => "Nema redova."
+// noRowsText: "There are no rows." => "Nema redova."
 // multipletext_itemname: "text" => "Tekstualna poruka"
 // signaturePlaceHolder: "Sign here" => "Potpiši ovdje"
 // filterStringPlaceholder: "Type to search..." => "Upišite za pretraživanje..."
@@ -130,16 +133,24 @@ setupLocale({ localeCode: "hr", strings: croatianStrings, nativeName: "hrvatski"
 // more: "More" => "Više"
 // tagboxDoneButtonCaption: "OK" => "OK"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "Svi izbori su rangirani"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Ovdje povucite i ispustite odabire da biste ih rangirali"// takePhotoCaption: "Take Photo" => "Snimi fotografiju"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Ovdje povucite i ispustite odabire da biste ih rangirali"
+// takePhotoCaption: "Take Photo" => "Snimi fotografiju"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "Kliknite donji gumb da biste snimili fotografiju pomoću kamere."
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "Povucite i ispustite ili odaberite datoteku za prijenos ili snimanje fotografije pomoću kamere."
-// replaceFileCaption: "Replace file" => "Zamijeni datoteku"// eachRowUniqueError: "Each row must have a unique value." => "Svaki redak mora imati jedinstvenu vrijednost."
+// replaceFileCaption: "Replace file" => "Zamijeni datoteku"
+// eachRowUniqueError: "Each row must have a unique value." => "Svaki redak mora imati jedinstvenu vrijednost."
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "Datoteke se ne mogu prenijeti. Dodajte rukovatelja za događaj 'onUploadFiles'."
 // showDetails: "Show Details" => "Pokaži detalje"
 // hideDetails: "Hide Details" => "Sakrij detalje"
 // ok: "OK" => "OK"
 // cancel: "Cancel" => "Otkazati"
 // refuseItemText: "Refuse to answer" => "Odbijte odgovoriti"
-// dontKnowItemText: "Don't know" => "Ne znam"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Vaš odgovor premašuje 64KB. Smanjite veličinu datoteka i pokušajte ponovno ili se obratite vlasniku upitnika."
-// signaturePlaceHolderReadOnly: "No signature" => "Bez potpisa"// tabTitlePlaceholder: "New Panel" => "Nova ploča"// deselectAllItemText: "Deselect all" => "Poništite odabir svega"
+// dontKnowItemText: "Don't know" => "Ne znam"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Vaš odgovor premašuje 64KB. Smanjite veličinu datoteka i pokušajte ponovno ili se obratite vlasniku upitnika."
+// signaturePlaceHolderReadOnly: "No signature" => "Bez potpisa"
+// tabTitlePlaceholder: "New Panel" => "Nova ploča"
+// deselectAllItemText: "Deselect all" => "Poništite odabir svega"
 // textNoDigitsAllow: "Numbers are not allowed." => "Brojevi nisu dopušteni."
+// choices_Choice: "Choice option" => "Opcija izbora"
+// loadingPage: "Loading..." => "Učitavanje..."
+// loadingData: "Loading..." => "Učitavanje..."

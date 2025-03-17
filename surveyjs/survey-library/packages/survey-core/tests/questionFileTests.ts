@@ -3,10 +3,9 @@ import { QuestionFileModel } from "../src/question_file";
 import { QuestionPanelDynamicModel } from "../src/question_paneldynamic";
 import { getLocaleString } from "../src/surveyStrings";
 import { settings } from "../src/settings";
-import { StylesManager } from "@legacy/stylesmanager";
 import { Serializer } from "../src/jsonobject";
 import { Camera } from "../src/utils/camera";
-import { defaultV2Css } from "../src/defaultCss/defaultV2Css";
+import { defaultCss } from "../src/defaultCss/defaultCss";
 import { QuestionMatrixDynamicModel } from "../src/question_matrixdynamic";
 export * from "../src/localization/german";
 export default QUnit.module("Survey_QuestionFile");
@@ -762,7 +761,7 @@ QUnit.test("check file d&d readonly", (assert) => {
   };
   q.readOnly = true;
   checkDD();
-  settings.supportCreatorV2 = true;
+
   survey.setDesignMode(true);
   checkDD();
 });
@@ -794,7 +793,7 @@ QUnit.test("Question File responsive", (assert) => {
     ],
   };
   var survey = new SurveyModel(json);
-  survey.css = defaultV2Css;
+  survey.css = defaultCss;
   survey.locale = "";
   var q1: QuestionFileModel = <any>survey.getQuestionByName("image1");
 
@@ -1217,7 +1216,7 @@ QUnit.test("File Question on Smaller Screens: navigation bar doesn't appear when
   };
   const survey = new SurveyModel(json);
   const question = <QuestionFileModel>survey.getAllQuestions()[0];
-  survey.css = defaultV2Css;
+  survey.css = defaultCss;
   question.isMobile = true;
   question.pageSize = 1;
   assert.equal(question.indexToShow, 0);
@@ -1263,7 +1262,7 @@ QUnit.test("Check file question navigator with different items count visible", (
   };
   const survey = new SurveyModel(json);
   const question = <QuestionFileModel>survey.getAllQuestions()[0];
-  survey.css = defaultV2Css;
+  survey.css = defaultCss;
   question.pageSize = 3;
   assert.equal(question.indexToShow, 0);
   assert.equal(question["fileIndexAction"].title, "1 of 0");
@@ -1362,7 +1361,7 @@ QUnit.test("Check file question processResponsiveness method", (assert) => {
   };
   const survey = new SurveyModel(json);
   const question = <QuestionFileModel>survey.getAllQuestions()[0];
-  survey.css = defaultV2Css;
+  survey.css = defaultCss;
   question["calculatedGapBetweenItems"] = 32;
   question["calculatedItemWidth"] = 96;
   question["processResponsiveness"](0, 400);
@@ -1402,7 +1401,6 @@ QUnit.test("QuestionFile download file content on preview, #2", function (assert
 });
 
 QUnit.test("QuestionFile current mode property, camera is not available", function (assert) {
-  StylesManager.applyTheme("defaultV2");
   const callbacks = new Array<(devices: Array<MediaDeviceInfo>) => void>();
   Camera.mediaDevicesCallback = (cb: (devices: Array<MediaDeviceInfo>) => void): void => {
     callbacks.push(cb);
@@ -1432,7 +1430,6 @@ QUnit.test("QuestionFile current mode property, camera is not available", functi
   callbacks.forEach(cb => cb([]));
   assert.equal(survey.getQuestionByName("q1").currentMode, "file", "#6");
   Camera.mediaDevicesCallback = undefined;
-  StylesManager.applyTheme("default");
 });
 function createDevices(info: Array<any>): Array<MediaDeviceInfo> {
   const res = new Array<MediaDeviceInfo>();
@@ -1444,7 +1441,6 @@ function createDevices(info: Array<any>): Array<MediaDeviceInfo> {
   return res;
 }
 QUnit.test("QuestionFile current mode property, camera is available", function (assert) {
-  StylesManager.applyTheme("defaultV2");
   const callbacks = new Array<(devices: Array<MediaDeviceInfo>) => void>();
   Camera.mediaDevicesCallback = (cb: (devices: Array<MediaDeviceInfo>) => void): void => {
     callbacks.push(cb);
@@ -1476,10 +1472,8 @@ QUnit.test("QuestionFile current mode property, camera is available", function (
   callbacks.forEach(cb => cb(devices));
   assert.equal(survey.getQuestionByName("q1").currentMode, "camera", "#6");
   Camera.mediaDevicesCallback = undefined;
-  StylesManager.applyTheme("default");
 });
 QUnit.test("QuestionFile check file actions visibility when camera is available from start point", function (assert) {
-  StylesManager.applyTheme("defaultV2");
   Camera.setCameraList(<any>[{ label: "test" }]);
   let survey = new SurveyModel({
     elements: [
@@ -1500,7 +1494,6 @@ QUnit.test("QuestionFile check file actions visibility when camera is available 
   assert.ok(survey.getQuestionByName("q3").actionsContainer.actions[0].visible);
   assert.ok(survey.getQuestionByName("q3").actionsContainer.actions[1].visible);
   Camera.clear();
-  StylesManager.applyTheme("default");
 });
 QUnit.test("new Camera().getMediaConstraints", function (assert) {
   Camera.setCameraList(createDevices([{ label: "dfdf" }, { label: "user" }]));
@@ -1658,7 +1651,7 @@ QUnit.test("QuestionFile check actions container", function (assert) {
   q1.chooseButtonCaption = "choose_test";
   q1.takePhotoCaption = "take_picture_test";
   q1.clearButtonCaption = "clear_test";
-  survey.css = defaultV2Css;
+  survey.css = defaultCss;
   assert.ok(q1.actionsContainerVisible);
   q1.isUploading = true;
   assert.notOk(q1.actionsContainerVisible);
@@ -1909,7 +1902,7 @@ QUnit.test("Choose file action should have disabled class", function (assert) {
       { type: "file", name: "q1", maxSize: 3 },
     ]
   });
-  survey.css = defaultV2Css;
+  survey.css = defaultCss;
   const question = <QuestionFileModel>survey.getAllQuestions()[0];
   assert.equal(question.getChooseFileCss(), "sd-file__choose-btn sd-file__choose-file-btn--disabled sd-action sd-file__choose-btn--text sd-action--disabled", "Disabled");
   survey.mode = "edit";
@@ -1941,7 +1934,7 @@ QUnit.test("Bug #8242: currentMode is set incorrectly when file question is loca
       }
     ]
   });
-  survey.css = defaultV2Css;
+  survey.css = defaultCss;
   const getFileQuestionFromRow = (rowIndex: number) => {
     return <QuestionFileModel>question.renderedTable.rows[rowIndex * 2 + 1].cells[0].cell.question;
   };
@@ -1980,7 +1973,7 @@ QUnit.test("Bug #8242: currentMode is set incorrectly when file question is loca
       }
     ]
   });
-  survey.css = defaultV2Css;
+  survey.css = defaultCss;
   const getFileQuestionFromRow = (rowIndex: number) => {
     return <QuestionFileModel>question.renderedTable.rows[rowIndex * 2 + 1].cells[0].cell.question;
   };
@@ -2199,7 +2192,7 @@ QUnit.test("Check pageAnimationOptions", (assert) => {
   };
 
   const survey = new SurveyModel(json);
-  survey.css = defaultV2Css;
+  survey.css = defaultCss;
   const q1: QuestionFileModel = <any>survey.getQuestionByName("image1");
   const fpNavigationOptions = q1["getPagesAnimationOptions"]();
   settings.animationEnabled = true;
@@ -2241,4 +2234,41 @@ QUnit.test("Check pageAnimationOptions", (assert) => {
   assert.equal(fpNavigationOptions.getLeaveOptions(q1.pages[0]).cssClass, "sd-file__page--leave-to-left");
 
   settings.animationEnabled = false;
+});
+
+QUnit.test("QuestionFile remove file by preview value with confirmation", function (assert) {
+  var json = {
+    questions: [
+      {
+        type: "file",
+        allowMultiple: true,
+        name: "image1",
+        showPreview: true,
+        needConfirmRemoveFile: true
+      },
+    ],
+  };
+
+  var survey = new SurveyModel(json);
+  var q1: QuestionFileModel = <any>survey.getQuestionByName("image1");
+  survey.data = {
+    image1: [
+      { name: "f1", content: "data" },
+      { name: "f2", content: "data" },
+    ],
+  };
+
+  assert.deepEqual(q1.previewValue.length, 2);
+  const oldConfirmActionAsync = settings.confirmActionAsync;
+  settings.confirmActionAsync = (m, cb, o) => (cb(true), true);
+  try {
+    q1.doRemoveFile(q1.previewValue[1], { stopPropagation: () => { } });
+  } finally {
+    settings.confirmActionAsync = oldConfirmActionAsync;
+  }
+
+  assert.deepEqual(q1.previewValue.length, 1);
+  assert.deepEqual(survey.data, {
+    image1: [{ name: "f1", content: "data" }],
+  });
 });

@@ -59,12 +59,13 @@ export var vietnameseSurveyStrings = {
   addColumn: "Thêm cột",
   addRow: "Thêm dòng",
   removeRow: "Xóa",
-  emptyRowsText: "Không có hàng.",
+  noRowsText: "Không có hàng.",
   addPanel: "Thêm mới",
   removePanel: "Xóa",
   showDetails: "Hiển thị chi tiết",
   hideDetails: "Ẩn chi tiết",
   choices_Item: "mục",
+  choices_Choice: "Tùy chọn lựa chọn",
   matrix_column: "Cột",
   matrix_row: "Dòng",
   multipletext_itemname: "Nhắn tin",
@@ -99,6 +100,8 @@ export var vietnameseSurveyStrings = {
   modalApplyButtonText: "Áp dụng",
   filterStringPlaceholder: "Nhập để tìm kiếm...",
   emptyMessage: "Không có dữ liệu để hiển thị",
+  loadingPage: "Tải...",
+  loadingData: "Tải...",
   noEntriesText: "Chưa có mục nào.\nNhấp vào nút bên dưới để thêm mục nhập mới.",
   noEntriesReadonlyText: "Không có mục.",
   tabTitlePlaceholder: "Bảng điều khiển mới",
@@ -120,7 +123,7 @@ setupLocale({ localeCode: "vi", strings: vietnameseSurveyStrings, nativeName: "v
 // minError: "The value should not be less than {0}" => "Giá trị không được nhỏ hơn {0}"
 // maxError: "The value should not be greater than {0}" => "Giá trị không được lớn hơn {0}"
 // filePlaceholder: "Drag and drop a file here or click the button below and choose a file to upload." => "Kéo và thả tệp vào đây hoặc nhấp vào nút bên dưới và chọn tệp để tải lên."
-// emptyRowsText: "There are no rows." => "Không có hàng."
+// noRowsText: "There are no rows." => "Không có hàng."
 // multipletext_itemname: "text" => "Nhắn tin"
 // signaturePlaceHolder: "Sign here" => "Ký tên tại đây"
 // modalCancelButtonText: "Cancel" => "Hủy"
@@ -132,15 +135,24 @@ setupLocale({ localeCode: "vi", strings: vietnameseSurveyStrings, nativeName: "v
 // more: "More" => "Nhiều hơn"
 // tagboxDoneButtonCaption: "OK" => "OK"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "Tất cả các lựa chọn được xếp hạng"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Kéo và thả các lựa chọn vào đây để xếp hạng chúng"// takePhotoCaption: "Take Photo" => "Chụp ảnh"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Kéo và thả các lựa chọn vào đây để xếp hạng chúng"
+// takePhotoCaption: "Take Photo" => "Chụp ảnh"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "Nhấp vào nút bên dưới để chụp ảnh bằng máy ảnh."
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "Kéo và thả hoặc chọn tệp để tải lên hoặc chụp ảnh bằng máy ảnh."
-// replaceFileCaption: "Replace file" => "Thay thế tập tin"// eachRowUniqueError: "Each row must have a unique value." => "Mỗi hàng phải có một giá trị duy nhất."
+// replaceFileCaption: "Replace file" => "Thay thế tập tin"
+// eachRowUniqueError: "Each row must have a unique value." => "Mỗi hàng phải có một giá trị duy nhất."
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "Không thể tải tệp lên. Vui lòng thêm trình xử lý cho sự kiện 'onUploadFiles'."
 // showDetails: "Show Details" => "Hiển thị chi tiết"
 // hideDetails: "Hide Details" => "Ẩn chi tiết"
 // ok: "OK" => "OK"
-// cancel: "Cancel" => "Hủy"// refuseItemText: "Refuse to answer" => "Từ chối trả lời"
-// dontKnowItemText: "Don't know" => "Không biết"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Phản hồi của bạn vượt quá 64KB. Vui lòng giảm kích thước (các) tệp của bạn và thử lại hoặc liên hệ với chủ sở hữu khảo sát."
-// signaturePlaceHolderReadOnly: "No signature" => "Không có chữ ký"// tabTitlePlaceholder: "New Panel" => "Bảng điều khiển mới"// deselectAllItemText: "Deselect all" => "Bỏ chọn tất cả"
+// cancel: "Cancel" => "Hủy"
+// refuseItemText: "Refuse to answer" => "Từ chối trả lời"
+// dontKnowItemText: "Don't know" => "Không biết"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Phản hồi của bạn vượt quá 64KB. Vui lòng giảm kích thước (các) tệp của bạn và thử lại hoặc liên hệ với chủ sở hữu khảo sát."
+// signaturePlaceHolderReadOnly: "No signature" => "Không có chữ ký"
+// tabTitlePlaceholder: "New Panel" => "Bảng điều khiển mới"
+// deselectAllItemText: "Deselect all" => "Bỏ chọn tất cả"
 // textNoDigitsAllow: "Numbers are not allowed." => "Số không được phép."
+// choices_Choice: "Choice option" => "Tùy chọn lựa chọn"
+// loadingPage: "Loading..." => "Tải..."
+// loadingData: "Loading..." => "Tải..."

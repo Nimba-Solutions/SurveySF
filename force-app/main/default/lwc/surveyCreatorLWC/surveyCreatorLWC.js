@@ -1,131 +1,143 @@
-import { LightningElement } from 'lwc';
-import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
-import SURVEY_CORE from '@salesforce/resourceUrl/surveycore'; //JS
-import SURVEY_JS_UI from '@salesforce/resourceUrl/surveyjsui'; //JS
-import DEFAULTV2 from '@salesforce/resourceUrl/defaultV2'; //CSS
-import SURBEY_CREATOR_CORE_CSS from '@salesforce/resourceUrl/surveycreatorcorecss'; //CSS
-import SURBEY_CREATOR_CORE_JS from '@salesforce/resourceUrl/surveycreatorcorejs'; //CSS
-import SURBEY_CREATOR_JS from '@salesforce/resourceUrl/surveycreatormin'; //CSS
-	
-
+import { LightningElement } from "lwc";
+import { loadScript, loadStyle } from "lightning/platformResourceLoader";
+import SURVEY_CORE from "@salesforce/resourceUrl/surveycore"; //JS
+import SURVEY_JS_UI from "@salesforce/resourceUrl/surveyjsui"; //JS
+import SURVEY_CORE_CSS from "@salesforce/resourceUrl/surveycoremin"; //CSS (renamed from DEFAULTV2)
+import SURVEY_CREATOR_CORE_CSS from "@salesforce/resourceUrl/surveycreatorcorecss"; //CSS
+import SURVEY_CREATOR_CORE_JS from "@salesforce/resourceUrl/surveycreatorcorejs"; //JS
+import SURVEY_CREATOR_JS from "@salesforce/resourceUrl/surveycreatormin"; //JS
+import { SurveyCreatorPatcher } from "./surveyCreatorPatcher";
 
 export default class SurveyCreatorLWC extends LightningElement {
-    surveyInitialized = false;
-    loaded = false;
+  surveyInitialized = false;
+  loaded = false;
+  creatorInstance = null;
 
-    renderedCallback() {
-        if (this.surveyInitialized) {
-            return;
-        }
-        this.surveyInitialized = true;
-        // Promise.all([
-        //     loadStyle(this, DEFAULTV2),
-        //     loadScript(this, SURVEY_CORE),
-        //     loadScript(this, SURVEY_JS_UI)
-        // ]).then(() => {
-        //     console.log('everything loaded');
-            
-        //     this.initializeSurvey();
-        // })
-        // .catch(error => {
-        //     console.error('Error loading resources:', error);
-        // });
-        loadStyle(this, DEFAULTV2)
-            .then(() => {
-                console.log('SurveyJS CSS loaded.');
-                loadScript(this, SURVEY_CORE)
-                .then(() => {
-                    loadScript(this, SURVEY_JS_UI)
-                    .then(() => {
-                        loadStyle(this, SURBEY_CREATOR_CORE_CSS)
-                        .then(() => {
-                            loadScript(this, SURBEY_CREATOR_CORE_JS)
-                            .then(() => {
-                                loadScript(this, SURBEY_CREATOR_JS)
-                                .then(() => {
-                                    this.initializeSurvey();
-                                })
-                                .catch(error => {
-                                    console.error('Error loading SURBEY_CREATOR_JS resources:', error);
-                                });
-                            })
-                            .catch(error => {
-                                console.error('Error loading SURBEY_CREATOR_CORE_JS resources:', error);
-                            });
-                        })
-                        .catch(error => {
-                            console.error('Error loading SURBEY_CREATOR_CORE_CSS resources:', error);
-                        });
-                        console.log('SurveyJS JS UI loaded.');
-                    })
-                    .catch(error => {
-                        console.error('Error loading SURBEY JS UI resources:', error);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error loading SURBEY CORE resources:', error);
-                })
-                .finally(result => {
-                    console.log('loadScript result:', result);
-                });
-            })
-            .catch(error => {
-                console.error('Error loading resources:', error);
-            });
+  renderedCallback() {
+    if (this.surveyInitialized) {
+      return;
     }
+    this.surveyInitialized = true;
+    loadStyle(this, SURVEY_CORE_CSS)
+      .then(() => {
+        console.log("SurveyJS CSS loaded.");
+        loadScript(this, SURVEY_CORE)
+          .then(() => {
+            loadScript(this, SURVEY_JS_UI)
+              .then(() => {
+                loadStyle(this, SURVEY_CREATOR_CORE_CSS)
+                  .then(() => {
+                    loadScript(this, SURVEY_CREATOR_CORE_JS)
+                      .then(() => {
+                        loadScript(this, SURVEY_CREATOR_JS)
+                          .then(() => {
+                            this.initializeSurvey();
+                          })
+                          .catch((error) => {
+                            console.error(
+                              "Error loading SURVEY_CREATOR_JS resources:",
+                              error
+                            );
+                          });
+                      })
+                      .catch((error) => {
+                        console.error(
+                          "Error loading SURVEY_CREATOR_CORE_JS resources:",
+                          error
+                        );
+                      });
+                  })
+                  .catch((error) => {
+                    console.error(
+                      "Error loading SURVEY_CREATOR_CORE_CSS resources:",
+                      error
+                    );
+                  });
+                console.log("SurveyJS JS UI loaded.");
+              })
+              .catch((error) => {
+                console.error("Error loading SURVEY JS UI resources:", error);
+              });
+          })
+          .catch((error) => {
+            console.error("Error loading SURVEY CORE resources:", error);
+          })
+          .finally((result) => {
+            console.log("loadScript result:", result);
+          });
+      })
+      .catch((error) => {
+        console.error("Error loading resources:", error);
+      });
+  }
 
-    initializeSurvey() {
-        console.log('Initializing Survey...');
-        
-        // if (window.Survey) {
-        //     const surveyJson = {
-        //         elements: [
-        //             { name: 'FirstName', title: 'Enter your first name:', type: 'text' },
-        //             { name: 'LastName', title: 'Enter your last name:', type: 'text' }
-        //         ]
-        //     };
+  initializeSurvey() {
+    console.log("Initializing Survey...");
 
-        //     const survey = new window.Survey.Model(surveyJson);
-        //     survey.render(this.template.querySelector('.surveyContainer'));
-        // } else {
-        //     console.error('SurveyJS library not loaded.');
-        // }
-        if (window.Survey) {
-            const creatorOptions = {
-                showLogicTab: true,
-                isAutoSave: true
-            };
-            
-            const defaultJson = {
-                pages: [{
-                    name: "Name",
-                    elements: [{
-                        name: "FirstName",
-                        title: "Enter your first name:",
-                        type: "text"
-                    }, {
-                        name: "LastName",
-                        title: "Enter your last name:",
-                        type: "text"
-                    }]
-                }]
-            };
-            
-            // setLicenseKey("VkFMSURfUFJFRklYOzA9MjAyNS0xMi0zMQ==");
+    if (window.Survey) {
+      const creatorOptions = {
+        showLogicTab: true,
+        isAutoSave: true,
+      };
 
-            const creator = new SurveyCreator.SurveyCreator(creatorOptions);
-            creator.text = window.localStorage.getItem("survey-json") || JSON.stringify(defaultJson);
-            creator.saveSurveyFunc = (saveNo, callback) => { 
-                window.localStorage.setItem("survey-json", creator.text);
-                callback(saveNo, true);
-            };
-            
-            
-            
-            creator.render(this.template.querySelector('.surveyContainer'));
-            this.loaded = true;
-        } else {
-            console.error('SurveyJS library not loaded.');
+      const defaultJson = {
+        pages: [
+          {
+            name: "Name",
+            elements: [
+              {
+                name: "FirstName",
+                title: "Enter your first name:",
+                type: "text",
+              },
+              {
+                name: "LastName",
+                title: "Enter your last name:",
+                type: "text",
+              },
+            ],
+          },
+        ],
+      };
+
+      // setLicenseKey("VkFMSURfUFJFRklYOzA9MjAyNS0xMi0zMQ==");
+
+      const creator = new SurveyCreator.SurveyCreator(creatorOptions);
+      this.creatorInstance = creator;
+
+      creator.text =
+        window.localStorage.getItem("survey-json") ||
+        JSON.stringify(defaultJson);
+      creator.saveSurveyFunc = (saveNo, callback) => {
+        window.localStorage.setItem("survey-json", creator.text);
+        callback(saveNo, true);
+      };
+
+      const container = this.template.querySelector(".surveyContainer");
+
+      // Apply DOM patches for LWC compatibility
+      const patcher = new SurveyCreatorPatcher(this, creator);
+      patcher.applyPatches();
+
+      creator.render(container);
+
+      // Make the creator instance available globally for debugging
+      window.surveyCreator = creator;
+
+      // Update the event debugger with the creator instance
+      setTimeout(() => {
+        const debuggerElement = this.template.querySelector(
+          "c-survey-js-event-debugger"
+        );
+        if (debuggerElement) {
+          debuggerElement.creator = this.creatorInstance;
         }
+      }, 500);
+
+      console.log("SurveyJS Creator initialized");
+      this.loaded = true;
+    } else {
+      console.error("SurveyJS library not loaded.");
     }
+  }
 }

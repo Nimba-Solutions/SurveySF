@@ -307,7 +307,6 @@ QUnit.test("deserialize showOptionsCaption & optionsCaption to placeholder & all
 });
 
 QUnit.test("question.showClearButton", assert => {
-  settings.supportCreatorV2 = false;
   const json = {
     questions: [
       {
@@ -330,10 +329,8 @@ QUnit.test("question.showClearButton", assert => {
   assert.equal(q.showClearButton, false, "allowClear is false");
   q.allowClear = true;
   survey.setDesignMode(true);
-  assert.equal(q.showClearButton, false, "design mode");
-  settings.supportCreatorV2 = true;
+
   assert.equal(q.showClearButton, true, "Creator V2");
-  settings.supportCreatorV2 = false;
 });
 
 QUnit.test("ListModel localization", assert => {
@@ -914,7 +911,7 @@ QUnit.test("The onGetChoiceDisplayValue callback fires multiple times, #6078", a
   setTimeout(() => {
     assert.equal(requestCount, 1, "requestCount #2.1");
     assert.equal(responseCount, 0, "responseCount #2.1");
-    assert.equal(question.selectedItemLocText.calculatedText, "2");
+    assert.equal(question.selectedItemLocText.calculatedText, "2", "calculatedText #2.1");
 
     setTimeout(() => {
       assert.equal(requestCount, 1, "requestCount #3");
@@ -932,7 +929,7 @@ QUnit.test("The onGetChoiceDisplayValue callback fires multiple times, #6078", a
       done2();
     }, onChoicesLazyLoadCallbackTimeOut + callbackTimeOutDelta);
     done1();
-  }, onChoicesLazyLoadCallbackTimeOut);
+  }, 0);
 });
 
 QUnit.test("storeOthersAsComment is false", assert => {
@@ -1989,7 +1986,7 @@ QUnit.test("Test dropdown string localization", function (assert) {
   const listModel = q1.dropdownListModel["listModel"];
   assert.equal(listModel.filterStringPlaceholder, "Tippen Sie, um zu suchen...", "filterStringPlaceholder");
   assert.equal(listModel.emptyMessage, "Es gibt noch keine Daten.", "emptyMessage");
-  assert.equal(listModel.loadingText, "Wird hochgeladen...", "loadingText");
+  assert.equal(listModel.loadingIndicator.title, "Wird hochgeladen...", "loadingText");
 
   let popupViewModel: PopupBaseViewModel = new PopupDropdownViewModel(q1.dropdownListModel.popupModel);
   assert.equal(popupViewModel.cancelButtonText, "Abbrechen", "cancelButtonText");

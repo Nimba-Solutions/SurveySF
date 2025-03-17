@@ -59,12 +59,13 @@ export var kazakhStrings = {
   addColumn: "Бағана қосу",
   addRow: "Жолды қосу",
   removeRow: "Өшіру",
-  emptyRowsText: "Қатарлар жоқ.",
+  noRowsText: "Қатарлар жоқ.",
   addPanel: "Жаңа қосу",
   removePanel: "Өшіру",
   showDetails: "Егжей-тегжейін көрсету",
   hideDetails: "Егжей- тегжейін жасы",
   choices_Item: "Нұсқа",
+  choices_Choice: "Таңдау параметрі",
   matrix_column: "Бағана",
   matrix_row: "Жол",
   multipletext_itemname: "мәтін",
@@ -99,6 +100,8 @@ export var kazakhStrings = {
   modalApplyButtonText: "Қолдану",
   filterStringPlaceholder: "Іздеу үшін теріңіз...",
   emptyMessage: "Көрсетілетін деректер жоқ",
+  loadingPage: "Жүктеу...",
+  loadingData: "Жүктеу...",
   noEntriesText: "Әзірге жазбалар жоқ.\nЖаңа жазбаны қосу үшін төмендегі түймешігіңді басыңыз.",
   noEntriesReadonlyText: "Жазбалар жоқ.",
   tabTitlePlaceholder: "Жаңа панель",
@@ -120,7 +123,7 @@ setupLocale({ localeCode: "kk", strings: kazakhStrings, nativeName: "kazakh", en
 // minError: "The value should not be less than {0}" => "Мәні {0} кем болмауы тиіс"
 // maxError: "The value should not be greater than {0}" => "Мән {0} артық болмауы тиіс"
 // filePlaceholder: "Drag and drop a file here or click the button below and choose a file to upload." => "Файлды осы жерге апарып тастаңыз немесе төмендегі түймені басыңыз және кері жүктеу үшін файлды таңдаңыз."
-// emptyRowsText: "There are no rows." => "Қатарлар жоқ."
+// noRowsText: "There are no rows." => "Қатарлар жоқ."
 // multipletext_itemname: "text" => "мәтін"
 // signaturePlaceHolder: "Sign here" => "Осында кіру"
 // modalCancelButtonText: "Cancel" => "Болдырмау"
@@ -132,16 +135,24 @@ setupLocale({ localeCode: "kk", strings: kazakhStrings, nativeName: "kazakh", en
 // more: "More" => "Қосымша"
 // tagboxDoneButtonCaption: "OK" => "ЖАҚСЫ"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "Барлық таңдаулар ранжирленген"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Таңдауды рангтеу үшін осында апарып тастау"// takePhotoCaption: "Take Photo" => "Фотосуретке түсу"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Таңдауды рангтеу үшін осында апарып тастау"
+// takePhotoCaption: "Take Photo" => "Фотосуретке түсу"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "Камераны пайдаланып суретке түсу үшін төмендегі түймені басыңыз."
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "Фотоаппаратты пайдаланып кері жүктеу немесе суретке түсіру үшін файлды апарып тастаыңыз немесе таңдаңыз."
-// replaceFileCaption: "Replace file" => "Файлды ауыстыру"// eachRowUniqueError: "Each row must have a unique value." => "Әр жолдың бірегей мәні болуы тиіс."
+// replaceFileCaption: "Replace file" => "Файлды ауыстыру"
+// eachRowUniqueError: "Each row must have a unique value." => "Әр жолдың бірегей мәні болуы тиіс."
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "Файлдарды кері жүктеу мүмкін емес. 'OnUploadFiles' оқиғасына өңдеушіні қосуыңызды сұраймыз."
 // showDetails: "Show Details" => "Егжей-тегжейін көрсету"
 // hideDetails: "Hide Details" => "Егжей- тегжейін жасы"
 // ok: "OK" => "ЖАҚСЫ"
 // cancel: "Cancel" => "Болдырмау"
 // refuseItemText: "Refuse to answer" => "Жауап беруден бас тарту"
-// dontKnowItemText: "Don't know" => "Білмеймін"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Сіздің жауабыңыз 64КБ-тан асады. Файлдың өлшемін азайтып, қайталап көріңіз немесе сауалнама иесіне хабарласыңыз."
-// signaturePlaceHolderReadOnly: "No signature" => "Қолдың No"// tabTitlePlaceholder: "New Panel" => "Жаңа панель"// deselectAllItemText: "Deselect all" => "Барлығын жоққа шығару"
+// dontKnowItemText: "Don't know" => "Білмеймін"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Сіздің жауабыңыз 64КБ-тан асады. Файлдың өлшемін азайтып, қайталап көріңіз немесе сауалнама иесіне хабарласыңыз."
+// signaturePlaceHolderReadOnly: "No signature" => "Қолдың No"
+// tabTitlePlaceholder: "New Panel" => "Жаңа панель"
+// deselectAllItemText: "Deselect all" => "Барлығын жоққа шығару"
 // textNoDigitsAllow: "Numbers are not allowed." => "Нөмірлерді беруге жол берілмейді."
+// choices_Choice: "Choice option" => "Таңдау параметрі"
+// loadingPage: "Loading..." => "Жүктеу..."
+// loadingData: "Loading..." => "Жүктеу..."

@@ -11,7 +11,7 @@
         :disabled="!question.getItemEnabled(item)"
         :readonly="question.isReadOnlyAttr"
         v-bind:aria-required="question.ariaRequired"
-        :aria-label="question.ariaLabel"
+        :aria-label="item.locText.renderedHtml"
         :aria-invalid="question.ariaInvalid"
         :aria-errormessage="question.ariaErrormessage"
         :class="question.cssClasses.itemControl"
@@ -26,7 +26,7 @@
         :disabled="!question.getItemEnabled(item)"
         :readonly="question.isReadOnlyAttr"
         v-bind:aria-required="question.ariaRequired"
-        :aria-label="question.ariaLabel"
+        :aria-label="item.locText.renderedHtml"
         :aria-invalid="question.ariaInvalid"
         :aria-errormessage="question.ariaErrormessage"
         :class="question.cssClasses.itemControl"
@@ -36,6 +36,7 @@
           <span
             v-if="question.cssClasses.checkedItemDecorator"
             :class="question.cssClasses.checkedItemDecorator"
+            aria-hidden="true"
           >
             <SvComponent
               :is="'sv-svg-icon'"

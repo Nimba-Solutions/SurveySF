@@ -59,12 +59,13 @@ export var indonesianStrings = {
   addColumn: "Tambah kolom",
   addRow: "Tambah baris",
   removeRow: "Hapus",
-  emptyRowsText: "Tidak ada baris.",
+  noRowsText: "Tidak ada baris.",
   addPanel: "Tambah baru",
   removePanel: "Hapus",
   showDetails: "Tampilkan Detail",
   hideDetails: "Sembunyikan Detail",
   choices_Item: "item",
+  choices_Choice: "Opsi pilihan",
   matrix_column: "Kolom",
   matrix_row: "Baris",
   multipletext_itemname: "Teks",
@@ -99,6 +100,8 @@ export var indonesianStrings = {
   modalApplyButtonText: "Berlaku",
   filterStringPlaceholder: "Ketik untuk mencari...",
   emptyMessage: "Tidak ada data untuk ditampilkan",
+  loadingPage: "Loading...",
+  loadingData: "Loading...",
   noEntriesText: "Belum ada entri.\nKlik tombol di bawah ini untuk menambahkan entri baru.",
   noEntriesReadonlyText: "Tidak ada entri.",
   tabTitlePlaceholder: "Panel Baru",
@@ -120,7 +123,7 @@ setupLocale({ localeCode: "id", strings: indonesianStrings, nativeName: "bahasa 
 // minError: "The value should not be less than {0}" => "Nilainya tidak boleh kurang dari {0}"
 // maxError: "The value should not be greater than {0}" => "Nilai tidak boleh lebih besar dari {0}"
 // filePlaceholder: "Drag and drop a file here or click the button below and choose a file to upload." => "Seret dan jatuhkan file di sini atau klik tombol di bawah ini dan pilih file yang akan diunggah."
-// emptyRowsText: "There are no rows." => "Tidak ada baris."
+// noRowsText: "There are no rows." => "Tidak ada baris."
 // multipletext_itemname: "text" => "Teks"
 // signaturePlaceHolder: "Sign here" => "Tanda tangan di sini"
 // modalCancelButtonText: "Cancel" => "Membatalkan"
@@ -132,16 +135,24 @@ setupLocale({ localeCode: "id", strings: indonesianStrings, nativeName: "bahasa 
 // more: "More" => "Lebih"
 // tagboxDoneButtonCaption: "OK" => "OKE"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "Semua pilihan diberi peringkat"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Seret dan lepas pilihan di sini untuk memberi peringkat"// takePhotoCaption: "Take Photo" => "Ambil Foto"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Seret dan lepas pilihan di sini untuk memberi peringkat"
+// takePhotoCaption: "Take Photo" => "Ambil Foto"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "Klik tombol di bawah ini untuk mengambil foto menggunakan kamera."
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "Seret dan lepas atau pilih file untuk diunggah atau mengambil foto menggunakan kamera."
-// replaceFileCaption: "Replace file" => "Ganti file"// eachRowUniqueError: "Each row must have a unique value." => "Setiap baris harus memiliki nilai unik."
+// replaceFileCaption: "Replace file" => "Ganti file"
+// eachRowUniqueError: "Each row must have a unique value." => "Setiap baris harus memiliki nilai unik."
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "File tidak dapat diunggah. Harap tambahkan handler untuk acara 'onUploadFiles'."
 // showDetails: "Show Details" => "Tampilkan Detail"
 // hideDetails: "Hide Details" => "Sembunyikan Detail"
 // ok: "OK" => "OKE"
 // cancel: "Cancel" => "Membatalkan"
 // refuseItemText: "Refuse to answer" => "Menolak untuk menjawab"
-// dontKnowItemText: "Don't know" => "Tidak tahu"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Respons Anda melebihi 64 KB. Harap kurangi ukuran file Anda dan coba lagi atau hubungi pemilik survei."
-// signaturePlaceHolderReadOnly: "No signature" => "Tidak ada tanda tangan"// tabTitlePlaceholder: "New Panel" => "Panel Baru"// deselectAllItemText: "Deselect all" => "Batalkan pilihan semua"
+// dontKnowItemText: "Don't know" => "Tidak tahu"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Respons Anda melebihi 64 KB. Harap kurangi ukuran file Anda dan coba lagi atau hubungi pemilik survei."
+// signaturePlaceHolderReadOnly: "No signature" => "Tidak ada tanda tangan"
+// tabTitlePlaceholder: "New Panel" => "Panel Baru"
+// deselectAllItemText: "Deselect all" => "Batalkan pilihan semua"
 // textNoDigitsAllow: "Numbers are not allowed." => "Nomor tidak diperbolehkan."
+// choices_Choice: "Choice option" => "Opsi pilihan"
+// loadingPage: "Loading..." => "Loading..."
+// loadingData: "Loading..." => "Loading..."

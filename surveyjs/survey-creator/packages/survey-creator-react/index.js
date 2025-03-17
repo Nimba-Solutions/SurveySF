@@ -189,6 +189,8 @@ SurveyReact.ReactElementFactory.Instance.registerElement("svc-page", (props) => 
   return React.createElement(CreatorSurveyPageComponent2, props);
 });
 */
+SurveyCreatorCore.registerSurveyTheme(SurveyTheme);
+SurveyCreatorCore.registerCreatorTheme(SurveyCreatorTheme);
 const creator = new SurveyCreator.SurveyCreator(options);
 creator.onModified.add((sender, options) => {
   console.log(JSON.stringify(options, null, 3));
@@ -202,6 +204,7 @@ creator.onMachineTranslate.add((_, options) => {
 // creator.locale = "de";
 window.creator = creator;
 creator.showOneCategoryInPropertyGrid = true;
+creator.propertyGridNavigationMode = "buttons";
 // creator.getPlugin("designer").showOneCategoryInPropertyGrid = true;
 // creator.getPlugin("theme").showOneCategoryInPropertyGrid = true;
 

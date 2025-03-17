@@ -1,4 +1,4 @@
-import { _setIsTouch, Question, settings } from "survey-core";
+import { _setIsTouch, _setIsTablet, Question } from "survey-core";
 import { registerMarkupTests } from "./helper";
 
 registerMarkupTests(
@@ -170,8 +170,6 @@ registerMarkupTests(
         ]
       },
       initSurvey: (survey) => survey.setDesignMode(true),
-      before: () => { settings.supportCreatorV2 = true; },
-      after: () => { settings.supportCreatorV2 = false; },
       snapshot: "dropdown-disabled-with-value"
     },
     {
@@ -213,9 +211,11 @@ registerMarkupTests(
       },
       before: () => {
         _setIsTouch(true);
+        _setIsTablet(true);
       },
       after: () => {
         _setIsTouch(false);
+        _setIsTablet(undefined);
       },
       snapshot: "dropdown-select-mobile",
     },
@@ -335,7 +335,7 @@ registerMarkupTests(
       },
       event: "onAfterRenderSurvey",
       getElement: el => {
-        return <HTMLElement>el?.querySelector(".sv_q.sv_qstn > div") as HTMLElement;
+        return <HTMLElement>el?.querySelector(".sd-question > div") as HTMLElement;
       },
       timeout: 300,
       removeIds: true,
@@ -368,7 +368,7 @@ registerMarkupTests(
       },
       event: "onAfterRenderSurvey",
       getElement: el => {
-        return <HTMLElement>el?.querySelector(".sv_q.sv_qstn > div") as HTMLElement;
+        return <HTMLElement>el?.querySelector(".sd-question > div") as HTMLElement;
       },
       timeout: 300,
       removeIds: true,

@@ -1,11 +1,12 @@
 import { Base, LocalizableString, Serializer, JsonObjectProperty, property, ItemValue, ComputedUpdater, sanitizeEditableContent, Event as SurveyEvent, Question, QuestionMultipleTextModel, MultipleTextItemModel, QuestionMatrixBaseModel, QuestionMatrixModel, QuestionMatrixDropdownModel, MatrixDropdownColumn, QuestionMatrixDynamicModel, QuestionSelectBase, QuestionImagePickerModel, EventBase, CharacterCounter, CssClassBuilder } from "survey-core";
 import { SurveyCreatorModel } from "../creator-base";
 import { editorLocalization } from "../editorLocalization";
-import { clearNewLines, getNextValue, select } from "../utils/utils";
+import { clearNewLines } from "../utils/utils";
+import { getNextItemValue, getNextValue } from "../utils/creator-utils";
+import { select } from "../utils/html-element-utils";
 import { ItemValueWrapperViewModel } from "./item-value";
 import { QuestionAdornerViewModel } from "./question";
 import { QuestionRatingAdornerViewModel } from "./question-rating";
-import { getNextItemValue } from "../utils/utils";
 
 export abstract class StringItemsNavigatorBase {
   constructor(protected question: any) { }
@@ -33,7 +34,9 @@ export abstract class StringItemsNavigatorBase {
 
     newItems.splice(startIndex, 1);
     itemsToAdd.forEach((item, offset) => {
-      newItems.splice(startIndex + offset, 0, createNewItem(item));
+      if (creator.maximumChoicesCount <= 0 || newItems.length < creator.maximumChoicesCount) {
+        newItems.splice(startIndex + offset, 0, createNewItem(item));
+      }
     });
     this.question[this.getItemsPropertyName(items)] = newItems;
   }
@@ -253,8 +256,11 @@ export class StringEditorViewModelBase extends Base {
     super();
     this.locString = locString;
     this.checkMarkdownToTextConversion(this.locString.owner, this.locString.name);
+    this.creator?.onLocaleChanded.add(this.onLocaleChanged);
   }
-
+  private onLocaleChanged = () => {
+    this.resetPropertyValue("placeholderValue");
+  };
   public afterRender() {
     if (this.connector.focusOnEditor) {
       if (this.activate()) this.connector.focusOnEditor = false;
@@ -268,6 +274,7 @@ export class StringEditorViewModelBase extends Base {
   }
 
   public dispose(): void {
+    this.creator?.onLocaleChanded.remove(this.onLocaleChanged);
     super.dispose();
     this.detachFromUI();
   }
@@ -419,9 +426,8 @@ export class StringEditorViewModelBase extends Base {
   private getClearedText(target: HTMLElement): string {
     const html = target.innerHTML;
     const text = target.innerText;
-    if(!this.creator) return this.locString.hasHtml ? html : text;
     let mdText = null;
-    if (!this.editAsText) {
+    if (!this.editAsText && this.creator) {
       const options = {
         element: <Base><any>this.locString.owner,
         text: <any>null,
@@ -435,9 +441,11 @@ export class StringEditorViewModelBase extends Base {
     if (mdText) {
       clearedText = mdText;
     } else {
-      let txt = this.locString.hasHtml && !this.editAsText ? html : text;
-      if (!this.locString.allowLineBreaks) txt = clearNewLines(txt);
-      clearedText = txt;
+      clearedText = this.locString.hasHtml && !this.editAsText ? html : text;
+      const txt = clearNewLines(clearedText);
+      if (!this.locString.allowLineBreaks || !txt) {
+        clearedText = txt;
+      }
     }
     const owner = this.locString.owner as any;
 
@@ -448,7 +456,7 @@ export class StringEditorViewModelBase extends Base {
       newValue: clearedText,
       doValidation: false
     };
-    this.creator.onValueChangingCallback(changingOptions);
+    if (this.creator) this.creator.onValueChangingCallback(changingOptions);
     return changingOptions.newValue;
   }
   private getErrorTextOnChanged(clearedText: string): string {
@@ -522,7 +530,7 @@ export class StringEditorViewModelBase extends Base {
       this.blurEditor();
       this.done(event);
     }
-    if (event.keyCode === 8 && !(event.target as any).innerText) {
+    if (event.keyCode === 8 && !clearNewLines((event.target as any).innerText)) {
       this.done(event);
       this.connector.onBackspaceEmptyString.fire(this, {});
     }
@@ -561,25 +569,32 @@ export class StringEditorViewModelBase extends Base {
   }
   @property() placeholderValue: string;
   public get placeholder(): string {
-    if (!!this.placeholderValue) return this.placeholderValue;
-    const property: any = this.findProperty();
-    if (!property || !property.placeholder) return "";
-    let placeholderValue: string = editorLocalization.getString(property.placeholder);
-    if (!!placeholderValue) {
-      var re = /\{([^}]+)\}/g;
-      this.placeholderValue = <any>new ComputedUpdater<string>(() => {
-        let result = placeholderValue;
-        let match = re.exec(result);
-        while (match != null) {
-          result = result.replace(re, propertyName => {
-            const propertyValue = this.locString.owner && this.locString.owner[match[1]];
-            return "" + propertyValue;
-          });
-          match = re.exec(result);
-        }
-        return result;
-      });
+    if (this.placeholderValue !== undefined) return this.placeholderValue;
+    const propPlaceholder = this.findProperty()?.placeholder;
+    if(!!propPlaceholder) {
+      (<any>this.locString).placeholder = propPlaceholder;
     }
+    if(!(<any>this.locString).placeholder) {
+      this.placeholderValue = "";
+      return "";
+    }
+    var re = /\{([^}]+)\}/g;
+    this.placeholderValue = <any>new ComputedUpdater<string>(() => {
+      let locPlaceholder: any = (<any>this.locString).placeholder;
+      if(typeof locPlaceholder === "function") {
+        locPlaceholder = locPlaceholder();
+      }
+      let result = editorLocalization.getString(locPlaceholder);
+      let match = re.exec(result);
+      while (match != null) {
+        result = result.replace(re, propertyName => {
+          const propertyValue = this.locString.owner && this.locString.owner[match[1]];
+          return "" + propertyValue;
+        });
+        match = re.exec(result);
+      }
+      return result;
+    });
     return this.placeholderValue;
   }
   public get contentEditable(): boolean {

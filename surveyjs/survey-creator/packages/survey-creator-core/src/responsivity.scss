@@ -1,10 +1,6 @@
-@import "./variables.scss";
+@use "./variables" as *;
 
 .svc-creator--mobile {
-  .svc-tab-designer {
-    overflow-y: overlay;
-  }
-
   .sd-root-modern,
   .sd-container-modern {
     --sd-base-padding: calc(3 * #{$base-unit});
@@ -47,7 +43,7 @@
     }
   }
 
-  .svc-page {
+  .svc-designer-header + .svc-page {
     margin-top: calcSize(1);
   }
 
@@ -123,21 +119,5 @@
     .svc-survey-element-toolbar__item {
       border: 0;
     }
-  }
-
-  .svc-page__content-actions {
-    .svc-page-toolbar {
-      padding-right: calcSize(1);
-
-      .sv-action {
-        .sv-action__content {
-          padding-right: 0;
-        }
-      }
-    }
-  }
-
-  .svc-page-toolbar-item__title--with-icon {
-    display: none;
   }
 }

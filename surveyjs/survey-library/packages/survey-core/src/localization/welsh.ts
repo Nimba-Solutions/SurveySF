@@ -59,12 +59,13 @@ export var welshSurveyStrings = {
   addColumn: "Ychwanegu colofn ",
   addRow: "Ychwanegu rhes",
   removeRow: "Tynnu",
-  emptyRowsText: "Nid oes unrhyw ffraeau.",
+  noRowsText: "Nid oes unrhyw ffraeau.",
   addPanel: "Ychwanegu o’r newydd",
   removePanel: "Tynnu",
   showDetails: "Dangos manylion",
   hideDetails: "Manylion Cuddio",
   choices_Item: "eitem",
+  choices_Choice: "Dewis opsiwn",
   matrix_column: "Colofn",
   matrix_row: "Rhes",
   multipletext_itemname: "Testun",
@@ -99,6 +100,8 @@ export var welshSurveyStrings = {
   modalApplyButtonText: "Cynnig",
   filterStringPlaceholder: "Teipiwch i chwilio...",
   emptyMessage: "Dim data i'w arddangos",
+  loadingPage: "Llwytho...",
+  loadingData: "Llwytho...",
   noEntriesText: "Nid oes unrhyw gofnodion hyd yn hyn.\nCliciwch y botwm isod i ychwanegu cofnod newydd.",
   noEntriesReadonlyText: "Nid oes unrhyw gofnodion.",
   tabTitlePlaceholder: "Panel newydd",
@@ -120,7 +123,7 @@ setupLocale({ localeCode: "cy", strings: welshSurveyStrings, nativeName: "cymrae
 // minError: "The value should not be less than {0}" => "Ni ddylai'r gwerth fod yn llai na {0}"
 // maxError: "The value should not be greater than {0}" => "Ni ddylai'r gwerth fod yn fwy na {0}"
 // filePlaceholder: "Drag and drop a file here or click the button below and choose a file to upload." => "Llusgwch a gollwng ffeil yma neu cliciwch y botwm isod a dewiswch ffeil i'w lanlwytho."
-// emptyRowsText: "There are no rows." => "Nid oes unrhyw ffraeau."
+// noRowsText: "There are no rows." => "Nid oes unrhyw ffraeau."
 // multipletext_itemname: "text" => "Testun"
 // signaturePlaceHolder: "Sign here" => "Arwydd yma"
 // modalCancelButtonText: "Cancel" => "Canslo"
@@ -132,15 +135,24 @@ setupLocale({ localeCode: "cy", strings: welshSurveyStrings, nativeName: "cymrae
 // more: "More" => "Rhagor"
 // tagboxDoneButtonCaption: "OK" => "OCÊ"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "Mae'r holl ddewisiadau yn cael eu rhestru"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Dewisiadau llusgo a gollwng yma i'w graddio"// takePhotoCaption: "Take Photo" => "Tynnu Llun"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Dewisiadau llusgo a gollwng yma i'w graddio"
+// takePhotoCaption: "Take Photo" => "Tynnu Llun"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "Cliciwch y botwm isod i dynnu llun gan ddefnyddio'r camera."
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "Llusgwch a gollwng neu dewiswch ffeil i lanlwytho neu dynnu llun gan ddefnyddio'r camera."
-// replaceFileCaption: "Replace file" => "Amnewid ffeil"// eachRowUniqueError: "Each row must have a unique value." => "Rhaid i bob rhes fod â gwerth unigryw."
+// replaceFileCaption: "Replace file" => "Amnewid ffeil"
+// eachRowUniqueError: "Each row must have a unique value." => "Rhaid i bob rhes fod â gwerth unigryw."
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "Ni ellir llwytho ffeiliau i fyny. Ychwanegwch handler ar gyfer y digwyddiad 'onUploadFiles'."
 // showDetails: "Show Details" => "Dangos manylion"
 // hideDetails: "Hide Details" => "Manylion Cuddio"
 // ok: "OK" => "OCÊ"
-// cancel: "Cancel" => "Canslo"// refuseItemText: "Refuse to answer" => "Gwrthod ateb"
-// dontKnowItemText: "Don't know" => "Ddim yn gwybod"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Mae eich ymateb yn fwy na 64KB. Lleihau maint eich ffeil(au) a cheisiwch eto neu cysylltwch â pherchennog yr arolwg."
-// signaturePlaceHolderReadOnly: "No signature" => "Dim llofnod"// tabTitlePlaceholder: "New Panel" => "Panel newydd"// deselectAllItemText: "Deselect all" => "Dad-ddethol yr holl"
+// cancel: "Cancel" => "Canslo"
+// refuseItemText: "Refuse to answer" => "Gwrthod ateb"
+// dontKnowItemText: "Don't know" => "Ddim yn gwybod"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Mae eich ymateb yn fwy na 64KB. Lleihau maint eich ffeil(au) a cheisiwch eto neu cysylltwch â pherchennog yr arolwg."
+// signaturePlaceHolderReadOnly: "No signature" => "Dim llofnod"
+// tabTitlePlaceholder: "New Panel" => "Panel newydd"
+// deselectAllItemText: "Deselect all" => "Dad-ddethol yr holl"
 // textNoDigitsAllow: "Numbers are not allowed." => "Ni chaniateir rhifau."
+// choices_Choice: "Choice option" => "Dewis opsiwn"
+// loadingPage: "Loading..." => "Llwytho..."
+// loadingData: "Loading..." => "Llwytho..."

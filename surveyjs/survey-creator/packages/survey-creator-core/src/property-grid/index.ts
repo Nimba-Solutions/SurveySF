@@ -36,7 +36,7 @@ import {
   settings as creatorSettings
 } from "../creator-settings";
 import { QuestionFactory } from "survey-core";
-import { defaultV2Css } from "survey-core";
+import { defaultCss } from "survey-core";
 import { SurveyHelper } from "../survey-helper";
 import { ISurveyPropertyGridDefinition } from "../question-editor/definition";
 import { parsePropertyDescription } from "./description-parser";
@@ -75,7 +75,7 @@ export function setSurveyJSONForPropertyGrid(
 ) {
   json.showNavigationButtons = "none";
   json.showPageTitles = false;
-  json.focusFirstQuestionAutomatic = false;
+  json.autoFocusFirstQuestion = false;
   json.showQuestionNumbers = "off";
   if (titleLocationLeft) {
     json.questionTitleLocation = "left";
@@ -84,7 +84,7 @@ export function setSurveyJSONForPropertyGrid(
   if (updateOnTyping) {
     json.textUpdateMode = "onTyping";
   }
-  json.requiredText = "";
+  json.requiredMark = "";
 }
 
 export abstract class PropertyEditorSetupValue implements IPropertyEditorSetup {
@@ -279,8 +279,8 @@ export var PropertyGridEditorCollection = {
     var row = options.row;
     if (!!row) {
       const questions = row.questions;
-      for(let i = 0; i < questions.length; i ++) {
-        if(questions[i].errors.length > 0) return;
+      for (let i = 0; i < questions.length; i++) {
+        if (questions[i].errors.length > 0) return;
       }
       var cellQuestion = row.getQuestionByName(options.columnName);
       if (!!cellQuestion) {
@@ -448,6 +448,7 @@ export class PropertyGridTitleActionsCreator {
       iconSize: "auto",
       css: "spg-help-action",
       showTitle: false,
+      disableHide: true,
       action: () => {
         question.descriptionLocation =
           question.descriptionLocation != "hidden" ? "hidden" : "underTitle";
@@ -817,8 +818,8 @@ export class PropertyGridModel {
   currentlySelectedProperty: string;
   currentlySelectedPanel: PanelModel;
   currentlySelectedPage: PageModel;
-
-  public objValueChangedCallback: () => void;
+  public onSetNewObjectCallback: () => void;
+  public onNewSurveyCreatedCallback: () => void;
   public changedFromActionCallback: (obj: Base, propertyName: string) => void;
   public refresh(): void {
     this.setObj(this.objValue);
@@ -881,6 +882,9 @@ export class PropertyGridModel {
   }
   private setObj(value: Base) {
     this.objValue = value;
+    if(this.onSetNewObjectCallback) {
+      this.onSetNewObjectCallback();
+    }
     this.classNameProperty = !!this.obj
       ? PropertyJSONGenerator.getClassNameProperty(this.obj)
       : "";
@@ -891,24 +895,32 @@ export class PropertyGridModel {
     this.titleActionsCreator = !!this.obj
       ? new PropertyGridTitleActionsCreator(this.obj, this.options)
       : undefined;
-    var json = this.getSurveyJSON();
+    if(!this.surveyValue) return;
+    this.clearSurveyValue();
+    this.createSurveyValue();
+  }
+  private clearSurveyValue() {
+    this.surveyValue.onValidateQuestion.clear();
+    this.surveyValue.onValueChanging.clear();
+    this.surveyValue.onValueChanged.clear();
+    this.surveyValue.onMatrixCellValueChanging.clear();
+    this.surveyValue.onMatrixCellValidate.clear();
+    this.surveyValue.onMatrixCellValueChanged.clear();
+    this.surveyValue.editingObj = undefined;
+    this.surveyValue.data = {};
+    this.surveyValue.dispose();
+  }
+  private createSurveyValue(): void {
+    const json = this.getSurveyJSON();
     if (this.options.readOnly) {
       json.mode = "display";
-    }
-    if (!!this.surveyValue) {
-      this.surveyValue.onValidateQuestion.clear();
-      this.surveyValue.onValueChanging.clear();
-      this.surveyValue.onValueChanged.clear();
-      this.surveyValue.onMatrixCellValueChanging.clear();
-      this.surveyValue.onMatrixCellValidate.clear();
-      this.surveyValue.onMatrixCellValueChanged.clear();
-      this.surveyValue.editingObj = undefined;
-      this.surveyValue.data = {};
-      this.surveyValue.dispose();
     }
     this.surveyValue = this.createSurvey(json, (survey: SurveyModel): void => {
       this.onCreateSurvey(survey);
     });
+    if (this.onNewSurveyCreatedCallback) {
+      this.onNewSurveyCreatedCallback();
+    }
     if (!this.obj) return;
     this.survey.onValueChanged.add((sender, options) => {
       this.onValueChanged(options);
@@ -917,7 +929,9 @@ export class PropertyGridModel {
       this.onValueChanging(options);
     });
     this.survey.onValidateQuestion.add((sender, options) => {
-      this.onValidateQuestion(options);
+      if(options.errors.length === 0) {
+        this.onValidateQuestion(options);
+      }
     });
     this.survey.onGetQuestionTitleActions.add((sender, options) => {
       this.titleActionsCreator.onGetQuestionTitleActions(options);
@@ -971,9 +985,6 @@ export class PropertyGridModel {
       }
     });
     this.survey.editingObj = this.obj;
-    if (this.objValueChangedCallback) {
-      this.objValueChangedCallback();
-    }
     this.updateDependedPropertiesEditors();
 
     if (this.showOneCategoryInPropertyGrid) {
@@ -1078,6 +1089,9 @@ export class PropertyGridModel {
     this.optionsValue = !!val ? val : new EmptySurveyCreatorOptions();
   }
   public get survey() {
+    if(!this.surveyValue) {
+      this.createSurveyValue();
+    }
     return this.surveyValue;
   }
   public showOneCategoryInPropertyGrid: boolean = false;
@@ -1086,6 +1100,13 @@ export class PropertyGridModel {
     if (!this.survey) return;
     return !this.survey.hasErrors(true, true);
   }
+  public activateCategory(name: string) {
+    if (this.showOneCategoryInPropertyGrid) {
+      this.survey.currentPage = name;
+    } else {
+      this.expandCategory(name);
+    }
+  }
   public collapseCategory(name: string) {
     var panel = <PanelModel>this.survey.getPanelByName(name);
     if (!!panel) {
@@ -1093,6 +1114,10 @@ export class PropertyGridModel {
     }
   }
   public expandCategory(name: string) {
+    if (this.showOneCategoryInPropertyGrid) {
+      this.survey.currentPage = name;
+      return;
+    }
     var panel = <PanelModel>this.survey.getPanelByName(name);
     if (!!panel) {
       panel.expand();
@@ -1109,6 +1134,7 @@ export class PropertyGridModel {
     });
   }
   public expandCategoryIfNeeded(): void {
+    if(!this.surveyValue) return;
     const expandedTabName = creatorSettings.propertyGrid.defaultExpandedTabName;
     if (!!expandedTabName && !this.getPropertyGridExpandedCategory()) {
       const panel = <PanelModel>this.survey.getPanelByName(expandedTabName);
@@ -1160,7 +1186,7 @@ export class PropertyGridModel {
   private onValidateQuestion(options: any) {
     var q = options.question;
     if (!q || !q.property) return;
-    options.error = this.validateQuestionValue(this.obj, q, q.property, options.value);
+    options.error = this.validateQuestionValue(q.obj || this.obj, q, q.property, options.value);
   }
   private onValueChanging(options: any) {
     var q = options.question;
@@ -1419,7 +1445,7 @@ export abstract class PropertyGridEditor implements IPropertyGridEditor {
     );
     if (!surveyPropertyEditor) return null;
     if (property.type !== "condition") {
-      surveyPropertyEditor.editSurvey.css = defaultV2Css;
+      surveyPropertyEditor.editSurvey.css = defaultCss;
     }
     if (question.isReadOnly) {
       surveyPropertyEditor.editSurvey.mode = "display";
@@ -2082,7 +2108,7 @@ export class PropertyGridEditorQuestion extends PropertyGridEditor {
     if (!survey) return [];
     var questions = this.getQuestions(survey, obj);
     if (!questions) questions = [];
-    var showTitles = !!options && options.showTitlesInExpressions;
+    var showTitles = !!options && (options.useElementTitles || options.showTitlesInExpressions);
     var qItems = questions.map((q) => {
       let text = showTitles ? (<any>q).locTitle.renderedHtml : q.name;
       if (!!options) text = options.getObjectDisplayName(q, "property-grid:property-editor", "property-editor", text);

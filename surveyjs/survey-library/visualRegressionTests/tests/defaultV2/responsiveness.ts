@@ -1,6 +1,6 @@
 import { Selector, ClientFunction } from "testcafe";
 import { imageSource } from "../../constants";
-import { url, takeElementScreenshot, frameworks, initSurvey, url_test, resetFocusToBody, wrapVisualTest, resetHoverToBody } from "../../helper";
+import { url, takeElementScreenshot, frameworks, initSurvey, resetFocusToBody, wrapVisualTest, resetHoverToBody } from "../../helper";
 
 const title = "Responsiveness Screenshot";
 
@@ -8,21 +8,14 @@ fixture`${title}`.page`${url}`.beforeEach(async (t) => {
 
 });
 
-const applyTheme = ClientFunction(theme => {
-  (<any>window).Survey.StylesManager.applyTheme(theme);
-});
-
-const theme = "defaultV2";
-
 frameworks.forEach(framework => {
-  fixture`${framework} ${title} ${theme}`
-    .page`${url_test}${theme}/${framework}`.beforeEach(async t => {
-    await applyTheme(theme);
-  });
+  fixture`${framework} ${title}`.page`${url}${framework}`;
+
   test("Check simple question in small screen", async (t) => {
     await wrapVisualTest(t, async (t, comparer) => {
       await t.resizeWindow(600, 1080);
       await initSurvey(framework, {
+        showQuestionNumbers: "on",
         focusFirstQuestionAutomatic: true,
         questions: [
           {
@@ -78,7 +71,6 @@ frameworks.forEach(framework => {
             "text": "Your answer must match the URL pattern."
           }]
         }],
-        "showQuestionNumbers": false
       });
       await t.resizeWindow(391, 712);
       await takeElementScreenshot("responsiveness-simple-question-mobile.png", Selector("body"), t, comparer);
@@ -92,6 +84,7 @@ frameworks.forEach(framework => {
         document.body.setAttribute("dir", "rtl");
       })();
       await initSurvey(framework, {
+        showQuestionNumbers: "on",
         focusFirstQuestionAutomatic: true,
         questions: [
           {
@@ -108,6 +101,7 @@ frameworks.forEach(framework => {
     await wrapVisualTest(t, async (t, comparer) => {
       await t.resizeWindow(600, 1080);
       await initSurvey(framework, {
+        showQuestionNumbers: "on",
         questions: [
           {
             type: "text",
@@ -273,12 +267,35 @@ frameworks.forEach(framework => {
             addRowText: "Add a New Record",
             rowCount: 2,
           },
+          {
+            type: "matrixdynamic",
+            name: "frameworks1",
+            title: "Please tells us your opinion about JavaScript MVVM frameworks.",
+            columns: [
+              {
+                "name": "Column 1",
+                "title": "Framework"
+              },
+              {
+                "name": "Column 2",
+                "title": "How long do you use it?"
+              },
+              {
+                "name": "Column 3",
+                "title": "What is main strength?"
+              }
+            ],
+            addRowText: "Add a New Record",
+            rowCount: 2,
+            "addRowLocation": "top"
+          },
         ]
       });
       await ClientFunction(() => {
         document.body.focus();
       })();
-      await takeElementScreenshot("responsiveness-matrixdynamic.png", Selector(".sd-question"), t, comparer);
+      await takeElementScreenshot("responsiveness-matrixdynamic.png", Selector(".sd-question").nth(0), t, comparer);
+      await takeElementScreenshot("responsiveness-matrixdynamic-add-top.png", Selector(".sd-question").nth(1), t, comparer);
     });
   });
   test("Check matrixdynamic on small screen with errors", async (t) => {
@@ -543,6 +560,7 @@ frameworks.forEach(framework => {
     await wrapVisualTest(t, async (t, comparer) => {
       await t.resizeWindow(1920, 1080);
       await initSurvey(framework, {
+        showQuestionNumbers: "on",
         questions: [
           {
             type: "image",
@@ -583,6 +601,7 @@ frameworks.forEach(framework => {
       await t.resizeWindow(600, 1080);
       await initSurvey(framework,
         {
+          showQuestionNumbers: "on",
           focusFirstQuestionAutomatic: true,
           description: "Survey Description",
           title: "Title",
@@ -785,6 +804,7 @@ frameworks.forEach(framework => {
       await t.resizeWindow(600, 1920);
       await initSurvey(framework,
         {
+          showQuestionNumbers: "on",
           "pages": [
             {
               "name": "page1",

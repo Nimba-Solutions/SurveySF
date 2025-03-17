@@ -59,12 +59,13 @@ export var icelandicSurveyStrings = {
   addColumn: "Bæta við dálki",
   addRow: "Bæta við röð",
   removeRow: "Fjarlægja",
-  emptyRowsText: "Það eru engar raðir.",
+  noRowsText: "Það eru engar raðir.",
   addPanel: "Bæta við nýju",
   removePanel: "Fjarlægðu",
   showDetails: "Sýna upplýsingar",
   hideDetails: "Fela upplýsingar",
   choices_Item: "hlutur",
+  choices_Choice: "Valmöguleiki",
   matrix_column: "Dálkur",
   matrix_row: "Röð",
   multipletext_itemname: "Texti",
@@ -99,6 +100,8 @@ export var icelandicSurveyStrings = {
   modalApplyButtonText: "Nota",
   filterStringPlaceholder: "Sláðu inn til að leita...",
   emptyMessage: "Engin gögn til að birta",
+  loadingPage: "Hleðsla...",
+  loadingData: "Hleðsla...",
   noEntriesText: "Það eru engar færslur ennþá.\nSmelltu á hnappinn hér að neðan til að bæta við nýrri færslu.",
   noEntriesReadonlyText: "Það eru engar færslur.",
   tabTitlePlaceholder: "Nýtt spjald",
@@ -120,7 +123,7 @@ setupLocale({ localeCode: "is", strings: icelandicSurveyStrings, nativeName: "í
 // minError: "The value should not be less than {0}" => "Gildið má ekki vera lægra en {0}"
 // maxError: "The value should not be greater than {0}" => "Gildið má ekki vera hærra en {0}"
 // filePlaceholder: "Drag and drop a file here or click the button below and choose a file to upload." => "Dragðu og slepptu skrá hér eða smelltu á hnappinn hér að neðan og veldu skrá til að hlaða upp."
-// emptyRowsText: "There are no rows." => "Það eru engar raðir."
+// noRowsText: "There are no rows." => "Það eru engar raðir."
 // multipletext_itemname: "text" => "Texti"
 // signaturePlaceHolder: "Sign here" => "Kvittađu hér"
 // modalCancelButtonText: "Cancel" => "Afturkalla"
@@ -132,16 +135,24 @@ setupLocale({ localeCode: "is", strings: icelandicSurveyStrings, nativeName: "í
 // more: "More" => "Fleiri"
 // tagboxDoneButtonCaption: "OK" => "ÓKEI"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "Öllum valkostum er raðað"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Dragðu og slepptu valkostum hér til að raða þeim"// takePhotoCaption: "Take Photo" => "Taka mynd"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Dragðu og slepptu valkostum hér til að raða þeim"
+// takePhotoCaption: "Take Photo" => "Taka mynd"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "Smelltu á hnappinn hér að neðan til að taka mynd með myndavélinni."
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "Dragðu og slepptu eða veldu skrá til að hlaða upp eða taka mynd með myndavélinni."
-// replaceFileCaption: "Replace file" => "Skipta út skrá"// eachRowUniqueError: "Each row must have a unique value." => "Hver lína verður að hafa einstakt gildi."
+// replaceFileCaption: "Replace file" => "Skipta út skrá"
+// eachRowUniqueError: "Each row must have a unique value." => "Hver lína verður að hafa einstakt gildi."
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "Ekki er hægt að hlaða upp skrám. Vinsamlegast bættu við rekli fyrir 'onUploadFiles' atvikið."
 // showDetails: "Show Details" => "Sýna upplýsingar"
 // hideDetails: "Hide Details" => "Fela upplýsingar"
 // ok: "OK" => "ÓKEI"
 // cancel: "Cancel" => "Afturkalla"
 // refuseItemText: "Refuse to answer" => "Neita að svara"
-// dontKnowItemText: "Don't know" => "Veit ekki"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Svar þitt fer yfir 64KB. Vinsamlegast minnkaðu stærð skráa þinna og reyndu aftur eða hafðu samband við eiganda könnunarinnar."
-// signaturePlaceHolderReadOnly: "No signature" => "Engin undirskrift"// tabTitlePlaceholder: "New Panel" => "Nýtt spjald"// deselectAllItemText: "Deselect all" => "Afveljið allt"
+// dontKnowItemText: "Don't know" => "Veit ekki"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Svar þitt fer yfir 64KB. Vinsamlegast minnkaðu stærð skráa þinna og reyndu aftur eða hafðu samband við eiganda könnunarinnar."
+// signaturePlaceHolderReadOnly: "No signature" => "Engin undirskrift"
+// tabTitlePlaceholder: "New Panel" => "Nýtt spjald"
+// deselectAllItemText: "Deselect all" => "Afveljið allt"
 // textNoDigitsAllow: "Numbers are not allowed." => "Tölur eru ekki leyfðar."
+// choices_Choice: "Choice option" => "Valmöguleiki"
+// loadingPage: "Loading..." => "Hleðsla..."
+// loadingData: "Loading..." => "Hleðsla..."

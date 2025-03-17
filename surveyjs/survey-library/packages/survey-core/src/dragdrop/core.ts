@@ -1,7 +1,6 @@
 import { SurveyModel } from "../survey";
-import { Base, EventBase } from "../base";
-import { IShortcutText, ISurvey, ISurveyElement } from "../base-interfaces";
-import { DragTypeOverMeEnum } from "../survey-element";
+import { EventBase } from "../base";
+import { IShortcutText, ISurvey } from "../base-interfaces";
 import { IDragDropEngine } from "./engine";
 import { DragDropDOMAdapter, IDragDropDOMAdapter } from "./dom-adapter";
 import { DomDocumentHelper } from "../global_variables_utils";
@@ -87,7 +86,7 @@ export abstract class DragDropCore<T> implements IDragDropEngine {
     event?: PointerEvent
   ): HTMLElement {
     const draggedElementShortcut = DomDocumentHelper.createElement("div");
-    if(!!draggedElementShortcut) {
+    if (!!draggedElementShortcut) {
       draggedElementShortcut.innerText = text;
       draggedElementShortcut.className = this.getDraggedElementClass();
     }
@@ -228,7 +227,7 @@ export abstract class DragDropCore<T> implements IDragDropEngine {
 
     this.isBottom = null; //TODO need for property change trigger with guarantee but it would be better not to watch on isBottom property but have some event like onValidTargetDragOver
     this.isBottom = isBottom;
-    if(this.draggedElement != this.dropTarget) {
+    if (this.draggedElement != this.dropTarget) {
       this.afterDragOver(dropTargetNode);
     }
     this.prevDropTarget = this.dropTarget;
@@ -244,11 +243,14 @@ export abstract class DragDropCore<T> implements IDragDropEngine {
   }
 
   public clear(): void {
+    const options = {
+      draggedElement: this.draggedElement
+    };
     this.dropTarget = null;
     this.prevDropTarget = null;
     this.draggedElement = null;
     this.isBottom = null;
     this.parentElement = null;
-    this.onDragClear.fire(this, {});
+    this.onDragClear.fire(this, options);
   }
 }

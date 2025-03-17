@@ -38,6 +38,7 @@ export interface ITextProcessorProp {
   returnDisplayValue?: boolean;
   doEncoding?: boolean;
   runAtDesign?: boolean;
+  replaceUndefinedValues?: boolean;
 }
 export interface ITextProcessorResult {
   text: string;
@@ -67,7 +68,7 @@ export interface ISurvey extends ITextProcessor, ISurveyErrorOwner {
   questionVisibilityChanged(question: IQuestion, newValue: boolean, resetIndexes: boolean): any;
   isEditingSurveyElement: boolean;
   getQuestionClearIfInvisible(questionClearIf: string): string;
-  questionsOrder: string;
+  questionOrder: string;
   matrixDragHandleArea: string;
   keepIncorrectValues: boolean;
   questionCreated(question: IQuestion): any;
@@ -91,8 +92,8 @@ export interface ISurvey extends ITextProcessor, ISurveyErrorOwner {
     oldValueName: string
   ): any;
   focusQuestionByInstance(question: IQuestion, onError: boolean): boolean;
-  validateQuestion(question: IQuestion): SurveyError;
-  validatePanel(panel: IPanel): SurveyError;
+  validateQuestion(question: IQuestion, errors: Array<SurveyError>, fireCallback: boolean): void;
+  validatePanel(panel: IPanel, errors: Array<SurveyError>, fireCallback: boolean): void;
   hasVisibleQuestionByValueName(valueName: string): boolean;
   questionsByValueName(valueName: string): Array<IQuestion>;
   processHtml(html: string, reason: string): string;
@@ -118,24 +119,20 @@ export interface ISurvey extends ITextProcessor, ISurveyErrorOwner {
 
   state: string;
   isLazyRendering: boolean;
-  lazyRenderingFirstBatchSize: number;
+  lazyRenderFirstBatchSize: number;
   cancelPreviewByPage(panel: IPanel): any;
   locEditText: LocalizableString;
   cssNavigationEdit: string;
   rootElement?: HTMLElement;
 
-  requiredText: string;
-  beforeSettingQuestionErrors(
-    question: IQuestion,
-    errors: Array<SurveyError>
-  ): void;
-  beforeSettingPanelErrors(question: IPanel, errors: Array<SurveyError>): void;
+  requiredMark: string;
   getQuestionDisplayValue(question: IElement, displayValue: any): any;
   getSurveyErrorCustomText(obj: Base, text: string, error: SurveyError): string;
   getElementTitleTagName(element: Base, tagName: string): string;
   questionTitlePattern: string;
   getUpdatedQuestionTitle(question: IQuestion, title: string): string;
   getUpdatedQuestionNo(question: IQuestion, no: string): string;
+  getUpdatedPanelNo(question: IPanel, no: string): string;
   getUpdatedPageNo(question: IPage, no: string): string;
   getUpdatedElementTitleActions(
     element: ISurveyElement,
@@ -158,8 +155,16 @@ export interface ISurvey extends ITextProcessor, ISurveyErrorOwner {
   storeOthersAsComment: boolean;
 
   maxTextLength: number;
+  /**
+   * @deprecated Use `maxCommentLength` instead.
+   */
   maxOthersLength: number;
+  maxCommentLength: number;
+  /**
+   * @deprecated Use `clearDisabledChoices` instead.
+   */
   clearValueOnDisableItems: boolean;
+  clearDisabledChoices: boolean;
 
   timeLimitPerPage: number;
 
@@ -230,7 +235,8 @@ export interface ISurvey extends ITextProcessor, ISurveyErrorOwner {
   dynamicPanelAdded(question: IQuestion, panelIndex?: number, panel?: IPanel): void;
   dynamicPanelRemoved(question: IQuestion, panelIndex: number, panel: IPanel): void;
   dynamicPanelRemoving(question: IQuestion, panelIndex: number, panel: IPanel): boolean;
-  dynamicPanelItemValueChanged(question: IQuestion, options: any): any;
+  dynamicPanelItemValueChanged(question: IQuestion, options: any): void;
+  dynamicPanelItemValueChanging(question: IQuestion, options: any): void;
   dynamicPanelGetTabTitle(question: IQuestion, options: any): any;
   dynamicPanelCurrentIndexChanged(question: IQuestion, options: any): void;
 
@@ -324,7 +330,7 @@ export interface IQuestion extends IElement, ISurveyErrorOwner {
   onSurveyValueChanged(newValue: any): any;
   updateValueFromSurvey(newValue: any, clearData: boolean): void;
   updateCommentFromSurvey(newValue: any): any;
-  supportGoNextPageAutomatic(): boolean;
+  supportAutoAdvance(): boolean;
   clearUnusedValues(): any;
   getDisplayValue(keysAsText: boolean, value: any): any;
   getValueName(): string;
@@ -364,9 +370,9 @@ export interface IPage extends IPanel, IConditionRunner {
 export interface ITitleOwner {
   name: string;
   no: string;
-  requiredText: string;
+  requiredMark: string;
   cssTitleNumber: string;
-  cssRequiredText?: string;
+  cssRequiredMark?: string;
   isRequireTextOnStart: boolean;
   isRequireTextBeforeTitle: boolean;
   isRequireTextAfterTitle: boolean;
@@ -408,6 +414,7 @@ export interface ISurveyLayoutElement {
   template?: string;
   data?: any;
   index?: number;
+  getData?: () => any;
   processResponsiveness?: (width: number) => void;
 }
 export interface IPlainDataOptions {

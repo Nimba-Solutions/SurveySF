@@ -26,7 +26,7 @@ test("Add New Question", async t => {
     .click(Selector(".svc-element__add-new-question > button.svc-element__question-type-selector"))
     .wait(100)
     .pressKey("p")
-    .click(Selector(".sv-popup:not(.sv-popup--overlay) li").withExactText("Panel").filterVisible())
+    .click(getListItemByText("Panel").filterVisible())
     .click(getAddNewQuestionButton())
     .expect(Selector("span").withText("question1").visible).ok();
 });
@@ -141,7 +141,7 @@ test("Add New Question with sub type", async t => {
     .expect(getVisibleElement(".svc-question__content-actions .svc-survey-element-toolbar-item__title").nth(1).textContent).eql("Stars");
 
   let expectedJson = {
-    "logoPosition": "right",
+    "headerView": "advanced",
     "pages": [
       {
         "name": "page1",
@@ -168,7 +168,7 @@ test("Add New Question with sub type", async t => {
     .expect(getVisibleElement(".svc-question__content-actions .svc-survey-element-toolbar-item__title").nth(1).textContent).eql("Password");
 
   expectedJson = <any>{
-    "logoPosition": "right",
+    "headerView": "advanced",
     "pages": [
       {
         "name": "page1",
@@ -195,7 +195,7 @@ test("Add New Question with sub type", async t => {
     .expect(getVisibleElement(".svc-question__content-actions .svc-survey-element-toolbar-item__title").nth(1).textContent).eql("Labels");
 
   expectedJson = <any>{
-    "logoPosition": "right",
+    "headerView": "advanced",
     "pages": [
       {
         "name": "page1",

@@ -59,12 +59,13 @@ export var latvianSurveyStrings = {
   addColumn: "Pievienot kolonnu",
   addRow: "Pievienot rindu",
   removeRow: "Noņemt",
-  emptyRowsText: "Nav rindu.",
+  noRowsText: "Nav rindu.",
   addPanel: "Pievieno jaunu",
   removePanel: "Noņemt",
   showDetails: "Rādīt detalizētu informāciju",
   hideDetails: "Slēpt detaļas",
   choices_Item: "vienums",
+  choices_Choice: "Izvēles iespēja",
   matrix_column: "Sleja",
   matrix_row: "Rinda",
   multipletext_itemname: "teksts",
@@ -99,6 +100,8 @@ export var latvianSurveyStrings = {
   modalApplyButtonText: "Pielietot",
   filterStringPlaceholder: "Ierakstiet, lai meklētu...",
   emptyMessage: "Nav datu, ko rādīt",
+  loadingPage: "Iekraušanas...",
+  loadingData: "Iekraušanas...",
   noEntriesText: "Vēl nav neviena ieraksta.\nNoklikšķiniet uz zemāk esošās pogas, lai pievienotu jaunu ierakstu.",
   noEntriesReadonlyText: "Ierakstu nav.",
   tabTitlePlaceholder: "Jauns panelis",
@@ -120,16 +123,24 @@ setupLocale({ localeCode: "lv", strings: latvianSurveyStrings, nativeName: "latv
 // more: "More" => "Vairāk"
 // tagboxDoneButtonCaption: "OK" => "LABI"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "Visas izvēles ir sarindotas"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Velciet un nometiet izvēles iespējas šeit, lai tās sarindotu"// takePhotoCaption: "Take Photo" => "Uzņemt fotoattēlu"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Velciet un nometiet izvēles iespējas šeit, lai tās sarindotu"
+// takePhotoCaption: "Take Photo" => "Uzņemt fotoattēlu"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "Noklikšķiniet uz pogas zemāk, lai uzņemtu fotoattēlu, izmantojot kameru."
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "Velciet un nometiet vai atlasiet failu, ko augšupielādēt vai uzņemt fotoattēlu, izmantojot kameru."
-// replaceFileCaption: "Replace file" => "Aizstāt failu"// eachRowUniqueError: "Each row must have a unique value." => "Katrai rindai jābūt unikālai vērtībai."
+// replaceFileCaption: "Replace file" => "Aizstāt failu"
+// eachRowUniqueError: "Each row must have a unique value." => "Katrai rindai jābūt unikālai vērtībai."
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "Failus nevar augšupielādēt. Lūdzu, pievienojiet apdarinātāju notikumam \"onUploadFiles\"."
 // showDetails: "Show Details" => "Rādīt detalizētu informāciju"
 // hideDetails: "Hide Details" => "Slēpt detaļas"
 // ok: "OK" => "LABI"
 // cancel: "Cancel" => "Atcelt"
 // refuseItemText: "Refuse to answer" => "Atteikties atbildēt"
-// dontKnowItemText: "Don't know" => "Es nezinu"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Jūsu atbilde pārsniedz 64 KB. Lūdzu, samaziniet sava(-u) faila(-u) lielumu un mēģiniet vēlreiz vai sazinieties ar aptaujas īpašnieku."
-// signaturePlaceHolderReadOnly: "No signature" => "Nav paraksta"// tabTitlePlaceholder: "New Panel" => "Jauns panelis"// deselectAllItemText: "Deselect all" => "Noņemt atlasi visiem"
+// dontKnowItemText: "Don't know" => "Es nezinu"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Jūsu atbilde pārsniedz 64 KB. Lūdzu, samaziniet sava(-u) faila(-u) lielumu un mēģiniet vēlreiz vai sazinieties ar aptaujas īpašnieku."
+// signaturePlaceHolderReadOnly: "No signature" => "Nav paraksta"
+// tabTitlePlaceholder: "New Panel" => "Jauns panelis"
+// deselectAllItemText: "Deselect all" => "Noņemt atlasi visiem"
 // textNoDigitsAllow: "Numbers are not allowed." => "Numuri nav atļauti."
+// choices_Choice: "Choice option" => "Izvēles iespēja"
+// loadingPage: "Loading..." => "Iekraušanas..."
+// loadingData: "Loading..." => "Iekraušanas..."

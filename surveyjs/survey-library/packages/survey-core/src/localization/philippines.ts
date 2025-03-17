@@ -59,12 +59,13 @@ export var philippinesStrings = {
   addColumn: "Magdagdag ng Column",
   addRow: "Magdagdag ng hilera",
   removeRow: "Alisin",
-  emptyRowsText: "Walang mga hilera.",
+  noRowsText: "Walang mga hilera.",
   addPanel: "Magdagdag ng bago",
   removePanel: "Alisin",
   showDetails: "Ipakita ang mga detalye",
   hideDetails: "Itago ang Mga Detalye",
   choices_Item: "aytem",
+  choices_Choice: "Pagpipilian sa pagpipilian",
   matrix_column: "Kolum",
   matrix_row: "hilera",
   multipletext_itemname: "text",
@@ -99,6 +100,8 @@ export var philippinesStrings = {
   modalApplyButtonText: "Mag-apply",
   filterStringPlaceholder: "I-type para maghanap...",
   emptyMessage: "walang maipakitang datos",
+  loadingPage: "Naglo-load...",
+  loadingData: "Naglo-load...",
   noEntriesText: "Wala pang entry.\nI-click ang button sa ibaba para magdagdag ng bagong entry.",
   noEntriesReadonlyText: "Walang entry",
   tabTitlePlaceholder: "Bagong Panel",
@@ -117,5 +120,9 @@ setupLocale({ localeCode: "fil", strings: philippinesStrings, nativeName: "filip
 
 // The following strings have been translated by a machine translation service
 // Remove those strings that you have corrected manually
-// tabTitlePlaceholder: "New Panel" => "Bagong Panel"// deselectAllItemText: "Deselect all" => "Alisin ang pagpili ng lahat"
+// tabTitlePlaceholder: "New Panel" => "Bagong Panel"
+// deselectAllItemText: "Deselect all" => "Alisin ang pagpili ng lahat"
 // textNoDigitsAllow: "Numbers are not allowed." => "Bawal ang mga numero."
+// choices_Choice: "Choice option" => "Pagpipilian sa pagpipilian"
+// loadingPage: "Loading..." => "Naglo-load..."
+// loadingData: "Loading..." => "Naglo-load..."

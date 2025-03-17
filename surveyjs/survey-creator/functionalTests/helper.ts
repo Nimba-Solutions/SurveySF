@@ -67,6 +67,7 @@ export const creatorTabDesignerName = "Designer";
 export const creatorTabPreviewName = "Preview";
 export const creatorTabLogicName = "Logic";
 export const creatorTabTranslationName = "Translation";
+export const creatorTabThemeName = "Themes";
 export const generalGroupName = "General";
 export const logicGroupName = "Conditions";
 export const inputMaskSettingsGroupName = "Input Mask Settings";
@@ -210,6 +211,11 @@ export async function setExpandCollapseButtonVisibility(newVal: string) {
     window["creator"].expandCollapseButtonVisibility = newVal;
   })(newVal);
 }
+export async function setAllowZoom(newVal: boolean) {
+  await ClientFunction((newVal) => {
+    window["creator"].allowZoom = newVal;
+  })(newVal);
+}
 
 export const explicitErrorHandler = ClientFunction(() => {
   window.addEventListener("error", e => {
@@ -231,14 +237,14 @@ export function getDropdownValue(selector: string | Selector = ".sd-input.sd-dro
   return Selector(selector).find(".sv-string-viewer").textContent;
 }
 
-export async function resetHoverToCreator(t: TestController): Promise<void> {
-  await t.hover(Selector("#survey-creator"), { offsetX: 0, offsetY: 0 });
+export async function resetHoverToCreator(t: TestController, offsetX: number = 0, offsetY: number = 0): Promise<void> {
+  await t.hover(Selector("#survey-creator"), { offsetX: offsetX, offsetY: offsetY });
 }
 
 export const hideAllAdornerActions = ClientFunction(() => {
   (<any>window).creator.onElementAllowOperations.add((_, options) => {
     Object.keys(options).forEach(key => {
-      if (key !== "allowDragging" && key !== "allowEdit") {
+      if (key !== "allowDragging" && key !== "allowDrag" && key !== "allowEdit") {
         options[key] = false;
       }
     });

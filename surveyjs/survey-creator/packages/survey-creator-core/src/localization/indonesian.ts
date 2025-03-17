@@ -22,7 +22,7 @@ export var indonesianStrings = {
     theme: "Tema",
     translation: "Terjemahan",
     designer: "Rancangan Survei",
-    editor: "Pengubah JSON",
+    json: "Pengubah JSON",
     logic: "Logika"
   },
   // Question types
@@ -107,8 +107,13 @@ export var indonesianStrings = {
     redo: "Ulangi",
     undoTooltip: "Mengurungkan perubahan terakhir",
     redoTooltip: "Mengulangi perubahan",
+    expandTooltip: "Memperluas",
+    collapseTooltip: "Roboh",
     expandAllTooltip: "Perluas Semua",
     collapseAllTooltip: "Ciutkan Semua",
+    zoomInTooltip: "Perbesar",
+    zoom100Tooltip: "Perbesar hingga 100%",
+    zoomOutTooltip: "Perkecil",
     lockQuestionsTooltip: "Kunci status perluasan/ciutkan untuk pertanyaan",
     showMoreChoices: "Tampilkan lebih banyak",
     showLessChoices: "Tampilkan lebih sedikit",
@@ -144,6 +149,7 @@ export var indonesianStrings = {
     saveError: "Error! Konten editor tidak berhasil disimpan.",
     translationPropertyGridTitle: "Pengaturan Bahasa",
     themePropertyGridTitle: "Pengaturan Tema",
+    addLanguageTooltip: "Tambahkan Bahasa",
     translationLanguages: "Bahasa",
     translationDeleteLanguage: "Apakah Anda yakin ingin menghapus semua string untuk bahasa ini?",
     translationAddLanguage: "Pilih bahasa untuk terjemahan",
@@ -296,7 +302,7 @@ export var indonesianStrings = {
       description: "Deskripsi panel",
       visibleIf: "Buat panel terlihat jika",
       requiredIf: "Buat panel diperlukan jika",
-      questionsOrder: "Urutan pertanyaan dalam panel",
+      questionOrder: "Urutan pertanyaan dalam panel",
       page: "Halaman induk",
       startWithNewLine: "Menampilkan panel pada baris baru",
       state: "Status keruntuhan panel",
@@ -304,6 +310,10 @@ export var indonesianStrings = {
       minWidth: "Lebar panel minimum",
       maxWidth: "Lebar panel maksimum",
       showNumber: "Nomor panel ini"
+    },
+    panellayoutcolumn: {
+      effectiveWidth: "Lebar efektif, %",
+      questionTitleWidth: "Lebar judul pertanyaan, px"
     },
     paneldynamic: {
       name: "Nama panel",
@@ -324,15 +334,13 @@ export var indonesianStrings = {
       templateTabTitle: "Pola judul tab",
       tabTitlePlaceholder: "Tempat penampung judul tab",
       templateVisibleIf: "Membuat panel individual terlihat jika",
-      hideNumber: "Menyembunyikan nomor panel",
+      showNumber: "Nomor panel",
       titleLocation: "Perataan judul panel",
       descriptionLocation: "Perataan deskripsi panel",
-      templateTitleLocation: "Perataan judul pertanyaan",
+      templateQuestionTitleLocation: "Perataan judul pertanyaan",
       templateErrorLocation: "Perataan pesan kesalahan",
       newPanelPosition: "Lokasi panel baru",
       showRangeInProgress: "Menampilkan bilah kemajuan",
-      showProgressBar: "Menampilkan bilah kemajuan",
-      progressBarLocation: "Perataan bilah kemajuan",
       keyName: "Cegah respons duplikat dalam pertanyaan berikut"
     },
     question: {
@@ -343,7 +351,7 @@ export var indonesianStrings = {
       requiredIf: "Buat pertanyaan diperlukan jika",
       page: "Halaman induk",
       state: "Status ciutkan kotak pertanyaan",
-      hideNumber: "Menyembunyikan nomor pertanyaan",
+      showNumber: "Nomor pertanyaan ini",
       titleLocation: "Perataan judul pertanyaan",
       descriptionLocation: "Perataan deskripsi pertanyaan",
       errorLocation: "Perataan pesan kesalahan",
@@ -385,7 +393,8 @@ export var indonesianStrings = {
     // survey templates
     survey: {
       title: "Titel",
-      description: "Deskripsi survei"
+      description: "Deskripsi survei",
+      readOnly: "Membuat survei hanya baca"
     },
     page: {
       name: "Nama halaman",
@@ -394,7 +403,7 @@ export var indonesianStrings = {
       visibleIf: "Membuat halaman terlihat jika",
       requiredIf: "Buat halaman diperlukan jika",
       timeLimit: "Batas waktu untuk menyelesaikan halaman (dalam detik)",
-      questionsOrder: "Urutan pertanyaan di halaman"
+      questionOrder: "Urutan pertanyaan di halaman"
     },
     matrixdropdowncolumn: {
       name: "Nama kolom",
@@ -436,8 +445,9 @@ export var indonesianStrings = {
     imageHeight: "Tinggi gambar",
     imageWidth: "Lebar gambar",
     valueName: "Nama nilai",
+    defaultDisplayValue: "Nilai tampilan default untuk teks dinamis",
     rateDescriptionLocation: "Perataan label",
-    size: "Ukuran bidang input (dalam karakter)",
+    size: "Lebar bidang input (dalam karakter)",
     cellErrorLocation: "Perataan pesan kesalahan sel",
     enabled: "Diaktifkan",
     disabled: "Cacat",
@@ -503,6 +513,7 @@ export var indonesianStrings = {
     listIsEmpty: "Belum ada item yang ditambahkan",
     "listIsEmpty@choices": "Belum ada pilihan yang ditambahkan",
     "listIsEmpty@columns": "Anda belum memiliki kolom apa pun",
+    "listIsEmpty@gridLayoutColumns": "Anda belum memiliki kolom tata letak",
     "listIsEmpty@rows": "Anda belum memiliki baris",
     "listIsEmpty@validators": "Anda belum memiliki aturan validasi apa pun",
     "listIsEmpty@calculatedValues": "Anda belum memiliki variabel khusus",
@@ -536,6 +547,7 @@ export var indonesianStrings = {
     titlePlaceholder: "Titel",
     surveyTitlePlaceholder: "Judul Survei",
     pageTitlePlaceholder: "Halaman {num}",
+    startPageTitlePlaceholder: "Halaman Awal",
     descriptionPlaceholder: "Deskripsi",
     surveyDescriptionPlaceholder: "Deskripsi",
     pageDescriptionPlaceholder: "Deskripsi",
@@ -560,7 +572,7 @@ export var indonesianStrings = {
     isRequired: "Wajib?",
     markRequired: "Tandai sesuai kebutuhan",
     removeRequiredMark: "Hapus tanda yang diperlukan",
-    isAllRowRequired: "Memerlukan jawaban untuk semua baris",
+    eachRowRequired: "Memerlukan jawaban untuk semua baris",
     eachRowUnique: "Mencegah respons duplikat dalam baris",
     requiredErrorText: "Pesan kesalahan \"Wajib\"",
     startWithNewLine: "Mulai dengan baris baru?",
@@ -572,7 +584,7 @@ export var indonesianStrings = {
     maxSize: "Ukuran maksimum berkas dalam byte",
     rowCount: "Jumlah baris",
     columnLayout: "Tata letak kolom",
-    addRowLocation: "Tambah lokasi tombol baris",
+    addRowButtonLocation: "Tambah lokasi tombol baris",
     transposeData: "Mengubah urutan baris menjadi kolom",
     addRowText: "Teks tambah tombol baris",
     removeRowText: "Teks hapus tombol baris",
@@ -608,10 +620,9 @@ export var indonesianStrings = {
     simulator: "Pilih jenis perangkat",
     landscapeOrientation: "Beralih ke orientasi lanskap",
     portraitOrientation: "Beralih ke orientasi potret",
-    mode: "Mode (ubah/baca saja)",
     clearInvisibleValues: "Bersihkan nilai tak terlihat",
     cookieName: "Nama cookie (untuk menonaktifkan menjalankan survei dua kali secara lokal)",
-    sendResultOnPageNext: "Kirim hasil survei pada halaman selanjutnya",
+    partialSendEnabled: "Kirim hasil survei pada halaman selanjutnya",
     storeOthersAsComment: "Simpan nilai 'lainnya' pada bidang lainnya",
     showPageTitles: "Tampilkan judul halaman",
     showPageNumbers: "Tampilkan nomor halaman",
@@ -622,19 +633,21 @@ export var indonesianStrings = {
     editText: "Teks tombol Edit Jawaban",
     startSurveyText: "Teks tombol mulai",
     showNavigationButtons: "Tampilkan tombol navigasi (navigasi standar)",
+    navigationButtonsLocation: "Perataan tombol navigasi",
     showPrevButton: "Tampilkan tombol sebelumnya (pengguna mungkin kembali ke halaman sebelumnya)",
-    firstPageIsStarted: "Halaman pertama pada survei adalah halaman yang telah dimulai.",
-    showCompletedPage: "Tampilkan keseluruhan halaman di akhir (completedHtml)",
-    goNextPageAutomatic: "Setelah menjawa seluruh pertanyaan, pergi ke halaman berikutnya secara otomatis",
-    allowCompleteSurveyAutomatic: "Selesaikan survei secara otomatis",
+    firstPageIsStartPage: "Halaman pertama pada survei adalah halaman yang telah dimulai.",
+    showCompletePage: "Tampilkan keseluruhan halaman di akhir (completedHtml)",
+    autoAdvanceEnabled: "Setelah menjawa seluruh pertanyaan, pergi ke halaman berikutnya secara otomatis",
+    autoAdvanceAllowComplete: "Selesaikan survei secara otomatis",
     showProgressBar: "Tampilkan progress bar",
+    progressBarLocation: "Perataan bilah kemajuan",
     questionTitleLocation: "Lokasi judul pertanyaan",
     questionTitleWidth: "Lebar judul pertanyaan",
-    requiredText: "Simbil pertanyaan wajib",
+    requiredMark: "Simbil pertanyaan wajib",
     questionTitleTemplate: "Template Judul Pertanyaan, default adalah: '{no}. {require} {title}'",
     questionErrorLocation: "Lokasi Pertanyaan Error",
-    focusFirstQuestionAutomatic: "Fokus ke pertanyaan pertama saat pergantian halaman",
-    questionsOrder: "Urutakan elemen pada halaan",
+    autoFocusFirstQuestion: "Fokus ke pertanyaan pertama saat pergantian halaman",
+    questionOrder: "Urutakan elemen pada halaan",
     timeLimit: "Waktu maksimum untuk menyelesaikan survei",
     timeLimitPerPage: "Waktu maksimum untuk menyelesaikan suatu halaman",
     showTimer: "Gunakan pengatur waktu",
@@ -643,15 +656,15 @@ export var indonesianStrings = {
     renderMode: "Mode render",
     allowAddPanel: "Bolehkan penambahan panel",
     allowRemovePanel: "Bolehkan penghapusan panel",
-    panelAddText: "Teks tambah panel",
-    panelRemoveText: "Teks hapus panel",
+    addPanelText: "Teks tambah panel",
+    removePanelText: "Teks hapus panel",
     isSinglePage: "Tampilkan seluruh elemen pada halaman",
     html: "Html",
     setValue: "Menjawab",
     dataFormat: "Format gambar",
     allowAddRows: "Perbolehkan menambahkan baris",
     allowRemoveRows: "Perbolehkan menghapus baris",
-    allowRowsDragAndDrop: "Perbolehkan baris seret dan lepas",
+    allowRowReorder: "Perbolehkan baris seret dan lepas",
     responsiveImageSizeHelp: "Tidak berlaku jika Anda menentukan lebar atau tinggi gambar yang tepat.",
     minImageWidth: "Lebar gambar minimum",
     maxImageWidth: "Lebar gambar maksimum",
@@ -678,13 +691,13 @@ export var indonesianStrings = {
     logo: "Logo (URL atau string yang dikodekan base64)",
     questionsOnPageMode: "Struktur survei",
     maxTextLength: "Panjang jawaban maksimum (dalam karakter)",
-    maxOthersLength: "Panjang komentar maksimum (dalam karakter)",
+    maxCommentLength: "Panjang komentar maksimum (dalam karakter)",
     commentAreaRows: "Tinggi area komentar (dalam baris)",
     autoGrowComment: "Perluas area komentar secara otomatis jika perlu",
     allowResizeComment: "Mengizinkan pengguna mengubah ukuran area teks",
     textUpdateMode: "Memperbarui nilai pertanyaan teks",
     maskType: "Jenis masker input",
-    focusOnFirstError: "Mengatur fokus pada jawaban pertama yang tidak valid",
+    autoFocusFirstError: "Mengatur fokus pada jawaban pertama yang tidak valid",
     checkErrorsMode: "Jalankan validasi",
     validateVisitedEmptyFields: "Memvalidasi bidang kosong saat fokus hilang",
     navigateToUrl: "Arahkan ke URL",
@@ -718,9 +731,9 @@ export var indonesianStrings = {
     minPanelCount: "Jumlah panel minimum",
     maxPanelCount: "Jumlah panel maksimum",
     panelsState: "Status perluasan panel dalam",
-    panelPrevText: "Tooltip tombol Panel sebelumnya",
-    panelNextText: "Tooltip tombol Panel Berikutnya",
-    panelRemoveButtonLocation: "Hapus lokasi tombol Panel",
+    prevPanelText: "Tooltip tombol Panel sebelumnya",
+    nextPanelText: "Tooltip tombol Panel Berikutnya",
+    removePanelButtonLocation: "Hapus lokasi tombol Panel",
     hideIfRowsEmpty: "Menyembunyikan pertanyaan jika tidak ada baris",
     hideColumnsIfEmpty: "Menyembunyikan kolom jika tidak ada baris",
     rateValues: "Nilai tarif kustom",
@@ -742,21 +755,22 @@ export var indonesianStrings = {
     keyDuplicationError: "Pesan galat \"Nilai kunci tidak unik\"",
     minSelectedChoices: "Pilihan minimum yang dipilih",
     maxSelectedChoices: "Pilihan maksimum yang dipilih",
-    showClearButton: "Tampilkan tombol Hapus",
     logoWidth: "Lebar logo (dalam nilai yang diterima CSS)",
     logoHeight: "Tinggi logo (dalam nilai yang diterima CSS)",
     readOnly: "Baca-saja",
     enableIf: "Dapat diedit jika",
-    emptyRowsText: "Pesan \"Tidak ada baris\"",
+    noRowsText: "Pesan \"Tidak ada baris\"",
     separateSpecialChoices: "Pisahkan pilihan khusus (Tidak Ada, Lainnya, Pilih Semua)",
     choicesFromQuestion: "Salin pilihan dari pertanyaan berikut",
     choicesFromQuestionMode: "Pilihan mana yang harus disalin?",
+    choiceValuesFromQuestion: "Gunakan nilai dari matriks, kolom atau pertanyaan panel berikut sebagai ID pilihan",
+    choiceTextsFromQuestion: "Gunakan nilai dari kolom matriks atau pertanyaan panel berikut sebagai teks pilihan",
     progressBarShowPageTitles: "Menampilkan judul halaman di bilah kemajuan",
     progressBarShowPageNumbers: "Menampilkan nomor halaman di bilah kemajuan",
     showCommentArea: "Tampilkan area komentar",
     commentPlaceholder: "Tempat penampung area komentar",
     displayRateDescriptionsAsExtremeItems: "Menampilkan deskripsi tingkat sebagai nilai ekstrem",
-    rowsOrder: "Urutan baris",
+    rowOrder: "Urutan baris",
     columnsLayout: "Tata letak kolom",
     columnColCount: "Jumlah kolom bertumpuk",
     correctAnswer: "Jawaban yang Benar",
@@ -785,6 +799,11 @@ export var indonesianStrings = {
       top: "Di atas",
       bottom: "Di bagian bawah"
     },
+    previewMode: "Mode pratinjau",
+    gridLayoutEnabled: "Mengaktifkan tata letak kisi",
+    gridLayoutColumns: "Kolom tata letak kisi",
+    maskSettings: "Pengaturan topeng",
+    detailErrorLocation: "Perataan pesan kesalahan perluasan baris",
     // Creator tabs
     tabs: {
       panel: {
@@ -833,6 +852,7 @@ export var indonesianStrings = {
       background: "Latar",
       appearance: "Rupa",
       accentColors: "Warna aksen",
+      surfaceBackground: "Latar Belakang Permukaan",
       scaling: "Scaling",
       others: "Lain"
     },
@@ -843,8 +863,7 @@ export var indonesianStrings = {
     columnsEnableIf: "Kolom terlihat jika",
     rowsEnableIf: "Baris terlihat jika",
     innerIndent: "Menambahkan inden dalam",
-    defaultValueFromLastRow: "Mengambil nilai default dari baris terakhir",
-    defaultValueFromLastPanel: "Mengambil nilai default dari panel terakhir",
+    copyDefaultValueFromLastEntry: "Gunakan jawaban dari entri terakhir sebagai default",
     enterNewValue: "Silahkan masukkan nilai",
     noquestions: "Tidak ada pertanyaan dalam survei.",
     createtrigger: "Silahkan buat sebuah trigger",
@@ -887,6 +906,7 @@ export var indonesianStrings = {
     maxWidth_placeholder: "Contoh: 50%",
     imageHeight_placeholder: "Auto",
     imageWidth_placeholder: "Auto",
+    itemTitleWidth_placeholder: "Contoh: 100px",
     theme: {
       themeName: "Tema",
       isPanelless: "Penampilan pertanyaan",
@@ -1102,6 +1122,8 @@ export var indonesianStrings = {
     noPreview: "Tidak ada pratinjau",
     showAllQuestions: "Tampilkan semua pertanyaan",
     showAnsweredQuestions: "Tampilkan pertanyaan yang sudah terjawab saja",
+    allQuestions: "Tampilkan semua pertanyaan",
+    answeredQuestions: "Tampilkan pertanyaan yang dijawab saja",
     pages: "Halaman lengkap",
     questions: "Pertanyaan yang dijawab",
     requiredQuestions: "Menjawab pertanyaan yang diperlukan",
@@ -1120,7 +1142,7 @@ export var indonesianStrings = {
     timerInfoMode: {
       combined: "Keduanya"
     },
-    addRowLocation: {
+    addRowButtonLocation: {
       default: "Tergantung pada tata letak matriks"
     },
     panelsState: {
@@ -1191,22 +1213,19 @@ export var indonesianStrings = {
       percent: "Persentase",
       date: "Tanggal"
     },
-    rowsOrder: {
+    rowOrder: {
       initial: "Asli"
     },
-    questionsOrder: {
+    questionOrder: {
       initial: "Asli"
-    },
-    showProgressBar: {
-      off: "Sembunyi",
-      topbottom: "atas dan bawah",
-      aboveheader: "Di atas header",
-      belowheader: "Di bawah header"
     },
     progressBarLocation: {
       top: "Puncak",
       bottom: "Dasar",
-      topBottom: "Atas dan bawah"
+      topbottom: "Atas dan bawah",
+      aboveheader: "Di atas header",
+      belowheader: "Di bawah header",
+      off: "Sembunyi"
     },
     sum: "Jumlah",
     count: "Hitung",
@@ -1345,13 +1364,15 @@ export var indonesianStrings = {
       questionTitleLocation: "Berlaku untuk semua pertanyaan dalam panel ini. Jika Anda ingin mengganti setelan ini, tentukan aturan perataan judul untuk masing-masing pertanyaan. Opsi \"Warisi\" menerapkan setelan tingkat halaman (jika ditetapkan) atau tingkat survei (\"Teratas\" secara default).",
       questionTitleWidth: "Mengatur lebar yang konsisten untuk judul pertanyaan bila disejajarkan di sebelah kiri kotak pertanyaan. Menerima nilai CSS (px, %, in, pt, dll.).",
       questionErrorLocation: "Mengatur lokasi pesan kesalahan sehubungan dengan semua pertanyaan dalam panel. Opsi \"Warisi\" menerapkan setelan tingkat halaman (jika ditetapkan) atau tingkat survei.",
-      questionsOrder: "Menyimpan urutan pertanyaan asli atau mengacaknya. Opsi \"Warisi\" menerapkan setelan tingkat halaman (jika ditetapkan) atau tingkat survei.",
+      questionOrder: "Menyimpan urutan pertanyaan asli atau mengacaknya. Opsi \"Warisi\" menerapkan setelan tingkat halaman (jika ditetapkan) atau tingkat survei.",
       page: "Memposisikan ulang panel ke akhir halaman yang dipilih.",
       innerIndent: "Menambahkan spasi atau margin antara konten panel dan batas kiri kotak panel.",
       startWithNewLine: "Batalkan pilihan untuk menampilkan panel dalam satu baris dengan pertanyaan atau panel sebelumnya. Pengaturan tidak berlaku jika panel adalah elemen pertama dalam formulir Anda.",
       state: "Pilih dari: \"Diperluas\" - panel ditampilkan secara penuh dan dapat diciutkan; \"Collapsed\" - panel hanya menampilkan judul dan deskripsi dan dapat diperluas; \"Terkunci\" - panel ditampilkan secara penuh dan tidak dapat diciutkan.",
       width: "Mengatur lebar panel secara proporsional dengan elemen survei lainnya di baris yang sama. Menerima nilai CSS (px, %, in, pt, dll.).",
-      showQuestionNumbers: "Menetapkan nomor untuk pertanyaan yang bersarang dalam panel ini."
+      showQuestionNumbers: "Menetapkan nomor untuk pertanyaan yang bersarang dalam panel ini.",
+      effectiveColSpan: "Menentukan berapa banyak kolom panel ini dalam tata letak kisi.",
+      gridLayoutColumns: "Tabel ini memungkinkan Anda mengonfigurasi setiap kolom kisi dalam panel. Ini secara otomatis mengatur persentase lebar untuk setiap kolom berdasarkan jumlah maksimum elemen dalam satu baris. Untuk menyesuaikan tata letak kisi, sesuaikan nilai ini secara manual dan tentukan lebar judul untuk semua pertanyaan di setiap kolom."
     },
     paneldynamic: {
       name: "ID panel yang tidak terlihat oleh responden.",
@@ -1359,7 +1380,7 @@ export var indonesianStrings = {
       visibleIf: "Gunakan ikon tongkat ajaib untuk menetapkan aturan bersyarat yang menentukan visibilitas panel.",
       enableIf: "Gunakan ikon tongkat ajaib untuk mengatur aturan bersyarat yang menonaktifkan mode baca-saja untuk panel.",
       requiredIf: "Gunakan ikon tongkat ajaib untuk menetapkan aturan bersyarat yang mencegah pengiriman survei kecuali setidaknya satu pertanyaan bertingkat memiliki jawaban.",
-      templateTitleLocation: "Berlaku untuk semua pertanyaan dalam panel ini. Jika Anda ingin mengganti setelan ini, tentukan aturan perataan judul untuk masing-masing pertanyaan. Opsi \"Warisi\" menerapkan setelan tingkat halaman (jika ditetapkan) atau tingkat survei (\"Teratas\" secara default).",
+      templateQuestionTitleLocation: "Berlaku untuk semua pertanyaan dalam panel ini. Jika Anda ingin mengganti setelan ini, tentukan aturan perataan judul untuk masing-masing pertanyaan. Opsi \"Warisi\" menerapkan setelan tingkat halaman (jika ditetapkan) atau tingkat survei (\"Teratas\" secara default).",
       templateErrorLocation: "Mengatur lokasi pesan kesalahan sehubungan dengan pertanyaan dengan input yang tidak valid. Pilih antara: \"Atas\" - teks kesalahan ditempatkan di bagian atas kotak pertanyaan; \"Bawah\" - teks kesalahan ditempatkan di bagian bawah kotak pertanyaan. Opsi \"Warisi\" menerapkan setelan tingkat halaman (jika ditetapkan) atau tingkat survei (\"Teratas\" secara default).",
       errorLocation: "Mengatur lokasi pesan kesalahan sehubungan dengan semua pertanyaan dalam panel. Opsi \"Warisi\" menerapkan setelan tingkat halaman (jika ditetapkan) atau tingkat survei.",
       page: "Memposisikan ulang panel ke akhir halaman yang dipilih.",
@@ -1374,13 +1395,15 @@ export var indonesianStrings = {
       titleLocation: "Setelan ini secara otomatis diwarisi oleh semua pertanyaan dalam panel ini. Jika Anda ingin mengganti setelan ini, tentukan aturan perataan judul untuk masing-masing pertanyaan. Opsi \"Warisi\" menerapkan setelan tingkat halaman (jika ditetapkan) atau tingkat survei (\"Teratas\" secara default).",
       descriptionLocation: "Opsi \"Warisi\" menerapkan setelan tingkat halaman (jika ditetapkan) atau tingkat survei (\"Di bawah judul panel\" secara default).",
       newPanelPosition: "Menentukan posisi panel yang baru ditambahkan. Secara default, panel baru ditambahkan ke akhir. Pilih \"Next\" untuk memasukkan panel baru setelah yang sekarang.",
-      defaultValueFromLastPanel: "Menduplikasi jawaban dari panel terakhir dan menetapkannya ke panel dinamis tambahan berikutnya.",
+      copyDefaultValueFromLastEntry: "Menduplikasi jawaban dari panel terakhir dan menetapkannya ke panel dinamis tambahan berikutnya.",
       keyName: "Rujuk nama pertanyaan untuk mengharuskan pengguna memberikan respons unik untuk pertanyaan ini di setiap panel."
     },
+    copyDefaultValueFromLastEntry: "Menduplikasi jawaban dari baris terakhir dan menetapkannya ke baris dinamis berikutnya yang ditambahkan.",
     defaultValueExpression: "Pengaturan ini memungkinkan Anda menetapkan nilai jawaban default berdasarkan ekspresi. Ekspresi dapat mencakup perhitungan dasar - '{q1_id} + {q2_id}', ekspresi Boolean, seperti '{age} > 60', dan fungsi: 'iif()', 'today()', 'age()', 'min()', 'max()', 'avg()', dll. Nilai yang ditentukan oleh ekspresi ini berfungsi sebagai nilai default awal yang dapat ditimpa oleh input manual responden.",
     resetValueIf: "Gunakan ikon tongkat ajaib untuk mengatur aturan bersyarat yang menentukan kapan input responden diatur ulang ke nilai berdasarkan \"Ekspresi nilai default\" atau \"Atur ekspresi nilai\" atau ke nilai \"Jawaban default\" (jika salah satu diatur).",
     setValueIf: "Gunakan ikon tongkat ajaib untuk mengatur aturan bersyarat yang menentukan kapan harus menjalankan \"Atur ekspresi nilai\" dan secara dinamis menetapkan nilai yang dihasilkan sebagai respons.",
     setValueExpression: "Tentukan ekspresi yang menentukan nilai yang akan ditetapkan saat kondisi dalam aturan \"Tetapkan nilai jika\" terpenuhi. Ekspresi dapat mencakup perhitungan dasar - '{q1_id} + {q2_id}', ekspresi Boolean, seperti '{age} > 60', dan fungsi: 'iif()', 'today()', 'age()', 'min()', 'max()', 'avg()', dll. Nilai yang ditentukan oleh ekspresi ini dapat ditimpa oleh input manual responden.",
+    gridLayoutEnabled: "Pembuat Survei memungkinkan Anda menyesuaikan lebar sebaris elemen formulir secara manual untuk mengontrol tata letak. Jika ini tidak menghasilkan hasil yang diinginkan, Anda dapat mengaktifkan tata letak kisi, yang menyusun elemen bentuk menggunakan sistem berbasis kolom. Untuk mengonfigurasi kolom tata letak, pilih halaman atau panel dan gunakan tabel \"Pengaturan Pertanyaan\" → \"Kolom kisi\". Untuk menyesuaikan berapa banyak kolom rentang pertanyaan, pilih dan atur nilai yang diinginkan di bidang \"Tata Letak\" → \"Rentang kolom\".",
     question: {
       name: "ID pertanyaan yang tidak terlihat oleh responden.",
       description: "Ketik subtitle pertanyaan.",
@@ -1401,7 +1424,8 @@ export var indonesianStrings = {
       textUpdateMode: "Pilih dari: \"On lost focus\" - nilai diperbarui ketika bidang input kehilangan fokus; \"Saat mengetik\" - nilainya diperbarui secara real-time, saat pengguna mengetik. Opsi \"Warisi\" menerapkan pengaturan tingkat survei (\"Pada fokus yang hilang\" secara default).",
       url: "Anda dapat menggunakan layanan web apa pun sebagai sumber data untuk pertanyaan pilihan ganda. Untuk mengisi nilai pilihan, masukkan URL layanan yang menyediakan data.",
       searchMode: "Operasi perbandingan yang digunakan untuk memfilter daftar turun bawah.",
-      textWrapEnabled: "Teks panjang dalam opsi pilihan akan secara otomatis menghasilkan jeda baris agar sesuai dengan menu tarik-turun. Batalkan pilihan jika Anda ingin teks dipotong."
+      textWrapEnabled: "Teks panjang dalam opsi pilihan akan secara otomatis menghasilkan jeda baris agar sesuai dengan menu tarik-turun. Batalkan pilihan jika Anda ingin teks dipotong.",
+      effectiveColSpan: "Menentukan berapa banyak kolom yang mencakup pertanyaan ini dalam tata letak kisi."
     },
     signaturepad: {
       signatureWidth: "Mengatur lebar area tanda tangan yang ditampilkan dan gambar yang dihasilkan.",
@@ -1430,7 +1454,8 @@ export var indonesianStrings = {
     },
     // survey templates
     survey: {
-      mode: "Pilih antara: \"Dapat Diedit\" - memungkinkan responden mengisi survei Anda; \"Read-only\" - menonaktifkan pengeditan formulir."
+      readOnly: "Pilih jika Anda ingin mencegah responden mengisi survei Anda.",
+      progressBarLocation: "Mengatur lokasi bilah progres. Nilai \"Otomatis\" menampilkan bilah kemajuan di atas atau di bawah header survei."
     },
     matrixdropdowncolumn: {
       name: "ID kolom yang tidak terlihat oleh responden.",
@@ -1449,20 +1474,20 @@ export var indonesianStrings = {
     logoWidth: "Mengatur lebar logo dalam satuan CSS (px, %, in, pt, dll.).",
     logoHeight: "Mengatur tinggi logo dalam satuan CSS (px, %, in, pt, dll.).",
     logoFit: "Pilih dari: \"Tidak ada\" - gambar mempertahankan ukuran aslinya; \"Berisi\" - gambar diubah ukurannya agar pas dengan tetap mempertahankan rasio aspeknya; \"Cover\" - gambar mengisi seluruh kotak sambil mempertahankan rasio aspeknya; \"Isi\" - gambar direntangkan untuk mengisi kotak tanpa mempertahankan rasio aspeknya.",
-    goNextPageAutomatic: "Pilih apakah Anda ingin survei maju secara otomatis ke halaman berikutnya setelah responden menjawab semua pertanyaan di halaman saat ini. Fitur ini tidak akan berlaku jika pertanyaan terakhir di halaman bersifat terbuka atau mengizinkan banyak jawaban.",
-    allowCompleteSurveyAutomatic: "Pilih apakah Anda ingin survei selesai secara otomatis setelah responden menjawab semua pertanyaan.",
+    autoAdvanceEnabled: "Pilih apakah Anda ingin survei maju secara otomatis ke halaman berikutnya setelah responden menjawab semua pertanyaan di halaman saat ini. Fitur ini tidak akan berlaku jika pertanyaan terakhir di halaman bersifat terbuka atau mengizinkan banyak jawaban.",
+    autoAdvanceAllowComplete: "Pilih apakah Anda ingin survei selesai secara otomatis setelah responden menjawab semua pertanyaan.",
     showNavigationButtons: "Mengatur visibilitas dan lokasi tombol navigasi pada halaman.",
-    showProgressBar: "Mengatur visibilitas dan lokasi bilah kemajuan. Nilai \"Otomatis\" menampilkan bilah kemajuan di atas atau di bawah header survei.",
+    navigationButtonsLocation: "Mengatur lokasi tombol navigasi pada halaman.",
     showPreviewBeforeComplete: "Aktifkan halaman pratinjau hanya dengan semua atau pertanyaan yang dijawab.",
     questionTitleLocation: "Berlaku untuk semua pertanyaan dalam survei. Setelan ini dapat diganti dengan aturan penyelarasan judul di tingkat yang lebih rendah: panel, halaman, atau pertanyaan. Pengaturan tingkat yang lebih rendah akan menggantikan pengaturan tingkat yang lebih tinggi.",
-    requiredText: "Simbol atau urutan simbol yang menunjukkan bahwa jawaban diperlukan.",
+    requiredMark: "Simbol atau urutan simbol yang menunjukkan bahwa jawaban diperlukan.",
     questionStartIndex: "Masukkan angka atau huruf yang ingin Anda gunakan untuk memulai penomoran.",
     questionErrorLocation: "Mengatur lokasi pesan kesalahan sehubungan dengan pertanyaan dengan input yang tidak valid. Pilih antara: \"Atas\" - teks kesalahan ditempatkan di bagian atas kotak pertanyaan; \"Bawah\" - teks kesalahan ditempatkan di bagian bawah kotak pertanyaan.",
-    focusFirstQuestionAutomatic: "Pilih apakah Anda ingin bidang input pertama pada setiap halaman siap untuk entri teks.",
-    questionsOrder: "Menyimpan urutan pertanyaan asli atau mengacaknya. Efek pengaturan ini hanya terlihat di tab Pratinjau.",
+    autoFocusFirstQuestion: "Pilih apakah Anda ingin bidang input pertama pada setiap halaman siap untuk entri teks.",
+    questionOrder: "Menyimpan urutan pertanyaan asli atau mengacaknya. Efek pengaturan ini hanya terlihat di tab Pratinjau.",
     maxTextLength: "Hanya untuk pertanyaan entri teks.",
-    maxOthersLength: "Hanya untuk komentar pertanyaan.",
-    commentAreaRows: "Mengatur jumlah baris yang ditampilkan di area teks untuk komentar pertanyaan. Dalam input mengambil lebih banyak baris, bilah gulir muncul.",
+    maxCommentLength: "Hanya untuk komentar pertanyaan.",
+    commentAreaRows: "Mengatur jumlah baris yang ditampilkan di area teks untuk komentar pertanyaan. Jika input memakan lebih banyak baris, bilah gulir akan muncul.",
     autoGrowComment: "Pilih apakah Anda ingin komentar pertanyaan dan pertanyaan Teks Panjang bertambah tinggi secara otomatis berdasarkan panjang teks yang dimasukkan.",
     allowResizeComment: "Hanya untuk komentar pertanyaan dan pertanyaan Teks Panjang.",
     calculatedValues: "Variabel kustom berfungsi sebagai variabel perantara atau tambahan yang digunakan dalam perhitungan formulir. Mereka mengambil input responden sebagai nilai sumber. Setiap variabel kustom memiliki nama unik dan ekspresi yang menjadi dasarnya.",
@@ -1476,10 +1501,10 @@ export var indonesianStrings = {
     rowTitleWidth: "Menerima nilai CSS (px, %, in, pt, dll.).",
     totalText: "Hanya terlihat bila setidaknya satu kolom memiliki Tipe total atau Ekspresi total.",
     cellErrorLocation: "Mengatur lokasi pesan kesalahan dalam kaitannya dengan sel dengan input yang tidak valid. Opsi \"Warisi\" menerapkan pengaturan dari properti \"Perataan pesan kesalahan\".",
+    detailErrorLocation: "Mengatur lokasi pesan kesalahan untuk pertanyaan yang bertumpuk di bagian detail. Opsi \"Wariskan\" menerapkan pengaturan dari properti \"Perataan pesan kesalahan\".",
     keyDuplicationError: "Ketika properti \"mencegah duplikat respons\" diaktifkan, responden mencoba untuk mengirimkan entri duplikat akan menerima pesan galat berikut.",
     totalExpression: "Memungkinkan Anda menghitung nilai total berdasarkan ekspresi. Ekspresi dapat mencakup perhitungan dasar ('{q1_id} + {q2_id}'), ekspresi Boolean ('{age} > 60') dan fungsi ('iif()', 'today()', 'age()', 'min()', 'max()', 'avg()', dll.).",
     confirmDelete: "Memicu prompt yang meminta konfirmasi penghapusan baris.",
-    defaultValueFromLastRow: "Menduplikasi jawaban dari baris terakhir dan menetapkannya ke baris dinamis berikutnya yang ditambahkan.",
     keyName: "Jika kolom yang ditentukan berisi nilai yang identik, survei akan memunculkan kesalahan \"Nilai kunci tidak unik\".",
     description: "Ketik subtitle.",
     locale: "Pilih bahasa untuk mulai membuat survei. Untuk menambahkan terjemahan, beralihlah ke bahasa baru dan terjemahkan teks asli di sini atau di tab Terjemahan.",
@@ -1498,8 +1523,9 @@ export var indonesianStrings = {
       questionTitleLocation: "Berlaku untuk semua pertanyaan dalam halaman ini. Jika Anda ingin mengganti setelan ini, tentukan aturan perataan judul untuk masing-masing pertanyaan atau panel. Opsi \"Warisi\" menerapkan setelan tingkat survei (\"Teratas\" secara default).",
       questionTitleWidth: "Mengatur lebar yang konsisten untuk judul pertanyaan bila disejajarkan di sebelah kiri kotak pertanyaan. Menerima nilai CSS (px, %, in, pt, dll.).",
       questionErrorLocation: "Mengatur lokasi pesan kesalahan sehubungan dengan pertanyaan dengan input yang tidak valid. Pilih antara: \"Atas\" - teks kesalahan ditempatkan di bagian atas kotak pertanyaan; \"Bawah\" - teks kesalahan ditempatkan di bagian bawah kotak pertanyaan. Opsi \"Warisi\" menerapkan setelan tingkat survei (\"Teratas\" secara default).",
-      questionsOrder: "Menyimpan urutan pertanyaan asli atau mengacaknya. Opsi \"Warisi\" menerapkan setelan tingkat survei (\"Asli\" secara default). Efek pengaturan ini hanya terlihat di tab Pratinjau.",
-      navigationButtonsVisibility: "Mengatur visibilitas tombol navigasi di halaman. Opsi \"Warisi\" menerapkan pengaturan tingkat survei, yang defaultnya adalah \"Terlihat\"."
+      questionOrder: "Menyimpan urutan pertanyaan asli atau mengacaknya. Opsi \"Warisi\" menerapkan setelan tingkat survei (\"Asli\" secara default). Efek pengaturan ini hanya terlihat di tab Pratinjau.",
+      showNavigationButtons: "Mengatur visibilitas tombol navigasi di halaman. Opsi \"Warisi\" menerapkan pengaturan tingkat survei, yang defaultnya adalah \"Terlihat\".",
+      gridLayoutColumns: "Tabel ini memungkinkan Anda mengonfigurasi setiap kolom kisi pada halaman. Ini secara otomatis mengatur persentase lebar untuk setiap kolom berdasarkan jumlah maksimum elemen dalam satu baris. Untuk menyesuaikan tata letak kisi, sesuaikan nilai ini secara manual dan tentukan lebar judul untuk semua pertanyaan di setiap kolom."
     },
     timerLocation: "Mengatur lokasi pengatur waktu pada halaman.",
     panelsState: "Pilih dari: \"Terkunci\" - pengguna tidak dapat memperluas atau menciutkan panel; \"Runtuhkan semua\" - semua panel dimulai dalam keadaan diciutkan; \"Perluas semua\" - semua panel dimulai dalam keadaan diperluas; \"Pertama diperluas\" - hanya panel pertama yang awalnya diperluas.",
@@ -1511,9 +1537,12 @@ export var indonesianStrings = {
     maxWidth: "Menerima nilai CSS (px, %, in, pt, dll.).",
     width: "Menerima nilai CSS (px, %, in, pt, dll.).",
     valueName: "Jika Anda tidak mengatur properti ini, jawabannya akan disimpan dalam bidang yang ditentukan oleh properti Name.",
+    defaultDisplayValue: "Nilai yang ditampilkan dalam pertanyaan HTML dan dalam judul dinamis dan deskripsi elemen survei saat nilai pertanyaan kosong.",
     useDisplayValuesInDynamicTexts: "Dalam tipe pertanyaan pilihan tunggal dan ganda, setiap opsi pilihan memiliki ID dan nilai tampilan. Saat dipilih, setelan ini akan menampilkan nilai tampilan, bukan nilai ID dalam pertanyaan HTML serta judul dinamis dan deskripsi elemen survei.",
     clearIfInvisible: "Pilih apakah akan menghapus nilai pertanyaan yang disembunyikan oleh logika kondisional atau tidak dan kapan melakukannya. Opsi \"Warisi\" menerapkan setelan tingkat survei (\"Setelah survei selesai\" secara default).",
     choicesFromQuestionMode: "Pilih dari: \"Semua\" - menyalin semua opsi pilihan dari pertanyaan yang dipilih; \"Dipilih\" - secara dinamis menyalin hanya opsi pilihan yang dipilih; \"Tidak dipilih\" - secara dinamis hanya menyalin opsi pilihan yang tidak dipilih. Opsi \"Tidak Ada\" dan \"Lainnya\" disalin secara default jika diaktifkan dalam pertanyaan sumber.",
+    choiceValuesFromQuestion: "Dalam jenis pertanyaan pilihan tunggal dan pilihan ganda, setiap opsi pilihan memiliki ID dan nilai tampilan. Pengaturan ini menentukan kolom matriks atau pertanyaan panel mana yang harus memberikan ID.",
+    choiceTextsFromQuestion: "Dalam jenis pertanyaan pilihan tunggal dan pilihan ganda, setiap opsi pilihan memiliki ID dan nilai tampilan. Pengaturan ini menentukan kolom matriks atau pertanyaan panel mana yang harus menyediakan teks tampilan.",
     showOtherItem: "Saat dipilih, pengguna dapat menyertakan input tambahan di kotak komentar terpisah.",
     separateSpecialChoices: "Menampilkan setiap opsi pilihan khusus (\"Tidak Ada\", \"Lainnya\", \"Pilih Semua\") pada baris baru, bahkan saat menggunakan tata letak beberapa kolom.",
     path: "Tentukan lokasi dalam himpunan data layanan tempat array objek target berada. Biarkan kosong jika URL sudah menunjuk ke array.",
@@ -1535,8 +1564,8 @@ export var indonesianStrings = {
     needConfirmRemoveFile: "Memicu prompt yang meminta konfirmasi penghapusan file.",
     selectToRankEnabled: "Aktifkan untuk memberi peringkat hanya pada pilihan yang dipilih. Pengguna akan menyeret item yang dipilih dari daftar pilihan untuk memesannya di dalam area peringkat.",
     dataList: "Masukkan daftar pilihan yang akan disarankan kepada responden saat masukan.",
-    itemSize: "Pengaturan hanya mengubah ukuran bidang input dan tidak memengaruhi lebar kotak pertanyaan.",
-    itemTitleWidth: "Mengatur lebar yang konsisten untuk semua label item dalam piksel",
+    inputSize: "Pengaturan hanya mengubah ukuran bidang input dan tidak memengaruhi lebar kotak pertanyaan.",
+    itemTitleWidth: "Mengatur lebar yang konsisten untuk semua label item. Menerima nilai CSS (px, %, in, pt, dll.).",
     inputTextAlignment: "Pilih cara menyelaraskan nilai input dalam bidang. Pengaturan default \"Otomatis\" menyelaraskan nilai input ke kanan jika penyembunyian mata uang atau numerik diterapkan dan ke kiri jika tidak.",
     altText: "Berfungsi sebagai pengganti ketika gambar tidak dapat ditampilkan pada perangkat pengguna dan untuk tujuan aksesibilitas.",
     rateColorMode: "Menentukan warna emoji yang dipilih saat jenis ikon Peringkat diatur ke \"Smiley\". Pilih antara: \"Default\" - emoji yang dipilih muncul dalam warna survei default; \"Skala\" - emoji yang dipilih mewarisi warna dari skala peringkat.",
@@ -1585,10 +1614,6 @@ export var indonesianStrings = {
       textAreaWidth: "Lebar area header yang berisi judul dan deskripsi survei, diukur dalam piksel.",
       overlapEnabled: "Saat diaktifkan, bagian atas survei melapisi bagian bawah header.",
       mobileHeight: "Saat diatur ke 0, tinggi dihitung secara otomatis untuk mengakomodasi konten header."
-    },
-    panellayoutcolumn: {
-      effectiveWidth: "Menerima nilai %",
-      questionTitleWidth: "Menerima nilai px."
     },
     progressBarInheritWidthFrom: "Opsi \"Sama seperti wadah\" secara otomatis menyesuaikan lebar area bilah kemajuan agar sesuai dengan elemen HTML tempat survei ditempatkan."
   },
@@ -1653,12 +1678,11 @@ export var indonesianStrings = {
     maxValueExpression: "Ekspresi nilai maksimum",
     step: "Langkah",
     dataList: "Daftar data",
-    itemSize: "ukuranBarang",
+    inputSize: "ukuranBarang",
     itemTitleWidth: "Lebar label item (dalam px)",
     inputTextAlignment: "Penyelarasan nilai input",
     elements: "Elemen",
     content: "Puas",
-    navigationButtonsVisibility: "visibilitas tombol navigasi",
     navigationTitle: "Judul navigasi",
     navigationDescription: "Deskripsi navigasi",
     longTap: "Ketuk lama",
@@ -1755,7 +1779,8 @@ export var indonesianStrings = {
       orchid: "Anggrek",
       tulip: "Tulip",
       brown: "Coklat",
-      green: "Hijau"
+      green: "Hijau",
+      gray: "Abu-abu"
     }
   },
   creatortheme: {
@@ -1959,7 +1984,7 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // pe.choicesMin: "Minimum value for auto-generated items" => "Nilai minimum untuk item yang dibuat secara otomatis"
 // pe.choicesMax: "Maximum value for auto-generated items" => "Nilai maksimum untuk item yang dibuat secara otomatis"
 // pe.choicesStep: "Step for auto-generated items" => "Langkah untuk item yang dibuat secara otomatis"
-// pe.isAllRowRequired: "Require answer for all rows" => "Memerlukan jawaban untuk semua baris"
+// pe.eachRowRequired: "Require answer for all rows" => "Memerlukan jawaban untuk semua baris"
 // pe.requiredErrorText: "\"Required\" error message" => "Pesan kesalahan \"Wajib\""
 // pe.cols: "Columns" => "Kolom"
 // pe.rateMin: "Minimum rate value" => "Nilai tarif minimum"
@@ -1994,7 +2019,7 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // pe.dataFormat: "Image format" => "Format gambar"
 // pe.allowAddRows: "Allow adding rows" => "Perbolehkan menambahkan baris"
 // pe.allowRemoveRows: "Allow removing rows" => "Perbolehkan menghapus baris"
-// pe.allowRowsDragAndDrop: "Allow row drag and drop" => "Perbolehkan baris seret dan lepas"
+// pe.allowRowReorder: "Allow row drag and drop" => "Perbolehkan baris seret dan lepas"
 // pe.responsiveImageSizeHelp: "Does not apply if you specify the exact image width or height." => "Tidak berlaku jika Anda menentukan lebar atau tinggi gambar yang tepat."
 // pe.minImageWidth: "Minimum image width" => "Lebar gambar minimum"
 // pe.maxImageWidth: "Maximum image width" => "Lebar gambar maksimum"
@@ -2005,11 +2030,11 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // pe.logo: "Logo (URL or base64-encoded string)" => "Logo (URL atau string yang dikodekan base64)"
 // pe.questionsOnPageMode: "Survey structure" => "Struktur survei"
 // pe.maxTextLength: "Maximum answer length (in characters)" => "Panjang jawaban maksimum (dalam karakter)"
-// pe.maxOthersLength: "Maximum comment length (in characters)" => "Panjang komentar maksimum (dalam karakter)"
+// pe.maxCommentLength: "Maximum comment length (in characters)" => "Panjang komentar maksimum (dalam karakter)"
 // pe.autoGrowComment: "Auto-expand comment area if necessary" => "Perluas area komentar secara otomatis jika perlu"
 // pe.allowResizeComment: "Allow users to resize text areas" => "Mengizinkan pengguna mengubah ukuran area teks"
 // pe.textUpdateMode: "Update text question value" => "Memperbarui nilai pertanyaan teks"
-// pe.focusOnFirstError: "Set focus on the first invalid answer" => "Mengatur fokus pada jawaban pertama yang tidak valid"
+// pe.autoFocusFirstError: "Set focus on the first invalid answer" => "Mengatur fokus pada jawaban pertama yang tidak valid"
 // pe.checkErrorsMode: "Run validation" => "Jalankan validasi"
 // pe.navigateToUrl: "Navigate to URL" => "Arahkan ke URL"
 // pe.navigateToUrlOnCondition: "Dynamic URL" => "URL dinamis"
@@ -2044,11 +2069,11 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // pe.panelsState: "Inner panel expand state" => "Status perluasan panel dalam"
 // pe.templateDescription: "Description template" => "Template deskripsi"
 // pe.templateTitle: "Title template" => "Templat judul"
-// pe.panelPrevText: "Previous Panel button tooltip" => "Tooltip tombol Panel sebelumnya"
-// pe.panelNextText: "Next Panel button tooltip" => "Tooltip tombol Panel Berikutnya"
+// pe.prevPanelText: "Previous Panel button tooltip" => "Tooltip tombol Panel sebelumnya"
+// pe.nextPanelText: "Next Panel button tooltip" => "Tooltip tombol Panel Berikutnya"
 // pe.showRangeInProgress: "Show progress bar" => "Perlihatkan bilah kemajuan"
-// pe.templateTitleLocation: "Question title location" => "Lokasi judul pertanyaan"
-// pe.panelRemoveButtonLocation: "Remove Panel button location" => "Hapus lokasi tombol Panel"
+// pe.templateQuestionTitleLocation: "Question title location" => "Lokasi judul pertanyaan"
+// pe.removePanelButtonLocation: "Remove Panel button location" => "Hapus lokasi tombol Panel"
 // pe.hideIfRowsEmpty: "Hide the question if there are no rows" => "Menyembunyikan pertanyaan jika tidak ada baris"
 // pe.hideColumnsIfEmpty: "Hide columns if there are no rows" => "Menyembunyikan kolom jika tidak ada baris"
 // pe.rateValues: "Custom rate values" => "Nilai tarif kustom"
@@ -2071,13 +2096,12 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // pe.keyDuplicationError: "\"Non-unique key value\" error message" => "Pesan galat \"Nilai kunci tidak unik\""
 // pe.minSelectedChoices: "Minimum selected choices" => "Pilihan minimum yang dipilih"
 // pe.maxSelectedChoices: "Maximum selected choices" => "Pilihan maksimum yang dipilih"
-// pe.showClearButton: "Show the Clear button" => "Tampilkan tombol Hapus"
 // pe.showNumber: "Show panel number" => "Tampilkan nomor panel"
 // pe.logoWidth: "Logo width (in CSS-accepted values)" => "Lebar logo (dalam nilai yang diterima CSS)"
 // pe.logoHeight: "Logo height (in CSS-accepted values)" => "Tinggi logo (dalam nilai yang diterima CSS)"
 // pe.readOnly: "Read-only" => "Baca-saja"
 // pe.enableIf: "Editable if" => "Dapat diedit jika"
-// pe.emptyRowsText: "\"No rows\" message" => "Pesan \"Tidak ada baris\""
+// pe.noRowsText: "\"No rows\" message" => "Pesan \"Tidak ada baris\""
 // pe.size: "Input field size (in characters)" => "Ukuran bidang input (dalam karakter)"
 // pe.separateSpecialChoices: "Separate special choices (None, Other, Select All)" => "Pisahkan pilihan khusus (Tidak Ada, Lainnya, Pilih Semua)"
 // pe.choicesFromQuestion: "Copy choices from the following question" => "Salin pilihan dari pertanyaan berikut"
@@ -2085,7 +2109,7 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // pe.showCommentArea: "Show the comment area" => "Tampilkan area komentar"
 // pe.commentPlaceholder: "Comment area placeholder" => "Tempat penampung area komentar"
 // pe.displayRateDescriptionsAsExtremeItems: "Display rate descriptions as extreme values" => "Menampilkan deskripsi tingkat sebagai nilai ekstrem"
-// pe.rowsOrder: "Row order" => "Urutan baris"
+// pe.rowOrder: "Row order" => "Urutan baris"
 // pe.columnsLayout: "Column layout" => "Tata letak kolom"
 // pe.columnColCount: "Nested column count" => "Jumlah kolom bertumpuk"
 // pe.state: "Panel expand state" => "Panel memperluas status"
@@ -2122,8 +2146,6 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // pe.indent: "Add indents" => "Menambahkan inden"
 // panel.indent: "Add outer indents" => "Menambahkan inden luar"
 // pe.innerIndent: "Add inner indents" => "Menambahkan inden dalam"
-// pe.defaultValueFromLastRow: "Take default values from the last row" => "Mengambil nilai default dari baris terakhir"
-// pe.defaultValueFromLastPanel: "Take default values from the last panel" => "Mengambil nilai default dari panel terakhir"
 // pe.titleKeyboardAdornerTip: "Press enter button to edit" => "Tekan tombol enter untuk mengedit"
 // pe.keyboardAdornerTip: "Press enter button to edit item, press delete button to delete item, press alt plus arrow up or arrow down to move item" => "Tekan tombol enter untuk mengedit item, tekan tombol hapus untuk menghapus item, tekan alt plus panah ke atas atau panah ke bawah untuk memindahkan item"
 // pe.triggerGotoName: "Go to the question" => "Pergi ke pertanyaan"
@@ -2204,7 +2226,7 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // showTimerPanel.none: "Hidden" => "Sembunyi"
 // showTimerPanelMode.all: "Both" => "Keduanya"
 // detailPanelMode.none: "Hidden" => "Sembunyi"
-// addRowLocation.default: "Depends on matrix layout" => "Tergantung pada tata letak matriks"
+// addRowButtonLocation.default: "Depends on matrix layout" => "Tergantung pada tata letak matriks"
 // panelsState.default: "Users cannot expand or collapse panels" => "Pengguna tidak dapat memperluas atau menciutkan panel"
 // panelsState.collapsed: "All panels are collapsed" => "Semua panel diciutkan"
 // panelsState.expanded: "All panels are expanded" => "Semua panel diperluas"
@@ -2533,7 +2555,7 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // panel.description: "Panel description" => "Deskripsi panel"
 // panel.visibleIf: "Make the panel visible if" => "Buat panel terlihat jika"
 // panel.requiredIf: "Make the panel required if" => "Buat panel diperlukan jika"
-// panel.questionsOrder: "Question order within the panel" => "Urutan pertanyaan dalam panel"
+// panel.questionOrder: "Question order within the panel" => "Urutan pertanyaan dalam panel"
 // panel.startWithNewLine: "Display the panel on a new line" => "Menampilkan panel pada baris baru"
 // panel.state: "Panel collapse state" => "Status keruntuhan panel"
 // panel.width: "Inline panel width" => "Lebar panel sejajar"
@@ -2558,7 +2580,7 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // paneldynamic.hideNumber: "Hide the panel number" => "Menyembunyikan nomor panel"
 // paneldynamic.titleLocation: "Panel title alignment" => "Perataan judul panel"
 // paneldynamic.descriptionLocation: "Panel description alignment" => "Perataan deskripsi panel"
-// paneldynamic.templateTitleLocation: "Question title alignment" => "Perataan judul pertanyaan"
+// paneldynamic.templateQuestionTitleLocation: "Question title alignment" => "Perataan judul pertanyaan"
 // paneldynamic.templateErrorLocation: "Error message alignment" => "Perataan pesan kesalahan"
 // paneldynamic.newPanelPosition: "New panel location" => "Lokasi panel baru"
 // paneldynamic.keyName: "Prevent duplicate responses in the following question" => "Cegah respons duplikat dalam pertanyaan berikut"
@@ -2591,7 +2613,7 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // page.description: "Page description" => "Deskripsi halaman"
 // page.visibleIf: "Make the page visible if" => "Membuat halaman terlihat jika"
 // page.requiredIf: "Make the page required if" => "Buat halaman diperlukan jika"
-// page.questionsOrder: "Question order on the page" => "Urutan pertanyaan di halaman"
+// page.questionOrder: "Question order on the page" => "Urutan pertanyaan di halaman"
 // matrixdropdowncolumn.name: "Column name" => "Nama kolom"
 // matrixdropdowncolumn.title: "Column title" => "Judul kolom"
 // matrixdropdowncolumn.isUnique: "Prevent duplicate responses" => "Mencegah respons duplikat"
@@ -2665,8 +2687,8 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // totalDisplayStyle.currency: "Currency" => "Mata uang"
 // totalDisplayStyle.percent: "Percentage" => "Persentase"
 // totalDisplayStyle.date: "Date" => "Tanggal"
-// rowsOrder.initial: "Original" => "Asli"
-// questionsOrder.initial: "Original" => "Asli"
+// rowOrder.initial: "Original" => "Asli"
+// questionOrder.initial: "Original" => "Asli"
 // showProgressBar.aboveheader: "Above the header" => "Di atas header"
 // showProgressBar.belowheader: "Below the header" => "Di bawah header"
 // pv.sum: "Sum" => "Jumlah"
@@ -2683,7 +2705,7 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // panel.requiredIf: "Use the magic wand icon to set a conditional rule that prevents survey submission unless at least one nested question has an answer." => "Gunakan ikon tongkat ajaib untuk menetapkan aturan bersyarat yang mencegah pengiriman survei kecuali setidaknya satu pertanyaan bertingkat memiliki jawaban."
 // panel.questionTitleLocation: "Applies to all questions within this panel. If you want to override this setting, define title alignment rules for individual questions. The \"Inherit\" option applies the page-level (if set) or survey-level setting (\"Top\" by default)." => "Berlaku untuk semua pertanyaan dalam panel ini. Jika Anda ingin mengganti setelan ini, tentukan aturan perataan judul untuk masing-masing pertanyaan. Opsi \"Warisi\" menerapkan setelan tingkat halaman (jika ditetapkan) atau tingkat survei (\"Teratas\" secara default)."
 // panel.questionErrorLocation: "Sets the location of an error message in relation to all questions within the panel. The \"Inherit\" option applies the page-level (if set) or survey-level setting." => "Mengatur lokasi pesan kesalahan sehubungan dengan semua pertanyaan dalam panel. Opsi \"Warisi\" menerapkan setelan tingkat halaman (jika ditetapkan) atau tingkat survei."
-// panel.questionsOrder: "Keeps the original order of questions or randomizes them. The \"Inherit\" option applies the page-level (if set) or survey-level setting." => "Menyimpan urutan pertanyaan asli atau mengacaknya. Opsi \"Warisi\" menerapkan setelan tingkat halaman (jika ditetapkan) atau tingkat survei."
+// panel.questionOrder: "Keeps the original order of questions or randomizes them. The \"Inherit\" option applies the page-level (if set) or survey-level setting." => "Menyimpan urutan pertanyaan asli atau mengacaknya. Opsi \"Warisi\" menerapkan setelan tingkat halaman (jika ditetapkan) atau tingkat survei."
 // panel.page: "Repositions the panel to the end of a selected page." => "Memposisikan ulang panel ke akhir halaman yang dipilih."
 // panel.innerIndent: "Adds space or margin between the panel content and the left border of the panel box." => "Menambahkan spasi atau margin antara konten panel dan batas kiri kotak panel."
 // panel.startWithNewLine: "Unselect to display the panel in one line with the previous question or panel. The setting doesn't apply if the panel is the first element in your form." => "Batalkan pilihan untuk menampilkan panel dalam satu baris dengan pertanyaan atau panel sebelumnya. Pengaturan tidak berlaku jika panel adalah elemen pertama dalam formulir Anda."
@@ -2694,7 +2716,7 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // paneldynamic.visibleIf: "Use the magic wand icon to set a conditional rule that determines panel visibility." => "Gunakan ikon tongkat ajaib untuk menetapkan aturan bersyarat yang menentukan visibilitas panel."
 // paneldynamic.enableIf: "Use the magic wand icon to set a conditional rule that disables the read-only mode for the panel." => "Gunakan ikon tongkat ajaib untuk mengatur aturan bersyarat yang menonaktifkan mode baca-saja untuk panel."
 // paneldynamic.requiredIf: "Use the magic wand icon to set a conditional rule that prevents survey submission unless at least one nested question has an answer." => "Gunakan ikon tongkat ajaib untuk menetapkan aturan bersyarat yang mencegah pengiriman survei kecuali setidaknya satu pertanyaan bertingkat memiliki jawaban."
-// paneldynamic.templateTitleLocation: "Applies to all questions within this panel. If you want to override this setting, define title alignment rules for individual questions. The \"Inherit\" option applies the page-level (if set) or survey-level setting (\"Top\" by default)." => "Berlaku untuk semua pertanyaan dalam panel ini. Jika Anda ingin mengganti setelan ini, tentukan aturan perataan judul untuk masing-masing pertanyaan. Opsi \"Warisi\" menerapkan setelan tingkat halaman (jika ditetapkan) atau tingkat survei (\"Teratas\" secara default)."
+// paneldynamic.templateQuestionTitleLocation: "Applies to all questions within this panel. If you want to override this setting, define title alignment rules for individual questions. The \"Inherit\" option applies the page-level (if set) or survey-level setting (\"Top\" by default)." => "Berlaku untuk semua pertanyaan dalam panel ini. Jika Anda ingin mengganti setelan ini, tentukan aturan perataan judul untuk masing-masing pertanyaan. Opsi \"Warisi\" menerapkan setelan tingkat halaman (jika ditetapkan) atau tingkat survei (\"Teratas\" secara default)."
 // paneldynamic.templateErrorLocation: "Sets the location of an error message in relation to a question with invalid input. Choose between: \"Top\" - an error text is placed at the top of the question box; \"Bottom\" - an error text is placed at the bottom of the question box. The \"Inherit\" option applies the page-level (if set) or survey-level setting (\"Top\" by default)." => "Mengatur lokasi pesan kesalahan sehubungan dengan pertanyaan dengan input yang tidak valid. Pilih antara: \"Atas\" - teks kesalahan ditempatkan di bagian atas kotak pertanyaan; \"Bawah\" - teks kesalahan ditempatkan di bagian bawah kotak pertanyaan. Opsi \"Warisi\" menerapkan setelan tingkat halaman (jika ditetapkan) atau tingkat survei (\"Teratas\" secara default)."
 // paneldynamic.errorLocation: "Sets the location of an error message in relation to all questions within the panel. The \"Inherit\" option applies the page-level (if set) or survey-level setting." => "Mengatur lokasi pesan kesalahan sehubungan dengan semua pertanyaan dalam panel. Opsi \"Warisi\" menerapkan setelan tingkat halaman (jika ditetapkan) atau tingkat survei."
 // paneldynamic.page: "Repositions the panel to the end of a selected page." => "Memposisikan ulang panel ke akhir halaman yang dipilih."
@@ -2708,7 +2730,7 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // paneldynamic.titleLocation: "This setting is automatically inherited by all questions within this panel. If you want to override this setting, define title alignment rules for individual questions. The \"Inherit\" option applies the page-level (if set) or survey-level setting (\"Top\" by default)." => "Setelan ini secara otomatis diwarisi oleh semua pertanyaan dalam panel ini. Jika Anda ingin mengganti setelan ini, tentukan aturan perataan judul untuk masing-masing pertanyaan. Opsi \"Warisi\" menerapkan setelan tingkat halaman (jika ditetapkan) atau tingkat survei (\"Teratas\" secara default)."
 // paneldynamic.descriptionLocation: "The \"Inherit\" option applies the page-level (if set) or survey-level setting (\"Under the panel title\" by default)." => "Opsi \"Warisi\" menerapkan setelan tingkat halaman (jika ditetapkan) atau tingkat survei (\"Di bawah judul panel\" secara default)."
 // paneldynamic.newPanelPosition: "Defines the position of a newly added panel. By default, new panels are added to the end. Select \"Next\" to insert a new panel after the current one." => "Menentukan posisi panel yang baru ditambahkan. Secara default, panel baru ditambahkan ke akhir. Pilih \"Next\" untuk memasukkan panel baru setelah yang sekarang."
-// paneldynamic.defaultValueFromLastPanel: "Duplicates answers from the last panel and assigns them to the next added dynamic panel." => "Menduplikasi jawaban dari panel terakhir dan menetapkannya ke panel dinamis tambahan berikutnya."
+// paneldynamic.copyDefaultValueFromLastEntry: "Duplicates answers from the last panel and assigns them to the next added dynamic panel." => "Menduplikasi jawaban dari panel terakhir dan menetapkannya ke panel dinamis tambahan berikutnya."
 // paneldynamic.keyName: "Reference a question name to require a user to provide a unique response for this question in each panel." => "Rujuk nama pertanyaan untuk mengharuskan pengguna memberikan respons unik untuk pertanyaan ini di setiap panel."
 // pehelp.defaultValueExpression: "This setting allows you to assign a default answer value based on an expression. The expression can include basic calculations - `{q1_id} + {q2_id}`, Boolean expressions, such as `{age} > 60`, and functions: `iif()`, `today()`, `age()`, `min()`, `max()`, `avg()`, etc. The value determined by this expression serves as the initial default value that can be overridden by a respondent's manual input." => "Pengaturan ini memungkinkan Anda menetapkan nilai jawaban default berdasarkan ekspresi. Ekspresi dapat mencakup perhitungan dasar - '{q1_id} + {q2_id}', ekspresi Boolean, seperti '{age} > 60', dan fungsi: 'iif()', 'today()', 'age()', 'min()', 'max()', 'avg()', dll. Nilai yang ditentukan oleh ekspresi ini berfungsi sebagai nilai default awal yang dapat ditimpa oleh input manual responden."
 // pehelp.resetValueIf: "Use the magic wand icon to set a conditional rule that determines when a respondent's input is reset to the value based on the \"Default value expression\" or \"Set value expression\" or to the \"Default answer\" value (if either is set)." => "Gunakan ikon tongkat ajaib untuk mengatur aturan bersyarat yang menentukan kapan input responden diatur ulang ke nilai berdasarkan \"Ekspresi nilai default\" atau \"Atur ekspresi nilai\" atau ke nilai \"Jawaban default\" (jika salah satu diatur)."
@@ -2758,13 +2780,13 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // pehelp.showProgressBar: "Sets the visibility and location of a progress bar. The \"Auto\" value displays the progress bar above or below the survey header." => "Mengatur visibilitas dan lokasi bilah kemajuan. Nilai \"Otomatis\" menampilkan bilah kemajuan di atas atau di bawah header survei."
 // pehelp.showPreviewBeforeComplete: "Enable the preview page with all or answered questions only." => "Aktifkan halaman pratinjau hanya dengan semua atau pertanyaan yang dijawab."
 // pehelp.questionTitleLocation: "Applies to all questions within the survey. This setting can be overridden by title alignment rules at lower levels: panel, page, or question. A lower-level setting will override those on a higher level." => "Berlaku untuk semua pertanyaan dalam survei. Setelan ini dapat diganti dengan aturan penyelarasan judul di tingkat yang lebih rendah: panel, halaman, atau pertanyaan. Pengaturan tingkat yang lebih rendah akan menggantikan pengaturan tingkat yang lebih tinggi."
-// pehelp.requiredText: "A symbol or a sequence of symbols indicating that an answer is required." => "Simbol atau urutan simbol yang menunjukkan bahwa jawaban diperlukan."
+// pehelp.requiredMark: "A symbol or a sequence of symbols indicating that an answer is required." => "Simbol atau urutan simbol yang menunjukkan bahwa jawaban diperlukan."
 // pehelp.questionStartIndex: "Enter a number or letter with which you want to start numbering." => "Masukkan angka atau huruf yang ingin Anda gunakan untuk memulai penomoran."
 // pehelp.questionErrorLocation: "Sets the location of an error message in relation to the question with invalid input. Choose between: \"Top\" - an error text is placed at the top of the question box; \"Bottom\" - an error text is placed at the bottom of the question box." => "Mengatur lokasi pesan kesalahan sehubungan dengan pertanyaan dengan input yang tidak valid. Pilih antara: \"Atas\" - teks kesalahan ditempatkan di bagian atas kotak pertanyaan; \"Bawah\" - teks kesalahan ditempatkan di bagian bawah kotak pertanyaan."
-// pehelp.focusFirstQuestionAutomatic: "Select if you want the first input field on each page ready for text entry." => "Pilih apakah Anda ingin bidang input pertama pada setiap halaman siap untuk entri teks."
-// pehelp.questionsOrder: "Keeps the original order of questions or randomizes them. The effect of this setting is only visible in the Preview tab." => "Menyimpan urutan pertanyaan asli atau mengacaknya. Efek pengaturan ini hanya terlihat di tab Pratinjau."
+// pehelp.autoFocusFirstQuestion: "Select if you want the first input field on each page ready for text entry." => "Pilih apakah Anda ingin bidang input pertama pada setiap halaman siap untuk entri teks."
+// pehelp.questionOrder: "Keeps the original order of questions or randomizes them. The effect of this setting is only visible in the Preview tab." => "Menyimpan urutan pertanyaan asli atau mengacaknya. Efek pengaturan ini hanya terlihat di tab Pratinjau."
 // pehelp.maxTextLength: "For text entry questions only." => "Hanya untuk pertanyaan entri teks."
-// pehelp.maxOthersLength: "For question comments only." => "Hanya untuk komentar pertanyaan."
+// pehelp.maxCommentLength: "For question comments only." => "Hanya untuk komentar pertanyaan."
 // pehelp.autoGrowComment: "Select if you want question comments and Long Text questions to auto-grow in height based on the entered text length." => "Pilih apakah Anda ingin komentar pertanyaan dan pertanyaan Teks Panjang bertambah tinggi secara otomatis berdasarkan panjang teks yang dimasukkan."
 // pehelp.allowResizeComment: "For question comments and Long Text questions only." => "Hanya untuk komentar pertanyaan dan pertanyaan Teks Panjang."
 // pehelp.calculatedValues: "Custom variables serve as intermediate or auxiliary variables used in form calculations. They take respondent inputs as source values. Each custom variable has a unique name and an expression it's based on." => "Variabel kustom berfungsi sebagai variabel perantara atau tambahan yang digunakan dalam perhitungan formulir. Mereka mengambil input responden sebagai nilai sumber. Setiap variabel kustom memiliki nama unik dan ekspresi yang menjadi dasarnya."
@@ -2780,7 +2802,7 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // pehelp.keyDuplicationError: "When the \"Prevent duplicate responses\" property is enabled, a respondent attempting to submit a duplicate entry will receive the following error message." => "Ketika properti \"mencegah duplikat respons\" diaktifkan, responden mencoba untuk mengirimkan entri duplikat akan menerima pesan galat berikut."
 // pehelp.totalExpression: "Allows you to calculate total values based on an expression. The expression can include basic calculations (`{q1_id} + {q2_id}`), Boolean expressions (`{age} > 60`) and functions ('iif()`, `today()`, `age()`, `min()`, `max()`, `avg()`, etc.)." => "Memungkinkan Anda menghitung nilai total berdasarkan ekspresi. Ekspresi dapat mencakup perhitungan dasar ('{q1_id} + {q2_id}'), ekspresi Boolean ('{age} > 60') dan fungsi ('iif()', 'today()', 'age()', 'min()', 'max()', 'avg()', dll.)."
 // pehelp.confirmDelete: "Triggers a prompt asking to confirm the row deletion." => "Memicu prompt yang meminta konfirmasi penghapusan baris."
-// pehelp.defaultValueFromLastRow: "Duplicates answers from the last row and assigns them to the next added dynamic row." => "Menduplikasi jawaban dari baris terakhir dan menetapkannya ke baris dinamis berikutnya yang ditambahkan."
+// pehelp.copyDefaultValueFromLastEntry: "Duplicates answers from the last row and assigns them to the next added dynamic row." => "Menduplikasi jawaban dari baris terakhir dan menetapkannya ke baris dinamis berikutnya yang ditambahkan."
 // pehelp.description: "Type a subtitle." => "Ketik subtitle."
 // pehelp.locale: "Choose a language to begin creating your survey. To add a translation, switch to a new language and translate the original text here or in the Translations tab." => "Pilih bahasa untuk mulai membuat survei. Untuk menambahkan terjemahan, beralihlah ke bahasa baru dan terjemahkan teks asli di sini atau di tab Terjemahan."
 // pehelp.detailPanelMode: "Sets the location of a details section in relation to a row. Choose from: \"None\" - no expansion is added; \"Under the row\" - a row expansion is placed under each row of the matrix; \"Under the row, display one row expansion only\" - an expansion is displayed under a single row only, the remaining row expansions are collapsed." => "Mengatur lokasi bagian detail dalam kaitannya dengan baris. Pilih dari: \"Tidak ada\" - tidak ada ekspansi yang ditambahkan; \"Di bawah baris\" - ekspansi baris ditempatkan di bawah setiap baris matriks; \"Di bawah baris, tampilkan satu baris ekspansi saja\" - ekspansi ditampilkan di bawah satu baris saja, ekspansi baris yang tersisa diciutkan."
@@ -2795,8 +2817,8 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // page.requiredIf: "Use the magic wand icon to set a conditional rule that prevents survey submission unless at least one nested question has an answer." => "Gunakan ikon tongkat ajaib untuk menetapkan aturan bersyarat yang mencegah pengiriman survei kecuali setidaknya satu pertanyaan bertingkat memiliki jawaban."
 // page.questionTitleLocation: "Applies to all questions within this page. If you want to override this setting, define title alignment rules for individual questions or panels. The \"Inherit\" option applies the survey-level setting (\"Top\" by default)." => "Berlaku untuk semua pertanyaan dalam halaman ini. Jika Anda ingin mengganti setelan ini, tentukan aturan perataan judul untuk masing-masing pertanyaan atau panel. Opsi \"Warisi\" menerapkan setelan tingkat survei (\"Teratas\" secara default)."
 // page.questionErrorLocation: "Sets the location of an error message in relation to the question with invalid input. Choose between: \"Top\" - an error text is placed at the top of the question box; \"Bottom\" - an error text is placed at the bottom of the question box. The \"Inherit\" option applies the survey-level setting (\"Top\" by default)." => "Mengatur lokasi pesan kesalahan sehubungan dengan pertanyaan dengan input yang tidak valid. Pilih antara: \"Atas\" - teks kesalahan ditempatkan di bagian atas kotak pertanyaan; \"Bawah\" - teks kesalahan ditempatkan di bagian bawah kotak pertanyaan. Opsi \"Warisi\" menerapkan setelan tingkat survei (\"Teratas\" secara default)."
-// page.questionsOrder: "Keeps the original order of questions or randomizes them. The \"Inherit\" option applies the survey-level setting (\"Original\" by default). The effect of this setting is only visible in the Preview tab." => "Menyimpan urutan pertanyaan asli atau mengacaknya. Opsi \"Warisi\" menerapkan setelan tingkat survei (\"Asli\" secara default). Efek pengaturan ini hanya terlihat di tab Pratinjau."
-// page.navigationButtonsVisibility: "Sets the visibility of navigation buttons on the page. The \"Inherit\" option applies the survey-level setting, which defaults to \"Visible\"." => "Mengatur visibilitas tombol navigasi di halaman. Opsi \"Warisi\" menerapkan pengaturan tingkat survei, yang defaultnya adalah \"Terlihat\"."
+// page.questionOrder: "Keeps the original order of questions or randomizes them. The \"Inherit\" option applies the survey-level setting (\"Original\" by default). The effect of this setting is only visible in the Preview tab." => "Menyimpan urutan pertanyaan asli atau mengacaknya. Opsi \"Warisi\" menerapkan setelan tingkat survei (\"Asli\" secara default). Efek pengaturan ini hanya terlihat di tab Pratinjau."
+// page.showNavigationButtons: "Sets the visibility of navigation buttons on the page. The \"Inherit\" option applies the survey-level setting, which defaults to \"Visible\"." => "Mengatur visibilitas tombol navigasi di halaman. Opsi \"Warisi\" menerapkan pengaturan tingkat survei, yang defaultnya adalah \"Terlihat\"."
 // pehelp.panelsState: "Choose from: \"Locked\" - users cannot expand or collapse panels; \"Collapse all\" - all panels start in a collapsed state; \"Expand all\" - all panels start in an expanded state; \"First expanded\" - only the first panel is initially expanded." => "Pilih dari: \"Terkunci\" - pengguna tidak dapat memperluas atau menciutkan panel; \"Runtuhkan semua\" - semua panel dimulai dalam keadaan diciutkan; \"Perluas semua\" - semua panel dimulai dalam keadaan diperluas; \"Pertama diperluas\" - hanya panel pertama yang awalnya diperluas."
 // pehelp.imageLinkName: "Enter a shared property name within the array of objects that contains the image or video file URLs you want to display in the choice list." => "Masukkan nama properti bersama dalam array objek yang berisi URL file gambar atau video yang ingin Anda tampilkan di daftar pilihan."
 // pehelp.choices: "The left value serves as an item ID used in conditional rules, the right value is displayed to respondents." => "Nilai kiri berfungsi sebagai ID item yang digunakan dalam aturan bersyarat, nilai yang tepat ditampilkan kepada responden."
@@ -2824,7 +2846,7 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // pehelp.needConfirmRemoveFile: "Triggers a prompt asking to confirm the file deletion." => "Memicu prompt yang meminta konfirmasi penghapusan file."
 // pehelp.selectToRankEnabled: "Enable to rank only selected choices. Users will drag selected items from the choice list to order them within the ranking area." => "Aktifkan untuk memberi peringkat hanya pada pilihan yang dipilih. Pengguna akan menyeret item yang dipilih dari daftar pilihan untuk memesannya di dalam area peringkat."
 // pehelp.dataList: "Enter a list of choices that will be suggested to the respondent during input." => "Masukkan daftar pilihan yang akan disarankan kepada responden saat masukan."
-// pehelp.itemSize: "The setting only resizes the input fields and doesn't affect the width of the question box." => "Pengaturan hanya mengubah ukuran bidang input dan tidak memengaruhi lebar kotak pertanyaan."
+// pehelp.inputSize: "The setting only resizes the input fields and doesn't affect the width of the question box." => "Pengaturan hanya mengubah ukuran bidang input dan tidak memengaruhi lebar kotak pertanyaan."
 // pehelp.itemTitleWidth: "Sets consistent width for all item labels in pixels" => "Mengatur lebar yang konsisten untuk semua label item dalam piksel"
 // pehelp.contentMode: "The \"Auto\" option automatically determines the suitable mode for display - Image, Video, or YouTube - based on the source URL provided." => "Opsi \"Otomatis\" secara otomatis menentukan mode yang sesuai untuk tampilan - Gambar, Video, atau YouTube - berdasarkan URL sumber yang disediakan."
 // pehelp.altText: "Serves as a substitute when the image cannot be displayed on a user's device and for accessibility purposes." => "Berfungsi sebagai pengganti ketika gambar tidak dapat ditampilkan pada perangkat pengguna dan untuk tujuan aksesibilitas."
@@ -2837,8 +2859,8 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // p.itemTitleWidth: "Item label width (in px)" => "Lebar label item (dalam px)"
 // p.selectToRankEmptyRankedAreaText: "Text to show if all options are selected" => "Teks untuk memperlihatkan jika semua opsi dipilih"
 // p.selectToRankEmptyUnrankedAreaText: "Placeholder text for the ranking area" => "Teks tempat penampung untuk area peringkat"
-// pe.allowCompleteSurveyAutomatic: "Complete the survey automatically" => "Selesaikan survei secara otomatis"
-// pehelp.allowCompleteSurveyAutomatic: "Select if you want the survey to complete automatically after a respondent answers all questions." => "Pilih apakah Anda ingin survei selesai secara otomatis setelah responden menjawab semua pertanyaan."
+// pe.autoAdvanceAllowComplete: "Complete the survey automatically" => "Selesaikan survei secara otomatis"
+// pehelp.autoAdvanceAllowComplete: "Select if you want the survey to complete automatically after a respondent answers all questions." => "Pilih apakah Anda ingin survei selesai secara otomatis setelah responden menjawab semua pertanyaan."
 // masksettings.saveMaskedValue: "Save masked value in survey results" => "Simpan nilai terselubung dalam hasil survei"
 // patternmask.pattern: "Value pattern" => "Pola nilai"
 // datetimemask.min: "Minimum value" => "Nilai minimum"
@@ -3063,7 +3085,7 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // names.default-dark: "Dark" => "Gelap"
 // names.default-contrast: "Contrast" => "Kontras"
 // panel.showNumber: "Number this panel" => "Nomor panel ini"
-// pehelp.goNextPageAutomatic: "Select if you want the survey to auto-advance to the next page once a respondent has answered all questions on the current page. This feature won't apply if the last question on the page is open-ended or allows multiple answers." => "Pilih apakah Anda ingin survei maju secara otomatis ke halaman berikutnya setelah responden menjawab semua pertanyaan di halaman saat ini. Fitur ini tidak akan berlaku jika pertanyaan terakhir di halaman bersifat terbuka atau mengizinkan banyak jawaban."
+// pehelp.autoAdvanceEnabled: "Select if you want the survey to auto-advance to the next page once a respondent has answered all questions on the current page. This feature won't apply if the last question on the page is open-ended or allows multiple answers." => "Pilih apakah Anda ingin survei maju secara otomatis ke halaman berikutnya setelah responden menjawab semua pertanyaan di halaman saat ini. Fitur ini tidak akan berlaku jika pertanyaan terakhir di halaman bersifat terbuka atau mengizinkan banyak jawaban."
 // autocomplete.name: "Full Name" => "Nama lengkap"
 // autocomplete.honorific-prefix: "Prefix" => "Awalan"
 // autocomplete.given-name: "First Name" => "Nama depan"
@@ -3120,3 +3142,52 @@ setupLocale({ localeCode: "id", strings: indonesianStrings });
 // ed.lockQuestionsTooltip: "Lock expand/collapse state for questions" => "Kunci status perluasan/ciutkan untuk pertanyaan"
 // pe.listIsEmpty@pages: "You don't have any pages yet" => "Anda belum memiliki halaman apa pun"
 // pe.addNew@pages: "Add new page" => "Tambahkan halaman baru"
+// ed.zoomInTooltip: "Zoom In" => "Perbesar"
+// ed.zoomOutTooltip: "Zoom Out" => "Perkecil"
+// tabs.surfaceBackground: "Surface Background" => "Latar Belakang Permukaan"
+// pe.copyDefaultValueFromLastEntry: "Use answers from the last entry as default" => "Gunakan jawaban dari entri terakhir sebagai default"
+// colors.gray: "Gray" => "Abu-abu"
+// pe.navigationButtonsLocation: "Navigation buttons alignment" => "Perataan tombol navigasi"
+// pv.allQuestions: "Show all questions" => "Tampilkan semua pertanyaan"
+// pv.answeredQuestions: "Show answered questions only" => "Tampilkan pertanyaan yang dijawab saja"
+// pehelp.navigationButtonsLocation: "Sets the location of navigation buttons on a page." => "Mengatur lokasi tombol navigasi pada halaman."
+// pe.size: "Input field width (in characters)" => "Lebar bidang input (dalam karakter)"
+// pe.choiceValuesFromQuestion: "Use values from the following matrix column or panel question as choice IDs" => "Gunakan nilai dari matriks, kolom atau pertanyaan panel berikut sebagai ID pilihan"
+// pe.choiceTextsFromQuestion: "Use values from the following matrix column or panel question as choice texts" => "Gunakan nilai dari kolom matriks atau pertanyaan panel berikut sebagai teks pilihan"
+// pehelp.choiceValuesFromQuestion: "In single- and multiple-selection question types, each choice option has an ID and display value. This setting specifies which matrix column or panel question should provide the IDs." => "Dalam jenis pertanyaan pilihan tunggal dan pilihan ganda, setiap opsi pilihan memiliki ID dan nilai tampilan. Pengaturan ini menentukan kolom matriks atau pertanyaan panel mana yang harus memberikan ID."
+// pehelp.choiceTextsFromQuestion: "In single- and multiple-selection question types, each choice option has an ID and display value. This setting specifies which matrix column or panel question should provide the display texts." => "Dalam jenis pertanyaan pilihan tunggal dan pilihan ganda, setiap opsi pilihan memiliki ID dan nilai tampilan. Pengaturan ini menentukan kolom matriks atau pertanyaan panel mana yang harus menyediakan teks tampilan."
+// pe.progressBarLocation: "Progress bar alignment" => "Perataan bilah kemajuan"
+// progressBarLocation.topbottom: "Top and bottom" => "Atas dan bawah"
+// progressBarLocation.aboveheader: "Above the header" => "Di atas header"
+// progressBarLocation.belowheader: "Below the header" => "Di bawah header"
+// progressBarLocation.off: "Hidden" => "Sembunyi"
+// survey.progressBarLocation: "Sets the location of the progress bar. The \"Auto\" value displays the progress bar above or below the survey header." => "Mengatur lokasi bilah progres. Nilai \"Otomatis\" menampilkan bilah kemajuan di atas atau di bawah header survei."
+// survey.readOnly: "Make the survey read-only" => "Membuat survei hanya baca"
+// survey.readOnly: "Select if you want to prevent respondents from filling out your survey." => "Pilih jika Anda ingin mencegah responden mengisi survei Anda."
+// paneldynamic.showNumber: "Number the panel" => "Nomor panel"
+// question.showNumber: "Number this question" => "Nomor pertanyaan ini"
+// pe.previewMode: "Preview mode" => "Mode pratinjau"
+// pe.gridLayoutEnabled: "Enable the grid layout" => "Mengaktifkan tata letak kisi"
+// pe.maskSettings: "Mask settings" => "Pengaturan topeng"
+// pe.detailErrorLocation: "Row expansion error message alignment" => "Perataan pesan kesalahan perluasan baris"
+// pehelp.detailErrorLocation: "Sets the location of error messages for questions nested in detail sections. The \"Inherit\" option applies the setting from the \"Error message alignment\" property." => "Mengatur lokasi pesan kesalahan untuk pertanyaan yang bertumpuk di bagian detail. Opsi \"Wariskan\" menerapkan pengaturan dari properti \"Perataan pesan kesalahan\"."
+// pe.gridLayoutColumns: "Grid layout columns" => "Kolom tata letak kisi"
+// pe.startPageTitlePlaceholder: "Start Page" => "Halaman Awal"
+// panellayoutcolumn.effectiveWidth: "Effective width, %" => "Lebar efektif, %"
+// panellayoutcolumn.questionTitleWidth: "Question title width, px" => "Lebar judul pertanyaan, px"
+// pe.listIsEmpty@gridLayoutColumns: "You don't have layout columns yet" => "Anda belum memiliki kolom tata letak"
+// panel.effectiveColSpan: "Specifies how many columns this panel spans within the grid layout." => "Menentukan berapa banyak kolom panel ini dalam tata letak kisi."
+// panel.gridLayoutColumns: "This table lets you configure each grid column within the panel. It automatically sets the width percentage for each column based on the maximum number of elements in a row. To customize the grid layout, manually adjust these values and define the title width for all questions in each column." => "Tabel ini memungkinkan Anda mengonfigurasi setiap kolom kisi dalam panel. Ini secara otomatis mengatur persentase lebar untuk setiap kolom berdasarkan jumlah maksimum elemen dalam satu baris. Untuk menyesuaikan tata letak kisi, sesuaikan nilai ini secara manual dan tentukan lebar judul untuk semua pertanyaan di setiap kolom."
+// pehelp.gridLayoutEnabled: "Survey Creator allows you to manually adjust the inline widths of form elements to control the layout. If this doesn't produce the desired outcome, you can enable the grid layout, which structures form elements using a column-based system. To configure layout columns, select a page or panel and use the \"Question Settings\" → \"Grid columns\" table. To adjust how many columns a question spans, select it and set the desired value in the \"Layout\" → \"Column span\" field." => "Pembuat Survei memungkinkan Anda menyesuaikan lebar sebaris elemen formulir secara manual untuk mengontrol tata letak. Jika ini tidak menghasilkan hasil yang diinginkan, Anda dapat mengaktifkan tata letak kisi, yang menyusun elemen bentuk menggunakan sistem berbasis kolom. Untuk mengonfigurasi kolom tata letak, pilih halaman atau panel dan gunakan tabel \"Pengaturan Pertanyaan\" → \"Kolom kisi\". Untuk menyesuaikan berapa banyak kolom rentang pertanyaan, pilih dan atur nilai yang diinginkan di bidang \"Tata Letak\" → \"Rentang kolom\"."
+// question.effectiveColSpan: "Specifies how many columns this question spans within the grid layout." => "Menentukan berapa banyak kolom yang mencakup pertanyaan ini dalam tata letak kisi."
+// page.gridLayoutColumns: "This table lets you configure each grid column on the page. It automatically sets the width percentage for each column based on the maximum number of elements in a row. To customize the grid layout, manually adjust these values and define the title width for all questions in each column." => "Tabel ini memungkinkan Anda mengonfigurasi setiap kolom kisi pada halaman. Ini secara otomatis mengatur persentase lebar untuk setiap kolom berdasarkan jumlah maksimum elemen dalam satu baris. Untuk menyesuaikan tata letak kisi, sesuaikan nilai ini secara manual dan tentukan lebar judul untuk semua pertanyaan di setiap kolom."
+
+// ed.expandTooltip: "Expand" => "Memperluas"
+// ed.collapseTooltip: "Collapse" => "Roboh"
+// pe.itemTitleWidth_placeholder: "Ex.: 100px" => "Contoh: 100px"
+// pehelp.itemTitleWidth: "Sets consistent width for all item labels. Accepts CSS values (px, %, in, pt, etc.)." => "Mengatur lebar yang konsisten untuk semua label item. Menerima nilai CSS (px, %, in, pt, dll.)."
+// ed.zoom100Tooltip: "Zoom to 100%" => "Perbesar hingga 100%"
+// ed.addLanguageTooltip: "Add Language" => "Tambahkan Bahasa"
+// pehelp.commentAreaRows: "Sets the number of displayed lines in text areas for question comments. If the input takes up more lines, the scroll bar appears." => "Mengatur jumlah baris yang ditampilkan di area teks untuk komentar pertanyaan. Jika input memakan lebih banyak baris, bilah gulir akan muncul."
+// pe.defaultDisplayValue: "Default display value for dynamic texts" => "Nilai tampilan default untuk teks dinamis"
+// pehelp.defaultDisplayValue: "A value displayed in HTML questions and in the dynamic titles and descriptions of survey elements when the question value is empty." => "Nilai yang ditampilkan dalam pertanyaan HTML dan dalam judul dinamis dan deskripsi elemen survei saat nilai pertanyaan kosong."

@@ -59,12 +59,13 @@ export var polishSurveyStrings = {
   addColumn: "Dodaj kolumnę",
   addRow: "Dodaj wiersz",
   removeRow: "Usuń",
-  emptyRowsText: "Nie ma rzędów.",
+  noRowsText: "Nie ma rzędów.",
   addPanel: "Dodaj panel",
   removePanel: "Usuń",
   showDetails: "Pokaż szczegóły",
   hideDetails: "Ukryj szczegóły",
   choices_Item: "element",
+  choices_Choice: "Opcja wyboru",
   matrix_column: "Kolumna",
   matrix_row: "Wiersz",
   multipletext_itemname: "tekst",
@@ -99,6 +100,8 @@ export var polishSurveyStrings = {
   modalApplyButtonText: "Zastosować",
   filterStringPlaceholder: "Wpisz aby wyszukać...",
   emptyMessage: "Brak danych do wyświetlenia",
+  loadingPage: "Ładowania...",
+  loadingData: "Ładowania...",
   noEntriesText: "Nie ma jeszcze wpisów.\nKliknij przycisk poniżej, aby dodać nowy wpis.",
   noEntriesReadonlyText: "Brak wpisów.",
   tabTitlePlaceholder: "Nowy panel",
@@ -120,16 +123,24 @@ setupLocale({ localeCode: "pl", strings: polishSurveyStrings, nativeName: "polsk
 // more: "More" => "Więcej"
 // tagboxDoneButtonCaption: "OK" => "OK"
 // selectToRankEmptyRankedAreaText: "All choices are ranked" => "Wszystkie wybory są uszeregowane"
-// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Przeciągnij i upuść tutaj wybory, aby je uszeregować"// takePhotoCaption: "Take Photo" => "Zrób zdjęcie"
+// selectToRankEmptyUnrankedAreaText: "Drag and drop choices here to rank them" => "Przeciągnij i upuść tutaj wybory, aby je uszeregować"
+// takePhotoCaption: "Take Photo" => "Zrób zdjęcie"
 // photoPlaceholder: "Click the button below to take a photo using the camera." => "Kliknij przycisk poniżej, aby zrobić zdjęcie aparatem."
 // fileOrPhotoPlaceholder: "Drag and drop or select a file to upload or take a photo using the camera." => "Przeciągnij i upuść lub wybierz plik, który chcesz przesłać lub zrobić zdjęcie za pomocą aparatu."
-// replaceFileCaption: "Replace file" => "Zastąp plik"// eachRowUniqueError: "Each row must have a unique value." => "Każdy wiersz musi mieć unikatową wartość."
+// replaceFileCaption: "Replace file" => "Zastąp plik"
+// eachRowUniqueError: "Each row must have a unique value." => "Każdy wiersz musi mieć unikatową wartość."
 // noUploadFilesHandler: "Files cannot be uploaded. Please add a handler for the 'onUploadFiles' event." => "Nie można przesłać plików. Dodaj moduł obsługi zdarzenia \"onUploadFiles\"."
 // showDetails: "Show Details" => "Pokaż szczegóły"
 // hideDetails: "Hide Details" => "Ukryj szczegóły"
 // ok: "OK" => "OK"
 // cancel: "Cancel" => "Anuluj"
 // refuseItemText: "Refuse to answer" => "Odmów odpowiedzi"
-// dontKnowItemText: "Don't know" => "Nie wiem"// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Twoja odpowiedź przekracza 64 KB. Zmniejsz rozmiar plików i spróbuj ponownie lub skontaktuj się z właścicielem ankiety."
-// signaturePlaceHolderReadOnly: "No signature" => "Brak podpisu"// tabTitlePlaceholder: "New Panel" => "Nowy panel"// deselectAllItemText: "Deselect all" => "Odznacz wszystko"
+// dontKnowItemText: "Don't know" => "Nie wiem"
+// savingExceedSize: "Your response exceeds 64KB. Please reduce the size of your file(s) and try again or contact a survey owner." => "Twoja odpowiedź przekracza 64 KB. Zmniejsz rozmiar plików i spróbuj ponownie lub skontaktuj się z właścicielem ankiety."
+// signaturePlaceHolderReadOnly: "No signature" => "Brak podpisu"
+// tabTitlePlaceholder: "New Panel" => "Nowy panel"
+// deselectAllItemText: "Deselect all" => "Odznacz wszystko"
 // textNoDigitsAllow: "Numbers are not allowed." => "Liczby są niedozwolone."
+// choices_Choice: "Choice option" => "Opcja wyboru"
+// loadingPage: "Loading..." => "Ładowania..."
+// loadingData: "Loading..." => "Ładowania..."

@@ -1,5 +1,5 @@
 import { ITheme, QuestionButtonGroupModel, QuestionCompositeModel, QuestionDropdownModel, SurveyElement } from "survey-core";
-import { HeaderModel, ThemeModel } from "../../src/components/tabs/theme-model";
+import { HeaderModel, registerSurveyTheme, ThemeModel } from "../../src/components/tabs/theme-model";
 import { ThemeTabPlugin } from "../../src/components/tabs/theme-plugin";
 import { CreatorTester } from "../creator-tester";
 import { PredefinedColors, PredefinedThemes, Themes } from "../../src/components/tabs/themes";
@@ -15,6 +15,9 @@ export * from "../../src/components/tabs/theme-custom-questions/shadow-effects";
 export * from "../../src/property-grid/theme-settings";
 export * from "../../src/property-grid/header-settings";
 
+import SurveyThemes from "survey-core/themes";
+registerSurveyTheme(SurveyThemes);
+
 test("IHeader de/serialization", (): any => {
   const themeModel = new ThemeModel();
   expect(themeModel.toJSON().header).toBe(undefined);
@@ -26,7 +29,7 @@ test("IHeader de/serialization", (): any => {
     headerView: "advanced",
     header: {
       "height": 300,
-      "inheritWidthFrom": "survey",
+      "inheritWidthFrom": "container",
       "textAreaWidth": 600,
       "overlapEnabled": true,
       "backgroundImage": "https://t4.ftcdn.net/jpg/02/83/13/61/360_F_283136113_b3VRHNiOPFMOluzYJPpfuoH8Czh9c743.jpg",
@@ -95,7 +98,7 @@ test("set headerViewContainer advanced", (): any => {
 
   header["headerView"] = "advanced";
   header.height = 300;
-  header.inheritWidthFrom = "survey";
+  header.inheritWidthFrom = "container";
   header.textAreaWidth = 600;
   header["backgroundColorSwitch"] = "custom";
   header["backgroundColor"] = "#5094ed";
@@ -116,7 +119,7 @@ test("set headerViewContainer advanced", (): any => {
   const result = themeModel.toJSON();
   expect(result.header).toStrictEqual({
     "height": 300,
-    "inheritWidthFrom": "survey",
+    "inheritWidthFrom": "container",
     "textAreaWidth": 600,
     "overlapEnabled": true,
     "backgroundImage": "https://t4.ftcdn.net/jpg/02/83/13/61/360_F_283136113_b3VRHNiOPFMOluzYJPpfuoH8Czh9c743.jpg",
@@ -186,7 +189,7 @@ test("headerViewContainer get color values from theme", (): any => {
   };
   const themePlugin: ThemeTabPlugin = <ThemeTabPlugin>creator.getPlugin("theme");
   themePlugin.activate();
-  const groupHeader = themePlugin.propertyGrid.survey.pages[0].getElementByName("header");
+  const groupHeader = themePlugin.propertyGrid.survey.pages[1];
   const headerTitleQuestion = groupHeader.elements[0].contentPanel.getElementByName("headerTitle");
   const headerDescriptionQuestion = groupHeader.elements[0].contentPanel.getElementByName("headerDescription");
 
@@ -203,20 +206,19 @@ test("headerViewContainer: restore backgroundColorSwitch", (): any => {
   let themeModel = themePlugin.themeModel as ThemeModel;
   let header = themeModel.header as HeaderModel;
 
-  header["headerView"] = "advanced";
-  expect(header["backgroundColorSwitch"]).toEqual("accentColor");
+  expect(header["backgroundColorSwitch"]).toEqual("none");
   expect(header["backgroundColor"]).toBeUndefined();
 
-  header["backgroundColorSwitch"] = "none";
+  header["backgroundColorSwitch"] = "accentColor";
   expect(header["backgroundColor"]).toBeUndefined();
 
   creator.activeTab = "designer";
-  expect(creator.theme.cssVariables["--sjs-header-backcolor"]).toBe("transparent");
+  expect(creator.theme.cssVariables["--sjs-header-backcolor"]).toBe(HeaderModel.primaryColorStr);
 
   creator.activeTab = "theme";
   header = themeModel.header as HeaderModel;
 
-  expect(header["backgroundColorSwitch"]).toEqual("none");
+  expect(header["backgroundColorSwitch"]).toEqual("accentColor");
   expect(header["backgroundColor"]).toBeUndefined();
 
   header["backgroundColorSwitch"] = "custom";
@@ -242,12 +244,11 @@ test("headerViewContainer: background color", (): any => {
   let themeModel = themePlugin.themeModel as ThemeModel;
   let header = themeModel.header as HeaderModel;
 
-  header["headerView"] = "advanced";
-  expect(header["backgroundColorSwitch"]).toBe("accentColor");
+  expect(header["backgroundColorSwitch"]).toBe("none");
   expect(creator.theme.cssVariables["--sjs-header-backcolor"]).toBeUndefined();
 
-  header["backgroundColorSwitch"] = "none";
-  expect(creator.theme.cssVariables["--sjs-header-backcolor"]).toBe("transparent");
+  header["backgroundColorSwitch"] = "accentColor";
+  expect(creator.theme.cssVariables["--sjs-header-backcolor"]).toBe(HeaderModel.primaryColorStr);
 
   header["backgroundColorSwitch"] = "custom";
   expect(creator.theme.cssVariables["--sjs-header-backcolor"]).toBe("transparent");
@@ -255,7 +256,7 @@ test("headerViewContainer: background color", (): any => {
   header["backgroundColor"] = "#5094ed";
   expect(creator.theme.cssVariables["--sjs-header-backcolor"]).toBe("#5094ed");
 
-  header["backgroundColorSwitch"] = "accentColor";
+  header["backgroundColorSwitch"] = "none";
   expect(creator.theme.cssVariables["--sjs-header-backcolor"]).toBeUndefined();
 });
 
@@ -268,16 +269,15 @@ test("headerViewContainer: background color reset #5940", (): any => {
   let themeModel = themePlugin.themeModel as ThemeModel;
   let header = themeModel.header as HeaderModel;
 
-  header["headerView"] = "advanced";
-  expect(header["backgroundColorSwitch"]).toBe("accentColor");
+  expect(header["backgroundColorSwitch"]).toBe("none");
   expect(creator.theme.cssVariables["--sjs-header-backcolor"]).toBeUndefined();
   expect(themeModel.cssVariables["--sjs-header-backcolor"]).toBeUndefined();
 
-  header["backgroundColorSwitch"] = "none";
-  expect(creator.theme.cssVariables["--sjs-header-backcolor"]).toBe("transparent");
-  expect(themeModel.cssVariables["--sjs-header-backcolor"]).toBe("transparent");
-
   header["backgroundColorSwitch"] = "accentColor";
+  expect(creator.theme.cssVariables["--sjs-header-backcolor"]).toBe(HeaderModel.primaryColorStr);
+  expect(themeModel.cssVariables["--sjs-header-backcolor"]).toBe(HeaderModel.primaryColorStr);
+
+  header["backgroundColorSwitch"] = "none";
   expect(creator.theme.cssVariables["--sjs-header-backcolor"]).toBeUndefined();
   expect(themeModel.cssVariables["--sjs-header-backcolor"]).toBeUndefined();
 
@@ -301,8 +301,7 @@ test("header custom background color and theme changes", (): any => {
   expect(themeChooser.value).toEqual("default");
   expect(primaryBackColor.value).toEqual("rgba(25, 179, 148, 1)");
 
-  header["headerView"] = "advanced";
-  expect(header["backgroundColorSwitch"]).toEqual("accentColor");
+  expect(header["backgroundColorSwitch"]).toEqual("none");
   expect(header["backgroundColor"]).toBeUndefined();
 
   header["backgroundColorSwitch"] = "custom";
@@ -346,7 +345,6 @@ test("set backgroundImage into header", (): any => {
   const themeModel = new ThemeModel();
   const header = themeModel.header as HeaderModel;
 
-  header["headerView"] = "advanced";
   header.backgroundImage = "https://t4.ftcdn.net/jpg/02/83/13/61/360_F_283136113_b3VRHNiOPFMOluzYJPpfuoH8Czh9c743.jpg";
   header.backgroundImageFit = "contain";
   header.backgroundImageOpacity = 50;

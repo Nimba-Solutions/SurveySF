@@ -141,8 +141,9 @@ export default class SurveyJsEventDebugger extends LightningElement {
     // Group events by category
     this.organizeEventsByCategory();
 
-    // Mark drag-drop events as selected by default
-    this.selectDragDropEvents();
+    // We're not pre-selecting any events by default
+    // If you want to pre-select events, uncomment the line below
+    // this.selectDragDropEvents();
 
     this.isInitialized = true;
   }
@@ -252,9 +253,13 @@ export default class SurveyJsEventDebugger extends LightningElement {
       eventInfo.isSelected = isChecked;
 
       if (isChecked) {
-        this.selectedEvents.push(eventPath);
-        this.monitorEvent(eventInfo);
+        // Add to selected events if not already there
+        if (!this.selectedEvents.includes(eventPath)) {
+          this.selectedEvents.push(eventPath);
+          this.monitorEvent(eventInfo);
+        }
       } else {
+        // Remove from selected events
         this.selectedEvents = this.selectedEvents.filter(
           (e) => e !== eventPath
         );
@@ -266,11 +271,15 @@ export default class SurveyJsEventDebugger extends LightningElement {
   monitorEvent(eventInfo) {
     const { object, eventKey, path } = eventInfo;
 
-    if (!object || !object[eventKey]) return;
+    if (!object || !object[eventKey]) {
+      console.error(`Cannot monitor event: ${path} - object or event key not found`);
+      return;
+    }
 
     // Store original handler if not already stored
     if (!this.originalHandlers[path]) {
       this.originalHandlers[path] = object[eventKey].add;
+      console.log(`Stored original handler for ${path}`);
     }
 
     // Replace the add method to intercept event subscriptions
@@ -292,6 +301,7 @@ export default class SurveyJsEventDebugger extends LightningElement {
 
     // Add our own handler to capture events even if no one else subscribes
     object[eventKey].add(function () {});
+    console.log(`Successfully monitoring event: ${path}`);
   }
 
   unmonitorEvent(eventInfo) {
@@ -301,8 +311,13 @@ export default class SurveyJsEventDebugger extends LightningElement {
 
     // Restore original handler if we have it
     if (this.originalHandlers[path]) {
-      object[eventKey].add = this.originalHandlers[path];
-      delete this.originalHandlers[path];
+      try {
+        object[eventKey].add = this.originalHandlers[path];
+        delete this.originalHandlers[path];
+        console.log(`Restored original handler for ${path}`);
+      } catch (error) {
+        console.error(`Error restoring original handler for ${path}:`, error);
+      }
     }
   }
 
@@ -772,6 +787,36 @@ export default class SurveyJsEventDebugger extends LightningElement {
 
   handleClearLogs() {
     this.eventLogs = [];
+  }
+
+  handleClearAll() {
+    // Store currently selected events before clearing
+    const previouslySelected = [...this.selectedEvents];
+    
+    // Clear selected events array first
+    this.selectedEvents = [];
+    
+    // Unmonitor each previously selected event
+    previouslySelected.forEach(eventPath => {
+      const eventInfo = this.monitoredEvents.get(eventPath);
+      if (eventInfo) {
+        eventInfo.isSelected = false;
+        this.unmonitorEvent(eventInfo);
+      }
+    });
+    
+    // Update the UI
+    this.eventCategories.forEach(category => {
+      category.events.forEach(event => {
+        event.isSelected = false;
+      });
+    });
+    
+    // Force refresh of the categories
+    this.eventCategories = [...this.eventCategories];
+    
+    // Show a toast notification
+    this.showToast('Events Cleared', 'All event selections have been cleared', 'success');
   }
 
   get hasLogs() {

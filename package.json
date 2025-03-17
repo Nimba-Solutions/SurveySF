@@ -1,0 +1,38 @@
+{
+    "name": "surveysf",
+    "version": "1.0.0",
+    "description": "Survey creator application",
+    "scripts": {
+        "install": "npm run install:library && npm run install:creator",
+        "install:library": "bash scripts/install-library.sh",
+        "install:creator": "bash scripts/install-creator.sh",
+        "build": "npm run build:library && npm run build:creator",
+        "build:library": "bash scripts/build-library.sh",
+        "build:creator": "bash scripts/build-creator.sh",
+        "dev:creator": "bash scripts/start-creator-dev.sh",
+        "dev:library": "bash scripts/start-library-dev.sh",
+        "collect": "npm run collect:library && npm run collect:creator",
+        "collect:library": "bash scripts/copy-library-static.sh",
+        "collect:creator": "bash scripts/copy-creator-static.sh",
+        "build:collect": "npm run build && npm run collect",
+        "build:collect:library": "npm run build:library && npm run collect:library",
+        "build:collect:creator": "npm run build:creator && npm run collect:creator"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Nimba-Solutions/SurveySF.git"
+    },
+    "keywords": [
+        "survey",
+        "salesforce",
+        "surveyjs"
+    ],
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "survey-core": "file:surveyjs/survey-library/packages/survey-core/build",
+        "survey-js-ui": "file:surveyjs/survey-library/packages/survey-js-ui/build",
+        "survey-creator-core": "file:surveyjs/survey-creator/packages/survey-creator-core/build",
+        "survey-creator-js": "file:surveyjs/survey-creator/packages/survey-creator-js/build"
+    }
+}

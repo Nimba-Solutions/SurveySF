@@ -4,14 +4,24 @@
     </lightning-card>
 </template> -->
 <template>
-    <!-- <lightning-card title="My Survey"> -->
-        <div class="exampleHolder">
+    <div class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span>SurveyJS Creator</span>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
             <template if:false={loaded}>
-                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
             </template>
-        </div>
-        <div class="slds-m-around_medium">
+            <c-survey-js-event-debugger creator-instance={creatorInstance}></c-survey-js-event-debugger>
+            <br />
             <div class="surveyContainer" lwc:dom="manual"></div>
+
         </div>
-    <!-- </lightning-card> -->
+    </div>
 </template>

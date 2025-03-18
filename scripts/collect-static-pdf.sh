@@ -28,13 +28,12 @@ copy_file() {
     fi
 }
 
-# Determine the main built files from the survey-pdf package
-# Based on the webpack config in survey-pdf, the main output is survey-pdf.min.js
-echo "Copying survey-pdf.min.js..."
-copy_file "$ROOT/surveyjs/survey-pdf/build/survey-pdf.min.js" "$STATIC_RESOURCES/surveypdf.js"
+# The actual file names based on the directory listing
+echo "Copying survey.pdf.min.js..."
+copy_file "$ROOT/surveyjs/survey-pdf/build/survey.pdf.min.js" "$STATIC_RESOURCES/surveypdf.js"
 
-echo "Copying survey-pdf-font.min.js..."
-copy_file "$ROOT/surveyjs/survey-pdf/build/survey-pdf-font.min.js" "$STATIC_RESOURCES/surveypdffonts.js"
+echo "Copying survey.pdf.fonts.min.js..."
+copy_file "$ROOT/surveyjs/survey-pdf/build/survey.pdf.fonts.min.js" "$STATIC_RESOURCES/surveypdffonts.js"
 
 echo "-----------------------------------------"
 echo "Survey PDF copy operations completed"

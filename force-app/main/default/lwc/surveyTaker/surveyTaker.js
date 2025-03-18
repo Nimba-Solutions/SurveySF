@@ -3,7 +3,7 @@ import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import SURVEY_CORE from '@salesforce/resourceUrl/surveycore'; //JS
 import SURVEY_JS_UI from '@salesforce/resourceUrl/surveyjsui'; //JS
 import SurveyJsPdf from '@salesforce/resourceUrl/SurveyJsPdf'; //JS
-import SurveyPdf from '@salesforce/resourceUrl/SurveyPdf'; //JS
+import SURVEY_PDF from '@salesforce/resourceUrl/surveypdfminjs'; //JS
 import SURVEY_CORE_CSS from "@salesforce/resourceUrl/surveycoremin"; //CSS
 import SURVEY_CREATOR_CORE_CSS from '@salesforce/resourceUrl/surveycreatorcorecss'; //CSS
 import SURVEY_CREATOR_CORE_JS from '@salesforce/resourceUrl/surveycreatorcorejs'; //CSS
@@ -43,12 +43,12 @@ export default class SurveyTaker extends LightningElement {
                                     this.initializeSurvey();
                                     // loadScript(this, SurveyJsPdf)
                                     // .then(() => {
-                                    //     loadScript(this, SurveyPdf)
+                                    //     loadScript(this, SURVEY_PDF)
                                     //     .then(() => {
                                     //         this.initializeSurvey();
                                     //     })
                                     //     .catch(error => {
-                                    //         console.error('Error loading SurveyPdf resources:', error);
+                                    //         console.error('Error loading SURVEY_PDF resources:', error);
                                     //     });
                                     // })
                                     // .catch(error => {

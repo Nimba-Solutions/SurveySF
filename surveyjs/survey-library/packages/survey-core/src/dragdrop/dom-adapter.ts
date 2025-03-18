@@ -45,7 +45,10 @@ export class DragDropDOMAdapter implements IDragDropDOMAdapter {
 
   constructor(private dd: IDragDropEngine, private longTap: boolean = true, private fitToContainer:boolean = false) {}
 
-  public get documentOrShadowRoot(): Document | ShadowRoot {
+  public get documentOrShadowRoot(): any {
+    if(settings.environment.root.baseURI.includes("lightning.force.com")) {
+      return this.rootContainer.parentNode.parentNode.parentNode.parentNode;
+    }
     return settings.environment.root;
   }
   public get rootElement():any {

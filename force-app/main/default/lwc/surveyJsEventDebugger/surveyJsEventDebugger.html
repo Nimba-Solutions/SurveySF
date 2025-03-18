@@ -39,6 +39,16 @@
                 <div class="tab-nav">
                     <lightning-tabset variant="scoped">
                         <lightning-tab label="Available Events" title="Available Events">
+                            <div class="slds-grid slds-grid_vertical-align-center slds-p-bottom_x-small">
+                                <div class="slds-text-title_caps slds-grow">
+                                    Available Events
+                                </div>
+                                <div class="slds-grid slds-grid_align-end">
+                                    <lightning-button label="Clear All" variant="neutral" onclick={handleClearAll}
+                                        title="Deselect all events">
+                                    </lightning-button>
+                                </div>
+                            </div>
                             <div class="event-categories slds-scrollable_y">
                                 <template for:each={eventCategories} for:item="category">
                                     <div key={category.name} class="slds-p-bottom_small">

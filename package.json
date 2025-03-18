@@ -12,8 +12,8 @@
         "dev:creator": "bash scripts/start-creator-dev.sh",
         "dev:library": "bash scripts/start-library-dev.sh",
         "collect": "npm run collect:library && npm run collect:creator",
-        "collect:library": "bash scripts/collect-static-creator.sh",
-        "collect:creator": "bash scripts/copy-creator-static.sh",
+        "collect:library": "bash scripts/collect-static-library.sh",
+        "collect:creator": "bash scripts/collect-static-creator.sh",
         "build:collect": "npm run build && npm run collect",
         "build:collect:library": "npm run build:library && npm run collect:library",
         "build:collect:creator": "npm run build:creator && npm run collect:creator"

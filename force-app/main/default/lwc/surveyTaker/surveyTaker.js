@@ -4,7 +4,7 @@ import SURVEY_CORE from '@salesforce/resourceUrl/surveycore'; //JS
 import SURVEY_JS_UI from '@salesforce/resourceUrl/surveyjsui'; //JS
 import SurveyJsPdf from '@salesforce/resourceUrl/SurveyJsPdf'; //JS
 import SurveyPdf from '@salesforce/resourceUrl/SurveyPdf'; //JS
-import DEFAULTV2 from '@salesforce/resourceUrl/defaultV2'; //CSS
+import SURVEY_CORE_CSS from "@salesforce/resourceUrl/surveycoremin"; //CSS
 import SURBEY_CREATOR_CORE_CSS from '@salesforce/resourceUrl/surveycreatorcorecss'; //CSS
 import SURBEY_CREATOR_CORE_JS from '@salesforce/resourceUrl/surveycreatorcorejs'; //CSS
 // import SurveyDarkTheme_JS from '@salesforce/resourceUrl/SurveyDarkTheme'; //CSS
@@ -28,7 +28,7 @@ export default class SurveyTaker extends LightningElement {
         }
         this.surveyInitialized = true;
 
-        loadStyle(this, DEFAULTV2)
+        loadStyle(this, SURVEY_CORE_CSS)
             .then(() => {
                 loadScript(this, SURVEY_CORE)
                 .then(() => {

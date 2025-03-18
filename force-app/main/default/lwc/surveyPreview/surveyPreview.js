@@ -2,7 +2,7 @@ import { LightningElement } from 'lwc';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import SURVEY_CORE from '@salesforce/resourceUrl/surveycore'; //JS
 import SURVEY_JS_UI from '@salesforce/resourceUrl/surveyjsui'; //JS
-import DEFAULTV2 from '@salesforce/resourceUrl/defaultV2'; //CSS
+import SURVEY_CORE_CSS from "@salesforce/resourceUrl/surveycoremin"; //CSS
 import SurveyJsPdf from '@salesforce/resourceUrl/SurveyJsPdf'; //JS
 import SurveyPdf from '@salesforce/resourceUrl/SurveyPdf'; //JS
 import SURBEY_CREATOR_CORE_CSS from '@salesforce/resourceUrl/surveycreatorcorecss'; //CSS
@@ -23,7 +23,7 @@ export default class SurveyPreview extends LightningElement {
         }
         this.surveyInitialized = true;
 
-        loadStyle(this, DEFAULTV2)
+        loadStyle(this, SURVEY_CORE_CSS)
             .then(() => {
                 loadScript(this, SURVEY_CORE)
                 .then(() => {

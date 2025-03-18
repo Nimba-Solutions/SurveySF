@@ -3,20 +3,25 @@
     "version": "1.0.0",
     "description": "Survey creator application",
     "scripts": {
-        "install": "npm run install:library && npm run install:creator",
+        "install": "npm run install:library && npm run install:creator && npm run install:pdf",
         "install:library": "bash scripts/install-library.sh",
         "install:creator": "bash scripts/install-creator.sh",
-        "build": "npm run build:library && npm run build:creator",
+        "install:pdf": "bash scripts/install-pdf.sh",
+        "build": "npm run build:library && npm run build:creator && npm run build:pdf",
         "build:library": "bash scripts/build-library.sh",
         "build:creator": "bash scripts/build-creator.sh",
+        "build:pdf": "bash scripts/build-pdf.sh",
         "dev:creator": "bash scripts/start-creator-dev.sh",
         "dev:library": "bash scripts/start-library-dev.sh",
-        "collect": "npm run collect:library && npm run collect:creator",
+        "dev:pdf": "bash scripts/start-pdf-dev.sh",
+        "collect": "npm run collect:library && npm run collect:creator && npm run collect:pdf",
         "collect:library": "bash scripts/collect-static-library.sh",
         "collect:creator": "bash scripts/collect-static-creator.sh",
+        "collect:pdf": "bash scripts/collect-static-pdf.sh",
         "build:collect": "npm run build && npm run collect",
         "build:collect:library": "npm run build:library && npm run collect:library",
-        "build:collect:creator": "npm run build:creator && npm run collect:creator"
+        "build:collect:creator": "npm run build:creator && npm run collect:creator",
+        "build:collect:pdf": "npm run build:pdf && npm run collect:pdf"
     },
     "repository": {
         "type": "git",
@@ -33,6 +38,7 @@
         "survey-core": "file:surveyjs/survey-library/packages/survey-core/build",
         "survey-js-ui": "file:surveyjs/survey-library/packages/survey-js-ui/build",
         "survey-creator-core": "file:surveyjs/survey-creator/packages/survey-creator-core/build",
-        "survey-creator-js": "file:surveyjs/survey-creator/packages/survey-creator-js/build"
+        "survey-creator-js": "file:surveyjs/survey-creator/packages/survey-creator-js/build",
+        "survey-pdf": "file:surveyjs/survey-pdf/build"
     }
 }

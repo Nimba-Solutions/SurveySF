@@ -82,8 +82,8 @@ export default class SurveyPreview extends LightningElement {
         if (window.Survey) {
             // let url = new URL(window.location.href);
             
-            if(window.location.href.includes('Survey_Response__c')){
-                let recordId = window.location.href.split('Survey_Response__c/')[1].split('/')[0];
+            if(window.location.href.includes('SurveyResponse__c')){
+                let recordId = window.location.href.split('SurveyResponse__c/')[1].split('/')[0];
 
                 getSurveyResponse({recId : recordId})
                 .then(result => {

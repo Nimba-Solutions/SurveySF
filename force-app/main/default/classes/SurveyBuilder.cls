@@ -66,10 +66,10 @@ public class SurveyBuilder {
     }
 
     @AuraEnabled
-    public static Survey_Response__c getSurveyResponse(Id recId){
+    public static SurveyResponse__c getSurveyResponse(Id recId){
         try {
             system.debug('recId-'+recId);
-            return [SELECT Id,Survey_Version__r.Body__c,Body__c FROM Survey_Response__c WHERE Id = :recId];
+            return [SELECT Id,Survey_Version__r.Body__c,Body__c FROM SurveyResponse__c WHERE Id = :recId];
 
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());

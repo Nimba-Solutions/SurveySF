@@ -38,7 +38,8 @@ public with sharing class SurveyService {
             version = new SurveyVersion__c(
                 Survey__c = survey.Id,
                 VersionNumber__c = versionNumber,
-                Body__c = jsonInput
+                Body__c = jsonInput,
+                Name = (String)surveyData.get('title') + ' v' + versionNumber
             );
 
             if(isUpdate){

@@ -21,7 +21,7 @@ public without sharing class SurveyTaker {
        @AuraEnabled
     public static void saveResponse(String response,Id recId,Id surveyId){
         try {
-            insert new Survey_Response__c(Body__c=response,Survey_Version__c = recId,Survey__c = surveyId);
+            insert new SurveyResponse__c(Body__c=response,Survey_Version__c = recId,Survey__c = surveyId);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }

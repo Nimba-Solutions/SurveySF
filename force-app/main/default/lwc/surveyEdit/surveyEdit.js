@@ -9,7 +9,7 @@ export default class SurveyEdit extends LightningElement {
         getSurveyVersionBySurvey({recId : recordId})
         .then(result => {
             
-            let builderUrl = window.location.href.split('lightning/')[0] + 'lightning/n/SurveyJS?versionId=' + result[0].Id;
+            let builderUrl = window.location.href.split('lightning/')[0] + 'lightning/n/SurveyBuilder?versionId=' + result[0].Id;
 
             window.location.href = builderUrl;
 

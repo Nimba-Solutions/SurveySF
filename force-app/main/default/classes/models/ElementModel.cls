@@ -1,10 +1,10 @@
 public class ElementModel {
-    public Id id { get; set; }
-    public Id pageId { get; set; }
-    public String name { get; set; }
-    public String type { get; set; }
-    public Decimal sequence { get; set; }
-    public String body { get; set; }
+    @AuraEnabled public Id id { get; set; }
+    @AuraEnabled public Id pageId { get; set; }
+    @AuraEnabled public String name { get; set; }
+    @AuraEnabled public String type { get; set; }
+    @AuraEnabled public Decimal sequence { get; set; }
+    @AuraEnabled public String body { get; set; }
 
     public static ElementModel toJson(Element__c element) {
         ElementModel model = new ElementModel();

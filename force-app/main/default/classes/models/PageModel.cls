@@ -1,10 +1,10 @@
 public class PageModel {
-    public Id id { get; set; }
-    public Id surveyVersionId { get; set; }
-    public String name { get; set; }
-    public Decimal sequence { get; set; }
-    public String body { get; set; }
-    public List<ElementModel> elements { get; set; }
+    @AuraEnabled public Id id { get; set; }
+    @AuraEnabled public Id surveyVersionId { get; set; }
+    @AuraEnabled public String name { get; set; }
+    @AuraEnabled public Decimal sequence { get; set; }
+    @AuraEnabled public String body { get; set; }
+    @AuraEnabled public List<ElementModel> elements { get; set; }
 
     public static PageModel toJson(Page__c page) {
         PageModel model = new PageModel();

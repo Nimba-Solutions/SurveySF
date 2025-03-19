@@ -1,9 +1,9 @@
 public class SurveyModel {
-    public Id id { get; set; }
-    public String title { get; set; }
-    public String description { get; set; }
-    public Id activeVersionId { get; set; }
-    public List<SurveyVersionModel> versions { get; set; }
+    @AuraEnabled public Id id { get; set; }
+    @AuraEnabled public String title { get; set; }
+    @AuraEnabled public String description { get; set; }
+    @AuraEnabled public Id activeVersionId { get; set; }
+    @AuraEnabled public List<SurveyVersionModel> versions { get; set; }
 
     public static SurveyModel toJson(Survey__c survey) {
         SurveyModel model = new SurveyModel();

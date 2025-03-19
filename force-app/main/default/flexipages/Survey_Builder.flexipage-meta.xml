@@ -3,8 +3,8 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>surveyCreatorLWC</componentName>
-                <identifier>c_surveyCreatorLWC</identifier>
+                <componentName>surveyBuilder</componentName>
+                <identifier>c_surveyBuilder</identifier>
             </componentInstance>
         </itemInstances>
         <name>main</name>

@@ -1,5 +1,6 @@
 import { LightningElement,wire } from 'lwc';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import SURVEY_CORE from '@salesforce/resourceUrl/surveycore'; //JS
 import SURVEY_JS_UI from '@salesforce/resourceUrl/surveyjsui'; //JS
 import SURVEY_CORE_CSS from "@salesforce/resourceUrl/surveycoremin"; //CSS
@@ -7,11 +8,10 @@ import SURVEY_CREATOR_CORE_CSS from '@salesforce/resourceUrl/surveycreatorcorecs
 import SURVEY_CREATOR_CORE_JS from '@salesforce/resourceUrl/surveycreatorcorejs'; //JS
 import SURVEY_CREATOR_JS from '@salesforce/resourceUrl/surveycreatormin'; //JS
 import SURVEY_INDEX_JS from '@salesforce/resourceUrl/indexmin'; //JS
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import DEFAULT_SURVEY_JSON from '@salesforce/resourceUrl/defaultSurveyJson'; //JSON
 import createSurveyFromJSON from '@salesforce/apex/SurveyBuilder.createSurveyFromJSON';
 import getSurveyVersion from '@salesforce/apex/SurveyBuilder.getSurveyVersion';
 import markActive from '@salesforce/apex/SurveyBuilder.markActive';
-import { defaultSurveyJson } from './defaultSurveyJson';
 
 export default class SurveyBuilder extends LightningElement {
     surveyInitialized = false;
@@ -26,6 +26,7 @@ export default class SurveyBuilder extends LightningElement {
     changesUnSaved = false;
     siteDomain = '';
     creator = null;
+    defaultSurveyJson;
 
     connectedCallback(){
         const queryString = window.location.search;
@@ -43,8 +44,6 @@ export default class SurveyBuilder extends LightningElement {
                     this.surveyJson = JSON.parse(this.surveyVersionRec.Body__c);
                     this.surveyVersionList = JSON.parse(result.surveyVersionList);
                 }
-
-                // this.disableSave = false;
             }).catch(error => {
                 console.error('Error loading getSurveyVersion:', JSON.stringify(error));
             });
@@ -71,7 +70,16 @@ export default class SurveyBuilder extends LightningElement {
                                 .then(() => {
                                     loadScript(this, SURVEY_INDEX_JS)
                                     .then(() => {
-                                        this.initializeSurvey();
+                                        // Load the default survey JSON
+                                        fetch(DEFAULT_SURVEY_JSON)
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                this.defaultSurveyJson = data;
+                                                this.initializeSurvey();
+                                            })
+                                            .catch(error => {
+                                                console.error('Error loading default survey JSON:', error);
+                                            });
                                     })
                                     .catch(error => {
                                         console.error('Error loading SURVEY_INDEX_JS resources:', error);
@@ -118,11 +126,10 @@ export default class SurveyBuilder extends LightningElement {
             const creator = new SurveyCreator.SurveyCreator(creatorOptions);
             this.creator = creator;
             
-            creator.text = Object.keys(tempThis.surveyJson).length === 0 ? JSON.stringify(defaultSurveyJson) : JSON.stringify(tempThis.surveyJson);
+            creator.text = Object.keys(tempThis.surveyJson).length === 0 ? JSON.stringify(this.defaultSurveyJson) : JSON.stringify(tempThis.surveyJson);
             creator.saveSurveyFunc = (saveNo, callback) => { 
                 tempThis.disableSave = true;
                 tempThis.changesUnSaved = true;
-                // window.localStorage.setItem("survey-json", creator.text);
                 tempThis.surveyJson = JSON.parse(creator.text);
                 callback(saveNo, true);
             };

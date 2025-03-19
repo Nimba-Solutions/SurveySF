@@ -178,7 +178,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>SurveyResponse__c.Survey_Version__c</relatedList>
+        <relatedList>SurveyResponse__c.SurveyVersion__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>

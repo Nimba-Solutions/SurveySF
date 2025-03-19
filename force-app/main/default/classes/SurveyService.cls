@@ -14,7 +14,7 @@ public with sharing class SurveyService {
         return JSON.serialize(surveyModel);
     }
 
-    public static Id createRecordsFromJson(String jsonInput, SurveyVersion__c surveyVersion, Boolean isUpdate) {
+    public static Id createRecordsFromJson(String jsonInput, SurveyVersion__c surveyVersion) {
         try {
             // Deserialize into SurveyModel
             SurveyModel surveyModel = (SurveyModel)JSON.deserialize(jsonInput, SurveyModel.class);
@@ -46,24 +46,17 @@ public with sharing class SurveyService {
             versionModel.body = jsonInput;
             versionModel.status = 'Draft';
 
-            if(isUpdate && surveyVersion != null) {
-                // Update existing version
-                versionModel.id = surveyVersion.Id;
-                version = versionModel.toRecord();
-                update version;
+            if(survey.Id != null) {
+                if(survey.Status__c == 'Draft') {
+                    // Update existing version
+                    versionModel.id = surveyVersion.Id;
+                    version = versionModel.toRecord();
+                    update version;
+                } 
             } else {
                 // Create new version
                 version = versionModel.toRecord();
                 insert version;
-            }
-            
-            // Delete existing pages and elements if updating
-            if(isUpdate && surveyVersion != null) {
-                List<Page__c> existingPages = [SELECT Id FROM Page__c WHERE SurveyVersion__c = :surveyVersion.Id];
-                if(!existingPages.isEmpty()) {
-                    delete [SELECT Id FROM Element__c WHERE Page__c IN :existingPages];
-                    delete existingPages;
-                }
             }
             
             // Create Page records

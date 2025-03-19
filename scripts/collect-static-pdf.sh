@@ -31,7 +31,7 @@ copy_file() {
 
 # Copy Survey PDF Files to Static Resources
 echo "Copying survey.pdf.min.js..."
-copy_file "$ROOT/surveyjs/survey-pdf/build/survey.pdf.min.js" "$STATIC_RESOURCES/surveypdf.js"
+copy_file "$ROOT/surveyjs/survey-pdf/build/survey.pdf.min.js" "$STATIC_RESOURCES/surveypdfmin.js"
 
 echo "Copying survey.pdf.fonts.min.js..."
 copy_file "$ROOT/surveyjs/survey-pdf/build/survey.pdf.fonts.min.js" "$STATIC_RESOURCES/surveypdffonts.js"

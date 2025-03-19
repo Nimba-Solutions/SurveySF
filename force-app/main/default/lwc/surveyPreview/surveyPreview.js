@@ -3,8 +3,8 @@ import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import SURVEY_CORE from '@salesforce/resourceUrl/surveycore'; //JS
 import SURVEY_JS_UI from '@salesforce/resourceUrl/surveyjsui'; //JS
 import SURVEY_CORE_CSS from "@salesforce/resourceUrl/surveycoremin"; //CSS
-import SurveyJsPdf from '@salesforce/resourceUrl/SurveyJsPdf'; //JS
 import SURVEY_PDF from '@salesforce/resourceUrl/surveypdfminjs'; //JS
+import JS_PDF from '@salesforce/resourceUrl/jspdfmin'; //JS
 import SURVEY_CREATOR_CORE_CSS from '@salesforce/resourceUrl/surveycreatorcorecss'; //CSS
 import SURVEY_CREATOR_CORE_JS from '@salesforce/resourceUrl/surveycreatorcorejs'; //CSS
 import SURVEY_CREATOR_JS from '@salesforce/resourceUrl/surveycreatormin'; //CSS
@@ -35,18 +35,18 @@ export default class SurveyPreview extends LightningElement {
                             .then(() => {
                                 loadScript(this, SURVEY_CREATOR_JS)
                                 .then(() => {
-                                    loadScript(this, SurveyJsPdf)
+                                    loadScript(this, SURVEY_PDF)
                                     .then(() => {
-                                        loadScript(this, SURVEY_PDF)
+                                        loadScript(this, JS_PDF)
                                         .then(() => {
                                             this.initializeSurvey();
                                         })
                                         .catch(error => {
-                                            console.error('Error loading SURVEY_PDF resources:', error);
+                                            console.error('Error loading JS_PDF resources:', error);
                                         });
                                     })
                                     .catch(error => {
-                                        console.error('Error loading SurveyJsPdf resources:', error);
+                                        console.error('Error loading SURVEY_PDF resources:', error);
                                     });
                                 })
                                 .catch(error => {

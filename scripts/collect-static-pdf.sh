@@ -35,6 +35,9 @@ copy_file "$ROOT/surveyjs/survey-pdf/build/survey.pdf.min.js" "$STATIC_RESOURCES
 echo "Copying survey.pdf.fonts.min.js..."
 copy_file "$ROOT/surveyjs/survey-pdf/build/survey.pdf.fonts.min.js" "$STATIC_RESOURCES/surveypdffonts.js"
 
+echo "Copying jspdf.umd.min.js..."
+copy_file "$ROOT/surveyjs/survey-pdf/node_modules/jspdf/dist/jspdf.umd.min.js" "$STATIC_RESOURCES/jspdfmin.js"
+
 echo "-----------------------------------------"
 echo "Survey PDF copy operations completed"
 echo "-----------------------------------------" 

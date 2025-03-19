@@ -8,24 +8,27 @@ public with sharing class SurveyService {
 
     public static Id createRecordsFromJson(String jsonInput,SurveyVersion__c surveyVersion, Boolean isUpdate) {
         try {
-
             // Deserialize the JSON input into a Map
             Map<String, Object> surveyData = (Map<String, Object>) JSON.deserializeUntyped(jsonInput);
             Survey__c survey;
             Decimal versionNumber = 0;
             
             if(surveyVersion != null){
-                // Create Survey record
-                survey = new Survey__c(
-                    Id = surveyVersion.Survey__c,
-                    Name = (String)surveyData.get('title')
-                );
-                update survey;
+                // Get existing survey
+                survey = [SELECT Id, Name FROM Survey__c WHERE Id = :surveyVersion.Survey__c];
+                
+                // Update survey name if changed
+                if(survey.Name != (String)surveyData.get('title')) {
+                    survey.Name = (String)surveyData.get('title');
+                    update survey;
+                }
        
+                // If updating existing version, keep same version number
+                // If creating new version (from Active), increment version number
                 versionNumber = isUpdate ? surveyVersion.VersionNumber__c : (surveyVersion.VersionNumber__c + 1);
-            }else{
+            } else {
+                // This is a new survey
                 versionNumber = 1;
-                // Create Survey record
                 survey = new Survey__c(
                     Name = (String)surveyData.get('title')
                 );
@@ -34,20 +37,27 @@ public with sharing class SurveyService {
 
             SurveyVersion__c version;
 
-            // Create SurveyVersion record
+            // Create or update SurveyVersion record
             version = new SurveyVersion__c(
                 Survey__c = survey.Id,
                 VersionNumber__c = versionNumber,
                 Body__c = jsonInput,
-                Name = (String)surveyData.get('title') + ' v' + versionNumber
+                Name = (String)surveyData.get('title')
             );
 
             if(isUpdate){
                 version.Id = surveyVersion.Id;
-
                 update version;
-            }else{
+            } else {
                 insert version;
+            }
+            
+            // Delete existing pages and elements if updating
+            if(isUpdate) {
+                List<Page__c> existingPages = [SELECT Id FROM Page__c WHERE SurveyVersion__c = :version.Id];
+                if(!existingPages.isEmpty()) {
+                    delete existingPages;
+                }
             }
             
             // Create Page records
@@ -87,7 +97,7 @@ public with sharing class SurveyService {
                 insert elements;
             }
             
-            System.debug('Survey created successfully. Survey Id: ' + survey.Id);
+            System.debug('Survey created/updated successfully. Survey Id: ' + survey.Id);
             System.debug('Number of pages created: ' + pages.size());
             System.debug('Number of elements created: ' + elements.size());
 

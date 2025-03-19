@@ -173,12 +173,12 @@ export default class SurveyBuilder extends LightningElement {
             this.changesUnSaved = false;
             this.disableSave = true;
 
-            // If we got a new version ID back, show a link in the toast
-            if(res && res !== this.surveyVersionRec?.Id) {
+            // Only show the new version link if we created a new version
+            if(res && this.surveyVersionRec?.Status__c === 'Active') {
                 let urli = window.location.href;
                 let customURL = urli.split('surveyId__c=')[0];
                 customURL = customURL + 'surveyId__c=' + res;
-                this.showSuccessToast(`Survey saved successfully. <a href="${customURL}" target="_blank">View new version</a>`);
+                this.showSuccessToast('Survey saved successfully. Click to view new version', customURL);
             } else {
                 this.showSuccessToast('Survey saved successfully');
             }
@@ -260,14 +260,14 @@ export default class SurveyBuilder extends LightningElement {
         this.dispatchEvent(evt);
     }
 
-    showSuccessToast(msg) {
+    showSuccessToast(msg, url) {
         const evt = new ShowToastEvent({
             title: 'Success',
             message: msg,
             variant: 'success',
             mode: 'dismissable',
             messageData: {
-                url: msg.includes('View new version') ? msg.split('"')[1] : null
+                url: url
             }
         });
         this.dispatchEvent(evt);

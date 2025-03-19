@@ -173,15 +173,11 @@ export default class SurveyBuilder extends LightningElement {
             this.changesUnSaved = false;
             this.disableSave = true;
 
-            // Only show the new version link if we created a new version
-            if(res && this.surveyVersionRec?.Status__c === 'Active') {
-                let urli = window.location.href;
-                let customURL = urli.split('surveyId__c=')[0];
-                customURL = customURL + 'surveyId__c=' + res;
-                this.showSuccessToast('Survey saved successfully. Click to view new version', customURL);
-            } else {
-                this.showSuccessToast('Survey saved successfully');
-            }
+            // Construct proper Salesforce URL for the version
+            let baseUrl = window.location.origin;
+            let path = window.location.pathname;
+            let customURL = baseUrl + path + '?surveyId__c=' + res;
+            this.showSuccessToast('Survey saved successfully. Click {0} to view version', customURL);
         }).catch(err => {
             console.error('Error saving survey:', err);
             this.showErrorToast('Error saving survey');
@@ -266,9 +262,12 @@ export default class SurveyBuilder extends LightningElement {
             message: msg,
             variant: 'success',
             mode: 'dismissable',
-            messageData: {
-                url: url
-            }
+            messageData: [
+                {
+                    url: url,
+                    label: 'here'
+                }
+            ]
         });
         this.dispatchEvent(evt);
     }

@@ -43,14 +43,10 @@ export default class SurveyBuilder extends LightningElement {
                     this.surveyVersionRec = JSON.parse(result.version);
                     this.surveyJson = JSON.parse(this.surveyVersionRec.Body__c);
                     this.surveyVersionList = JSON.parse(result.surveyVersionList);
-                    this.initializeSurvey();
                 }
             }).catch(error => {
                 console.error('Error loading getSurveyVersion:', JSON.stringify(error));
-                this.notFound = true;
             });
-        } else {
-            this.initializeSurvey();
         }
     }
 
@@ -74,13 +70,12 @@ export default class SurveyBuilder extends LightningElement {
                                 .then(() => {
                                     loadScript(this, SURVEY_INDEX_JS)
                                     .then(() => {
+                                        // Load the default survey JSON
                                         fetch(DEFAULT_SURVEY_JSON)
                                             .then(response => response.json())
                                             .then(data => {
                                                 this.defaultSurveyJson = data;
-                                                if (!this.surveyVersionRec) {
-                                                    this.initializeSurvey();
-                                                }
+                                                this.initializeSurvey();
                                             })
                                             .catch(error => {
                                                 console.error('Error loading default survey JSON:', error);
@@ -119,8 +114,10 @@ export default class SurveyBuilder extends LightningElement {
     }
 
     initializeSurvey() {
+    
         let tempThis = this;
         if (window.Survey && !this.notFound) {
+
             const creatorOptions = {
                 showLogicTab: true,
                 isAutoSave: true
@@ -129,10 +126,7 @@ export default class SurveyBuilder extends LightningElement {
             const creator = new SurveyCreator.SurveyCreator(creatorOptions);
             this.creator = creator;
             
-            creator.text = this.surveyVersionRec ? 
-                JSON.stringify(this.surveyJson) : 
-                JSON.stringify(this.defaultSurveyJson);
-                
+            creator.text = Object.keys(tempThis.surveyJson).length === 0 ? JSON.stringify(this.defaultSurveyJson) : JSON.stringify(tempThis.surveyJson);
             creator.saveSurveyFunc = (saveNo, callback) => { 
                 tempThis.disableSave = false;  // Enable save when changes are detected
                 tempThis.changesUnSaved = true;
@@ -179,11 +173,15 @@ export default class SurveyBuilder extends LightningElement {
             this.changesUnSaved = false;
             this.disableSave = true;
 
-            // Construct proper Salesforce URL for the version
-            let baseUrl = window.location.origin;
-            let path = window.location.pathname;
-            let customURL = baseUrl + path + '?versionId=' + res;
-            this.showSuccessToast('Survey saved successfully. Click {0} to view version', customURL);
+            // If we got a new version ID back, show a link in the toast
+            if(res && res !== this.surveyVersionRec?.Id) {
+                let urli = window.location.href;
+                let customURL = urli.split('versionId=')[0];
+                customURL = customURL + 'versionId=' + res;
+                this.showSuccessToast('Survey saved successfully. Click to view new version', customURL);
+            } else {
+                this.showSuccessToast('Survey saved successfully');
+            }
         }).catch(err => {
             console.error('Error saving survey:', err);
             this.showErrorToast('Error saving survey');
@@ -196,11 +194,13 @@ export default class SurveyBuilder extends LightningElement {
     }
 
     openVersion(event){
+        
         let surveyid = event.currentTarget.dataset.surveyid;
         let urli = window.location.href;
         let customURL = urli.split('versionId=')[0];
         customURL = customURL+'versionId='+surveyid;
         window.location.href = customURL;
+        // window.open(customURL);
     }
 
     clickDropDown(){

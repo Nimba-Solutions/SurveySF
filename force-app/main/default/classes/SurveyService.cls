@@ -26,8 +26,8 @@ public with sharing class SurveyService {
                 survey = [SELECT Id, Name FROM Survey__c WHERE Id = :surveyVersion.Survey__c];
                 
                 // Update survey name if changed
-                if(survey.Name != surveyModel.name) {
-                    survey.Name = surveyModel.name;
+                if(survey.Name != surveyModel.title) {
+                    survey.Name = surveyModel.title;
                     update survey;
                 }
                 
@@ -112,6 +112,51 @@ public with sharing class SurveyService {
         } catch (Exception e) {
             System.debug('Error creating records from JSON: ' + e.getMessage());
             System.debug('Stack trace: ' + e.getStackTraceString());
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+    @AuraEnabled
+    public static Map<String, Object> getSurveyVersion(Id recId) {
+        try {
+            SurveyVersion__c version = [SELECT Id, Name, Body__c, Status__c, Survey__c, VersionNumber__c, ActivatedDate__c FROM SurveyVersion__c WHERE Id = :recId];
+            SurveyVersionModel model = SurveyVersionModel.toJson(version);
+            return new Map<String, Object>{
+                'version' => JSON.serialize(model),
+                'siteDomain' => Site.getDomain(),
+                'surveyId' => model.surveyId
+            };
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+    @AuraEnabled
+    public static Map<String, Object> getLatestVersion(Id surveyId) {
+        try {
+            SurveyVersion__c version = [SELECT Id, Name, Body__c, Status__c, Survey__c, VersionNumber__c, ActivatedDate__c FROM SurveyVersion__c WHERE Survey__c = :surveyId ORDER BY VersionNumber__c DESC LIMIT 1];
+            SurveyVersionModel model = SurveyVersionModel.toJson(version);
+            return new Map<String, Object>{
+                'version' => JSON.serialize(model),
+                'siteDomain' => Site.getDomain(),
+                'surveyId' => model.surveyId
+            };
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+    @AuraEnabled
+    public static Map<String, Object> getLatestDraftVersion(Id surveyId) {
+        try {
+            SurveyVersion__c version = [SELECT Id, Name, Body__c, Status__c, Survey__c, VersionNumber__c, ActivatedDate__c FROM SurveyVersion__c WHERE Survey__c = :surveyId AND Status__c = 'Draft' ORDER BY VersionNumber__c DESC LIMIT 1];
+            SurveyVersionModel model = SurveyVersionModel.toJson(version);
+            return new Map<String, Object>{
+                'version' => JSON.serialize(model),
+                'siteDomain' => Site.getDomain(),
+                'surveyId' => model.surveyId
+            };
+        } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
     }

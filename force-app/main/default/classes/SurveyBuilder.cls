@@ -107,4 +107,49 @@ public class SurveyBuilder {
             throw new AuraHandledException(e.getMessage());
         }
     }
+
+    @AuraEnabled
+    public static Map<String,String> getLatestDraftVersion(Id surveyId) {
+        try {
+            // encrypt the survey id before redirecting to the survey
+            Blob blobSurveyId = Blob.valueOf(surveyId);
+            Blob encryptedId = Crypto.encryptWithManagedIV('AES256', EncodingUtil.base64Decode(System.Label.Survey_Encryption_Key), blobSurveyId);
+            String surveyIdString = EncodingUtil.base64Encode(encryptedId);
+
+            Map<String,String> returnMap = new Map<String,String>();
+
+            List<SurveyVersion__c> versions = [
+                SELECT Id, Survey__c, Body__c, VersionNumber__c, Status__c 
+                FROM SurveyVersion__c 
+                WHERE Survey__c = :surveyId 
+                ORDER BY VersionNumber__c DESC 
+                LIMIT 1
+            ];
+
+            if(versions.isEmpty()) {
+                returnMap.put('error', 'No version found!');
+                return returnMap;
+            }
+
+            returnMap.put('version', JSON.serialize(versions[0]));
+            returnMap.put('surveyId', surveyIdString);
+
+            List<SurveyVersion__c> allVersions = [
+                SELECT Id, Survey__c, Body__c, VersionNumber__c, Status__c 
+                FROM SurveyVersion__c 
+                WHERE Survey__c = :surveyId 
+                ORDER BY VersionNumber__c DESC
+            ];
+            returnMap.put('surveyVersionList', JSON.serialize(allVersions));
+
+            //fetching survey site link
+            Site sit = [SELECT Id, Name, Subdomain, UrlPathPrefix, Status, masterlabel FROM Site WHERE masterlabel = 'Survey' AND Status = 'Active' AND UrlPathPrefix != 'vforcesite' LIMIT 1];
+            String siteDomain = [SELECT Id, Domain.Domain, SiteId, PathPrefix FROM DomainSite WHERE SiteId =: sit.Id LIMIT 1].Domain.Domain;
+            returnMap.put('siteDomain', siteDomain);
+
+            return returnMap;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
 }

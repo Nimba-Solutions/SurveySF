@@ -11,6 +11,7 @@ import SURVEY_INDEX_JS from '@salesforce/resourceUrl/indexmin'; //JS
 import DEFAULT_SURVEY_JSON from '@salesforce/resourceUrl/defaultSurveyJson'; //JSON
 import createSurveyFromJSON from '@salesforce/apex/SurveyBuilder.createSurveyFromJSON';
 import getSurveyVersion from '@salesforce/apex/SurveyBuilder.getSurveyVersion';
+import getLatestDraftVersion from '@salesforce/apex/SurveyBuilder.getLatestDraftVersion';
 import markActive from '@salesforce/apex/SurveyBuilder.markActive';
 
 export default class SurveyBuilder extends LightningElement {
@@ -46,6 +47,21 @@ export default class SurveyBuilder extends LightningElement {
                 }
             }).catch(error => {
                 console.error('Error loading getSurveyVersion:', JSON.stringify(error));
+            });
+        } else if(urlParams.has('surveyId')){
+            const surveyId = urlParams.get('surveyId');
+            getLatestDraftVersion({surveyId: surveyId}).then(result => {
+                if(result.error){
+                    this.notFound = true;
+                }else{
+                    this.siteDomain = result.siteDomain;
+                    this.encryptedSurveyId = result.surveyId;
+                    this.surveyVersionRec = JSON.parse(result.version);
+                    this.surveyJson = JSON.parse(this.surveyVersionRec.Body__c);
+                    this.surveyVersionList = JSON.parse(result.surveyVersionList);
+                }
+            }).catch(error => {
+                console.error('Error loading getLatestDraftVersion:', JSON.stringify(error));
             });
         }
     }
@@ -176,8 +192,8 @@ export default class SurveyBuilder extends LightningElement {
             // If we got a new version ID back, show a link in the toast
             if(res && res !== this.surveyVersionRec?.Id) {
                 let urli = window.location.href;
-                let customURL = urli.split('versionId=')[0];
-                customURL = customURL + 'versionId=' + res;
+                let customURL = urli.split('surveyId__c=')[0];
+                customURL = customURL + 'surveyId__c=' + res;
                 this.showSuccessToast('Survey saved successfully. Click to view new version', customURL);
             } else {
                 this.showSuccessToast('Survey saved successfully');
@@ -197,8 +213,8 @@ export default class SurveyBuilder extends LightningElement {
         
         let surveyid = event.currentTarget.dataset.surveyid;
         let urli = window.location.href;
-        let customURL = urli.split('versionId=')[0];
-        customURL = customURL+'versionId='+surveyid;
+        let customURL = urli.split('surveyId__c=')[0];
+        customURL = customURL+'surveyId__c='+surveyid;
         window.location.href = customURL;
         // window.open(customURL);
     }

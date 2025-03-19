@@ -3,7 +3,6 @@
     <description>Full access to all system fields and features.  Individual feature admin permission sets should be added to this group.</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Survey Admin Permission Set Group</label>
-    <permissionSets>ApiEnabled</permissionSets>
     <permissionSets>SurveySFAdmin</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

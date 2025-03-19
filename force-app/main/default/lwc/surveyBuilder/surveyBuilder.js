@@ -170,18 +170,17 @@ export default class SurveyBuilder extends LightningElement {
             jsonString: JSON.stringify(this.surveyJson),
             surveyVersion: surveyVersion
         }).then(res => {
-            this.showSuccessToast('Survey saved successfully');
             this.changesUnSaved = false;
             this.disableSave = true;
 
-            // If we got a new version ID back, redirect to it
+            // If we got a new version ID back, show a link in the toast
             if(res && res !== this.surveyVersionRec?.Id) {
-                setTimeout(() => {
-                    let urli = window.location.href;
-                    let customURL = urli.split('surveyId__c=')[0];
-                    customURL = customURL + 'surveyId__c=' + res;
-                    window.location.href = customURL;
-                }, 1100);
+                let urli = window.location.href;
+                let customURL = urli.split('surveyId__c=')[0];
+                customURL = customURL + 'surveyId__c=' + res;
+                this.showSuccessToast(`Survey saved successfully. <a href="${customURL}" target="_blank">View new version</a>`);
+            } else {
+                this.showSuccessToast('Survey saved successfully');
             }
         }).catch(err => {
             console.error('Error saving survey:', err);
@@ -266,7 +265,10 @@ export default class SurveyBuilder extends LightningElement {
             title: 'Success',
             message: msg,
             variant: 'success',
-            mode: 'dismissable'
+            mode: 'dismissable',
+            messageData: {
+                url: msg.includes('View new version') ? msg.split('"')[1] : null
+            }
         });
         this.dispatchEvent(evt);
     }

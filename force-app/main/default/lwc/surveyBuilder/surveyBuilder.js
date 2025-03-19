@@ -120,9 +120,8 @@ export default class SurveyBuilder extends LightningElement {
             
             creator.text = Object.keys(tempThis.surveyJson).length === 0 ? JSON.stringify(defaultSurveyJson) : JSON.stringify(tempThis.surveyJson);
             creator.saveSurveyFunc = (saveNo, callback) => { 
-                tempThis.disableSave = true;
                 tempThis.changesUnSaved = true;
-                // window.localStorage.setItem("survey-json", creator.text);
+                tempThis.disableSave = false;
                 tempThis.surveyJson = JSON.parse(creator.text);
                 callback(saveNo, true);
             };
@@ -185,10 +184,6 @@ export default class SurveyBuilder extends LightningElement {
                 this.showErrorToast('Error saving survey');
             })
         }
-    }
-
-    enableSave(){
-        this.disableSave = false;
     }
 
     copySurveyLink(){

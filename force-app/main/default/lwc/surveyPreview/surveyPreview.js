@@ -89,12 +89,12 @@ export default class SurveyPreview extends LightningElement {
                 .then(result => {
                     console.log('result-'+JSON.stringify(result));
     
-                    const survey = new Survey.Model(result.Survey_Version__r.Body__c);
+                    const survey = new Survey.Model(result.SurveyVersion__r.Body__c);
                     survey.data =  JSON.parse(result.Body__c);
                     survey.mode = "display";
     
                     const savePdf = function (surveyData) {
-                        const surveyPdf = new SurveyPDF.SurveyPDF(result.Survey_Version__r.Body__c, {});
+                        const surveyPdf = new SurveyPDF.SurveyPDF(result.SurveyVersion__r.Body__c, {});
                         surveyPdf.data = surveyData;
                         surveyPdf.save();
                     };

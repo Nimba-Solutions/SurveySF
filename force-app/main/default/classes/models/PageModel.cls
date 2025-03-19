@@ -6,13 +6,13 @@ public class PageModel {
     @AuraEnabled public String body { get; set; }
     @AuraEnabled public List<ElementModel> elements { get; set; }
 
-    public static PageModel toJson(Page__c page) {
+    public static PageModel toJson(Page__c record) {
         PageModel model = new PageModel();
-        model.id = page.Id;
-        model.surveyVersionId = page.SurveyVersion__c;
-        model.name = page.Name;
-        model.sequence = page.Sequence__c;
-        model.body = page.Body__c;
+        model.id = record.Id;
+        model.surveyVersionId = record.SurveyVersion__c;
+        model.name = record.Name;
+        model.sequence = record.Sequence__c;
+        model.body = record.Body__c;
         return model;
     }
 

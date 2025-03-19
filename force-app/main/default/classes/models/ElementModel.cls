@@ -6,14 +6,14 @@ public class ElementModel {
     @AuraEnabled public Decimal sequence { get; set; }
     @AuraEnabled public String body { get; set; }
 
-    public static ElementModel toJson(Element__c element) {
+    public static ElementModel toJson(Element__c record) {
         ElementModel model = new ElementModel();
-        model.id = element.Id;
-        model.pageId = element.Page__c;
-        model.name = element.Name;
-        model.type = element.Type__c;
-        model.sequence = element.Sequence__c;
-        model.body = element.Body__c;
+        model.id = record.Id;
+        model.pageId = record.Page__c;
+        model.name = record.Name;
+        model.type = record.Type__c;
+        model.sequence = record.Sequence__c;
+        model.body = record.Body__c;
         return model;
     }
 

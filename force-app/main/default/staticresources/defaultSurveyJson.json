@@ -1,4 +1,6 @@
 {
+    "title": "Survey Title",
+    "description": "Survey Description",
     "completedHtmlOnCondition": [
         {
             "expression": "{nps-score} <= 6 or {rebuy} = false",

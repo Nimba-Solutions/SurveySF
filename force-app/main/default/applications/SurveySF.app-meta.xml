@@ -12,8 +12,9 @@
     <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
     <label>SurveySF</label>
     <navType>Standard</navType>
-    <tabs>Survey__c</tabs>
     <tabs>Survey_Builder</tabs>
+    <tabs>Survey__c</tabs>
+    <tabs>SurveyResponse__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>SurveySF_UtilityBar1</utilityBar>
 </CustomApplication>

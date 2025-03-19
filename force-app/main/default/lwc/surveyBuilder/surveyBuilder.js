@@ -6,7 +6,7 @@ import SURVEY_CORE_CSS from "@salesforce/resourceUrl/surveycoremin"; //CSS
 import SURVEY_CREATOR_CORE_CSS from '@salesforce/resourceUrl/surveycreatorcorecss'; //CSS
 import SURVEY_CREATOR_CORE_JS from '@salesforce/resourceUrl/surveycreatorcorejs'; //JS
 import SURVEY_CREATOR_JS from '@salesforce/resourceUrl/surveycreatormin'; //JS
-import SURVEY_INDEX_JS from '@salesforce/resourceUrl/SurveyIndex'; //JS
+import SURVEY_INDEX_JS from '@salesforce/resourceUrl/indexmin'; //JS
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import createSurveyFromJSON from '@salesforce/apex/SurveyBuilder.createSurveyFromJSON';
 import getSurveyVersion from '@salesforce/apex/SurveyBuilder.getSurveyVersion';

@@ -37,6 +37,9 @@ copy_file "$ROOT/surveyjs/survey-library/packages/survey-core/build/survey.core.
 echo "Copying survey-js-ui.min.js..."
 copy_file "$ROOT/surveyjs/survey-library/packages/survey-js-ui/build/survey-js-ui.min.js" "$STATIC_RESOURCES/surveyjsui.js"
 
+echo "Copying index.min.js..."
+copy_file "$ROOT/surveyjs/survey-library/packages/survey-core/build/themes/index.min.js" "$STATIC_RESOURCES/indexmin.js"
+
 echo "-----------------------------------------"
 echo "Library copy operations completed"
 echo "-----------------------------------------" 

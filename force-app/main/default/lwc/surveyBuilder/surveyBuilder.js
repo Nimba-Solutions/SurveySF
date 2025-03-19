@@ -44,13 +44,15 @@ export default class SurveyBuilder extends LightningElement {
                     this.surveyVersionRec = JSON.parse(result.version);
                     this.surveyJson = JSON.parse(this.surveyVersionRec.Body__c);
                     this.surveyVersionList = JSON.parse(result.surveyVersionList);
-                    this.initializeSurvey();
+                    if (this.loaded) {
+                        this.initializeSurvey();
+                    }
                 }
             }).catch(error => {
                 console.error('Error loading getSurveyVersion:', JSON.stringify(error));
             });
-        } else if(urlParams.has('surveyId')){
-            const surveyId = urlParams.get('surveyId');
+        } else if(urlParams.has('surveyId__c')){
+            const surveyId = urlParams.get('surveyId__c');
             getLatestDraftVersion({surveyId: surveyId}).then(result => {
                 if(result.error){
                     this.notFound = true;
@@ -60,14 +62,13 @@ export default class SurveyBuilder extends LightningElement {
                     this.surveyVersionRec = JSON.parse(result.version);
                     this.surveyJson = JSON.parse(this.surveyVersionRec.Body__c);
                     this.surveyVersionList = JSON.parse(result.surveyVersionList);
-                    this.initializeSurvey();
+                    if (this.loaded) {
+                        this.initializeSurvey();
+                    }
                 }
             }).catch(error => {
                 console.error('Error loading getLatestDraftVersion:', JSON.stringify(error));
             });
-        } else {
-            // If no parameters, initialize with default JSON
-            this.initializeSurvey();
         }
     }
 
@@ -77,25 +78,35 @@ export default class SurveyBuilder extends LightningElement {
         }
         this.surveyInitialized = true;
 
+        console.log('Starting to load resources...');
         loadStyle(this, SURVEY_CORE_CSS)
             .then(() => {
+                console.log('Loaded SURVEY_CORE_CSS');
                 loadScript(this, SURVEY_CORE)
                 .then(() => {
+                    console.log('Loaded SURVEY_CORE');
                     loadScript(this, SURVEY_JS_UI)
                     .then(() => {
+                        console.log('Loaded SURVEY_JS_UI');
                         loadStyle(this, SURVEY_CREATOR_CORE_CSS)
                         .then(() => {
+                            console.log('Loaded SURVEY_CREATOR_CORE_CSS');
                             loadScript(this, SURVEY_CREATOR_CORE_JS)
                             .then(() => {
+                                console.log('Loaded SURVEY_CREATOR_CORE_JS');
                                 loadScript(this, SURVEY_CREATOR_JS)
                                 .then(() => {
+                                    console.log('Loaded SURVEY_CREATOR_JS');
                                     loadScript(this, SURVEY_INDEX_JS)
                                     .then(() => {
+                                        console.log('Loaded SURVEY_INDEX_JS');
                                         // Load the default survey JSON
                                         fetch(DEFAULT_SURVEY_JSON)
                                             .then(response => response.json())
                                             .then(data => {
+                                                console.log('Loaded DEFAULT_SURVEY_JSON');
                                                 this.defaultSurveyJson = data;
+                                                this.loaded = true;
                                                 // Only initialize if we don't have a version
                                                 if (!this.surveyVersionRec) {
                                                     this.initializeSurvey();

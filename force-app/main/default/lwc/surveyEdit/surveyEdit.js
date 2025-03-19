@@ -8,11 +8,10 @@ export default class SurveyEdit extends LightningElement {
 
         getSurveyVersionBySurvey({recId : recordId})
         .then(result => {
-            
-            let builderUrl = window.location.href.split('lightning/')[0] + 'lightning/n/SurveyBuilder?surveyId=' + result[0].Id;
-
-            window.location.href = builderUrl;
-
+            if(result && result.length > 0) {
+                let builderUrl = window.location.href.split('lightning/')[0] + 'lightning/n/SurveyBuilder?versionId=' + result[0].Id;
+                window.location.href = builderUrl;
+            }
         }).catch(err=>{
             console.log('error in fetching survey-'+err);
             console.log('error in fetching survey-'+err.body);

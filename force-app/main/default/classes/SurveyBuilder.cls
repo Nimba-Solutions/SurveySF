@@ -1,19 +1,28 @@
 public class SurveyBuilder {
 
     @AuraEnabled
-    public static Id createSurveyFromJSON(String jsonString,SurveyVersion__c surveyVersion, Boolean isUpdate){
+    public static Id createSurveyFromJSON(String jsonString, SurveyVersion__c surveyVersion){
         try {
-            if(isUpdate){
-                List<Page__c> pages = new List<Page__c>();
-                pages = [SELECT Id FROM Page__c WHERE SurveyVersion__c = :surveyVersion.Id];
-                if(!pages.isEmpty()){
-                    delete [ SELECT Id FROM Element__c WHERE Page__c IN :pages];
-
-                    delete pages;
+            // If we have an existing version, check its status
+            if(surveyVersion != null) {
+                // If it's a Draft version, we'll update it
+                if(surveyVersion.Status__c == 'Draft') {
+                    // Delete existing pages and elements
+                    List<Page__c> pages = [SELECT Id FROM Page__c WHERE SurveyVersion__c = :surveyVersion.Id];
+                    if(!pages.isEmpty()){
+                        delete [SELECT Id FROM Element__c WHERE Page__c IN :pages];
+                        delete pages;
+                    }
+                    return SurveyService.createRecordsFromJson(jsonString, surveyVersion, true);
+                } 
+                // If it's an Active version, we'll create a new version
+                else if(surveyVersion.Status__c == 'Active') {
+                    return SurveyService.createRecordsFromJson(jsonString, surveyVersion, false);
                 }
             }
-        
-            return SurveyService.createRecordsFromJson(jsonString,surveyVersion,isUpdate);
+            
+            // For new surveys or if no version provided
+            return SurveyService.createRecordsFromJson(jsonString, null, false);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }

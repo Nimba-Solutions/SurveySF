@@ -128,7 +128,7 @@ export default class SurveyBuilder extends LightningElement {
             
             creator.text = Object.keys(tempThis.surveyJson).length === 0 ? JSON.stringify(this.defaultSurveyJson) : JSON.stringify(tempThis.surveyJson);
             creator.saveSurveyFunc = (saveNo, callback) => { 
-                tempThis.disableSave = true;
+                tempThis.disableSave = false;  // Enable save when changes are detected
                 tempThis.changesUnSaved = true;
                 tempThis.surveyJson = JSON.parse(creator.text);
                 callback(saveNo, true);
@@ -156,46 +156,37 @@ export default class SurveyBuilder extends LightningElement {
     handleSave(event){
         if(!this.surveyJson.title){
             this.disableSave = true;
-            this.showErrorToast(
-                'Please provide survey title'
-            );
-        } else {
-
-            let surveyVersion = null;
-            let isUpdate = false;
-            if(event.currentTarget.dataset.version == 'new'){
-                surveyVersion = JSON.parse(JSON.stringify(this.surveyVersionRec));
-                delete surveyVersion.attributes;
-            }else if(this.surveyVersionRec){
-                isUpdate = true;
-                surveyVersion = JSON.parse(JSON.stringify(this.surveyVersionRec));
-                delete surveyVersion.attributes;
-            }
-            
-            createSurveyFromJSON({jsonString : JSON.stringify(this.surveyJson),surveyVersion : surveyVersion,isUpdate : isUpdate}).then(res=>{
-          
-                this.showSuccessToast('Survey saved successfully');
-
-                if(isUpdate){
-                    this.changesUnSaved = false;
-                    this.disableSave = true;
-                }else if(surveyVersion){
-                    setTimeout(() => {
-                        let urli = window.location.href;
-                        let customURL = urli.split('surveyId__c=')[0];
-                        customURL = customURL+'surveyId__c='+res;
-                        window.location.href = customURL;
-                    }, 1100);
-                }
-            }).catch(err=>{
-                console.log('err-',JSON.stringify(err));
-                this.showErrorToast('Error saving survey');
-            })
+            this.showErrorToast('Please provide survey title');
+            return;
         }
-    }
 
-    enableSave(){
-        this.disableSave = false;
+        let surveyVersion = null;
+        if(this.surveyVersionRec) {
+            surveyVersion = JSON.parse(JSON.stringify(this.surveyVersionRec));
+            delete surveyVersion.attributes;
+        }
+        
+        createSurveyFromJSON({
+            jsonString: JSON.stringify(this.surveyJson),
+            surveyVersion: surveyVersion
+        }).then(res => {
+            this.showSuccessToast('Survey saved successfully');
+            this.changesUnSaved = false;
+            this.disableSave = true;
+
+            // If we got a new version ID back, redirect to it
+            if(res && res !== this.surveyVersionRec?.Id) {
+                setTimeout(() => {
+                    let urli = window.location.href;
+                    let customURL = urli.split('surveyId__c=')[0];
+                    customURL = customURL + 'surveyId__c=' + res;
+                    window.location.href = customURL;
+                }, 1100);
+            }
+        }).catch(err => {
+            console.error('Error saving survey:', err);
+            this.showErrorToast('Error saving survey');
+        });
     }
 
     copySurveyLink(){

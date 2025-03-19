@@ -28,7 +28,8 @@ copy_file() {
     fi
 }
 
-# The actual file names based on the directory listing
+
+# Copy Survey PDF Files to Static Resources
 echo "Copying survey.pdf.min.js..."
 copy_file "$ROOT/surveyjs/survey-pdf/build/survey.pdf.min.js" "$STATIC_RESOURCES/surveypdf.js"
 

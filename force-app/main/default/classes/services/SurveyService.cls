@@ -100,4 +100,101 @@ public class SurveyService {
         
         return versionModel;
     }
+    
+    private static String injectIdIntoJson(String json, Id recordId) {
+        if(String.isBlank(json)) return json;
+        
+        // Parse the JSON
+        Map<String, Object> jsonMap = (Map<String, Object>)JSON.deserializeUntyped(json);
+        
+        // Add the Salesforce ID
+        jsonMap.put('recordId', recordId);
+        
+        // Convert back to JSON
+        return JSON.serialize(jsonMap);
+    }
+    
+    public static void saveVersion(SurveyVersionModel versionModel) {
+        // Save the version record
+        SurveyVersion__c versionRecord = versionModel.toRecord();
+        upsert versionRecord;
+        
+        if(versionModel.pages == null || versionModel.pages.isEmpty()) return;
+        
+        // Get existing pages and elements
+        List<Page__c> existingPages = queryVersionPages(versionRecord.Id);
+        Set<Id> existingPageIds = new Map<Id, Page__c>(existingPages).keySet();
+        List<Element__c> existingElements = queryPageElements(existingPageIds);
+        
+        // Maps to track what we're keeping
+        Set<Id> pagesToKeep = new Set<Id>();
+        Set<Id> elementsToKeep = new Set<Id>();
+        
+        // Lists for new/updated records
+        List<Page__c> pagesToUpsert = new List<Page__c>();
+        List<Element__c> elementsToUpsert = new List<Element__c>();
+        
+        // Process each page
+        for(PageModel pageModel : versionModel.pages) {
+            // Extract the Salesforce ID from the JSON
+            String recordId = extractIdFromJson(pageModel.body);
+            Page__c pageRecord = pageModel.toRecord();
+            pageRecord.SurveyVersion__c = versionRecord.Id;
+            
+            if(String.isNotBlank(recordId)) {
+                pageRecord.Id = recordId;
+                pagesToKeep.add(recordId);
+            }
+            
+            pagesToUpsert.add(pageRecord);
+            
+            // Process elements
+            if(pageModel.elements != null && !pageModel.elements.isEmpty()) {
+                for(ElementModel elementModel : pageModel.elements) {
+                    String elementRecordId = extractIdFromJson(elementModel.body);
+                    Element__c elementRecord = elementModel.toRecord();
+                    elementRecord.Page__c = pageRecord.Id;
+                    
+                    if(String.isNotBlank(elementRecordId)) {
+                        elementRecord.Id = elementRecordId;
+                        elementsToKeep.add(elementRecordId);
+                    }
+                    
+                    elementsToUpsert.add(elementRecord);
+                }
+            }
+        }
+        
+        // Delete pages and elements that are no longer present
+        List<Page__c> pagesToDelete = new List<Page__c>();
+        for(Page__c page : existingPages) {
+            if(!pagesToKeep.contains(page.Id)) {
+                pagesToDelete.add(page);
+            }
+        }
+        
+        List<Element__c> elementsToDelete = new List<Element__c>();
+        for(Element__c element : existingElements) {
+            if(!elementsToKeep.contains(element.Id)) {
+                elementsToDelete.add(element);
+            }
+        }
+        
+        // Perform all DML operations
+        if(!pagesToDelete.isEmpty()) delete pagesToDelete;
+        if(!elementsToDelete.isEmpty()) delete elementsToDelete;
+        if(!pagesToUpsert.isEmpty()) upsert pagesToUpsert;
+        if(!elementsToUpsert.isEmpty()) upsert elementsToUpsert;
+    }
+    
+    private static String extractIdFromJson(String json) {
+        if(String.isBlank(json)) return null;
+        
+        try {
+            Map<String, Object> jsonMap = (Map<String, Object>)JSON.deserializeUntyped(json);
+            return (String)jsonMap.get('recordId');
+        } catch(Exception e) {
+            return null;
+        }
+    }
 } 

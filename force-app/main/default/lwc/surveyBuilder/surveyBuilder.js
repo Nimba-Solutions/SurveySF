@@ -44,6 +44,7 @@ export default class SurveyBuilder extends LightningElement {
                     this.surveyVersionRec = JSON.parse(result.version);
                     this.surveyJson = JSON.parse(this.surveyVersionRec.Body__c);
                     this.surveyVersionList = JSON.parse(result.surveyVersionList);
+                    this.initializeSurvey();
                 }
             }).catch(error => {
                 console.error('Error loading getSurveyVersion:', JSON.stringify(error));
@@ -59,10 +60,14 @@ export default class SurveyBuilder extends LightningElement {
                     this.surveyVersionRec = JSON.parse(result.version);
                     this.surveyJson = JSON.parse(this.surveyVersionRec.Body__c);
                     this.surveyVersionList = JSON.parse(result.surveyVersionList);
+                    this.initializeSurvey();
                 }
             }).catch(error => {
                 console.error('Error loading getLatestDraftVersion:', JSON.stringify(error));
             });
+        } else {
+            // If no parameters, initialize with default JSON
+            this.initializeSurvey();
         }
     }
 
@@ -91,7 +96,10 @@ export default class SurveyBuilder extends LightningElement {
                                             .then(response => response.json())
                                             .then(data => {
                                                 this.defaultSurveyJson = data;
-                                                this.initializeSurvey();
+                                                // Only initialize if we don't have a version
+                                                if (!this.surveyVersionRec) {
+                                                    this.initializeSurvey();
+                                                }
                                             })
                                             .catch(error => {
                                                 console.error('Error loading default survey JSON:', error);
@@ -119,9 +127,6 @@ export default class SurveyBuilder extends LightningElement {
                 })
                 .catch(error => {
                     console.error('Error loading SURVEY CORE resources:', error);
-                })
-                .finally(result => {
-                    console.log('loadScript result:', result);
                 });
             })
             .catch(error => {

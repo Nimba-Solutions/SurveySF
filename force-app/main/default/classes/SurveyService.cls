@@ -1,12 +1,12 @@
 public with sharing class SurveyService {
     
     // TODO: Implement this method
-    public static String createJsonFromRecords(Survey__c survey, List<SurveyVersion__c> versions, List<Page__c> pages, List<Element__c> elements) {
-        SurveyModel surveyModel = SurveyModel.fromRecord(survey);
+    public static String createJsontoJsons(Survey__c survey, List<SurveyVersion__c> versions, List<Page__c> pages, List<Element__c> elements) {
+        SurveyModel surveyModel = SurveyModel.toJson(survey);
         List<SurveyVersionModel> versionModels = new List<SurveyVersionModel>();
         
         for(SurveyVersion__c version : versions) {
-            SurveyVersionModel versionModel = SurveyVersionModel.fromRecord(version);
+            SurveyVersionModel versionModel = SurveyVersionModel.toJson(version);
             versionModels.add(versionModel);
         }
         

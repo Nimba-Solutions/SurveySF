@@ -4,7 +4,7 @@ public class SurveyModel {
     public Id activeVersionId { get; set; }
     public List<SurveyVersionModel> versions { get; set; }
 
-    public static SurveyModel fromRecord(Survey__c survey) {
+    public static SurveyModel toJson(Survey__c survey) {
         SurveyModel model = new SurveyModel();
         model.id = survey.Id;
         model.name = survey.Name;

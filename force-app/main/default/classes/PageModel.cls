@@ -6,7 +6,7 @@ public class PageModel {
     public String body { get; set; }
     public List<ElementModel> elements { get; set; }
 
-    public static PageModel fromRecord(Page__c page) {
+    public static PageModel toJson(Page__c page) {
         PageModel model = new PageModel();
         model.id = page.Id;
         model.surveyVersionId = page.SurveyVersion__c;

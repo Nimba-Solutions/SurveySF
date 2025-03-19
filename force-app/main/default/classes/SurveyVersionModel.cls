@@ -8,7 +8,7 @@ public class SurveyVersionModel {
     @AuraEnabled public String title { get; set; }
     @AuraEnabled public List<PageModel> pages { get; set; }
     
-    public static SurveyVersionModel fromRecord(SurveyVersion__c record) {
+    public static SurveyVersionModel toJson(SurveyVersion__c record) {
         SurveyVersionModel model = new SurveyVersionModel();
         model.id = record.Id;
         model.title = record.Name;
@@ -21,7 +21,6 @@ public class SurveyVersionModel {
     }
 
     public SurveyVersion__c toRecord() {
-        Map<String, Object> surveyJson = (Map<String, Object>)JSON.deserializeUntyped(this.body);
         return new SurveyVersion__c(
             Id = this.id,
             Survey__c = this.surveyId,

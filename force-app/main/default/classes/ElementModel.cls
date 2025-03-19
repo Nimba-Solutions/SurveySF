@@ -6,7 +6,7 @@ public class ElementModel {
     public Decimal sequence { get; set; }
     public String body { get; set; }
 
-    public static ElementModel fromRecord(Element__c element) {
+    public static ElementModel toJson(Element__c element) {
         ElementModel model = new ElementModel();
         model.id = element.Id;
         model.pageId = element.Page__c;

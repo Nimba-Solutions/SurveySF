@@ -13,6 +13,11 @@ public with sharing class SurveyController {
     public static SurveyVersionModel getLatestVersion(Id surveyId) {
         return SurveyService.getLatestVersion(surveyId);
     }
+
+    @AuraEnabled(cacheable=true)
+    public static SurveyVersionModel getVersionById(Id versionId) {
+        return SurveyService.getVersionById(versionId);
+    }
     
     @AuraEnabled
     public static void saveVersion(SurveyVersionModel versionModel) {

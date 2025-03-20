@@ -1,4 +1,12 @@
 public class SurveyService {
+    
+    private static SurveyVersion__c getVersion(Id versionId) {
+        return [SELECT Id, Name, Survey__c, VersionNumber__c, 
+                Status__c, Body__c, ActivatedDate__c 
+                FROM SurveyVersion__c 
+                WHERE Id = :versionId];
+    }
+    
     private static SurveyVersion__c getLatestDraftVersion(Id surveyId) {
         return [SELECT Id, Name, Survey__c, VersionNumber__c, 
                 Status__c, Body__c, ActivatedDate__c 
@@ -58,6 +66,13 @@ public class SurveyService {
     
     public static SurveyVersionModel getLatestVersion(Id surveyId) {
         SurveyVersion__c version = getLatestVersion(surveyId);
+        if(version == null) return null;
+        
+        return buildVersionModel(version);
+    }
+
+    public static SurveyVersionModel getVersionById(Id versionId) {
+        SurveyVersion__c version = getVersion(versionId);
         if(version == null) return null;
         
         return buildVersionModel(version);

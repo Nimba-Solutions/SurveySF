@@ -10,7 +10,6 @@ public class SurveyModel {
         model.id = survey.Id;
         model.title = survey.Name;
         model.activeVersionId = survey.ActiveVersion__c;
-        model.description = survey.Description__c;
         
         model.versions = new List<SurveyVersionModel>();
         if(versions != null) {
@@ -26,8 +25,7 @@ public class SurveyModel {
         Survey__c record = new Survey__c(
             Id = this.id,
             Name = this.title,
-            ActiveVersion__c = this.activeVersionId,
-            Description__c = this.description
+            ActiveVersion__c = this.activeVersionId
         );
         
         // Handle versions if they exist

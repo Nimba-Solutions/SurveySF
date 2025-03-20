@@ -9,10 +9,14 @@ import SURVEY_CREATOR_CORE_JS from '@salesforce/resourceUrl/surveycreatorcorejs'
 import SURVEY_CREATOR_JS from '@salesforce/resourceUrl/surveycreatormin'; //JS
 import SURVEY_INDEX_JS from '@salesforce/resourceUrl/indexmin'; //JS
 import DEFAULT_SURVEY_JSON from '@salesforce/resourceUrl/defaultSurveyJson'; //JSON
-import saveSurvey from '@salesforce/apex/SurveyBuilderController.saveSurvey';
-import getSurveyVersion from '@salesforce/apex/SurveyBuilderController.getSurveyVersion';
-import getLatestDraftVersion from '@salesforce/apex/SurveyBuilderController.getLatestDraftVersion';
-import markActive from '@salesforce/apex/SurveyBuilder.markActive';
+
+// Import new controller methods
+import getLatestDraftVersion from '@salesforce/apex/SurveyController.getLatestDraftVersion';
+import getLatestActiveVersion from '@salesforce/apex/SurveyController.getLatestActiveVersion';
+import getLatestVersion from '@salesforce/apex/SurveyController.getLatestVersion';
+import saveVersion from '@salesforce/apex/SurveyController.saveVersion';
+import saveVersionAsDraft from '@salesforce/apex/SurveyController.saveVersionAsDraft';
+import saveVersionAsActive from '@salesforce/apex/SurveyController.saveVersionAsActive';
 
 export default class SurveyBuilder extends LightningElement {
     surveyInitialized = false;
@@ -173,26 +177,34 @@ export default class SurveyBuilder extends LightningElement {
             return;
         }
 
-        saveSurvey({
-            jsonInput: JSON.stringify(this.surveyJson),
-            surveyVersionId: this.surveyVersionRec?.Id
-        })
-        .then(newVersionId => {
-            this.changesUnSaved = false;
-            this.disableSave = true;
-            // Update the version ID if we got a new one
-            if (newVersionId) {
-                this.surveyVersionRec = {
-                    ...this.surveyVersionRec,
-                    Id: newVersionId
-                };
-            }
-            this.showSuccessToast('Survey saved successfully');
-        })
-        .catch(error => {
-            console.error('Error saving survey:', error);
-            this.showErrorToast('Error saving survey: ' + error.body?.message || error.message);
-        });
+        const isNewVersion = event.target.dataset.version === 'new';
+        const surveyData = {
+            ...this.surveyVersionRec,
+            body: JSON.stringify(this.surveyJson)
+        };
+
+        // If saving as new version, remove the Id
+        if (isNewVersion) {
+            delete surveyData.Id;
+        }
+
+        const savePromise = this.showActivate ? 
+            saveVersionAsDraft({ versionModel: surveyData }) :
+            saveVersionAsActive({ versionModel: surveyData });
+
+        savePromise
+            .then(() => {
+                this.changesUnSaved = false;
+                this.disableSave = true;
+                this.showSuccessToast('Survey saved successfully');
+                
+                // Refresh the version data
+                this.refreshVersionData();
+            })
+            .catch(error => {
+                console.error('Error saving survey:', error);
+                this.showErrorToast('Error saving survey: ' + error.body?.message || error.message);
+            });
     }
 
     copySurveyLink(){
@@ -209,17 +221,17 @@ export default class SurveyBuilder extends LightningElement {
         this.showDropDown  = !this.showDropDown;
     }
 
-    handleActivate(){
-        markActive({recId : this.surveyVersionRec.Id}).then(res=>{
-            let tempVersion = JSON.parse(JSON.stringify(this.surveyVersionRec));
-            this.surveyVersionRec = undefined;
-            tempVersion.Status__c = 'Active';
-            this.surveyVersionRec = tempVersion;
-            this.showSuccessToast(
-                'Survey Activated successfully');
-        }).catch(err=>{
-            this.showErrorToast('Error saving survey');
-        })
+    handleActivate() {
+        saveVersionAsActive({ versionModel: this.surveyVersionRec })
+            .then(() => {
+                let tempVersion = JSON.parse(JSON.stringify(this.surveyVersionRec));
+                tempVersion.Status__c = 'Active';
+                this.surveyVersionRec = tempVersion;
+                this.showSuccessToast('Survey Activated successfully');
+            })
+            .catch(error => {
+                this.showErrorToast('Error activating survey: ' + error.body?.message || error.message);
+            });
     }
 
     get showActivate(){
@@ -273,5 +285,21 @@ export default class SurveyBuilder extends LightningElement {
             }
         });
         this.dispatchEvent(evt);
+    }
+
+    refreshVersionData() {
+        const getVersionPromise = this.showActivate ?
+            getLatestDraftVersion({ surveyId: this.surveyVersionRec.Survey__c }) :
+            getLatestActiveVersion({ surveyId: this.surveyVersionRec.Survey__c });
+
+        getVersionPromise
+            .then(result => {
+                this.surveyVersionRec = result;
+                this.surveyJson = JSON.parse(result.body);
+            })
+            .catch(error => {
+                console.error('Error refreshing version:', error);
+                this.showErrorToast('Error refreshing version data');
+            });
     }
 }

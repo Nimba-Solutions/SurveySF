@@ -1,22 +1,40 @@
 public class SurveyModel {
-    public Id id { get; set; }
-    public String name { get; set; }
-    public Id activeVersionId { get; set; }
-    public List<SurveyVersionModel> versions { get; set; }
-
-    public static SurveyModel fromRecord(Survey__c survey) {
-        SurveyModel model = new SurveyModel();
-        model.id = survey.Id;
-        model.name = survey.Name;
-        model.activeVersionId = survey.ActiveVersion__c;
-        return model;
+    public String recordId;
+    public String title;
+    public String description;
+    public String widthMode;
+    public String width;
+    public List<SurveyVersionModel> versions;
+    
+    public SurveyModel() {
+        this.versions = new List<SurveyVersionModel>();
     }
-
-    public Survey__c toRecord() {
+    
+    public Survey__c toSObject() {
         return new Survey__c(
-            Id = this.id,
-            Name = this.name,
-            ActiveVersion__c = this.activeVersionId
+            Id = this.recordId,
+            Title__c = this.title,
+            Description__c = this.description,
+            WidthMode__c = this.widthMode,
+            Width__c = this.width
         );
     }
-}
+    
+    public static SurveyModel fromSObject(Survey__c survey) {
+        SurveyModel model = new SurveyModel();
+        model.recordId = survey.Id;
+        model.title = survey.Title__c;
+        model.description = survey.Description__c;
+        model.widthMode = survey.WidthMode__c;
+        model.width = survey.Width__c;
+        
+        // Process nested versions
+        if (survey.SurveyVersions__r != null) {
+            for (SurveyVersion__c version : survey.SurveyVersions__r) {
+                model.versions.add(SurveyVersionModel.fromSObject(version));
+            }
+        }
+        
+        return model;
+    }
+} 

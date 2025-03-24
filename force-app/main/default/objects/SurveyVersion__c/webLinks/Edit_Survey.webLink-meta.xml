@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Edit_Survey</fullName>
+    <availability>online</availability>
+    <displayType>link</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <linkType>url</linkType>
+    <masterLabel>Edit Survey</masterLabel>
+    <openType>replace</openType>
+    <protected>false</protected>
+    <url>/lightning/n/SurveySF?versionId={!SurveyVersion__c.Id}</url>
+</WebLink>

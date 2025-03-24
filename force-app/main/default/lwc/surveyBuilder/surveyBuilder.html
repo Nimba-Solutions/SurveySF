@@ -1,0 +1,36 @@
+<template>
+    <div if:false={notFound}>
+        <header class="slds-builder-header">
+            <div class="slds-builder-header__item">
+                <div class="slds-builder-header__item-label slds-media slds-media_center">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-utility-builder slds-current-color">
+                            <lightning-icon icon-name="standard:survey" alternative-text="Survey" size="small"
+                                title={surveyJson.title}></lightning-icon>
+                        </span>
+                    </div>
+                    <div class="slds-media__body">{surveyJson.title}</div>
+                </div>
+            </div>
+        </header>
+        <div class="slds-builder-toolbar" role="toolbar">
+            <div if:false={isLoading} class="slds-builder-toolbar__actions" aria-label="Document actions">
+                <lightning-button disabled={isSaveDisabled} variant="brand" label="Save" title="Save"
+                    onclick={handleSave} class="slds-m-left_x-small"></lightning-button>
+            </div>
+        </div>
+    </div>
+    <div if:false={notFound}>
+        <lightning-spinner if:true={isLoading} alternative-text="Loading"></lightning-spinner>
+        <c-survey-js-event-debugger creator-instance={creator}></c-survey-js-event-debugger>
+        <div class="surveyContainer" lwc:dom="manual"></div>
+    </div>
+    <div if:true={notFound}
+        class="slds-illustration slds-illustration_large slds-theme_default surveyContainer slds-p-top_medium"
+        aria-hidden="true">
+        <img src="/img/chatter/OpenRoad.svg" class="slds-illustration__svg" alt="" />
+        <div class="slds-text-color_weak">
+            <h3 class="slds-text-heading_medium">Survey Not Found!</h3>
+        </div>
+    </div>
+</template>

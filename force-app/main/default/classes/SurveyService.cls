@@ -1,74 +1,233 @@
-public with sharing class SurveyService {
-    
-    // TODO: Implement this method
-    public static String createJsonFromRecords(Survey__c survey, List<SurveyVersion__c> versions, List<Page__c> pages, List<Element__c> elements) {
-        Map<String, Object> surveyJson = new Map<String, Object>();
-        return JSON.serialize(surveyJson);
+public class SurveyService {
+    public static SurveyModel createFromJson(String jsonString) {
+        return (SurveyModel)JSON.deserialize(jsonString, SurveyModel.class);
     }
-
-    public static void createRecordsFromJson(String jsonInput) {
-        try {
-            // Deserialize the JSON input into a Map
-            Map<String, Object> surveyData = (Map<String, Object>) JSON.deserializeUntyped(jsonInput);
-            
-            // Create Survey record
-            Survey__c survey = new Survey__c(
-                Name = 'Survey from JSON'
-            );
-            insert survey;
-            
-            // Create SurveyVersion record
-            SurveyVersion__c version = new SurveyVersion__c(
-                Survey__c = survey.Id,
-                VersionNumber__c = '1.0',
-                Status__c = 'Draft',
-                Body__c = jsonInput
-            );
-            insert version;
-            
-            // Create Page records
-            List<Page__c> pages = new List<Page__c>();
-            List<Object> pagesData = (List<Object>) surveyData.get('pages');
-            if (pagesData != null) {
-                for (Integer i = 0; i < pagesData.size(); i++) {
-                    Map<String, Object> pageData = (Map<String, Object>) pagesData[i];
-                    pages.add(new Page__c(
-                        SurveyVersion__c = version.Id,
-                        Name = (String) pageData.get('name'),
-                        Sequence__c = i + 1,
-                        Body__c = JSON.serialize(pageData)
-                    ));
-                }
-                insert pages;
-            }
-            
-            // Create Element records
-            List<Element__c> elements = new List<Element__c>();
-            for (Integer i = 0; i < pages.size(); i++) {
-                Map<String, Object> pageData = (Map<String, Object>) pagesData[i];
-                List<Object> elementsData = (List<Object>) pageData.get('elements');
-                if (elementsData != null) {
-                    for (Integer j = 0; j < elementsData.size(); j++) {
-                        Map<String, Object> elementData = (Map<String, Object>) elementsData[j];
-                        elements.add(new Element__c(
-                            Page__c = pages[i].Id,
-                            Name = (String) elementData.get('name'),
-                            Sequence__c = j + 1,
-                            Body__c = JSON.serialize(elementData)
-                        ));
+    
+    public static String toJson(SurveyModel model) {
+        return JSON.serialize(model);
+    }
+    
+    public static Survey__c saveSurvey(SurveyModel model) {
+        // First save the survey
+        Survey__c survey = model.toSObject();
+        insert survey;
+        
+        // Then save each version and its nested records
+        if (model.versions != null) {
+            for (SurveyVersionModel versionModel : model.versions) {
+                SurveyVersion__c version = versionModel.toSObject(survey.Id);
+                insert version;
+                
+                // Save each page and its elements
+                if (versionModel.pages != null) {
+                    for (PageModel pageModel : versionModel.pages) {
+                        Page__c page = pageModel.toSObject(version.Id);
+                        insert page;
+                        
+                        // Save each element
+                        if (pageModel.elements != null) {
+                            for (ElementModel elementModel : pageModel.elements) {
+                                Element__c element = elementModel.toSObject(page.Id);
+                                insert element;
+                            }
+                        }
                     }
                 }
             }
-            if (!elements.isEmpty()) {
-                insert elements;
+        }
+        
+        return survey;
+    }
+    
+    public static SurveyModel getSurvey(Id surveyId) {
+        // Get survey with its versions
+        Survey__c survey = [SELECT Id, Title__c, Description__c, WidthMode__c, Width__c,
+                          (SELECT Id, VersionNumber__c, IsActive__c
+                           FROM SurveyVersions__r
+                           ORDER BY VersionNumber__c DESC)
+                          FROM Survey__c
+                          WHERE Id = :surveyId];
+        
+        // Get pages for each version
+        List<SurveyVersion__c> versions = survey.SurveyVersions__r;
+        if (versions != null && !versions.isEmpty()) {
+            List<Id> versionIds = new List<Id>();
+            for (SurveyVersion__c v : versions) {
+                versionIds.add(v.Id);
             }
             
-            System.debug('Survey created successfully. Survey Id: ' + survey.Id);
-            System.debug('Number of pages created: ' + pages.size());
-            System.debug('Number of elements created: ' + elements.size());
-        } catch (Exception e) {
-            System.debug('Error creating records from JSON: ' + e.getMessage());
-            System.debug('Stack trace: ' + e.getStackTraceString());
+            List<Page__c> pages = [SELECT Id, Name__c, Order__c, SurveyVersion__c
+                                 FROM Page__c
+                                 WHERE SurveyVersion__c IN :versionIds
+                                 ORDER BY Order__c ASC];
+            
+            // Get elements for each page
+            if (!pages.isEmpty()) {
+                List<Id> pageIds = new List<Id>();
+                for (Page__c p : pages) {
+                    pageIds.add(p.Id);
+                }
+                
+                List<Element__c> elements = [SELECT Id, Type__c, Name__c, Title__c, Order__c, IsRequired__c, VisibleIf__c, Page__c
+                                          FROM Element__c
+                                          WHERE Page__c IN :pageIds
+                                          ORDER BY Order__c ASC];
+                
+                // Build the relationships using models
+                Map<Id, List<ElementModel>> elementsByPage = new Map<Id, List<ElementModel>>();
+                for (Element__c e : elements) {
+                    if (!elementsByPage.containsKey(e.Page__c)) {
+                        elementsByPage.put(e.Page__c, new List<ElementModel>());
+                    }
+                    elementsByPage.get(e.Page__c).add(ElementModel.fromSObject(e));
+                }
+                
+                Map<Id, List<PageModel>> pagesByVersion = new Map<Id, List<PageModel>>();
+                for (Page__c p : pages) {
+                    if (!pagesByVersion.containsKey(p.SurveyVersion__c)) {
+                        pagesByVersion.put(p.SurveyVersion__c, new List<PageModel>());
+                    }
+                    PageModel pageModel = PageModel.fromSObject(p);
+                    pageModel.elements = elementsByPage.get(p.Id);
+                    pagesByVersion.get(p.SurveyVersion__c).add(pageModel);
+                }
+                
+                // Build the complete model
+                SurveyModel model = SurveyModel.fromSObject(survey);
+                for (SurveyVersionModel versionModel : model.versions) {
+                    versionModel.pages = pagesByVersion.get(versionModel.recordId);
+                }
+                return model;
+            }
         }
+        
+        return SurveyModel.fromSObject(survey);
     }
-}
+    
+    public static String saveAndEnrichJson(String jsonString) {
+        // Convert JSON to model
+        SurveyModel model = createFromJson(jsonString);
+        
+        // Save the survey and get the created records
+        Survey__c survey = saveSurvey(model);
+        
+        // Get the complete model with all record IDs
+        SurveyModel enrichedModel = getSurvey(survey.Id);
+        
+        // Convert back to JSON
+        return toJson(enrichedModel);
+    }
+    
+    public static String getLatestVersionJson(Id surveyId) {
+        // Get survey with its active version
+        Survey__c survey = [SELECT Id, Title__c, Description__c, WidthMode__c, Width__c,
+                          (SELECT Id, VersionNumber__c, IsActive__c
+                           FROM SurveyVersions__r
+                           WHERE IsActive__c = true
+                           ORDER BY VersionNumber__c DESC
+                           LIMIT 1)
+                          FROM Survey__c
+                          WHERE Id = :surveyId];
+        
+        if (survey.SurveyVersions__r.isEmpty()) {
+            throw new SurveyException('No active version found for this survey');
+        }
+        
+        // Get pages for the version
+        SurveyVersion__c version = survey.SurveyVersions__r[0];
+        List<Page__c> pages = [SELECT Id, Name__c, Order__c, SurveyVersion__c
+                             FROM Page__c
+                             WHERE SurveyVersion__c = :version.Id
+                             ORDER BY Order__c ASC];
+        
+        // Get elements for each page
+        if (!pages.isEmpty()) {
+            List<Id> pageIds = new List<Id>();
+            for (Page__c p : pages) {
+                pageIds.add(p.Id);
+            }
+            
+            List<Element__c> elements = [SELECT Id, Type__c, Name__c, Title__c, Order__c, IsRequired__c, VisibleIf__c, Page__c
+                                      FROM Element__c
+                                      WHERE Page__c IN :pageIds
+                                      ORDER BY Order__c ASC];
+            
+            // Build the relationships using models
+            Map<Id, List<ElementModel>> elementsByPage = new Map<Id, List<ElementModel>>();
+            for (Element__c e : elements) {
+                if (!elementsByPage.containsKey(e.Page__c)) {
+                    elementsByPage.put(e.Page__c, new List<ElementModel>());
+                }
+                elementsByPage.get(e.Page__c).add(ElementModel.fromSObject(e));
+            }
+            
+            // Build the complete model
+            SurveyModel model = SurveyModel.fromSObject(survey);
+            SurveyVersionModel versionModel = model.versions[0];
+            versionModel.pages = new List<PageModel>();
+            
+            for (Page__c p : pages) {
+                PageModel pageModel = PageModel.fromSObject(p);
+                pageModel.elements = elementsByPage.get(p.Id);
+                versionModel.pages.add(pageModel);
+            }
+            
+            return toJson(model);
+        }
+        
+        return toJson(SurveyModel.fromSObject(survey));
+    }
+    
+    public static String getVersionJson(Id versionId) {
+        // Get version with its pages
+        SurveyVersion__c version = [SELECT Id, Survey__c, VersionNumber__c, IsActive__c,
+                                  (SELECT Id, Name__c, Order__c
+                                   FROM Pages__r
+                                   ORDER BY Order__c ASC)
+                                  FROM SurveyVersion__c
+                                  WHERE Id = :versionId];
+        
+        // Get survey
+        Survey__c survey = [SELECT Id, Title__c, Description__c, WidthMode__c, Width__c
+                          FROM Survey__c
+                          WHERE Id = :version.Survey__c];
+        
+        // Get elements for each page
+        if (!version.Pages__r.isEmpty()) {
+            List<Id> pageIds = new List<Id>();
+            for (Page__c p : version.Pages__r) {
+                pageIds.add(p.Id);
+            }
+            
+            List<Element__c> elements = [SELECT Id, Type__c, Name__c, Title__c, Order__c, IsRequired__c, VisibleIf__c, Page__c
+                                      FROM Element__c
+                                      WHERE Page__c IN :pageIds
+                                      ORDER BY Order__c ASC];
+            
+            // Build the relationships using models
+            Map<Id, List<ElementModel>> elementsByPage = new Map<Id, List<ElementModel>>();
+            for (Element__c e : elements) {
+                if (!elementsByPage.containsKey(e.Page__c)) {
+                    elementsByPage.put(e.Page__c, new List<ElementModel>());
+                }
+                elementsByPage.get(e.Page__c).add(ElementModel.fromSObject(e));
+            }
+            
+            // Build the complete model
+            SurveyModel model = SurveyModel.fromSObject(survey);
+            SurveyVersionModel versionModel = SurveyVersionModel.fromSObject(version);
+            versionModel.pages = new List<PageModel>();
+            
+            for (Page__c p : version.Pages__r) {
+                PageModel pageModel = PageModel.fromSObject(p);
+                pageModel.elements = elementsByPage.get(p.Id);
+                versionModel.pages.add(pageModel);
+            }
+            
+            model.versions = new List<SurveyVersionModel>{versionModel};
+            return toJson(model);
+        }
+        
+        return toJson(SurveyModel.fromSObject(survey));
+    }
+} 

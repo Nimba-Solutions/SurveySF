@@ -1,31 +1,35 @@
 public class SurveyVersionModel {
-    public Id id { get; set; }
-    public Id surveyId { get; set; }
-    public String versionNumber { get; set; }
-    public String status { get; set; }
-    public String body { get; set; }
-    public Datetime activatedDate { get; set; }
-    public List<PageModel> pages { get; set; }
-
-    public static SurveyVersionModel fromRecord(SurveyVersion__c version) {
-        SurveyVersionModel model = new SurveyVersionModel();
-        model.id = version.Id;
-        model.surveyId = version.Survey__c;
-        model.versionNumber = version.VersionNumber__c;
-        model.status = version.Status__c;
-        model.body = version.Body__c;
-        model.activatedDate = version.ActivatedDate__c;
-        return model;
+    public String recordId;
+    public Decimal versionNumber;
+    public Boolean isActive;
+    public List<PageModel> pages;
+    
+    public SurveyVersionModel() {
+        this.pages = new List<PageModel>();
     }
-
-    public SurveyVersion__c toRecord() {
+    
+    public SurveyVersion__c toSObject(Id surveyId) {
         return new SurveyVersion__c(
-            Id = this.id,
-            Survey__c = this.surveyId,
+            Id = this.recordId,
+            Survey__c = surveyId,
             VersionNumber__c = this.versionNumber,
-            Status__c = this.status,
-            Body__c = this.body,
-            ActivatedDate__c = this.activatedDate
+            IsActive__c = this.isActive
         );
     }
-}
+    
+    public static SurveyVersionModel fromSObject(SurveyVersion__c version) {
+        SurveyVersionModel model = new SurveyVersionModel();
+        model.recordId = version.Id;
+        model.versionNumber = version.VersionNumber__c;
+        model.isActive = version.IsActive__c;
+        
+        // Process nested pages
+        if (version.Pages__r != null) {
+            for (Page__c page : version.Pages__r) {
+                model.pages.add(PageModel.fromSObject(page));
+            }
+        }
+        
+        return model;
+    }
+} 

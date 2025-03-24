@@ -1,30 +1,39 @@
 public class ElementModel {
-    public Id id { get; set; }
-    public Id pageId { get; set; }
-    public String name { get; set; }
-    public String type { get; set; }
-    public Decimal sequence { get; set; }
-    public String body { get; set; }
-
-    public static ElementModel fromRecord(Element__c element) {
+    public String recordId;
+    public String type;
+    public String name;
+    public String title;
+    public Decimal order;
+    public Boolean isRequired;
+    public String visibleIf;
+    public Map<String, Object> properties;
+    
+    public ElementModel() {
+        this.properties = new Map<String, Object>();
+    }
+    
+    public Element__c toSObject(Id pageId) {
+        Element__c element = new Element__c(
+            Page__c = pageId,
+            Type__c = this.type,
+            Name__c = this.name,
+            Title__c = this.title,
+            Order__c = this.order,
+            IsRequired__c = this.isRequired,
+            VisibleIf__c = this.visibleIf
+        );
+        return element;
+    }
+    
+    public static ElementModel fromSObject(Element__c element) {
         ElementModel model = new ElementModel();
-        model.id = element.Id;
-        model.pageId = element.Page__c;
-        model.name = element.Name;
+        model.recordId = element.Id;
         model.type = element.Type__c;
-        model.sequence = element.Sequence__c;
-        model.body = element.Body__c;
+        model.name = element.Name__c;
+        model.title = element.Title__c;
+        model.order = element.Order__c;
+        model.isRequired = element.IsRequired__c;
+        model.visibleIf = element.VisibleIf__c;
         return model;
     }
-
-    public Element__c toRecord() {
-        return new Element__c(
-            Id = this.id,
-            Page__c = this.pageId,
-            Name = this.name,
-            Type__c = this.type,
-            Sequence__c = this.sequence,
-            Body__c = this.body
-        );
-    }
-}
+} 

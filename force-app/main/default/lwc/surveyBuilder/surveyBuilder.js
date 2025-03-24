@@ -1,6 +1,9 @@
 import { LightningElement } from 'lwc';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import saveSurvey from '@salesforce/apex/SurveyBuilderController.saveSurvey';
+import getLatestVersion from '@salesforce/apex/SurveyBuilderController.getLatestVersion';
+import getVersionById from '@salesforce/apex/SurveyBuilderController.getVersionById';
 import SURVEY_CORE from '@salesforce/resourceUrl/surveycore';
 import SURVEY_JS_UI from '@salesforce/resourceUrl/surveyjsui';
 import SURVEY_CORE_CSS from "@salesforce/resourceUrl/surveycoremin";
@@ -9,10 +12,6 @@ import SURVEY_CREATOR_CORE_JS from '@salesforce/resourceUrl/surveycreatorcorejs'
 import SURVEY_CREATOR_JS from '@salesforce/resourceUrl/surveycreatormin';
 import SURVEY_INDEX_JS from '@salesforce/resourceUrl/indexmin';
 import DEFAULT_SURVEY_JSON from '@salesforce/resourceUrl/defaultSurveyJson';
-import getVersionById from '@salesforce/apex/SurveyController.getVersionById';
-import getLatestVersion from '@salesforce/apex/SurveyController.getLatestVersion';
-import saveVersionAsDraft from '@salesforce/apex/SurveyController.saveVersionAsDraft';
-import saveVersionAsActive from '@salesforce/apex/SurveyController.saveVersionAsActive';
 
 export default class SurveyBuilder extends LightningElement {
     surveyInitialized = false;
@@ -37,8 +36,8 @@ export default class SurveyBuilder extends LightningElement {
             const versionId = urlParams.get('versionId');
             getVersionById({ versionId })
                 .then(result => {
-                    this.surveyVersionRec = result;
-                    this.surveyJson = JSON.parse(result.body);
+                    this.surveyVersionRec = { body: result };
+                    this.surveyJson = JSON.parse(result);
                     this.initializeSurvey();
                 })
                 .catch(error => {
@@ -49,8 +48,8 @@ export default class SurveyBuilder extends LightningElement {
             const surveyId = urlParams.get('surveyId');
             getLatestVersion({ surveyId })
                 .then(result => {
-                    this.surveyVersionRec = result;
-                    this.surveyJson = JSON.parse(result.body);
+                    this.surveyVersionRec = { body: result };
+                    this.surveyJson = JSON.parse(result);
                     this.initializeSurvey();
                 })
                 .catch(error => {
@@ -112,22 +111,9 @@ export default class SurveyBuilder extends LightningElement {
             this.changesUnSaved = true;
             this.surveyJson = JSON.parse(creator.text);
             
-            const savePromise = this.showActivate ? 
-                saveVersionAsDraft({ 
-                    versionModel: {
-                        ...this.surveyVersionRec,
-                        body: creator.text
-                    }
-                }) :
-                saveVersionAsActive({ 
-                    versionModel: {
-                        ...this.surveyVersionRec,
-                        body: creator.text
-                    }
-                });
-
-            savePromise
-                .then(() => {
+            saveSurvey({ jsonString: creator.text })
+                .then(result => {
+                    this.surveyJson = JSON.parse(result);
                     this.changesUnSaved = false;
                     this.showSuccessToast('Survey saved successfully');
                     callback(saveNo, true);
@@ -149,22 +135,9 @@ export default class SurveyBuilder extends LightningElement {
             return;
         }
 
-        const isNewVersion = event.target.dataset.version === 'new';
-        const versionModel = {
-            ...this.surveyVersionRec,
-            body: JSON.stringify(this.surveyJson)
-        };
-
-        if (isNewVersion) {
-            delete versionModel.Id;
-        }
-
-        const savePromise = this.showActivate ?
-            saveVersionAsDraft({ versionModel }) :
-            saveVersionAsActive({ versionModel });
-
-        savePromise
-            .then(() => {
+        saveSurvey({ jsonString: JSON.stringify(this.surveyJson) })
+            .then(result => {
+                this.surveyJson = JSON.parse(result);
                 this.changesUnSaved = false;
                 this.disableSave = true;
                 this.showSuccessToast('Survey saved successfully');
@@ -199,8 +172,8 @@ export default class SurveyBuilder extends LightningElement {
         const surveyId = this.surveyVersionRec.Survey__c;
         getLatestVersion({ surveyId })
             .then(result => {
-                this.surveyVersionRec = result;
-                this.surveyJson = JSON.parse(result.body);
+                this.surveyVersionRec = { body: result };
+                this.surveyJson = JSON.parse(result);
             })
             .catch(error => {
                 console.error('Error refreshing version:', error);
@@ -217,9 +190,9 @@ export default class SurveyBuilder extends LightningElement {
         const versionId = event.currentTarget.dataset.surveyid;
         getVersionById({ versionId })
             .then(result => {
-                this.surveyVersionRec = result;
-                this.surveyJson = JSON.parse(result.body);
-                this.creator.text = result.body;
+                this.surveyVersionRec = { body: result };
+                this.surveyJson = JSON.parse(result);
+                this.creator.text = result;
             })
             .catch(error => {
                 console.error('Error opening version:', error);

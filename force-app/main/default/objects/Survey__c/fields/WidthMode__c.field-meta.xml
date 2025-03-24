@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Type__c</fullName>
-    <label>Type</label>
+    <fullName>WidthMode__c</fullName>
+    <externalId>false</externalId>
+    <label>Width Mode</label>
     <required>false</required>
-    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -11,20 +11,13 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Text</fullName>
-                <default>false</default>
-                <label>Text</label>
+                <fullName>static</fullName>
+                <default>true</default>
             </value>
             <value>
-                <fullName>Number</fullName>
+                <fullName>responsive</fullName>
                 <default>false</default>
-                <label>Number</label>
-            </value>
-            <value>
-                <fullName>Date</fullName>
-                <default>false</default>
-                <label>Date</label>
             </value>
         </valueSetDefinition>
     </valueSet>
-</CustomField>
+</CustomField> 

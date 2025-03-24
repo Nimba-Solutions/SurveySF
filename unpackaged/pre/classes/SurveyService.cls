@@ -237,8 +237,8 @@ public with sharing class SurveyService {
     @AuraEnabled
     public static SurveyModel getSurvey(Id surveyId) {
         Survey__c survey = [
-            SELECT Id, Name, Description__c, Is_Active__c,
-                   (SELECT Id, Name, Version__c, Is_Active__c, Body__c 
+            SELECT Id, Name, Description__c, Status__c,
+                   (SELECT Id, Name, Version__c, Status__c, Body__c 
                     FROM Survey_Versions__r 
                     ORDER BY Version__c DESC)
             FROM Survey__c 

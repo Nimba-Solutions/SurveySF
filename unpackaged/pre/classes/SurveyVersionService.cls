@@ -2,7 +2,7 @@ public class SurveyVersionService {
     @AuraEnabled
     public static SurveyVersionModel getSurveyVersion(Id versionId) {
         Survey_Version__c version = [
-            SELECT Id, Name, Version__c, Is_Active__c, Body__c,
+            SELECT Id, Name, Version__c, Status__c, Body__c,
                    (SELECT Id, Name, Sequence__c, Body__c 
                     FROM Pages__r 
                     ORDER BY Sequence__c ASC)

@@ -10,7 +10,6 @@ public class SurveyModel {
         model.id = record.Id;
         model.name = record.Name;
         model.description = record.Description__c;
-        model.isActive = record.Is_Active__c;
         return model;
     }
     
@@ -18,8 +17,7 @@ public class SurveyModel {
         return new Survey__c(
             Id = this.id,
             Name = this.name,
-            Description__c = this.description,
-            Is_Active__c = this.isActive
+            Description__c = this.description
         );
     }
 } 

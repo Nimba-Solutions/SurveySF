@@ -1,8 +1,8 @@
 # Using these workflows
 
 ## Initial Setup
-- [X] Navigate to Your Repository > Settings > Secrets and Actions > Actions
-- [X] Create a new Repository Secret: `DEV_HUB_AUTH_URL`, and populate it with your Dev Hub's `sfdxAuthUrl` 
+- [ ] Navigate to Your Repository > Settings > Secrets and Actions > Actions
+- [ ] Create a new Repository Secret: `DEV_HUB_AUTH_URL`, and populate it with your Dev Hub's `sfdxAuthUrl` 
 - [ ] [Optional] Create a new Repository Secret: `SANDBOX_ORG_AUTH_URL`, and populate it with your UAT Sandbox's `sfdxAuthUrl` 
 - [ ] [Optional] Create a new Repository Secret: `PROD_ORG_AUTH_URL`, and populate it with your Production Org's `sfdxAuthUrl` 
 

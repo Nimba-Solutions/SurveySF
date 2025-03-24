@@ -1,28 +1,35 @@
 public class PageModel {
-    public Id id { get; set; }
-    public Id surveyVersionId { get; set; }
-    public String name { get; set; }
-    public Decimal sequence { get; set; }
-    public String body { get; set; }
-    public List<ElementModel> elements { get; set; }
-
-    public static PageModel fromRecord(Page__c page) {
-        PageModel model = new PageModel();
-        model.id = page.Id;
-        model.surveyVersionId = page.SurveyVersion__c;
-        model.name = page.Name;
-        model.sequence = page.Sequence__c;
-        model.body = page.Body__c;
-        return model;
+    public String recordId;
+    public String name;
+    public Decimal order;
+    public List<ElementModel> elements;
+    
+    public PageModel() {
+        this.elements = new List<ElementModel>();
     }
-
-    public Page__c toRecord() {
+    
+    public Page__c toSObject(Id versionId) {
         return new Page__c(
-            Id = this.id,
-            SurveyVersion__c = this.surveyVersionId,
-            Name = this.name,
-            Sequence__c = this.sequence,
-            Body__c = this.body
+            Id = this.recordId,
+            SurveyVersion__c = versionId,
+            Name__c = this.name,
+            Order__c = this.order
         );
     }
-}
+    
+    public static PageModel fromSObject(Page__c page) {
+        PageModel model = new PageModel();
+        model.recordId = page.Id;
+        model.name = page.Name__c;
+        model.order = page.Order__c;
+        
+        // Process nested elements
+        if (page.Elements__r != null) {
+            for (Element__c element : page.Elements__r) {
+                model.elements.add(ElementModel.fromSObject(element));
+            }
+        }
+        
+        return model;
+    }
+} 

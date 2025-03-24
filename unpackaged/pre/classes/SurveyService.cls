@@ -1,7 +1,7 @@
 public with sharing class SurveyService {
     
     private static Survey__c getSurveyRecord(Id surveyId) {
-        return [SELECT Id, Name, Description__c, Body__c 
+        return [SELECT Id, Name, Body__c 
                 FROM Survey__c 
                 WHERE Id = :surveyId];
     }
@@ -237,9 +237,9 @@ public with sharing class SurveyService {
     @AuraEnabled
     public static SurveyModel getSurvey(Id surveyId) {
         Survey__c survey = [
-            SELECT Id, Name, Description__c, Status__c,
+            SELECT Id, Name, Body__c,
                    (SELECT Id, Name, Version__c, Status__c, Body__c 
-                    FROM Survey_Versions__r 
+                    FROM SurveyVersions__r 
                     ORDER BY Version__c DESC)
             FROM Survey__c 
             WHERE Id = :surveyId
@@ -248,7 +248,7 @@ public with sharing class SurveyService {
         SurveyModel model = SurveyModel.toJson(survey);
         model.versions = new List<SurveyVersionModel>();
         
-        for(Survey_Version__c version : survey.Survey_Versions__r) {
+        for(SurveyVersion__c version : survey.SurveyVersions__r) {
             model.versions.add(SurveyVersionModel.toJson(version));
         }
         
@@ -262,9 +262,9 @@ public with sharing class SurveyService {
         
         // If we have versions, save them too
         if(model.versions != null && !model.versions.isEmpty()) {
-            List<Survey_Version__c> versions = new List<Survey_Version__c>();
+            List<SurveyVersion__c> versions = new List<SurveyVersion__c>();
             for(SurveyVersionModel versionModel : model.versions) {
-                Survey_Version__c version = versionModel.toRecord();
+                SurveyVersion__c version = versionModel.toRecord();
                 version.Survey__c = survey.Id;
                 versions.add(version);
             }

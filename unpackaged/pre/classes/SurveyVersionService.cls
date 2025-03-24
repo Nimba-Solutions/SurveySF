@@ -1,12 +1,12 @@
 public class SurveyVersionService {
     @AuraEnabled
     public static SurveyVersionModel getSurveyVersion(Id versionId) {
-        Survey_Version__c version = [
+        SurveyVersion__c version = [
             SELECT Id, Name, Version__c, Status__c, Body__c,
                    (SELECT Id, Name, Sequence__c, Body__c 
                     FROM Pages__r 
                     ORDER BY Sequence__c ASC)
-            FROM Survey_Version__c 
+            FROM SurveyVersion__c 
             WHERE Id = :versionId
         ];
         
@@ -37,7 +37,7 @@ public class SurveyVersionService {
     
     @AuraEnabled
     public static SurveyVersionModel saveSurveyVersion(SurveyVersionModel model) {
-        Survey_Version__c version = model.toRecord();
+        SurveyVersion__c version = model.toRecord();
         upsert version;
         
         // Save pages and elements
@@ -47,7 +47,7 @@ public class SurveyVersionService {
             
             for(PageModel pageModel : model.pages) {
                 Page__c page = pageModel.toRecord();
-                page.Survey_Version__c = version.Id;
+                page.SurveyVersion__c = version.Id;
                 pages.add(page);
                 
                 // Save elements for this page
@@ -69,6 +69,6 @@ public class SurveyVersionService {
     
     @AuraEnabled
     public static void deleteSurveyVersion(Id versionId) {
-        delete [SELECT Id FROM Survey_Version__c WHERE Id = :versionId];
+        delete [SELECT Id FROM SurveyVersion__c WHERE Id = :versionId];
     }
 } 

@@ -7,7 +7,7 @@ public class SurveyVersionModel {
     @AuraEnabled public String body { get; set; }
     @AuraEnabled public List<PageModel> pages { get; set; }
     
-    public static SurveyVersionModel toJson(Survey_Version__c record) {
+    public static SurveyVersionModel toJson(SurveyVersion__c record) {
         SurveyVersionModel model = new SurveyVersionModel();
         model.id = record.Id;
         model.surveyId = record.Survey__c;
@@ -18,8 +18,8 @@ public class SurveyVersionModel {
         return model;
     }
     
-    public Survey_Version__c toRecord() {
-        return new Survey_Version__c(
+    public SurveyVersion__c toRecord() {
+        return new SurveyVersion__c(
             Id = this.id,
             Survey__c = this.surveyId,
             Name = this.name,

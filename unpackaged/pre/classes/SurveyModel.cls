@@ -1,15 +1,14 @@
 public class SurveyModel {
     @AuraEnabled public Id id { get; set; }
     @AuraEnabled public String name { get; set; }
-    @AuraEnabled public String description { get; set; }
-    @AuraEnabled public Boolean isActive { get; set; }
+    @AuraEnabled public String body { get; set; }
     @AuraEnabled public List<SurveyVersionModel> versions { get; set; }
     
     public static SurveyModel toJson(Survey__c record) {
         SurveyModel model = new SurveyModel();
         model.id = record.Id;
         model.name = record.Name;
-        model.description = record.Description__c;
+        model.body = record.Body__c;
         return model;
     }
     
@@ -17,7 +16,7 @@ public class SurveyModel {
         return new Survey__c(
             Id = this.id,
             Name = this.name,
-            Description__c = this.description
+            Body__c = this.body
         );
     }
 } 

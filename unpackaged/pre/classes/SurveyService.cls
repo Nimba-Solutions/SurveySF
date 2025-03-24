@@ -278,4 +278,13 @@ public with sharing class SurveyService {
     public static void deleteSurvey(Id surveyId) {
         delete [SELECT Id FROM Survey__c WHERE Id = :surveyId];
     }
+
+    private static SurveyVersion__c getLatestVersionRecord(Id surveyId) {
+        return [SELECT Id, Name, Survey__c, Version__c, 
+                Status__c, Body__c, ActivatedDate__c 
+                FROM SurveyVersion__c 
+                WHERE Survey__c = :surveyId 
+                ORDER BY Version__c DESC 
+                LIMIT 1];
+    }
 } 

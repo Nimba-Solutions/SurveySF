@@ -1,4 +1,5 @@
 {
+    "recordId": "006000000000001",
     "title": "Survey Title",
     "description": "Survey Description",
     "completedHtmlOnCondition": [
@@ -26,13 +27,16 @@
     ],
     "pages": [
         {
+            "recordId": "007000000000001",
             "name": "page1",
             "elements": [
                 {
+                    "recordId": "008000000000001",
                     "type": "rating",
                     "name": "question2"
                 },
                 {
+                    "recordId": "008000000000002",
                     "type": "rating",
                     "name": "nps-score",
                     "startWithNewLine": false,
@@ -54,6 +58,7 @@
                     "rateDescriptionLocation": "bottom"
                 },
                 {
+                    "recordId": "008000000000003",
                     "type": "dropdown",
                     "name": "question1",
                     "choices": [
@@ -64,6 +69,7 @@
                     ]
                 },
                 {
+                    "recordId": "008000000000004",
                     "type": "comment",
                     "name": "disappointing-experience",
                     "visibleIf": "{nps-score} <= 5",
@@ -74,6 +80,7 @@
                     "maxLength": 300
                 },
                 {
+                    "recordId": "008000000000005",
                     "type": "comment",
                     "name": "improvements-required",
                     "visibleIf": "{nps-score} >= 6",
@@ -84,6 +91,7 @@
                     "maxLength": 300
                 },
                 {
+                    "recordId": "008000000000006",
                     "type": "checkbox",
                     "name": "promoter-features",
                     "visibleIf": "{nps-score} >= 9",
@@ -152,9 +160,11 @@
             ]
         },
         {
+            "recordId": "007000000000002",
             "name": "page2",
             "elements": [
                 {
+                    "recordId": "008000000000007",
                     "type": "boolean",
                     "name": "rebuy",
                     "title": {
@@ -165,9 +175,11 @@
             ]
         },
         {
+            "recordId": "007000000000003",
             "name": "page3",
             "elements": [
                 {
+                    "recordId": "008000000000008",
                     "type": "radiogroup",
                     "name": "testimonial",
                     "title": {
@@ -192,6 +204,7 @@
                     ]
                 },
                 {
+                    "recordId": "008000000000009",
                     "type": "text",
                     "name": "email",
                     "visibleIf": "{testimonial} = 'yes'",

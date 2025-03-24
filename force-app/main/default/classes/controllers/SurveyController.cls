@@ -20,19 +20,7 @@ public with sharing class SurveyController {
     }
     
     @AuraEnabled
-    public static void saveVersion(SurveyVersionModel versionModel) {
-        SurveyService.saveVersion(versionModel);
-    }
-    
-    @AuraEnabled
-    public static void saveVersionAsDraft(SurveyVersionModel versionModel) {
-        versionModel.status = 'Draft';
-        SurveyService.saveVersion(versionModel);
-    }
-    
-    @AuraEnabled
-    public static void saveVersionAsActive(SurveyVersionModel versionModel) {
-        versionModel.status = 'Active';
-        SurveyService.saveVersion(versionModel);
+    public static SurveyVersionModel saveVersion(SurveyVersionModel versionModel) {
+        return SurveyService.saveVersion(versionModel);
     }
 } 

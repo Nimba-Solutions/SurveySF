@@ -9,10 +9,8 @@ import SURVEY_CREATOR_CORE_JS from '@salesforce/resourceUrl/surveycreatorcorejs'
 import SURVEY_CREATOR_JS from '@salesforce/resourceUrl/surveycreatormin';
 import SURVEY_INDEX_JS from '@salesforce/resourceUrl/indexmin';
 import DEFAULT_SURVEY_JSON from '@salesforce/resourceUrl/defaultSurveyJson';
-import getLatestDraftVersion from '@salesforce/apex/SurveyController.getLatestDraftVersion';
-import getLatestActiveVersion from '@salesforce/apex/SurveyController.getLatestActiveVersion';
-import getLatestVersion from '@salesforce/apex/SurveyController.getLatestVersion';
 import getVersionById from '@salesforce/apex/SurveyController.getVersionById';
+import getLatestVersion from '@salesforce/apex/SurveyController.getLatestVersion';
 import saveVersionAsDraft from '@salesforce/apex/SurveyController.saveVersionAsDraft';
 import saveVersionAsActive from '@salesforce/apex/SurveyController.saveVersionAsActive';
 
@@ -199,11 +197,7 @@ export default class SurveyBuilder extends LightningElement {
 
     refreshVersion() {
         const surveyId = this.surveyVersionRec.Survey__c;
-        const getVersionPromise = this.showActivate ?
-            getLatestDraftVersion({ surveyId }) :
-            getLatestActiveVersion({ surveyId });
-
-        getVersionPromise
+        getLatestVersion({ surveyId })
             .then(result => {
                 this.surveyVersionRec = result;
                 this.surveyJson = JSON.parse(result.body);
@@ -221,7 +215,7 @@ export default class SurveyBuilder extends LightningElement {
 
     openVersion(event) {
         const versionId = event.currentTarget.dataset.surveyid;
-        getLatestVersion({ surveyId: versionId })
+        getVersionById({ versionId })
             .then(result => {
                 this.surveyVersionRec = result;
                 this.surveyJson = JSON.parse(result.body);

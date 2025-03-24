@@ -68,16 +68,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>surveyPreview</componentName>
-                <identifier>c_surveyPreview</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-3c367c47-b9cb-4219-bbc3-8edfdafd4a2f</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
                     <value>relatedTabContent</value>

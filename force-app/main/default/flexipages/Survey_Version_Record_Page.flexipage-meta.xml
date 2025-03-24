@@ -35,16 +35,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>surveyPreview</componentName>
-                <identifier>c_surveyPreview</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-65938532-67d1-4ff4-9519-9349492e070e</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>

@@ -1,4 +1,4 @@
-public class SurveyVersionService {
+public with sharing class SurveyVersionService {
     @AuraEnabled
     public static SurveyVersionModel getSurveyVersion(Id versionId) {
         SurveyVersion__c version = [
@@ -14,22 +14,7 @@ public class SurveyVersionService {
         model.pages = new List<PageModel>();
         
         for(Page__c page : version.Pages__r) {
-            PageModel pageModel = PageModel.toJson(page);
-            pageModel.elements = new List<ElementModel>();
-            
-            // Get elements for this page
-            List<Element__c> elements = [
-                SELECT Id, Name, Type__c, Sequence__c, Body__c
-                FROM Element__c
-                WHERE Page__c = :page.Id
-                ORDER BY Sequence__c ASC
-            ];
-            
-            for(Element__c element : elements) {
-                pageModel.elements.add(ElementModel.toJson(element));
-            }
-            
-            model.pages.add(pageModel);
+            model.pages.add(PageService.getPage(page.Id));
         }
         
         return model;
@@ -42,26 +27,10 @@ public class SurveyVersionService {
         
         // Save pages and elements
         if(model.pages != null && !model.pages.isEmpty()) {
-            List<Page__c> pages = new List<Page__c>();
-            List<Element__c> elements = new List<Element__c>();
-            
             for(PageModel pageModel : model.pages) {
-                Page__c page = pageModel.toRecord();
-                page.SurveyVersion__c = version.Id;
-                pages.add(page);
-                
-                // Save elements for this page
-                if(pageModel.elements != null && !pageModel.elements.isEmpty()) {
-                    for(ElementModel elementModel : pageModel.elements) {
-                        Element__c element = elementModel.toRecord();
-                        element.Page__c = page.Id;
-                        elements.add(element);
-                    }
-                }
+                pageModel.surveyVersionId = version.Id;
+                PageService.savePage(pageModel);
             }
-            
-            upsert pages;
-            upsert elements;
         }
         
         return getSurveyVersion(version.Id);
@@ -70,5 +39,41 @@ public class SurveyVersionService {
     @AuraEnabled
     public static void deleteSurveyVersion(Id versionId) {
         delete [SELECT Id FROM SurveyVersion__c WHERE Id = :versionId];
+    }
+    
+    public static SurveyVersion__c getVersionRecord(Id versionId) {
+        return [SELECT Id, Name, Survey__c, Version__c, 
+                Status__c, Body__c, ActivatedDate__c 
+                FROM SurveyVersion__c 
+                WHERE Id = :versionId];
+    }
+    
+    public static SurveyVersion__c getLatestVersionRecord(Id surveyId) {
+        return [SELECT Id, Name, Survey__c, Version__c, 
+                Status__c, Body__c, ActivatedDate__c 
+                FROM SurveyVersion__c 
+                WHERE Survey__c = :surveyId 
+                ORDER BY Version__c DESC 
+                LIMIT 1];
+    }
+    
+    public static SurveyVersion__c getLatestDraftVersionRecord(Id surveyId) {
+        return [SELECT Id, Name, Survey__c, Version__c, 
+                Status__c, Body__c, ActivatedDate__c 
+                FROM SurveyVersion__c 
+                WHERE Survey__c = :surveyId 
+                AND Status__c = 'Draft'
+                ORDER BY Version__c DESC 
+                LIMIT 1];
+    }
+    
+    public static SurveyVersion__c getLatestActiveVersionRecord(Id surveyId) {
+        return [SELECT Id, Name, Survey__c, Version__c, 
+                Status__c, Body__c, ActivatedDate__c 
+                FROM SurveyVersion__c 
+                WHERE Survey__c = :surveyId 
+                AND Status__c = 'Active'
+                ORDER BY Version__c DESC 
+                LIMIT 1];
     }
 } 

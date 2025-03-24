@@ -9,12 +9,12 @@ public class PageModel {
     }
     
     public Page__c toSObject(Id versionId) {
-        Page__c page = new Page__c(
+        return new Page__c(
+            Id = this.recordId,
             SurveyVersion__c = versionId,
             Name__c = this.name,
             Order__c = this.order
         );
-        return page;
     }
     
     public static PageModel fromSObject(Page__c page) {
@@ -22,6 +22,14 @@ public class PageModel {
         model.recordId = page.Id;
         model.name = page.Name__c;
         model.order = page.Order__c;
+        
+        // Process nested elements
+        if (page.Elements__r != null) {
+            for (Element__c element : page.Elements__r) {
+                model.elements.add(ElementModel.fromSObject(element));
+            }
+        }
+        
         return model;
     }
 } 

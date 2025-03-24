@@ -89,8 +89,8 @@
             <div if:true={loaded} class="slds-builder-toolbar__actions" aria-label="Document actions">
                 <lightning-button if:true={showActivate} disabled={changesUnSaved} label='Activate' title='Activate'
                     onclick={handleActivate} class="slds-m-left_x-small"></lightning-button>
-                <lightning-button if:true={showSaveButton} disabled={disableSave} variant="brand" label={saveLabel}
-                    title={saveLabel} onclick={handleSave} class="slds-m-left_x-small"></lightning-button>
+                <lightning-button disabled={disableSave} variant="brand" label="Save" title="Save" onclick={handleSave}
+                    class="slds-m-left_x-small"></lightning-button>
                 <lightning-button if:true={surveyVersionRec} disabled={disableSave} variant="brand"
                     label="Save As New Version" title="Save As New Version" onclick={handleSave}
                     class="slds-m-left_x-small" data-version="new"></lightning-button>

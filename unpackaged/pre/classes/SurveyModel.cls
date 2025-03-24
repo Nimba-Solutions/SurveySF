@@ -11,13 +11,13 @@ public class SurveyModel {
     }
     
     public Survey__c toSObject() {
-        Survey__c survey = new Survey__c(
+        return new Survey__c(
+            Id = this.recordId,
             Title__c = this.title,
             Description__c = this.description,
             WidthMode__c = this.widthMode,
             Width__c = this.width
         );
-        return survey;
     }
     
     public static SurveyModel fromSObject(Survey__c survey) {
@@ -27,6 +27,14 @@ public class SurveyModel {
         model.description = survey.Description__c;
         model.widthMode = survey.WidthMode__c;
         model.width = survey.Width__c;
+        
+        // Process nested versions
+        if (survey.SurveyVersions__r != null) {
+            for (SurveyVersion__c version : survey.SurveyVersions__r) {
+                model.versions.add(SurveyVersionModel.fromSObject(version));
+            }
+        }
+        
         return model;
     }
 } 

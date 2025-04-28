@@ -12,22 +12,14 @@ import DEFAULT_SURVEY_JSON from '@salesforce/resourceUrl/defaultSurveyJson';
 
 // APEX
 // import saveSurvey from '@salesforce/apex/SurveyBuilderController.saveSurvey';
-import loadLatestVersion from '@salesforce/apex/SurveyBuilderController.getLatestVersionBySurveyIdPOC';
-import saveSurvey from '@salesforce/apex/SurveyBuilderController.saveSurveyPOC';
+import loadSurvey from '@salesforce/apex/SurveyBuilderController.getVersionByIdPOC';
 
-export default class SurveyBuilder extends LightningElement {
+export default class SurveyForm extends LightningElement {
     surveyInitialized = false;
     @track isLoading = true;
     surveyJson = {};
-    notFound = false;
-    @track hasUnsavedChanges = false;
-    creator = null;
     defaultSurveyJson;
-    surveyId;
-
-    get isSaveDisabled() {
-        return this.isLoading || !this.hasUnsavedChanges;
-    }
+    surveyVersionId;
 
     connectedCallback() {
         const queryString = window.location.search;
@@ -44,24 +36,22 @@ export default class SurveyBuilder extends LightningElement {
 
     renderedCallback() {
         if (this.surveyInitialized) {
-            console.log('Survey already initialized.');
             return;
         }
 
+        
         const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        // Load survey JSON of the latest version if surveyId is provided
-        if(urlParams.has('c__surveyId')){
-            this.surveyId = urlParams.get('c__surveyId');
-            loadLatestVersion({ surveyId: this.surveyId })
+        const urlParams = new URLSearchParams(queryString);        
+        // Load JSON from Apex Controller
+        if(urlParams.has('c__surveyVersionId')){
+            this.surveyVersionId = urlParams.get('c__surveyVersionId');
+            loadSurvey({ surveyVersionId: this.surveyVersionId })
             .then(result => {
                 if (result == null || result == undefined) {
                     this.notFound = true;
                     this.showErrorToast('Survey not found');
                     return;
                 }
-                
-                console.log('Loading Survey resources...');
                 Promise.all([
                     loadStyle(this, SURVEY_CORE_CSS),
                     loadScript(this, SURVEY_CORE),
@@ -72,8 +62,6 @@ export default class SurveyBuilder extends LightningElement {
                     loadScript(this, SURVEY_INDEX_JS)
                 ])
                 .then(([,,,,,,]) => {
-                    console.log('Survey resources loaded successfully.');
-                    console.log(`Survey JSON: ${result}`);
                     this.isLoading = false;
                     this.surveyJson = JSON.parse(result);
                     this.initializeSurvey();
@@ -83,12 +71,10 @@ export default class SurveyBuilder extends LightningElement {
                     this.showErrorToast('Error loading survey resources');
                     this.isLoading = false;
                 });
-
             })
         }
         else {
-            // Load default survey JSON if surveyId is not provided
-            console.log('Loading Survey resources...');
+            // Load default survey JSON if surveyVersionId is not provided
             Promise.all([
                 loadStyle(this, SURVEY_CORE_CSS),
                 loadScript(this, SURVEY_CORE),
@@ -100,8 +86,6 @@ export default class SurveyBuilder extends LightningElement {
                 fetch(DEFAULT_SURVEY_JSON).then(response => response.json())
             ])
             .then(([,,,,,,,defaultJson]) => {
-                console.log('Survey resources loaded successfully.');
-                console.log(this.surveyJson);
                 this.defaultSurveyJson = defaultJson;
                 this.isLoading = false;
                 this.surveyJson = this.defaultSurveyJson;
@@ -112,55 +96,23 @@ export default class SurveyBuilder extends LightningElement {
                 this.showErrorToast('Error loading survey resources');
                 this.isLoading = false;
             });
-        }        
+        }
+
+        
     }
 
     initializeSurvey() {
         if (!window.Survey || this.surveyInitialized) return;
         
-        this.surveyInitialized = true;
-        
-        const creatorOptions = {
-            showLogicTab: true,
-            isAutoSave: true
-        };
-        
-        const creator = new window.SurveyCreator.SurveyCreator(creatorOptions);
-        this.creator = creator;
-        
-        creator.text = JSON.stringify(this.surveyJson);
-        
-        creator.saveSurveyFunc = (saveNo, callback) => {
-            this.hasUnsavedChanges = true;
-            this.surveyJson = JSON.parse(creator.text);
-            callback(saveNo, true);
-        };
-        
-        creator.render(this.template.querySelector('.surveyContainer'));
-    }
+        this.surveyInitialized = true;        
 
-    handleSave(event) {
-        if(!this.surveyJson.title) {
-            this.showErrorToast('Please provide survey title');
-            return;
-        }
-        // Log survey JSON to console
-        console.log(JSON.stringify(this.surveyJson, null, 2));
+        const survey = new window.Survey.Model(this.surveyJson);
+        survey.render(this.template.querySelector('.surveyContainer'));
 
-        // console.log('TODO: Implement SurveyService.saveSurvey()');
-        // this.showSuccessToast('TO DO: Implement SurveyService.saveSurvey()');
-        // this.hasUnsavedChanges = false;
-
-        // This is a POC for saving survey
-        saveSurvey({ surveyId: this.surveyId, jsonString: JSON.stringify(this.surveyJson) })
-            .then(() => {
-                this.showSuccessToast('Survey saved successfully!');
-                this.hasUnsavedChanges = false;
-            })
-            .catch(error => {
-                console.error('Error saving survey:', error);
-                this.showErrorToast('Error saving survey');
-            });
+        survey.onComplete.add((survey) => {
+            console.log(JSON.stringify(survey.data));
+            this.showSuccessToast('Survey completed successfully!');
+        });
     }
 
     showSuccessToast(message) {

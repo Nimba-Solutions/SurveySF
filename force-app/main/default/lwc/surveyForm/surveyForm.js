@@ -112,6 +112,20 @@ export default class SurveyForm extends LightningElement {
         survey.onComplete.add((survey) => {
             console.log(JSON.stringify(survey.data));
             this.showSuccessToast('Survey completed successfully!');
+            const resultData = [];
+            for (const key in survey.data) {
+                const question = survey.getQuestionByName(key);
+                if (!!question) {
+                const item = {
+                    name: key,
+                    value: question.value,
+                    title: question.displayValue,
+                    displayValue: question.displayValue
+                };
+                resultData.push(item);
+                }
+            }
+            console.log('Survey Result Data:', JSON.stringify(resultData, null, 2));
         });
     }
 

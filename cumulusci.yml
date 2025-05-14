@@ -11,6 +11,11 @@ project:
         prefix_release: "release/"
     source_format: sfdx
 
+orgs:
+    scratch:
+        dev:
+            days: 30
+            
 tasks:
     robot:
         options:

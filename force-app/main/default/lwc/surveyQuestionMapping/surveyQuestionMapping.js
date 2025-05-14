@@ -31,6 +31,20 @@ export default class SurveyQuestionMapping extends LightningElement {
         this.loadObjects();
     }
     
+    renderedCallback() {
+        // Dispatch a custom event to notify the parent component that this component is ready
+        if (this.objectOptions.length > 0 && !this.isLoading) {
+            console.log('SurveyQuestionMapping component is ready, dispatching ready event');
+            this.dispatchEvent(new CustomEvent('mappingcomponentready', {
+                bubbles: true,
+                composed: true,
+                detail: {
+                    componentRef: this
+                }
+            }));
+        }
+    }
+    
     parseInitialValue() {
         // Parse the initial value if it exists
         if (this._value) {
@@ -61,12 +75,26 @@ export default class SurveyQuestionMapping extends LightningElement {
                     value: obj.apiName
                 }));
                 this.isLoading = false;
+                
+                // Dispatch the ready event now that we have loaded the objects
+                this.notifyReady();
             })
             .catch(error => {
                 console.error('Error loading objects:', JSON.stringify(error, Object.getOwnPropertyNames(error)));
                 this.error = 'Error loading objects: ' + (error.message || JSON.stringify(error));
                 this.isLoading = false;
             });
+    }
+    
+    notifyReady() {
+        console.log('SurveyQuestionMapping component is ready, dispatching ready event');
+        this.dispatchEvent(new CustomEvent('mappingcomponentready', {
+            bubbles: true,
+            composed: true,
+            detail: {
+                componentRef: this
+            }
+        }));
     }
     
     loadFieldsForObject() {

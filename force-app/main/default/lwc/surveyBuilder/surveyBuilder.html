@@ -1,7 +1,4 @@
 <template>
-    <!-- Load surveyQuestionMapping component first -->
-    <c-survey-question-mapping></c-survey-question-mapping>
-
     <div if:false={notFound}>
         <header class="slds-builder-header">
             <div class="slds-builder-header__item">
@@ -36,4 +33,37 @@
             <h3 class="slds-text-heading_medium">Survey Not Found!</h3>
         </div>
     </div>
+
+    <!-- Modal Dialog -->
+    <template if:true={showModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                        Map Question to Salesforce Object Field
+                    </h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <!-- Survey Question Mapping Component -->
+                    <div class="slds-box slds-theme_default">
+                        <div class="slds-text-heading_small slds-m-bottom_small">
+                            Mapping for: {currentQuestionText}
+                        </div>
+                        <c-survey-question-mapping question={currentQuestion}></c-survey-question-mapping>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_brand" onclick={closeModal}>Done</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
 </template>

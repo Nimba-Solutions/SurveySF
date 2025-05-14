@@ -24,7 +24,9 @@ export default class SurveyBuilder extends LightningElement {
     creator = null;
     defaultSurveyJson;
     surveyId;
-
+    mappingComponent = null;
+    _mappingComponentQueried = false; // Flag to ensure querySelector runs once
+    
     get isSaveDisabled() {
         return this.isLoading || !this.hasUnsavedChanges;
     }
@@ -43,8 +45,26 @@ export default class SurveyBuilder extends LightningElement {
     }
 
     renderedCallback() {
+        // Attempt to get the mapping component reference only once after it's rendered
+        if (!this._mappingComponentQueried && !this.mappingComponent) {
+            this.mappingComponent = this.template.querySelector('c-survey-question-mapping');
+            if (this.mappingComponent) {
+                console.log('Mapping component reference obtained in renderedCallback:', this.mappingComponent);
+                this._mappingComponentQueried = true;
+                // If SurveyJS is already initialized and waiting, pass it now
+                if (window.Survey && window.SurveyCreator && this.creator && !window.Survey.mappingComponent) {
+                    window.Survey.mappingComponent = this.mappingComponent;
+                    console.log('Made mapping component available to SurveyJS from renderedCallback:', this.mappingComponent);
+                }
+            } else {
+                 // If the component is not found yet, set flag to try again on next render cycle
+                 // This might happen if c-survey-question-mapping itself has internal async rendering
+                 this._mappingComponentQueried = false;
+            }
+        }
+
         if (this.surveyInitialized) {
-            console.log('Survey already initialized.');
+            // console.log('Survey already initialized, skipping resource loading in renderedCallback.');
             return;
         }
 
@@ -79,8 +99,8 @@ export default class SurveyBuilder extends LightningElement {
                     this.initializeSurvey();
                 })
                 .catch(error => {
-                    console.error('Error loading resources:', error);
-                    this.showErrorToast('Error loading survey resources');
+                    console.error('Error loading resources:', JSON.stringify(error, Object.getOwnPropertyNames(error)));
+                    this.showErrorToast('Error loading survey resources: ' + (error.message || JSON.stringify(error)));
                     this.isLoading = false;
                 });
 
@@ -108,17 +128,21 @@ export default class SurveyBuilder extends LightningElement {
                 this.initializeSurvey();
             })
             .catch(error => {
-                console.error('Error loading resources:', error);
-                this.showErrorToast('Error loading survey resources');
+                console.error('Error loading resources:', JSON.stringify(error, Object.getOwnPropertyNames(error)));
+                this.showErrorToast('Error loading survey resources: ' + (error.message || JSON.stringify(error)));
                 this.isLoading = false;
             });
         }        
     }
 
     initializeSurvey() {
-        if (!window.Survey || this.surveyInitialized) return;
+        if (!window.Survey || !window.SurveyCreator || this.surveyInitialized) { // Check for SurveyCreator as well
+            console.log('SurveyJS core or SurveyCreator not ready, or survey already initialized. Deferring initialization.');
+            return;
+        }
         
         this.surveyInitialized = true;
+        console.log('Initializing Survey...');
         
         const creatorOptions = {
             showLogicTab: true,
@@ -127,6 +151,30 @@ export default class SurveyBuilder extends LightningElement {
         
         const creator = new window.SurveyCreator.SurveyCreator(creatorOptions);
         this.creator = creator;
+        
+        // Make mapping component available to SurveyJS if already obtained
+        if (this.mappingComponent && !window.Survey.mappingComponent) {
+            window.Survey.mappingComponent = this.mappingComponent;
+            console.log('Made mapping component available to SurveyJS from initializeSurvey:', this.mappingComponent);
+        } else if (!this.mappingComponent) {
+            console.warn('Mapping component not yet available when initializeSurvey was called.');
+        }
+        
+        // Add a custom "Hello World" property to all questions
+        window.Survey.Serializer.addProperty("question", {
+            name: "helloWorldCategory",
+            displayName: "Hello World Category",
+            category: "general",
+            default: "option1",
+            type: "dropdown",
+            choices: [
+                { value: "option1", text: "Basic Option" },
+                { value: "option2", text: "Standard Option" },
+                { value: "option3", text: "Premium Option" },
+                { value: "option4", text: "Enterprise Option" }
+            ],
+            visibleIndex: 3 // Controls where in the property list this appears
+        });
         
         creator.text = JSON.stringify(this.surveyJson);
         
@@ -146,10 +194,6 @@ export default class SurveyBuilder extends LightningElement {
         }
         // Log survey JSON to console
         console.log(JSON.stringify(this.surveyJson, null, 2));
-
-        // console.log('TODO: Implement SurveyService.saveSurvey()');
-        // this.showSuccessToast('TO DO: Implement SurveyService.saveSurvey()');
-        // this.hasUnsavedChanges = false;
 
         // This is a POC for saving survey
         saveSurvey({ surveyId: this.surveyId, jsonString: JSON.stringify(this.surveyJson) })

@@ -4,8 +4,19 @@
             <div class="slds-text-color_error">{error}</div>
         </template>
 
-        <c-metadata-selector value={value} field-type={fieldType} s-object={sObject} onvaluechange={handleValueChange}
-            onready={handleReady}>
-        </c-metadata-selector>
+        <!-- Modal component -->
+        <c-modal onclose={closeModal} onsave={handleSaveMapping}>
+            <span slot="header">Map to Salesforce Field</span>
+            <div slot="body">
+                <c-metadata-selector value={value} field-type={fieldType} s-object={sObject}
+                    onvaluechange={handleValueChange} onready={handleReady}>
+                </c-metadata-selector>
+            </div>
+            <div slot="footer">
+                <lightning-button label="Cancel" variant="neutral" onclick={closeModal}></lightning-button>
+                <lightning-button class="slds-m-left_x-small" label="Save" variant="brand"
+                    onclick={handleSaveMapping}></lightning-button>
+            </div>
+        </c-modal>
     </div>
 </template>

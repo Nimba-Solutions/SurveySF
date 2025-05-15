@@ -11,7 +11,6 @@ export default class FieldMapper extends LightningElement {
     }
     
     _value = '';
-    @api question;
     @api propertyName = 'fieldMapper';
     @api displayName = 'Salesforce Field Mapper';
     @api fieldType = '';
@@ -19,6 +18,8 @@ export default class FieldMapper extends LightningElement {
     
     @track error;
     @track metadataSelector;
+    @track currentQuestion;
+    tempValue = '';
     
     connectedCallback() {
         console.log('FieldMapper component connected');
@@ -40,16 +41,8 @@ export default class FieldMapper extends LightningElement {
     
     handleValueChange(event) {
         console.log('FieldMapper got value change event:', event.detail);
-        this._value = event.detail.value;
-        
-        // Dispatch a custom event with the new value
-        const valueChangeEvent = new CustomEvent('valuechange', {
-            detail: event.detail.value,
-            bubbles: true,
-            composed: true
-        });
-        
-        this.dispatchEvent(valueChangeEvent);
+        // Store in tempValue until save is clicked
+        this.tempValue = event.detail.value;
     }
     
     handleReady(event) {
@@ -63,6 +56,75 @@ export default class FieldMapper extends LightningElement {
         }));
     }
     
+    // Show the modal
+    openModal() {
+        console.log('Opening field mapper modal');
+        const modal = this.template.querySelector('c-modal');
+        if (modal) {
+            modal.open();
+        } else {
+            console.error('Modal component not found');
+        }
+    }
+    
+    // Hide the modal
+    closeModal() {
+        console.log('Closing field mapper modal');
+        const modal = this.template.querySelector('c-modal');
+        if (modal) {
+            modal.close();
+        }
+        
+        // Make sure the question property is reset so the button can be clicked again
+        if (this.currentQuestion) {
+            try {
+                // Try a different approach to reset the property for reopening
+                if (window.Survey && window.Survey.FieldMapperComponent) {
+                    // The property name in Survey.js
+                    const propName = this.propertyName;
+                    
+                    // Get the question object
+                    const question = this.currentQuestion;
+                    
+                    // Force a change notification in the Survey.js property system
+                    setTimeout(() => {
+                        // Clear the value
+                        question.setPropertyValue(propName, "");
+                        
+                        // Notify Survey.js that the property changed
+                        if (question.propertyChanged) {
+                            question.propertyChanged.fire(question, { name: propName, newValue: "" });
+                        }
+                        
+                        console.log('Reset question property value for reopening with notification');
+                    }, 100);
+                }
+            } catch (error) {
+                console.error('Error resetting property:', error);
+            }
+        }
+    }
+    
+    // Handle the save button click in the modal
+    handleSaveMapping() {
+        console.log('Saving mapping:', this.tempValue);
+        
+        // Update the actual value from the temp value
+        this._value = this.tempValue;
+        
+        // Close the modal
+        this.closeModal();
+        
+        // Dispatch a custom event with the new value
+        const valueChangeEvent = new CustomEvent('valuechange', {
+            detail: this._value,
+            bubbles: true,
+            composed: true
+        });
+        
+        this.dispatchEvent(valueChangeEvent);
+    }
+    
     // Methods for the Custom Property Registrar
     @api
     registerProperty(Survey, surveyCreator) {
@@ -71,34 +133,64 @@ export default class FieldMapper extends LightningElement {
             return;
         }
         
+        // Register a custom buttongroup editor if it doesn't exist
+        if (!Survey.Serializer.findProperty("", "buttongroup")) {
+            Survey.Serializer.addProperty("", {
+                name: "buttongroup",
+                type: "string",
+                isSerializable: false,
+                editor: {
+                    render: (editor, el) => {
+                        el.innerHTML = "";
+                        const property = editor.property;
+                        const choices = property.choices || [];
+                        
+                        choices.forEach(choice => {
+                            const btn = document.createElement("button");
+                            btn.innerText = choice.text;
+                            btn.className = "slds-button slds-button_brand slds-m-right_x-small";
+                            btn.onclick = (e) => {
+                                e.preventDefault();
+                                editor.koValue(choice.value);
+                            };
+                            el.appendChild(btn);
+                        });
+                        
+                        return el;
+                    }
+                }
+            });
+        }
+        
+        // Store reference to this component instance
+        if (!Survey.FieldMapperComponent) {
+            Survey.FieldMapperComponent = {};
+        }
+        Survey.FieldMapperComponent[this.propertyName] = this;
+        
         // Add the custom property to all questions
         Survey.Serializer.addProperty("question", {
             name: this.propertyName,
             displayName: this.displayName,
-            type: "string",
-            isSerializable: true,
+            category: "general",
             visibleIndex: 3,
-            onPropertyEditorUpdate: (propertyEditor, property) => {
-                const obj = property.object;
-                // This is called when the property editor is created
-                
-                // Handle click on edit button
-                propertyEditor.koAddClick = () => {
+            type: "buttongroup",
+            choices: [
+                { value: "openModal", text: "Map to Salesforce Field" }
+            ],
+            onSetValue: (obj, value) => {
+                console.log("onSetValue triggered with:", value);
+                if (value === "openModal") {
                     // Store the current question reference
-                    this.question = obj;
+                    this.currentQuestion = obj;
+                    console.log("Opening modal for question:", obj);
                     
-                    // Trigger modal opening in survey builder
-                    const openMappingEvent = new CustomEvent('openmapping', {
-                        bubbles: true,
-                        composed: true,
-                        detail: {
-                            question: obj,
-                            propertyName: this.propertyName,
-                            component: this
-                        }
-                    });
-                    this.dispatchEvent(openMappingEvent);
-                };
+                    // Open this component's modal directly
+                    this.openModal();
+                    
+                    // Reset the value so the button can be clicked again
+                    obj.setPropertyValue(this.propertyName, "");
+                }
             }
         });
         

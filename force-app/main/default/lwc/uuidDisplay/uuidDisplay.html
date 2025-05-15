@@ -1,0 +1,16 @@
+<template>
+    <div class="uuid-display">
+        <div class="slds-form-element">
+            <label class="slds-form-element__label" for="uuid-field">UUID</label>
+            <div class="slds-form-element__control">
+                <div class="slds-input-has-icon slds-input-has-icon_right">
+                    <lightning-formatted-text id="uuid-field" value={value}
+                        class="slds-input slds-text-color_weak"></lightning-formatted-text>
+                    <lightning-button-icon icon-name="utility:copy" variant="bare" alternative-text="Copy UUID"
+                        title="Copy to clipboard" class="slds-input__icon" onclick={copyToClipboard}>
+                    </lightning-button-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

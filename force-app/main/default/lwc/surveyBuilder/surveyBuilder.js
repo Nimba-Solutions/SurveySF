@@ -25,7 +25,6 @@ export default class SurveyBuilder extends LightningElement {
     creator = null;
     defaultSurveyJson;
     surveyId;
-    mappingComponent = null;
     @track showModal = false;
     currentQuestion = null;
     surveyResourcesLoaded = false;
@@ -59,41 +58,6 @@ export default class SurveyBuilder extends LightningElement {
             const surveyId = urlParams.get('surveyId');
             console.log(`TODO: Load Survey Content for Survey__c.Id's latest SurveyVersion__c: ${surveyId}`);
         }
-        
-        // Make the openModal function accessible to window for SurveyJS
-        window.openSurveyModal = (question) => {
-            this.currentQuestion = question;
-            this.openModal();
-        };
-        
-        // Listen for custom events
-        this.addEventListener('mappingcomponentready', this.handleMappingComponentReady.bind(this));
-    }
-
-    handleMappingComponentReady(event) {
-        console.log('Mapping component ready event received');
-        this.mappingComponent = this.template.querySelector('c-survey-question-mapping');
-        
-        // If SurveyJS is already initialized, make the mapping component available to it
-        if (window.Survey && this.surveyInitialized) {
-            window.Survey.mappingComponent = this.mappingComponent;
-            console.log('Made mapping component available to SurveyJS after ready event:', this.mappingComponent);
-        }
-        
-        // Check if we can try to initialize the survey
-        this.checkAndInitializeSurvey();
-    }
-    
-    checkAndInitializeSurvey() {
-        // Only proceed if we have both resources and data loaded
-        if (this.surveyResourcesLoaded && this.surveyDataLoaded && !this.surveyInitialized) {
-            console.log('Both resources and data are loaded, initializing survey...');
-            this.initializeSurvey();
-        } else {
-            console.log('Not ready to initialize yet. Resources loaded:', this.surveyResourcesLoaded, 
-                      'Data loaded:', this.surveyDataLoaded, 
-                      'Already initialized:', this.surveyInitialized);
-        }
     }
 
     renderedCallback() {
@@ -105,16 +69,20 @@ export default class SurveyBuilder extends LightningElement {
         // Set flag to prevent concurrent loading
         this.resourcesLoading = true;
 
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        
-        // Load the resources in sequence rather than parallel to ensure proper dependency order
-        this.loadSurveyResources()
+        // First initialize the custom property registrar
+        this.initializeCustomPropertyRegistrar()
+            .then(() => {
+                // Now load survey resources
+                return this.loadSurveyResources();
+            })
             .then(() => {
                 this.surveyResourcesLoaded = true;
                 console.log('Survey resources loaded successfully');
                 
-                // Now load the survey data
+                // Next load the survey data
+                const queryString = window.location.search;
+                const urlParams = new URLSearchParams(queryString);
+                
                 if (urlParams.has('c__surveyId')) {
                     this.surveyId = urlParams.get('c__surveyId');
                     return loadLatestVersion({ surveyId: this.surveyId })
@@ -149,6 +117,19 @@ export default class SurveyBuilder extends LightningElement {
                 this.isLoading = false;
                 this.resourcesLoading = false;
             });
+    }
+    
+    // Fix the initializeCustomPropertyRegistrar method
+    initializeCustomPropertyRegistrar() {
+        console.log('Initializing custom property registrar...');
+        // Get the property registrar via lwc:ref instead of querySelector
+        const propertyRegistrar = this.refs.propertyRegistrar;
+        if (!propertyRegistrar) {
+            console.warn('Custom property registrar reference not found');
+            return Promise.resolve();
+        }
+        
+        return Promise.resolve();
     }
     
     // Load SurveyJS resources in sequence to ensure proper dependency order
@@ -202,6 +183,7 @@ export default class SurveyBuilder extends LightningElement {
         });
     }
 
+    // Update the initializeSurvey method to use refs
     initializeSurvey() {
         // Check if already initialized to avoid re-initialization
         if (this.surveyInitialized) {
@@ -240,51 +222,18 @@ export default class SurveyBuilder extends LightningElement {
             const creator = new window.SurveyCreator.SurveyCreator(creatorOptions);
             this.creator = creator;
             
-            // Make mapping component available to SurveyJS if already obtained
-            if (this.mappingComponent && !window.Survey.mappingComponent) {
-                window.Survey.mappingComponent = this.mappingComponent;
-                console.log('Made mapping component available to SurveyJS from initializeSurvey:', this.mappingComponent);
-            } else if (!this.mappingComponent) {
-                console.warn('Mapping component not yet available when initializeSurvey was called.');
+            // Register custom properties with the registrar after creator is available
+            // Use the lwc:ref instead of querySelector
+            const propertyRegistrar = this.refs.propertyRegistrar;
+            if (propertyRegistrar) {
+                propertyRegistrar.surveyCreator = this.creator;
+                propertyRegistrar.registerCustomProperties();
+                console.log('Registered custom properties via registrar');
+            } else {
+                console.warn('Custom property registrar reference not found for registration');
             }
             
-            // Register custom property editors
-            this.registerCustomPropertyEditors();
-            
-            // Add a custom "Hello World" property to all questions
-            window.Survey.Serializer.addProperty("question", {
-                name: "helloWorldCategory",
-                displayName: "Hello World Category",
-                category: "general",
-                default: "option1",
-                type: "dropdown",
-                choices: [
-                    { value: "option1", text: "Basic Option" },
-                    { value: "option2", text: "Standard Option" },
-                    { value: "option3", text: "Premium Option" },
-                    { value: "option4", text: "Enterprise Option" }
-                ],
-                visibleIndex: 3 // Controls where in the property list this appears
-            });
-            
-            // Add a custom property that opens the mapping modal
-            window.Survey.Serializer.addProperty("question", {
-                name: "openMappingModal",
-                displayName: "Salesforce Field Mapping",
-                category: "general",
-                visibleIndex: 1,
-                type: "buttongroup",
-                choices: [
-                    { value: "openModal", text: "Map to Salesforce Field" }
-                ],
-                onSetValue: (obj, value) => {
-                    if (value === "openModal") {
-                        window.openSurveyModal(obj);
-                        // Reset the value so the button can be clicked again
-                        obj.setPropertyValue("openMappingModal", "");
-                    }
-                }
-            });
+            console.log('Added POC custom property with "value" type');
             
             creator.text = JSON.stringify(this.surveyJson);
             
@@ -297,56 +246,21 @@ export default class SurveyBuilder extends LightningElement {
             creator.render(this.template.querySelector('.surveyContainer'));
             console.log('Survey Creator rendered successfully');
             
+            // Initialize the event debugger only after creator is fully ready
+            setTimeout(() => {
+                // Find and refresh the event debugger
+                const eventDebugger = this.template.querySelector('c-survey-js-event-debugger');
+                if (eventDebugger) {
+                    console.log('Refreshing the event debugger with the initialized creator');
+                    eventDebugger.refresh();
+                }
+            }, 500);
+            
         } catch (error) {
             console.error('Error initializing survey:', error);
             this.showErrorToast('Error initializing survey: ' + (error.message || JSON.stringify(error)));
             this.surveyInitialized = false; // Reset flag so we can try again
         }
-    }
-    
-    registerCustomPropertyEditors() {
-        try {
-            // Register buttongroup property type
-            window.Survey.Serializer.addProperty("", {
-                name: "buttongroup",
-                type: "string",
-                isSerializable: false,
-                editor: {
-                    render: (editor, el) => {
-                        el.innerHTML = "";
-                        const property = editor.property;
-                        const choices = property.choices || [];
-                        
-                        choices.forEach(choice => {
-                            const btn = document.createElement("button");
-                            btn.innerText = choice.text;
-                            btn.className = "slds-button slds-button_brand slds-m-right_x-small";
-                            btn.onclick = (e) => {
-                                e.preventDefault();
-                                editor.koValue(choice.value);
-                            };
-                            el.appendChild(btn);
-                        });
-                        
-                        return el;
-                    }
-                }
-            });
-            console.log('Custom property editors registered successfully');
-        } catch (error) {
-            console.error('Error registering custom property editors:', error);
-        }
-    }
-
-    openModal() {
-        this.showModal = true;
-        console.log('Modal opened, current question:', this.currentQuestion);
-    }
-
-    closeModal() {
-        this.showModal = false;
-        // Do NOT clear the currentQuestion as we might still need it for reference
-        console.log('Modal closed');
     }
 
     handleSave(event) {
@@ -383,5 +297,17 @@ export default class SurveyBuilder extends LightningElement {
             message,
             variant: 'error'
         }));
+    }
+
+    checkAndInitializeSurvey() {
+        // Only proceed if we have both resources and data loaded
+        if (this.surveyResourcesLoaded && this.surveyDataLoaded && !this.surveyInitialized) {
+            console.log('Both resources and data are loaded, initializing survey...');
+            this.initializeSurvey();
+        } else {
+            console.log('Not ready to initialize yet. Resources loaded:', this.surveyResourcesLoaded, 
+                      'Data loaded:', this.surveyDataLoaded, 
+                      'Already initialized:', this.surveyInitialized);
+        }
     }
 }

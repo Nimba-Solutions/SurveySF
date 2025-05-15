@@ -1,0 +1,16 @@
+<template>
+    <!-- Slot to allow parent components to inject custom property components -->
+    <slot></slot>
+
+    <!-- Built-in custom properties -->
+    <div class="custom-properties-container">
+        <!-- UUID Display Custom Property -->
+        <c-uuid-display class="custom-property"></c-uuid-display>
+
+        <!-- Field Mapper Custom Property -->
+        <c-field-mapper class="custom-property"></c-field-mapper>
+
+        <!-- More custom property components can be added here -->
+        <!-- <c-another-property class="custom-property"></c-another-property> -->
+    </div>
+</template>

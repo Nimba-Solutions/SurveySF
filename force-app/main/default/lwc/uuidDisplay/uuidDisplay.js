@@ -55,32 +55,48 @@ export default class UuidDisplay extends LightningElement {
                         // Clear existing content
                         el.innerHTML = "";
                         
-                        // Create the display container
+                        // Create the display container - Using inline styles instead of SLDS classes
                         const container = document.createElement("div");
-                        container.className = "slds-form-element";
+                        container.style.margin = "4px 0";
+                        container.style.display = "flex";
+                        container.style.alignItems = "center";
                         
                         // Create the text display element
                         const valueDisplay = document.createElement("div");
-                        valueDisplay.className = "slds-input slds-text-color_weak slds-truncate";
                         valueDisplay.style.display = "inline-block";
                         valueDisplay.style.width = "calc(100% - 40px)";
                         valueDisplay.style.marginRight = "8px";
-                        valueDisplay.style.verticalAlign = "middle";
+                        valueDisplay.style.padding = "0.25rem 0.5rem";
+                        valueDisplay.style.border = "1px solid #dddbda";
+                        valueDisplay.style.borderRadius = "4px";
+                        valueDisplay.style.fontSize = "0.875rem";
+                        valueDisplay.style.color = "#706e6b";
+                        valueDisplay.style.overflow = "hidden";
+                        valueDisplay.style.textOverflow = "ellipsis";
+                        valueDisplay.style.whiteSpace = "nowrap";
                         valueDisplay.innerText = editor.koValue() || "";
                         
-                        // Create copy button
+                        // Create copy button with inline styles
                         const copyBtn = document.createElement("button");
-                        copyBtn.className = "slds-button slds-button_icon";
+                        copyBtn.style.minWidth = "32px";
+                        copyBtn.style.height = "32px";
+                        copyBtn.style.border = "none";
+                        copyBtn.style.borderRadius = "4px";
+                        copyBtn.style.backgroundColor = "transparent";
+                        copyBtn.style.cursor = "pointer";
+                        copyBtn.style.padding = "4px";
+                        copyBtn.style.display = "flex";
+                        copyBtn.style.alignItems = "center";
+                        copyBtn.style.justifyContent = "center";
                         copyBtn.title = "Copy to clipboard";
-                        copyBtn.style.verticalAlign = "middle";
                         
-                        // Copy icon (simple text for reliability)
-                        copyBtn.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20">
-                            <path fill="currentColor" d="M16 1H4C3 1 2 2 2 3v14h2V3h12V1zm3 4H8C7 5 6 6 6 7v14c0 1 1 2 2 2h11c1 0 2-1 2-2V7c0-1-1-2-2-2zm0 16H8V7h11v14z"></path>
+                        // Copy icon (SVG with inline styles)
+                        copyBtn.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" style="fill: currentColor;">
+                            <path d="M16 1H4C3 1 2 2 2 3v14h2V3h12V1zm3 4H8C7 5 6 6 6 7v14c0 1 1 2 2 2h11c1 0 2-1 2-2V7c0-1-1-2-2-2zm0 16H8V7h11v14z"></path>
                         </svg>`;
                         
-                        // Add click handler for copy
-                        copyBtn.onclick = (e) => {
+                        // Add click handler for copy - using inline function for reliability
+                        copyBtn.addEventListener('click', function(e) {
                             e.preventDefault();
                             e.stopPropagation();
                             
@@ -93,22 +109,27 @@ export default class UuidDisplay extends LightningElement {
                                 navigator.clipboard.writeText(valueToCopy)
                                     .then(() => {
                                         // Visual feedback
-                                        copyBtn.style.color = "#2e844a";
+                                        this.style.color = "#2e844a";
                                         setTimeout(() => {
-                                            copyBtn.style.color = "";
+                                            this.style.color = "";
                                         }, 1000);
                                         console.log("UUID copied to clipboard:", valueToCopy);
                                     })
                                     .catch(err => {
                                         console.error("Clipboard copy failed:", err);
+                                        fallbackCopy();
                                     });
                             } catch (err) {
                                 console.error("Clipboard API error:", err);
-                                
-                                // Fallback method
+                                fallbackCopy();
+                            }
+                            
+                            // Fallback copy method
+                            function fallbackCopy() {
                                 try {
                                     const textArea = document.createElement("textarea");
                                     textArea.value = valueToCopy;
+                                    textArea.style.position = "fixed";
                                     document.body.appendChild(textArea);
                                     textArea.select();
                                     document.execCommand("copy");
@@ -124,12 +145,15 @@ export default class UuidDisplay extends LightningElement {
                                     console.error("Fallback clipboard copy also failed:", e);
                                 }
                             }
-                        };
+                        });
                         
-                        // Assemble the UI
+                        // Explicitly append to ensure DOM hierarchy
                         container.appendChild(valueDisplay);
                         container.appendChild(copyBtn);
                         el.appendChild(container);
+                        
+                        // Additional logging for debugging
+                        console.log("UUID Display editor rendered", editor.koValue());
                         
                         return el;
                     }

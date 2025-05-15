@@ -1,0 +1,11 @@
+<template>
+    <div class="field-mapper">
+        <template if:true={error}>
+            <div class="slds-text-color_error">{error}</div>
+        </template>
+
+        <c-metadata-selector value={value} field-type={fieldType} s-object={sObject} onvaluechange={handleValueChange}
+            onready={handleReady}>
+        </c-metadata-selector>
+    </div>
+</template>

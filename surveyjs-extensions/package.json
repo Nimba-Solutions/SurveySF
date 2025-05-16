@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode production",
+    "build:watch": "webpack --mode development --watch",
+    "copy-extensions": "node ./scripts/copy-to-static-resources.js",
+    "build:sf": "npm run build && npm run copy-extensions"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +19,7 @@
     "ts-loader": "^9.5.2",
     "typescript": "^5.8.3",
     "webpack": "^5.99.8",
-    "webpack-cli": "^6.0.1"
+    "webpack-cli": "^6.0.1",
+    "terser-webpack-plugin": "^5.3.10"
   }
 }

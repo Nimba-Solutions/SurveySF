@@ -9,5 +9,6 @@ declare global {
     interface Window {
         Survey: typeof SurveyCore & any;
         SurveyCreator: any;
+        UuidPropertyEditor: typeof UuidPropertyEditor;
     }
 }

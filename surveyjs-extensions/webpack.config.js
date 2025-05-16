@@ -1,17 +1,43 @@
 const path = require('path');
+const fs = require('fs');
+const TerserPlugin = require('terser-webpack-plugin');
+
+// Dynamically discover all extension files in the src directory
+const getExtensionEntries = () => {
+  const entries = {};
+  
+  // Always include the main index file
+  entries['surveyjs-extensions'] = './src/index.ts';
+  
+  // Find all TypeScript files that aren't index.ts or type definitions
+  const srcDir = path.resolve(__dirname, 'src');
+  const files = fs.readdirSync(srcDir);
+  
+  files.forEach(file => {
+    if (file.endsWith('.ts') && file !== 'index.ts' && !file.endsWith('.d.ts')) {
+      // Use the filename without extension as the entry name
+      const name = file.replace('.ts', '');
+      entries[name] = `./src/${file}`;
+    }
+  });
+  
+  return entries;
+};
 
 module.exports = {
   mode: 'production',
-  entry: './src/index.ts',
+  entry: getExtensionEntries(),
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'surveyjs-extensions.js',
-    library: 'SurveyJSExtensions',
+    filename: '[name].js',
+    library: '[name]',
     libraryTarget: 'umd',
+    libraryExport: 'default',
     globalObject: 'this'
   },
-  resolve: {
-    extensions: ['.ts', '.js']
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()]
   },
   module: {
     rules: [
@@ -22,18 +48,11 @@ module.exports = {
       }
     ]
   },
+  resolve: {
+    extensions: ['.ts', '.js']
+  },
   externals: {
-    'survey-core': {
-      root: 'Survey',
-      commonjs: 'survey-core',
-      commonjs2: 'survey-core',
-      amd: 'survey-core'
-    },
-    'survey-creator-core': {
-      root: 'SurveyCreator',
-      commonjs: 'survey-creator-core',
-      commonjs2: 'survey-creator-core',
-      amd: 'survey-creator-core'
-    }
+    'survey-core': 'Survey',
+    'survey-creator-core': 'SurveyCreator'
   }
 }; 

@@ -1,4 +1,3 @@
 import { UuidPropertyEditor } from './uuidPropertyEditor';
-import { ObjectFieldMapper } from './objectFieldMapper';
-export { UuidPropertyEditor, ObjectFieldMapper };
+export { UuidPropertyEditor };
 export declare function initializeExtensions(): void;

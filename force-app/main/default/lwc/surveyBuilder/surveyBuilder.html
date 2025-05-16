@@ -22,7 +22,7 @@
     </div>
     <div if:false={notFound}>
         <lightning-spinner if:true={isLoading} alternative-text="Loading"></lightning-spinner>
-        <c-survey-js-event-debugger creator-instance={creator}></c-survey-js-event-debugger>
+        <c-event-debugger creator-instance={creator}></c-event-debugger>
         <div class="surveyContainer" lwc:dom="manual"></div>
     </div>
     <div if:true={notFound}

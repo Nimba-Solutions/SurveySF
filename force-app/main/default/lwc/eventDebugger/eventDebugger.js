@@ -1,7 +1,7 @@
 import { LightningElement, api, track } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
-export default class SurveyJsEventDebugger extends LightningElement {
+export default class EventDebugger extends LightningElement {
   @api creatorInstance;
   @track eventCategories = [];
   @track eventLogs = [];
@@ -64,13 +64,13 @@ export default class SurveyJsEventDebugger extends LightningElement {
 
   @api
   refresh() {
-    console.log('Event debugger refresh requested');
+    console.log("Event debugger refresh requested");
     this.checkForCreator(true);
   }
 
   @api
   set creator(value) {
-    console.log('Event debugger creator property set:', !!value);
+    console.log("Event debugger creator property set:", !!value);
     this.creatorInstance = value;
     if (value) {
       this.checkForCreator(true);
@@ -82,12 +82,18 @@ export default class SurveyJsEventDebugger extends LightningElement {
   }
 
   checkForCreator(force = false) {
-    const shouldAttempt = (this.creatorInstance && !this.isInitialized) || force;
-    console.log(`Checking for creator - Should attempt: ${shouldAttempt}, Has creator: ${!!this.creatorInstance}, Is initialized: ${this.isInitialized}, Force: ${force}`);
-    
+    const shouldAttempt =
+      (this.creatorInstance && !this.isInitialized) || force;
+    console.log(
+      `Checking for creator - Should attempt: ${shouldAttempt}, Has creator: ${!!this
+        .creatorInstance}, Is initialized: ${
+        this.isInitialized
+      }, Force: ${force}`
+    );
+
     if (shouldAttempt) {
       // Wait a bit to ensure creator is fully initialized
-      console.log('Scheduling initialization attempt...');
+      console.log("Scheduling initialization attempt...");
       setTimeout(() => {
         this.attemptInitialization();
       }, 500);
@@ -96,11 +102,17 @@ export default class SurveyJsEventDebugger extends LightningElement {
 
   attemptInitialization() {
     this.initAttempts++;
-    console.log(`Attempting initialization (Attempt ${this.initAttempts}/${this.maxInitAttempts})`);
+    console.log(
+      `Attempting initialization (Attempt ${this.initAttempts}/${this.maxInitAttempts})`
+    );
 
     // Exit if already initialized or we've reached max attempts
     if (this.isInitialized || this.initAttempts > this.maxInitAttempts) {
-      console.log(`Exiting initialization - Already initialized: ${this.isInitialized}, Max attempts reached: ${this.initAttempts > this.maxInitAttempts}`);
+      console.log(
+        `Exiting initialization - Already initialized: ${
+          this.isInitialized
+        }, Max attempts reached: ${this.initAttempts > this.maxInitAttempts}`
+      );
       return;
     }
 
@@ -120,17 +132,29 @@ export default class SurveyJsEventDebugger extends LightningElement {
     }
 
     // Check if the survey is fully loaded
-    if (!this.creatorInstance.survey.pages || !this.creatorInstance.survey.getAllQuestions) {
-      console.warn("SurveyJS Event Debugger: Creator survey not fully initialized");
-      console.log("Survey properties:", Object.keys(this.creatorInstance.survey));
+    if (
+      !this.creatorInstance.survey.pages ||
+      !this.creatorInstance.survey.getAllQuestions
+    ) {
+      console.warn(
+        "SurveyJS Event Debugger: Creator survey not fully initialized"
+      );
+      console.log(
+        "Survey properties:",
+        Object.keys(this.creatorInstance.survey)
+      );
       this.scheduleNextAttempt();
       return;
     }
 
     // Log survey structure
     console.log("Survey structure:", {
-      pageCount: this.creatorInstance.survey.pages ? this.creatorInstance.survey.pages.length : 0,
-      questionCount: this.creatorInstance.survey.getAllQuestions ? this.creatorInstance.survey.getAllQuestions().length : 0
+      pageCount: this.creatorInstance.survey.pages
+        ? this.creatorInstance.survey.pages.length
+        : 0,
+      questionCount: this.creatorInstance.survey.getAllQuestions
+        ? this.creatorInstance.survey.getAllQuestions().length
+        : 0,
     });
 
     // If we got here, we can initialize
@@ -145,13 +169,15 @@ export default class SurveyJsEventDebugger extends LightningElement {
         this.attemptInitialization();
       }, 1000);
     } else {
-      console.error("SurveyJS Event Debugger: Failed to initialize after maximum attempts");
+      console.error(
+        "SurveyJS Event Debugger: Failed to initialize after maximum attempts"
+      );
     }
   }
 
   initializeEventDebugger() {
-    console.log('Starting SurveyJS Event Debugger initialization...');
-    
+    console.log("Starting SurveyJS Event Debugger initialization...");
+
     // Discover available events
     this.discoverEvents(this.creatorInstance, "creator");
 
@@ -170,29 +196,31 @@ export default class SurveyJsEventDebugger extends LightningElement {
     this.organizeEventsByCategory();
 
     // Log all discovered events in one place
-    console.log('------- ALL DISCOVERED EVENTS -------');
+    console.log("------- ALL DISCOVERED EVENTS -------");
     console.log(`Total events found: ${this.monitoredEvents.size}`);
-    
+
     // Convert to array and sort for display
     const allEvents = Array.from(this.monitoredEvents.keys()).sort();
-    console.table(allEvents.map(path => {
-      const event = this.monitoredEvents.get(path);
-      return {
-        path: path,
-        category: event.category,
-        name: event.name,
-        isDragDrop: event.isDragDrop
-      };
-    }));
-    
-    console.log('------- END OF EVENTS LIST -------');
+    console.table(
+      allEvents.map((path) => {
+        const event = this.monitoredEvents.get(path);
+        return {
+          path: path,
+          category: event.category,
+          name: event.name,
+          isDragDrop: event.isDragDrop,
+        };
+      })
+    );
+
+    console.log("------- END OF EVENTS LIST -------");
 
     // We're not pre-selecting any events by default
     // If you want to pre-select events, uncomment the line below
     // this.selectDragDropEvents();
 
     this.isInitialized = true;
-    console.log('SurveyJS Event Debugger initialization complete');
+    console.log("SurveyJS Event Debugger initialization complete");
   }
 
   discoverEvents(obj, objName) {
@@ -231,7 +259,10 @@ export default class SurveyJsEventDebugger extends LightningElement {
     }
 
     // Log all discovered events for this object
-    console.log(`Found ${discoveredEvents.length} events in ${objName}:`, JSON.stringify(discoveredEvents));
+    console.log(
+      `Found ${discoveredEvents.length} events in ${objName}:`,
+      JSON.stringify(discoveredEvents)
+    );
   }
 
   organizeEventsByCategory() {
@@ -327,7 +358,9 @@ export default class SurveyJsEventDebugger extends LightningElement {
     const { object, eventKey, path } = eventInfo;
 
     if (!object || !object[eventKey]) {
-      console.error(`Cannot monitor event: ${path} - object or event key not found`);
+      console.error(
+        `Cannot monitor event: ${path} - object or event key not found`
+      );
       return;
     }
 
@@ -847,31 +880,35 @@ export default class SurveyJsEventDebugger extends LightningElement {
   handleClearAll() {
     // Store currently selected events before clearing
     const previouslySelected = [...this.selectedEvents];
-    
+
     // Clear selected events array first
     this.selectedEvents = [];
-    
+
     // Unmonitor each previously selected event
-    previouslySelected.forEach(eventPath => {
+    previouslySelected.forEach((eventPath) => {
       const eventInfo = this.monitoredEvents.get(eventPath);
       if (eventInfo) {
         eventInfo.isSelected = false;
         this.unmonitorEvent(eventInfo);
       }
     });
-    
+
     // Update the UI
-    this.eventCategories.forEach(category => {
-      category.events.forEach(event => {
+    this.eventCategories.forEach((category) => {
+      category.events.forEach((event) => {
         event.isSelected = false;
       });
     });
-    
+
     // Force refresh of the categories
     this.eventCategories = [...this.eventCategories];
-    
+
     // Show a toast notification
-    this.showToast('Events Cleared', 'All event selections have been cleared', 'success');
+    this.showToast(
+      "Events Cleared",
+      "All event selections have been cleared",
+      "success"
+    );
   }
 
   get hasLogs() {

@@ -33,10 +33,10 @@ tasks:
             required_org_code_coverage_percent: 75
 
     ###  Assign Permission Set Group  ################################
-    # assign_unpackaged_permission_set_groups:
-    #     class_path: cumulusci.tasks.salesforce.users.permsets.AssignPermissionSetGroups
-    #     options:
-    #         api_names: SurveyAdmin
+    assign_unpackaged_permission_set_groups:
+        class_path: cumulusci.tasks.salesforce.users.permsets.AssignPermissionSetGroups
+        options:
+            api_names: SurveySFAdmin
 
 flows:
     config_dev:

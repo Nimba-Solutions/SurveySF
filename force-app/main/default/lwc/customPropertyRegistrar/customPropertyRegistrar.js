@@ -3,22 +3,91 @@ import { LightningElement, api, track } from "lwc";
 export default class CustomPropertyRegistrar extends LightningElement {
   @api surveyCreator;
   @track registeredProperties = [];
+  // Define the valid target types for SurveyJS properties
+  validTargetTypes = ["survey", "question"];
 
   connectedCallback() {
     console.log("CustomPropertyRegistrar component connected");
-    // Setup event listeners for property ready notifications
+  }
+
+  renderedCallback() {
+    // Setup event listeners for all custom property components
     this.setupEventListeners();
   }
 
+  /**
+   * Gets all LWC custom components within the container (those starting with c-)
+   * @returns {Array} Array of objects containing component elements and their target types
+   */
+  getAllCustomPropertyComponents() {
+    // Find the custom properties container
+    const container = this.template.querySelector(".custom-properties");
+
+    if (!container) {
+      console.warn("Custom properties container not found");
+      return [];
+    }
+
+    const allComponents = [];
+
+    // Loop through all valid target types (survey, question)
+    this.validTargetTypes.forEach((targetType) => {
+      // Get the container for this target type
+      const typeContainer = container.querySelector(`.${targetType}`);
+
+      if (typeContainer) {
+        // Get all LWC components in this container
+        const components = Array.from(typeContainer.children).filter(
+          (element) => element.tagName.toLowerCase().startsWith("c-")
+        );
+
+        // Add each component with its target type
+        components.forEach((comp) => {
+          allComponents.push({
+            element: comp,
+            targetType: targetType,
+          });
+        });
+      }
+    });
+
+    return allComponents;
+  }
+
   setupEventListeners() {
-    // Listen for the fieldmapper:ready event
-    this.template.addEventListener(
-      "fieldmapper:ready",
-      this.handlePropertyComponentReady.bind(this)
+    // Get all custom property components
+    const customPropertyItems = this.getAllCustomPropertyComponents();
+
+    if (customPropertyItems.length === 0) {
+      console.warn("No custom property components found");
+      return;
+    }
+
+    console.log(
+      `Found ${customPropertyItems.length} custom property components`
     );
 
-    // Add more event listeners for other property types here as needed
-    // Example: this.template.addEventListener('otherproperty:ready', this.handlePropertyComponentReady.bind(this));
+    // Set up listeners for each component based on its tag name
+    customPropertyItems.forEach(({ element }) => {
+      // Extract the component base name (strip out 'c-' prefix)
+      const tagName = element.tagName.toLowerCase();
+      const componentName = tagName.replace("c-", "");
+
+      // Create an event name like "ready:uuid-display" for each component
+      const eventName = `ready:${componentName}`;
+
+      console.log(`Setting up listener for ${eventName}`);
+
+      // Avoid duplicating listeners
+      this.template.removeEventListener(
+        eventName,
+        this.handlePropertyComponentReady
+      );
+      this.template.addEventListener(
+        eventName,
+        this.handlePropertyComponentReady.bind(this)
+      );
+    });
   }
 
   @api
@@ -32,20 +101,30 @@ export default class CustomPropertyRegistrar extends LightningElement {
 
     console.log("Registering custom properties with SurveyJS");
 
-    // Find all custom property components in the template
-    const customPropertyElements =
-      this.template.querySelectorAll(".custom-property");
+    // Get all custom property components
+    const customPropertyItems = this.getAllCustomPropertyComponents();
 
-    if (customPropertyElements.length === 0) {
-      console.warn("No custom property components found in template");
+    if (customPropertyItems.length === 0) {
+      console.warn("No custom property components found");
     } else {
       console.log(
-        `Found ${customPropertyElements.length} custom property components`
+        `Found ${customPropertyItems.length} custom property components`
       );
     }
 
     // Register each custom property component
-    Array.from(customPropertyElements).forEach((element) => {
+    customPropertyItems.forEach(({ element, targetType }) => {
+      // Extract the component name from its tag for logging
+      const tagName = element.tagName.toLowerCase();
+      console.log(
+        `Processing property component: ${tagName} for ${targetType}`
+      );
+
+      // Set the target type on the component before registration
+      if (typeof element.setTargetType === "function") {
+        element.setTargetType(targetType);
+      }
+
       this.registerComponentProperty(element);
     });
   }
@@ -92,6 +171,12 @@ export default class CustomPropertyRegistrar extends LightningElement {
     }
 
     try {
+      // Get the target type from the event if available
+      const targetType = event.detail?.targetType;
+      if (targetType && typeof component.setTargetType === "function") {
+        component.setTargetType(targetType);
+      }
+
       // Register the component's property with SurveyJS
       component.registerProperty(window.Survey, this.surveyCreator);
 

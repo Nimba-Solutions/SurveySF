@@ -1,0 +1,39 @@
+<template>
+    <div class="slds-form-element">
+        <label class="slds-form-element__label" for="mapping-builder">
+            <abbr if:true={required} class="slds-required" title="required">*</abbr>
+            {label}
+        </label>
+        <div class="slds-form-element__control">
+            <div class="slds-grid slds-gutters">
+                <!-- Object Selector -->
+                <div class="slds-col slds-size_1-of-3">
+                    <c-object-selector name="object" label="Object" required={required} disabled={disabled}
+                        value={selectedObject} onchange={handleObjectChange}>
+                    </c-object-selector>
+                </div>
+
+                <!-- Field Selector - Removed and re-added when object changes -->
+                <template if:true={showFieldSelector}>
+                    <div class="slds-col slds-size_1-of-3">
+                        <c-field-selector name="field" label="Field" required={required} disabled={disabled}
+                            object-name={selectedObject} value={selectedField} support-relationships
+                            onchange={handleFieldChange}>
+                        </c-field-selector>
+                    </div>
+                </template>
+
+                <!-- Related Field Selector -->
+                <div class="slds-col slds-size_1-of-3" if:true={isRelationship}>
+                    <c-field-selector name="relatedField" label="Related Field" required={required} disabled={disabled}
+                        object-name={relatedObject} value={selectedRelatedField} onchange={handleRelatedFieldChange}>
+                    </c-field-selector>
+                </div>
+            </div>
+
+            <template if:true={error}>
+                <div class="slds-form-element__help slds-text-color_error">{error}</div>
+            </template>
+        </div>
+    </div>
+</template>

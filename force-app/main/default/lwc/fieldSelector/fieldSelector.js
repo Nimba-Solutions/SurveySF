@@ -1,5 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import getFieldsForObject from '@salesforce/apex/FieldService.getFieldsForObject';
 
 export default class FieldSelector extends LightningElement {
     @api objectName;
@@ -11,11 +12,17 @@ export default class FieldSelector extends LightningElement {
     @api variant = 'label-hidden';
     @api name;
     @api fieldType;
-    @api showLabel = true;
+    @api showLabel = false;
+    @api supportRelationships = false;
 
     @track fields = [];
     @track isLoading = false;
     @track error;
+    @track isRelationship = false;
+
+    get selectedOption() {
+        return this.selectedField || '';
+    }
 
     connectedCallback() {
         if (this.objectName) {
@@ -43,10 +50,41 @@ export default class FieldSelector extends LightningElement {
         this.error = null;
 
         try {
-            // TODO: Replace with actual field loading logic
-            // This should load fields from the object based on fieldType if specified
-            const fields = await this.getFieldsForObject(this.objectName, this.fieldType);
-            this.fields = fields;
+            const fields = await getFieldsForObject({ objectName: this.objectName });
+            this.fields = fields.map(field => {
+                const isReference = field.type === 'REFERENCE';
+                const baseField = {
+                    label: field.label,
+                    value: field.apiName,
+                    type: field.type,
+                    isCustom: field.isCustom,
+                    isUpdateable: field.isUpdateable,
+                    isReference: isReference,
+                    referenceTo: field.referenceTo
+                };
+
+                // If this is a reference field and relationships are supported, add a relationship option
+                if (isReference && this.supportRelationships) {
+                    return [
+                        baseField,
+                        {
+                            ...baseField,
+                            label: `${field.label} (Relationship)`,
+                            value: `rel:${field.apiName}`,
+                            isRelationship: true
+                        }
+                    ];
+                }
+                return [baseField];
+            }).flat();
+
+            // Force the select to show placeholder if no value is set
+            if (!this.selectedField) {
+                const select = this.template.querySelector('select');
+                if (select) {
+                    select.value = '';
+                }
+            }
         } catch (error) {
             console.error('Error loading fields:', error);
             this.error = error.message;
@@ -56,21 +94,18 @@ export default class FieldSelector extends LightningElement {
         }
     }
 
-    async getFieldsForObject(objectName, fieldType) {
-        // TODO: Implement actual field loading logic
-        // This should:
-        // 1. Get fields from the object
-        // 2. Filter by fieldType if specified
-        // 3. Return array of { label, value } objects
-        return [];
-    }
-
     handleFieldChange(event) {
-        this.selectedField = event.detail.value;
+        const selectedValue = event.target.value;
+        this.selectedField = selectedValue;
+        this.isRelationship = selectedValue.startsWith('rel:');
+        
+        const field = this.fields.find(f => f.value === selectedValue);
         this.dispatchEvent(new CustomEvent('change', {
             detail: {
                 value: this.selectedField,
-                field: this.fields.find(f => f.value === this.selectedField)
+                field: field,
+                isRelationship: this.isRelationship,
+                referenceTo: field?.referenceTo
             }
         }));
     }
@@ -97,6 +132,12 @@ export default class FieldSelector extends LightningElement {
     @api
     reset() {
         this.selectedField = null;
+        this.isRelationship = false;
         this.error = null;
+        // Force the select to show placeholder
+        const select = this.template.querySelector('select');
+        if (select) {
+            select.value = '';
+        }
     }
 } 

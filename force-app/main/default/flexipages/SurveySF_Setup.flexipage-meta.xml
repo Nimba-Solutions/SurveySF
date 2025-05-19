@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
     <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>defaultField</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>defaultObject</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>disabled</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Mapping Builder</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>required</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentName>mappingBuilder</componentName>
+                <identifier>c_mappingBuilder</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>main</name>
         <type>Region</type>
     </flexiPageRegions>

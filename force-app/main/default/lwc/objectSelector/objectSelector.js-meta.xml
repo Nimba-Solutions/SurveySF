@@ -9,13 +9,11 @@
     </targets>
     <targetConfigs>
         <targetConfig targets="lightning__AppPage,lightning__RecordPage,lightning__HomePage">
-            <property name="label" type="String" default="Select Field" label="Label"/>
-            <property name="placeholder" type="String" default="Select a field..." label="Placeholder"/>
+            <property name="label" type="String" default="Select Object" label="Label"/>
+            <property name="placeholder" type="String" default="Select an object..." label="Placeholder"/>
             <property name="required" type="Boolean" default="false" label="Required"/>
             <property name="disabled" type="Boolean" default="false" label="Disabled"/>
             <property name="showLabel" type="Boolean" default="false" label="Show Label"/>
-            <property name="objectName" type="String" label="Object Name"/>
-            <property name="fieldType" type="String" label="Field Type Filter"/>
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle> 

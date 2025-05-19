@@ -1,13 +1,13 @@
 import { LightningElement, api, track } from "lwc";
 
-export default class CustomPropertyRegistrar extends LightningElement {
+export default class SurveyPropertyRegistrar extends LightningElement {
   @api surveyCreator;
   @track registeredProperties = [];
   // Define the valid target types for SurveyJS properties
   validTargetTypes = ["survey", "question"];
 
   connectedCallback() {
-    console.log("CustomPropertyRegistrar component connected");
+    console.log("SurveyPropertyRegistrar component connected");
   }
 
   renderedCallback() {

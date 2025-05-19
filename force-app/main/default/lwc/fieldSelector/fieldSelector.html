@@ -1,0 +1,27 @@
+<template>
+    <div class="slds-form-element">
+        <label if:true={showLabel} class="slds-form-element__label" for={name}>
+            <abbr if:true={required} class="slds-required" title="required">*</abbr>
+            {label}
+        </label>
+        <div class="slds-form-element__control">
+            <div class="slds-select_container">
+                <select id={name} name={name} class="slds-select" disabled={disabled} required={required}
+                    onchange={handleFieldChange} value={selectedField}>
+                    <option value="" disabled selected>{placeholder}</option>
+                    <template for:each={fields} for:item="field">
+                        <option key={field.value} value={field.value}>
+                            {field.label}
+                        </option>
+                    </template>
+                </select>
+                <template if:true={isLoading}>
+                    <lightning-spinner alternative-text="Loading" size="x-small"></lightning-spinner>
+                </template>
+            </div>
+            <template if:true={error}>
+                <div class="slds-form-element__help slds-text-color_error">{error}</div>
+            </template>
+        </div>
+    </div>
+</template>

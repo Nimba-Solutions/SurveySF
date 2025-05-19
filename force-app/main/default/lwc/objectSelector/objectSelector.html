@@ -1,27 +1,5 @@
 <template>
-    <div class="slds-form-element">
-        <template if:true={showLabel}>
-            <label class="slds-form-element__label" for={name}>
-                <abbr if:true={required} class="slds-required" title="required">*</abbr>
-                {label}
-            </label>
-        </template>
-        <div class="slds-form-element__control">
-            <div class="slds-select_container">
-                <select class="slds-select" id={name} name={name} disabled={disabled} required={required}
-                    onchange={handleObjectChange}>
-                    <option value="" selected disabled>{placeholder}</option>
-                    <template for:each={objects} for:item="object">
-                        <option key={object.value} value={object.value}>{object.label}</option>
-                    </template>
-                </select>
-            </div>
-            <template if:true={isLoading}>
-                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
-            </template>
-            <template if:true={error}>
-                <div class="slds-form-element__help slds-text-color_error">{error}</div>
-            </template>
-        </div>
-    </div>
+    <c-search-selector name={name} label={label} options={objects} value={selectedObject} required={required}
+        disabled={disabled} show-label={showLabel} placeholder="Search objects..." onchange={handleObjectChange}>
+    </c-search-selector>
 </template>

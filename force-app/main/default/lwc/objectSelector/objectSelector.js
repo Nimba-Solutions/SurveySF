@@ -1,75 +1,69 @@
 import { LightningElement, api, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import getAvailableObjects from '@salesforce/apex/ObjectService.getAvailableObjects';
+import getObjects from '@salesforce/apex/ObjectSelectorController.getObjects';
 
 export default class ObjectSelector extends LightningElement {
-    @api selectedObject;
-    @api label = 'Select Object';
-    @api placeholder = 'Select an object...';
+    @api name;
+    @api label = 'Object';
+    @api value;
     @api required = false;
     @api disabled = false;
-    @api variant = 'label-hidden';
-    @api name;
     @api showLabel = false;
 
     @track objects = [];
-    @track isLoading = false;
     @track error;
-
-    get selectedOption() {
-        return this.selectedObject || '';
-    }
+    @track isLoading = false;
+    @track selectedObject;
 
     connectedCallback() {
+        console.log('ObjectSelector connectedCallback');
+        console.log('value:', this.value);
+        
         this.loadObjects();
+        
+        if (this.value) {
+            this.selectedObject = this.value;
+        }
     }
 
-    @api
-    get value() {
-        return this.selectedObject;
+    renderedCallback() {
+        console.log('ObjectSelector renderedCallback');
+        console.log('objects:', JSON.stringify(this.objects));
+        console.log('selectedObject:', this.selectedObject);
     }
 
-    set value(value) {
-        this.selectedObject = value;
-    }
-
-    @api
     async loadObjects() {
+        console.log('ObjectSelector loadObjects');
         this.isLoading = true;
         this.error = null;
-
+        
         try {
-            const objects = await getAvailableObjects();
+            const objects = await getObjects();
+            console.log('Objects loaded:', JSON.stringify(objects));
+            
             this.objects = objects.map(obj => ({
                 label: obj.label,
                 value: obj.apiName
             }));
-            
-            // Force the select to show placeholder if no value is set
-            if (!this.selectedObject) {
-                const select = this.template.querySelector('select');
-                if (select) {
-                    select.value = '';
-                }
-            }
         } catch (error) {
             console.error('Error loading objects:', error);
-            this.error = error.message;
-            this.showToast('Error', 'Failed to load objects: ' + error.message, 'error');
+            this.error = error.body?.message || 'Error loading objects';
+            this.showToast('Error', this.error, 'error');
         } finally {
             this.isLoading = false;
         }
     }
 
     handleObjectChange(event) {
-        const selectedValue = event.target.value;
-        this.selectedObject = selectedValue;
+        console.log('ObjectSelector handleObjectChange:', JSON.stringify(event.detail));
+        const detail = event.detail;
+        this.selectedObject = detail.value;
         
-        const object = this.objects.find(obj => obj.value === selectedValue);
-        this.dispatchEvent(new CustomEvent('change', {
+        // Dispatch change event with object details
+        this.dispatchEvent(new CustomEvent('change', { 
             detail: {
-                value: this.selectedObject,
-                object: object
+                value: detail.value,
+                object: detail.option
             }
         }));
     }
@@ -97,10 +91,5 @@ export default class ObjectSelector extends LightningElement {
     reset() {
         this.selectedObject = null;
         this.error = null;
-        // Force the select to show placeholder
-        const select = this.template.querySelector('select');
-        if (select) {
-            select.value = '';
-        }
     }
 } 

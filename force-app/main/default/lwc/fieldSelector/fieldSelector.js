@@ -1,111 +1,80 @@
 import { LightningElement, api, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import getFieldsForObject from '@salesforce/apex/FieldService.getFieldsForObject';
+import getFields from '@salesforce/apex/FieldSelectorController.getFields';
 
 export default class FieldSelector extends LightningElement {
+    @api name;
+    @api label = 'Field';
     @api objectName;
-    @api selectedField;
-    @api label = 'Select Field';
-    @api placeholder = 'Select a field...';
+    @api value;
     @api required = false;
     @api disabled = false;
-    @api variant = 'label-hidden';
-    @api name;
-    @api fieldType;
     @api showLabel = false;
     @api supportRelationships = false;
 
     @track fields = [];
-    @track isLoading = false;
     @track error;
-    @track isRelationship = false;
-
-    get selectedOption() {
-        return this.selectedField || '';
-    }
+    @track isLoading = false;
+    @track selectedField;
 
     connectedCallback() {
+        console.log('FieldSelector connectedCallback');
+        console.log('objectName:', this.objectName);
+        console.log('value:', this.value);
+        console.log('supportRelationships:', this.supportRelationships);
+        
         if (this.objectName) {
             this.loadFields();
         }
-    }
-
-    @api
-    get value() {
-        return this.selectedField;
-    }
-
-    set value(value) {
-        this.selectedField = value;
-    }
-
-    @api
-    async loadFields() {
-        if (!this.objectName) {
-            console.warn('No object name provided to fieldSelector');
-            return;
+        if (this.value) {
+            this.selectedField = this.value;
         }
+    }
 
+    renderedCallback() {
+        console.log('FieldSelector renderedCallback');
+        console.log('fields:', JSON.stringify(this.fields));
+        console.log('selectedField:', this.selectedField);
+    }
+
+    async loadFields() {
+        console.log('FieldSelector loadFields');
         this.isLoading = true;
         this.error = null;
-
+        
         try {
-            const fields = await getFieldsForObject({ objectName: this.objectName });
-            this.fields = fields.map(field => {
-                const isReference = field.type === 'REFERENCE';
-                const baseField = {
-                    label: field.label,
-                    value: field.apiName,
-                    type: field.type,
-                    isCustom: field.isCustom,
-                    isUpdateable: field.isUpdateable,
-                    isReference: isReference,
-                    referenceTo: field.referenceTo
-                };
-
-                // If this is a reference field and relationships are supported, add a relationship option
-                if (isReference && this.supportRelationships) {
-                    return [
-                        baseField,
-                        {
-                            ...baseField,
-                            label: `${field.label} (Relationship)`,
-                            value: `rel:${field.apiName}`,
-                            isRelationship: true
-                        }
-                    ];
-                }
-                return [baseField];
-            }).flat();
-
-            // Force the select to show placeholder if no value is set
-            if (!this.selectedField) {
-                const select = this.template.querySelector('select');
-                if (select) {
-                    select.value = '';
-                }
-            }
+            const fields = await getFields({ 
+                objectName: this.objectName,
+                supportRelationships: this.supportRelationships
+            });
+            console.log('Fields loaded:', JSON.stringify(fields));
+            
+            this.fields = fields.map(field => ({
+                label: field.label,
+                value: field.apiName,
+                isRelationship: field.isRelationship,
+                referenceTo: field.referenceTo
+            }));
         } catch (error) {
             console.error('Error loading fields:', error);
-            this.error = error.message;
-            this.showToast('Error', 'Failed to load fields: ' + error.message, 'error');
+            this.error = error.body?.message || 'Error loading fields';
+            this.showToast('Error', this.error, 'error');
         } finally {
             this.isLoading = false;
         }
     }
 
     handleFieldChange(event) {
-        const selectedValue = event.target.value;
-        this.selectedField = selectedValue;
-        this.isRelationship = selectedValue.startsWith('rel:');
+        console.log('FieldSelector handleFieldChange:', JSON.stringify(event.detail));
+        const detail = event.detail;
+        this.selectedField = detail.value;
         
-        const field = this.fields.find(f => f.value === selectedValue);
-        this.dispatchEvent(new CustomEvent('change', {
+        // Dispatch change event with field details
+        this.dispatchEvent(new CustomEvent('change', { 
             detail: {
-                value: this.selectedField,
-                field: field,
-                isRelationship: this.isRelationship,
-                referenceTo: field?.referenceTo
+                value: detail.value,
+                isRelationship: detail.option.isRelationship,
+                field: detail.option
             }
         }));
     }
@@ -132,12 +101,6 @@ export default class FieldSelector extends LightningElement {
     @api
     reset() {
         this.selectedField = null;
-        this.isRelationship = false;
         this.error = null;
-        // Force the select to show placeholder
-        const select = this.template.querySelector('select');
-        if (select) {
-            select.value = '';
-        }
     }
 } 

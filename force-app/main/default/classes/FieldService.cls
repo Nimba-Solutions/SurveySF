@@ -28,6 +28,15 @@ public with sharing class FieldService {
                     fieldMetadata.type = String.valueOf(fieldDescribe.getType());
                     fieldMetadata.isCustom = fieldDescribe.isCustom();
                     fieldMetadata.isUpdateable = fieldDescribe.isUpdateable();
+                    
+                    // Add reference information for lookup/master-detail fields
+                    if (fieldDescribe.getType() == Schema.DisplayType.REFERENCE) {
+                        List<Schema.SObjectType> referenceTo = fieldDescribe.getReferenceTo();
+                        if (!referenceTo.isEmpty()) {
+                            fieldMetadata.referenceTo = referenceTo[0].getDescribe().getName();
+                        }
+                    }
+                    
                     result.add(fieldMetadata);
                 }
             }
@@ -45,5 +54,6 @@ public with sharing class FieldService {
         @AuraEnabled public String type;
         @AuraEnabled public Boolean isCustom;
         @AuraEnabled public Boolean isUpdateable;
+        @AuraEnabled public String referenceTo;
     }
 } 

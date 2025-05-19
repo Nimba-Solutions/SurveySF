@@ -15,9 +15,15 @@ export default class MappingBuilder extends LightningElement {
     @track relatedObject;
     @track error;
     @track showFieldSelector = false;
+    @track relationshipChain = [];
 
     get fieldSelectorKey() {
         return this.selectedObject ? `field-${this.selectedObject}` : '';
+    }
+
+    get supportRelationships() {
+        console.log('MappingBuilder supportRelationships getter called');
+        return true;
     }
 
     connectedCallback() {
@@ -40,10 +46,11 @@ export default class MappingBuilder extends LightningElement {
         console.log('selectedField:', this.selectedField);
         console.log('isRelationship:', this.isRelationship);
         console.log('relatedObject:', this.relatedObject);
+        console.log('relationshipChain:', JSON.stringify(this.relationshipChain));
     }
 
     handleObjectChange(event) {
-        console.log('MappingBuilder handleObjectChange:', event.detail);
+        console.log('MappingBuilder handleObjectChange:', JSON.stringify(event.detail));
         const newObject = event.detail.value;
         
         // Reset all field-related state
@@ -51,36 +58,68 @@ export default class MappingBuilder extends LightningElement {
         this.selectedRelatedField = null;
         this.isRelationship = false;
         this.relatedObject = null;
+        this.relationshipChain = [];
         
-        // Temporarily hide field selector
-        this.showFieldSelector = false;
-        
-        // Update the object
+        // Update the object and show field selector
         this.selectedObject = newObject;
-        
-        // Force a re-render of the field selector
-        if (newObject) {
-            // Use setTimeout to ensure the field selector is removed before being re-added
-            setTimeout(() => {
-                this.showFieldSelector = true;
-            }, 0);
-        }
+        this.showFieldSelector = !!newObject;
         
         this.dispatchChangeEvent();
     }
 
     handleFieldChange(event) {
-        console.log('MappingBuilder handleFieldChange:', event.detail);
-        this.selectedField = event.detail.value;
-        this.isRelationship = event.detail.isRelationship;
-        this.relatedObject = event.detail.referenceTo;
+        console.log('MappingBuilder handleFieldChange:', JSON.stringify(event.detail));
+        const detail = event.detail;
+        
+        // Update field selection
+        this.selectedField = detail.value;
+        this.isRelationship = detail.isRelationship;
+        
+        // If this is a relationship field, update the related object and add to chain
+        if (this.isRelationship && detail.field && detail.field.referenceTo) {
+            this.relatedObject = detail.field.referenceTo;
+            console.log('Related object set to:', this.relatedObject);
+            
+            // Add to relationship chain
+            this.relationshipChain.push({
+                object: this.selectedObject,
+                field: detail.field.apiName,
+                relatedObject: this.relatedObject
+            });
+        } else {
+            this.relatedObject = null;
+            this.relationshipChain = [];
+        }
+        
+        // Reset related field selection
         this.selectedRelatedField = null;
+        
         this.dispatchChangeEvent();
     }
 
     handleRelatedFieldChange(event) {
-        console.log('MappingBuilder handleRelatedFieldChange:', event.detail);
-        this.selectedRelatedField = event.detail.value;
+        console.log('MappingBuilder handleRelatedFieldChange:', JSON.stringify(event.detail));
+        const detail = event.detail;
+        
+        // Update related field selection
+        this.selectedRelatedField = detail.value;
+        
+        // If this is a relationship field, update the chain
+        if (detail.isRelationship && detail.field && detail.field.referenceTo) {
+            // Add to relationship chain
+            this.relationshipChain.push({
+                object: this.relatedObject,
+                field: detail.field.apiName,
+                relatedObject: detail.field.referenceTo
+            });
+            
+            // Update related object for next level
+            this.relatedObject = detail.field.referenceTo;
+        } else {
+            // If not a relationship, keep the current chain but don't add a new level
+            this.relatedObject = null;
+        }
+        
         this.dispatchChangeEvent();
     }
 
@@ -90,9 +129,10 @@ export default class MappingBuilder extends LightningElement {
             field: this.selectedField,
             isRelationship: this.isRelationship,
             relatedObject: this.relatedObject,
-            relatedField: this.selectedRelatedField
+            relatedField: this.selectedRelatedField,
+            relationshipChain: this.relationshipChain
         };
-        console.log('MappingBuilder dispatchChangeEvent:', detail);
+        console.log('MappingBuilder dispatchChangeEvent:', JSON.stringify(detail));
         this.dispatchEvent(new CustomEvent('change', { detail }));
     }
 
@@ -132,5 +172,6 @@ export default class MappingBuilder extends LightningElement {
         this.relatedObject = null;
         this.error = null;
         this.showFieldSelector = !!this.defaultObject;
+        this.relationshipChain = [];
     }
 } 

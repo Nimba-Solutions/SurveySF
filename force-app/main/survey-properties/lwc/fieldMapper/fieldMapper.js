@@ -1,6 +1,7 @@
 import { LightningElement, api, track } from "lwc";
+import SurveyProperty from 'c/surveyProperty';
 
-export default class FieldMapper extends LightningElement {
+export default class FieldMapper extends SurveyProperty {
   @api
   get value() {
     return this._value;
@@ -11,8 +12,6 @@ export default class FieldMapper extends LightningElement {
   }
 
   _value = "";
-  @api propertyName = "fieldMapper";
-  @api displayName = "Salesforce Field Mapper";
   @api fieldType = "";
   @api sObject = "";
 
@@ -20,6 +19,42 @@ export default class FieldMapper extends LightningElement {
   @track metadataSelector;
   @track currentQuestion;
   tempValue = "";
+
+  get propertyName() {
+    return "fieldMapper";
+  }
+
+  get displayName() {
+    return "Salesforce Field Mapper";
+  }
+
+  get propertyType() {
+    return "buttongroup";
+  }
+
+  get visibleIndex() {
+    return 3;
+  }
+
+  get propertyOptions() {
+    return {
+      choices: [{ value: "openModal", text: "Map to Salesforce Field" }],
+      onSetValue: (obj, value) => {
+        console.log("onSetValue triggered with:", value);
+        if (value === "openModal") {
+          // Store the current question reference
+          this.currentQuestion = obj;
+          console.log("Opening modal for question:", obj);
+
+          // Open this component's modal directly
+          this.openModal();
+
+          // Reset the value so the button can be clicked again
+          obj.setPropertyValue(this.propertyName, "");
+        }
+      }
+    };
+  }
 
   connectedCallback() {
     console.log("FieldMapper component connected");
@@ -134,12 +169,14 @@ export default class FieldMapper extends LightningElement {
     this.dispatchEvent(valueChangeEvent);
   }
 
-  // Methods for the Custom Property Registrar
+  /**
+   * Override registerProperty to handle custom buttongroup editor registration
+   */
   @api
-  registerProperty(Survey, surveyCreator) {
+  registerProperty(Survey) {
     if (!Survey || !Survey.Serializer) {
       console.error("Survey.Serializer is not available");
-      return;
+      return Promise.resolve();
     }
 
     // Register a custom buttongroup editor if it doesn't exist
@@ -178,36 +215,8 @@ export default class FieldMapper extends LightningElement {
     }
     Survey.FieldMapperComponent[this.propertyName] = this;
 
-    // Add the custom property to all questions
-    Survey.Serializer.addProperty("question", {
-      name: this.propertyName,
-      displayName: this.displayName,
-      category: "general",
-      visibleIndex: 3,
-      type: "buttongroup",
-      choices: [{ value: "openModal", text: "Map to Salesforce Field" }],
-      onSetValue: (obj, value) => {
-        console.log("onSetValue triggered with:", value);
-        if (value === "openModal") {
-          // Store the current question reference
-          this.currentQuestion = obj;
-          console.log("Opening modal for question:", obj);
-
-          // Open this component's modal directly
-          this.openModal();
-
-          // Reset the value so the button can be clicked again
-          obj.setPropertyValue(this.propertyName, "");
-        }
-      },
-    });
-
-    console.log(`Registered custom property: ${this.propertyName}`);
-  }
-
-  @api
-  getPropertyName() {
-    return this.propertyName;
+    // Call the base class registration
+    return super.registerProperty(Survey);
   }
 
   @api

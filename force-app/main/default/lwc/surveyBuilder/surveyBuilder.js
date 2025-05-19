@@ -75,8 +75,8 @@ export default class SurveyBuilder extends LightningElement {
     // Set flag to prevent concurrent loading
     this.resourcesLoading = true;
 
-    // First initialize the custom property registrar
-    this.initializeCustomPropertyRegistrar()
+    // First initialize the survey property registrar
+    this.initializeSurveyPropertyRegistrar()
       .then(() => {
         // Now load survey resources
         return this.loadSurveyResources();
@@ -128,13 +128,13 @@ export default class SurveyBuilder extends LightningElement {
       });
   }
 
-  // Fix the initializeCustomPropertyRegistrar method
-  initializeCustomPropertyRegistrar() {
-    console.log("Initializing custom property registrar...");
+  // Initialize the survey property registrar
+  initializeSurveyPropertyRegistrar() {
+    console.log("Initializing survey property registrar...");
     // Get the property registrar via lwc:ref instead of querySelector
     const propertyRegistrar = this.refs.propertyRegistrar;
     if (!propertyRegistrar) {
-      console.warn("Custom property registrar reference not found");
+      console.warn("Survey property registrar reference not found");
       return Promise.resolve();
     }
 
